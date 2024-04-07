@@ -19,7 +19,7 @@ async function searchMovies(event) {
     if (event.key === "Enter" && searchString) {
         // Route to search movies
         window.location.href = window.location.origin + "/search/movies?query=" + encodeURIComponent(searchString)
-    } else if (event.key !== "Backspace" && searchString) {
+    } else if (searchString) {
         try {
             const csrfToken = await getCSRFToken(); // Wait until getCSRFToken() resolves
             const response = await fetch("/api/search/movies", {
@@ -34,9 +34,27 @@ async function searchMovies(event) {
                 throw new Error("Network response was not ok");
             }
             const data = await response.json();
-            console.log(data)
+            
+            moviesContainer = document.getElementById("searched_movies_container")
+            moviesContainer.innerHTML = '';
+            data.movies.forEach(movie => {
+                // Create a new <div> element to display the movie details
+                const movieDiv = document.createElement('div');
+                movieDiv.classList.add('movie');
+        
+                // Set the content of the movieDiv
+                movieDiv.innerHTML = `
+                    <h3>${movie.name}</h3>`;
+        
+                // Append the movieDiv to the moviesContainer
+                moviesContainer.appendChild(movieDiv);
+            });
+        
         } catch (error) {
             console.error("Fetch error:", error);
         }
+    } else {
+        moviesContainer = document.getElementById("searched_movies_container")
+        moviesContainer.innerHTML = '';
     }
 }
