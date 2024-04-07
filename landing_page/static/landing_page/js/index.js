@@ -5,7 +5,7 @@ function searchMovies(event) {
         // Route to search movies
         window.location.href = window.location.origin + "/search/movies?query=" + encodeURIComponent(searchString)
     } else if (event.key !== "Backspace" && searchString) {
-        fetch("/", {
+        fetch("/api/search/movies/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
