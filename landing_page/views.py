@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from recommendations.models import Movie
 from django.db.models import Q, CharField, TextField
+from django.middleware.csrf import get_token
+import json
 
 
 # Initial landing page view.
@@ -15,6 +17,11 @@ def about(request):
 
 def contact(request):
     return render(request, "landing_page/contact.html")
+
+
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({"csrf_token": csrf_token})
 
 
 def search_movies(request):
@@ -45,4 +52,25 @@ def search_movies(request):
 
 
 def search_movies_json(request):
-    return {"response": "OK"}
+    if request.method == "POST":
+        # Decode the request body
+        body_unicode = request.body.decode("utf-8")
+
+        # Parse the JSON data
+        body_data = json.loads(body_unicode)
+
+        # Access specific fields from the JSON data
+        search_string = body_data.get("search")
+        movies = [{"name": "Batman Begins"}]
+
+        if search_string and False:  # And False until the DB works
+            movies = Movie.objects.filter(name__icontains=search_string)
+
+        # Perform search operation and get the result
+        result = {"movies": movies}  # Your search result data here
+
+        # Return the result as JSON response
+        return JsonResponse(result)
+
+    # Return an error response for non-POST requests
+    return JsonResponse({"error": "Method not allowed"}, status=405)
