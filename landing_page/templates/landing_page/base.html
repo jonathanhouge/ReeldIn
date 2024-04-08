@@ -6,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% csrf_token %}
     <script
       src="https://kit.fontawesome.com/c60455fa26.js"
       crossorigin="anonymous"
@@ -38,6 +39,7 @@
         onkeyup="searchMovies(event)"
       />
       <i class="fa-solid fa-magnifying-glass"></i>
+      <div id="searched_movies_container"></div>
     </div>
     <div id="profile_div">
       <a href="{% url 'recommendations:index' %}">
@@ -58,6 +60,7 @@
   </nav>
 
   <body>
+    <input type="hidden" id="csrf_token" value="{% csrf_token %}">
     {% block content %} {% endblock content %}
   </body>
 
