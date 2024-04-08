@@ -70,7 +70,7 @@ def search_movies_json(request):
         result = {"movies": movies}  # Your search result data here
 
         # Return the result as JSON response
-        return JsonResponse(result)
+        return JsonResponse(result, status=200)
 
     # Return an error response for non-POST requests
     return JsonResponse({"error": "Method not allowed"}, status=405)
