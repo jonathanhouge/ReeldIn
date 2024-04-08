@@ -2,7 +2,7 @@ async function getCSRFToken() {
     try {
         const response = await fetch("/get-csrf-token/");
         const data = await response.json();
-        const csrfToken = data.csrf_token;
+        const csrfToken = await data.csrf_token;
 
         return csrfToken;
     } catch (error) {
