@@ -121,9 +121,35 @@ header {
 #searched_movies_container {
   width: 30rem;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   background-color: white;
-  margin-top: -10px;
+  position: absolute;
+  border-radius: 0 0 12px 12px;
+}
+
+.searched_movie {
+  width: auto;
+}
+
+.searched_movie:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+}
+
+.searched_movie:nth-child(odd) {
+  background-color: lightgray;
+}
+
+/* CSS for even-numbered divs */
+.searched_movie:nth-child(even) {
+  background-color: white;
+}
+
+.last_movie {
+  border-radius: 0 0 12px 12px;
 }
 
 #profile_div {

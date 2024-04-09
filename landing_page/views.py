@@ -67,13 +67,21 @@ def search_movies_json(request):
 
         # Access specific fields from the JSON data
         search_string = body_data.get("search")
-        movies = [{"name": "Batman Begins"}]
 
         if search_string and False:  # And False until the DB works
-            movies = Movie.objects.filter(name__icontains=search_string)
-
-        # Perform search operation and get the result
-        result = {"movies": movies}  # Your search result data here
+            movies = Movie.objects.filter(name__icontains=search_string[:5])
+        else:
+            movies = Movie.objects.none()
+        movies = [
+            {"name": "Batman Begins"},
+            {"name": "Minions"},
+            {"name": "The Notebook"},
+            {"name": "fronche"},
+            {"name": "Batman Begins"},
+        ]
+        # commented out until the actual query is performed
+        # result = {"movies": list(movies.values())}  # Your search result data here
+        result = {"movies": movies}
 
         # Return the result as JSON response
         return JsonResponse(result, status=200)

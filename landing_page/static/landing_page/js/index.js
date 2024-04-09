@@ -38,14 +38,25 @@ async function searchMovies(event) {
         .then((data) => {
             moviesContainer = document.getElementById("searched_movies_container")
             moviesContainer.innerHTML = '';
-            data.movies.forEach(movie => {
+            searchbar = document.getElementById("searchbar")
+            searchbar.style.borderRadius = "12px 12px 0 0"
+
+            data.movies.forEach((movie, index) => {
                 // Create a new <div> element to display the movie details
                 const movieDiv = document.createElement('div');
                 movieDiv.classList.add('movie');
+                movieDiv.classList.add('searched_movie');
+                movieDiv.onclick = () => {
+                    window.location.href = window.location.origin + "/search/movies?query=" + encodeURIComponent(movie.name)
+                }
 
                 // Set the content of the movieDiv
-                movieDiv.innerHTML = `
-                    <h3>${movie.name}</h3>`;
+                movieDiv.innerHTML = movie.name;
+
+                // Check if it's the last iteration
+                if (index === data.movies.length - 1) {
+                    movieDiv.classList.add('last_movie');
+                }
 
                 // Append the movieDiv to the moviesContainer
                 moviesContainer.appendChild(movieDiv);
@@ -54,5 +65,9 @@ async function searchMovies(event) {
     } else {
         moviesContainer = document.getElementById("searched_movies_container")
         moviesContainer.innerHTML = '';
+
+        searchbar = document.getElementById("searchbar")
+            searchbar.style.borderRadius = "12px"
     }
 }
+
