@@ -1,0 +1,13 @@
+{% extends 'landing_page/base.html' %} {% load static %} {% block content %}
+<div id="search_results_div">
+    <h1>Search Results</h1>
+    <div id="search_results_container">
+        {% for movie in movies %}
+        <div class="search_result">
+            <a href="">
+                <h2>{{movie}}</h2>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
