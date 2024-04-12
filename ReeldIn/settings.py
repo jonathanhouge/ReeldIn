@@ -10,7 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
+
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Obtain the base directory of the project and use it to build the path to the .env file
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+dotenv_path = os.path.join(BASE_DIR, ".env")
+load_dotenv(dotenv_path)
 
 NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 
@@ -21,9 +29,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-25(@rn#gehs9i^-a9(v2m2$%bio6&r%%mx@2&=9m9r-wixk)6$"
-
+# Load environment variables
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DDD_API_KEY = os.environ.get("DDD_API_KEY")
+TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
+WATCHMODE_API_KEY = os.environ.get("WATCHMODE_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -85,8 +95,12 @@ WSGI_APPLICATION = "ReeldIn.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT"),
     }
 }
 
