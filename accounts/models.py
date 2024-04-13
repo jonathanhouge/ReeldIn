@@ -6,7 +6,7 @@ from recommendations.models import Movie
 # Create your models here.
 class User(AbstractUser):
     username = models.CharField(max_length=16, unique=True)
-    password = models.CharField(max_length=30)
+    password = models.CharField(max_length=100)  # to account for salting & hashing
     email = models.EmailField(max_length=254)
     friends = models.ManyToManyField("User", blank=True)
 
