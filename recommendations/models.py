@@ -31,6 +31,10 @@ class Movie(models.Model):
 
 
 class Recommendation(models.Model):
+    user_id = models.OneToOneField(
+        "accounts.User", unique=True, on_delete=models.CASCADE, default=0
+    )
+    step = models.PositiveIntegerField(default=0)
     possible_films = models.ManyToManyField("Movie", related_name="recommendations")
     possible_film_count = models.PositiveIntegerField()
 
