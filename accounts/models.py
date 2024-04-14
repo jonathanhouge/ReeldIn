@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from recommendations.models import Movie, Recommendation
+from recommendations.models import Movie
 
 
 # Create your models here.
