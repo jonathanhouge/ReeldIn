@@ -1,10 +1,11 @@
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from .forms import *
 from .models import Movie, Recommendation
 import random
 
-FORMS = [GenreForm(), YearForm()]
-FIELD = ["Genres"]
+FORMS = [GenreForm(), YearForm(), RuntimeForm(), TriggerForm()]
+FIELD = ["Genres", "Years", "Runtimes", "Triggers"]
 
 
 def recommend_view(request):
@@ -36,7 +37,7 @@ def recommend_view(request):
             {"form": form},
         )
     elif form.is_valid() and request.user.is_athenticated is False:
-        form = FORMS[random.randint(0, len(FORMS))]
+        form = FORMS[random.randint(0, len(FORMS) - 1)]
         return render(
             request,
             "recommendations/index.html",
@@ -48,8 +49,24 @@ def recommend_view(request):
 
 
 def index(request):
-    print(request.user.is_authenticated)
     form = GenreForm()
+    if request.user.is_authenticated:
+        try:
+            recommendation = Recommendation.objects.get(id=request.user)
+            if recommendation.step >= 20 or recommendation.possible_film_count < 10:
+                recommendation.delete()
+
+                recommendation = Recommendation(user=request.user)
+                recommendation.save()
+            else:
+                form = FORMS[recommendation.step]
+
+        except ObjectDoesNotExist:
+            print("User wasn't mid-rec.")
+
+            recommendation = Recommendation(user=request.user)
+            recommendation.save()
+
     return render(
         request,
         "recommendations/index.html",
