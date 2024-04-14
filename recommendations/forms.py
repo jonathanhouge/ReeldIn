@@ -29,3 +29,29 @@ class YearForm(forms.Form):
     Years = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple, choices=OPTIONS
     )
+
+
+class RuntimeForm(forms.Form):
+    Question = forms.CharField(
+        initial="And what time duration?",
+        disabled=True,
+        max_length=50,
+    )
+
+    OPTIONS = RUNTIME_SPANS
+    Runtimes = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple, choices=OPTIONS
+    )
+
+
+class TriggerForm(forms.Form):
+    Question = forms.CharField(
+        initial="Do you have any triggers?",
+        disabled=True,
+        max_length=50,
+    )
+
+    OPTIONS = TRIGGERS
+    Triggers = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple, choices=OPTIONS
+    )
