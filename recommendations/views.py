@@ -47,7 +47,7 @@ def narrow_view(request):
             "recommendations/index.html",
             {"form": form},
         )
-    elif form.is_valid() and request.user.is_athenticated is False:
+    elif form.is_valid() and request.user.is_authenticated is False:
         form = FORMS[random.randint(0, len(FORMS) - 1)]
         return render(
             request,
