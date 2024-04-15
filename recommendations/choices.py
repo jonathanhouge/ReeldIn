@@ -236,7 +236,7 @@ TRIGGERS = [
             "a pet dies",
             "there's bestiality",
         ],
-        "Animal Harm",
+        "Animal Harm / Death",
     ),
     (
         [
@@ -263,7 +263,6 @@ TRIGGERS = [
             "Autism specific abuse",
             "there's domestic violence",
             "someone cheats",
-            "there's bisexual cheating",
             "the abused forgives their abuser",
             "someone gets gaslighted",
             "someone is stalked",
@@ -346,7 +345,7 @@ TRIGGERS = [
             "there's farting",
             "there's menstruation",
         ],
-        "Human Waste",
+        "Bodily Functions",
     ),
     (
         [
@@ -358,6 +357,7 @@ TRIGGERS = [
             "there are homophobic slurs",
             "an LGBT person dies",
             "there's aphobia",
+            "there's bisexual cheating",
         ],
         "LGBT Issues & Problematic Depictions",
     ),
@@ -434,7 +434,6 @@ TRIGGERS = [
     ),
     (
         [
-            "there's a dead animal",
             "there are spiders",
             "there are bugs",
             "there are snakes",
