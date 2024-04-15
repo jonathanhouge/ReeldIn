@@ -5,9 +5,7 @@ from recommendations.models import Movie
 from django.db.models import Q, CharField, TextField
 from django.middleware.csrf import get_token
 import json
-from django.core.serializers import serialize
-from functools import reduce
-from operator import or_
+import os
 
 
 # Initial landing page view.
@@ -41,22 +39,26 @@ def search_movies(request):
     query = request.GET.get("query")
 
     if query:
-        # Get all field names of the Movie model
-        movie_fields = [
-            field.name
-            for field in Movie._meta.get_fields()
-            if isinstance(field, (CharField, TextField))
-        ]
+        # Construct Q objects for name, director, and release_year fields
+        q_name = Q(name__icontains=query)
+        q_director = Q(director__icontains=query)
+        q_release_year = Q(year__icontains=query)
 
-        # Construct a list of Q objects for each field
-        q_objects = [Q(**{f"{field}__icontains": query}) for field in movie_fields]
+        # Combine Q objects using OR operator
+        query_filter = q_name | q_director | q_release_year
 
-        # Combine all Q objects using OR operator
-        query_filter = reduce(or_, q_objects)
+        # Query movies matching any of the search criteria
         movies = Movie.objects.filter(query_filter).distinct().order_by("name")
         json_movies = list(movies.values())
 
-        return render(request, "landing_page/search.html", {"movies": json_movies})
+        return render(
+            request,
+            "landing_page/search.html",
+            context={
+                "movies": json_movies,
+                "WATCHMODE_API_KEY": os.environ.get("WATCHMODE_API_KEY"),
+            },
+        )
 
     return redirect("")
 

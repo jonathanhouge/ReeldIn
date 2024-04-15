@@ -1,13 +1,28 @@
-{% extends 'landing_page/base.html' %} {% load static %} {% block content %}
+{% extends 'landing_page/base.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'landing_page/js/search.js' %}"></script>
+<script>
+    var WATCHMODE_API_KEY = "{{ WATCHMODE_API_KEY }}";
+</script>
+
 <div id="search_results_div">
     <h1>Search Results</h1>
     <div id="search_results_container">
-        {% for movie in movies %}
-        <div class="search_result">
-            <a href="">
-                <h2>{{movie}}</h2>
-            </a>
-        </div>
-        {% endfor %}
+        {% if movies %}
+            {% for movie in movies %}
+                <div class="search_result" id="movie_{{ movie.id }}">
+                    <img loading="lazy" id="poster_{{ movie.id }}" alt="{{ movie.name }}"" src="https://image.tmdb.org/t/p/w200{{movie.poster}}" poster">
+                    <a href="">
+                        <h2>{{ movie.name }}</h2>
+                    </a>
+                    <p>{{ movie.overview }}</p>
+                    <p>Release Year: {{ movie.year }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No movies found.</p>
+        {% endif %}
     </div>
+</div>
 {% endblock content %}
