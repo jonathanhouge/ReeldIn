@@ -1,11 +1,14 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from django.conf import settings
-from recommendations.models import Movie
-from django.db.models import Q, CharField, TextField
-from django.middleware.csrf import get_token
 import json
 import os
+
+from django.conf import settings
+from django.db.models import CharField, Q, TextField
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
+from django.shortcuts import redirect, render
+from fuzzywuzzy import fuzz
+
+from recommendations.models import Movie
 
 
 # Initial landing page view.
@@ -35,6 +38,10 @@ def get_csrf_token(request):
     return JsonResponse({"csrf_token": csrf_token})
 
 
+def sort_by_closeness(query, movie):
+    return fuzz.partial_ratio(query, movie.name)
+
+
 def search_movies(request):
     query = request.GET.get("query")
 
@@ -48,14 +55,16 @@ def search_movies(request):
         query_filter = q_name | q_director | q_release_year
 
         # Query movies matching any of the search criteria
-        movies = Movie.objects.filter(query_filter).distinct().order_by("name")
-        json_movies = list(movies.values())
+        movies = Movie.objects.filter(query_filter).distinct()
+        sorted_movies = sorted(
+            movies, key=lambda movie: sort_by_closeness(query, movie), reverse=True
+        )
 
         return render(
             request,
             "landing_page/search.html",
             context={
-                "movies": json_movies,
+                "movies": sorted_movies,
                 "WATCHMODE_API_KEY": os.environ.get("WATCHMODE_API_KEY"),
             },
         )

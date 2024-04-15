@@ -130,6 +130,10 @@ header {
 
 .searched_movie {
   width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 1rem;
 }
 
 .searched_movie:hover {
@@ -146,6 +150,15 @@ header {
 /* CSS for even-numbered divs */
 .searched_movie:nth-child(even) {
   background-color: white;
+}
+
+.searched_movie_details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  justify-content: left;
+  text-align: left;
+
 }
 
 .last_movie {

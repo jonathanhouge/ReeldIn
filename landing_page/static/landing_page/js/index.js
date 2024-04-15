@@ -44,14 +44,36 @@ async function searchMovies(event) {
             data.movies.forEach((movie, index) => {
                 // Create a new <div> element to display the movie details
                 const movieDiv = document.createElement('div');
-                movieDiv.classList.add('movie');
                 movieDiv.classList.add('searched_movie');
                 movieDiv.onclick = () => {
                     window.location.href = window.location.origin + "/search/movies?query=" + encodeURIComponent(movie.name)
                 }
 
                 // Set the content of the movieDiv
-                movieDiv.innerHTML = movie.name;
+                var img = document.createElement('img');
+                img.classList.add('suggestions_img')
+
+                img.id = `${movie.id}`;
+                img.src = `https://image.tmdb.org/t/p/h100${movie.poster}`;
+
+                var textDiv = document.createElement('div');
+                textDiv.classList.add('searched_movie_details')
+
+                var title = document.createElement('h3');
+                title.innerHTML = `${movie.name}`;
+
+                var release_date = document.createElement('p');
+                release_date.innerHTML = `${movie.year}`;
+
+                var starring = document.createElement('p');
+                starring.innerHTML = `${movie.starring.slice(0, 2).join(', ')}`;
+
+                textDiv.appendChild(title);
+                textDiv.appendChild(release_date);
+                textDiv.appendChild(starring);
+                
+                movieDiv.appendChild(img)
+                movieDiv.appendChild(textDiv);
 
                 // Check if it's the last iteration
                 if (index === data.movies.length - 1) {
