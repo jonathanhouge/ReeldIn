@@ -128,12 +128,17 @@ header {
   border-radius: 0 0 12px 12px;
 }
 
+#magnifying-glass {
+  cursor: pointer;
+}
+
 .searched_movie {
   width: auto;
   display: flex;
   align-items: center;
   justify-content: left;
   padding: 1rem;
+  z-index: 2;
 }
 
 .searched_movie:hover {
