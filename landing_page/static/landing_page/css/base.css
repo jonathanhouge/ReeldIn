@@ -29,6 +29,10 @@ body {
   background-color: var(--periwinkle);
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .content_container {
   display: flex;
   background-color: var(--white);

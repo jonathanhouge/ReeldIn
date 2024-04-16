@@ -5,19 +5,23 @@
 <script>
     var WATCHMODE_API_KEY = "{{ WATCHMODE_API_KEY }}";
 </script>
+<link rel="stylesheet" href="{% static 'landing_page/css/search.css' %}">
 
 <div id="search_results_div">
-    <h1>Search Results</h1>
-    <div id="search_results_container">
+    <div id="search_results_container" loading="lazy">
         {% if movies %}
             {% for movie in movies %}
                 <div class="search_result" id="movie_{{ movie.id }}">
-                    <img loading="lazy" id="poster_{{ movie.id }}" alt="{{ movie.name }}"" src="https://image.tmdb.org/t/p/w200{{movie.poster}}" poster">
-                    <a href="">
-                        <h2>{{ movie.name }}</h2>
-                    </a>
-                    <p>{{ movie.overview }}</p>
-                    <p>Release Year: {{ movie.year }}</p>
+                    <img loading="lazy" id="poster_{{ movie.id }}" alt="{{ movie.name }}" onclick="loadDetailsPage('{{ movie }}')" src="https://image.tmdb.org/t/p/w200{{movie.poster}}" poster">
+                    <div class="searched_movie_details"">
+                        <a href="/movie?movie=${encodeURIComponent(JSON.stringify({{movie}}))}">
+                            <h1>{{ movie.name }}</h1>
+                        </a>
+                        <p>{{ movie.overview }}</p>
+                        <p><strong>Release Year:</strong> {{ movie.year }}</p>
+                        <p><strong>Director:</strong> {{ movie.director.0 }}</p>
+                        <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
+                    </div>
                 </div>
             {% endfor %}
         {% else %}

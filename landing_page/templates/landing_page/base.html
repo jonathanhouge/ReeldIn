@@ -41,6 +41,8 @@
         autocomplete="off"
         autocapitalize="off"
         onkeyup="searchMovies(event)"
+        onblur="hideSearchResults()"
+        onfocus="showSearchResults()"
       />
       <i id="magnifying-glass" class="fa-solid fa-magnifying-glass" onclick="searchMovies(event)"></i>
       <div id="searched_movies_container"></div>

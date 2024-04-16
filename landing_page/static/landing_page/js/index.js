@@ -94,3 +94,21 @@ async function searchMovies(event) {
     }
 }
 
+function hideSearchResults() {
+    moviesContainer = document.getElementById("searched_movies_container")
+    moviesContainer.classList.add('hidden');
+
+    searchbar = document.getElementById("searchbar")
+    searchbar.style.borderRadius = "12px"
+}
+
+function showSearchResults() {
+    moviesContainer = document.getElementById("searched_movies_container")
+    moviesContainer.classList.remove('hidden');
+
+    searchbar = document.getElementById("searchbar")
+
+    if (searchbar.value.trim() !== '') {
+        searchbar.style.borderRadius = "12px 12px 0 0"
+    }
+}
