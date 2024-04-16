@@ -15,6 +15,7 @@ def recommend_view(request):
 
 
 # narrow the possible recommendations by querying based on submitted forms
+# TODO more than just genres (generic problems)
 def narrow_view(request):
     form = GenreForm(request.POST)  # TODO generic
 
@@ -32,7 +33,6 @@ def narrow_view(request):
             movies = recommendation.possible_films.filter(
                 genres__contains=selection
             )  # TODO generic?
-        print(movies)
 
         recommendation.possible_films.set(movies)
         recommendation.possible_film_count = len(movies)
