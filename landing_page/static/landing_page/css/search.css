@@ -1,8 +1,3 @@
-a { 
-    color: black;
-    margin-bottom: 1rem;
-}
-
 p {
     margin-bottom: 1rem;
 }
@@ -14,6 +9,27 @@ p {
 .search_result {
     display: flex;
     padding: 1rem;
+}
+
+.poster {
+    cursor: pointer;
+}
+
+.poster:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+
+.movie_title {
+    display: block;
+    float: left;
+    color: black;
+    margin-bottom: 1rem;
+}
+
+.movie_link { 
+    color: black;
+    margin-bottom: 1rem;
 }
 
 .movie_details {
