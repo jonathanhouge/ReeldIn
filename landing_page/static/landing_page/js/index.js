@@ -46,7 +46,7 @@ async function searchMovies(event) {
                 const movieDiv = document.createElement('div');
                 movieDiv.classList.add('searched_movie');
                 movieDiv.onclick = () => {
-                    window.location.href = window.location.origin + "/search/movies?query=" + encodeURIComponent(movie.name)
+                    window.location.href = window.location.origin + "/movie?movie=" + encodeURIComponent(JSON.stringify(movie));
                 }
 
                 // Set the content of the movieDiv
