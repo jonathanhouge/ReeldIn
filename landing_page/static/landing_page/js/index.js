@@ -13,10 +13,11 @@ async function getCSRFToken() {
 
 
 async function searchMovies(event) {
-    searchString = event.target.value.trim()
+    searchBar = document.getElementById("searchbar")
+    searchString = searchbar.value.trim()
 
     // Enter key
-    if (event.key === "Enter" && searchString) {
+    if ((event.key === "Enter" || event.type === "click") && searchString) {
         // Route to search movies
         window.location.href = window.location.origin + "/search/movies?query=" + encodeURIComponent(searchString)
     } else if (searchString) {
