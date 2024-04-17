@@ -27,9 +27,9 @@
     </a>
   </div>
   <div id="searchbar_div">
-    <input type="text" id="searchbar" name="searchbar" placeholder="Search for movies..."
-      onkeyup="searchMovies(event)" />
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchbar" name="searchbar" placeholder="Search for movies..." autocomplete="off"
+      autocapitalize="off" onkeyup="searchMovies(event)" onblur="hideSearchResults()" onfocus="showSearchResults()" />
+    <i id="magnifying-glass" class="fa-solid fa-magnifying-glass" onclick="searchMovies(event)"></i>
     <div id="searched_movies_container"></div>
   </div>
   <div id="profile_div">
@@ -59,7 +59,7 @@
 </nav>
 
 <body>
-  <input type="hidden" id="csrf_token" value="{% csrf_token %}">
+  <input type="hidden" id="csrf_token" value="{{csrf_token }}">
   {% block content %} {% endblock content %}
 </body>
 

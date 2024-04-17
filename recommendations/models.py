@@ -31,21 +31,37 @@ class Movie(models.Model):
 
 
 class Recommendation(models.Model):
-    possible_films = models.ManyToManyField("Movie", related_name="recommendations")
-    possible_film_count = models.PositiveIntegerField()
+    user_id = models.OneToOneField(
+        "accounts.User", unique=True, on_delete=models.CASCADE, default=0
+    )
+    step = models.PositiveIntegerField(default=0)
+    possible_films = models.ManyToManyField(
+        "Movie", related_name="recommendations", blank=True
+    )
+    possible_film_count = models.PositiveIntegerField(default=27122)
 
     # answers
-    genres = ArrayField(models.CharField(max_length=13, choices=GENRES))
-    year_span = models.PositiveIntegerField(choices=YEAR_SPANS)
-    runtime_span = models.PositiveIntegerField(choices=RUNTIME_SPANS)
-    languages = ArrayField(models.CharField(max_length=2, choices=LANGUAGES))
-    triggers = ArrayField(models.CharField(max_length=100, choices=TRIGGERS))
-    watch_providers = ArrayField(models.CharField(max_length=60, choices=STREAMING))
+    genres = ArrayField(
+        models.CharField(max_length=13, choices=GENRES), null=True, blank=True
+    )
+    year_span = models.PositiveIntegerField(choices=YEAR_SPANS, null=True, blank=True)
+    runtime_span = models.PositiveIntegerField(
+        choices=RUNTIME_SPANS, null=True, blank=True
+    )
+    languages = ArrayField(
+        models.CharField(max_length=2, choices=LANGUAGES), null=True, blank=True
+    )
+    triggers = ArrayField(
+        models.CharField(max_length=100, choices=TRIGGERS), null=True, blank=True
+    )
+    watch_providers = ArrayField(
+        models.CharField(max_length=60, choices=STREAMING), null=True, blank=True
+    )
 
-    preferred_cast = ArrayField(models.CharField(max_length=60))
-    preferred_crew = ArrayField(models.CharField(max_length=60))
-    excluded_cast = ArrayField(models.CharField(max_length=60))
-    excluded_crew = ArrayField(models.CharField(max_length=60))
+    preferred_cast = ArrayField(models.CharField(max_length=60), null=True, blank=True)
+    preferred_crew = ArrayField(models.CharField(max_length=60), null=True, blank=True)
+    excluded_cast = ArrayField(models.CharField(max_length=60), null=True, blank=True)
+    excluded_crew = ArrayField(models.CharField(max_length=60), null=True, blank=True)
 
     popular = models.BooleanField(default=False)
     well_reviewed = models.BooleanField(default=True)
