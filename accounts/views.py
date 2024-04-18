@@ -16,9 +16,9 @@ def login_view(request):
         return redirect("landing_page:index")
 
     if request.method == "POST":
-        providedUsername = request.POST["username"]
-        providedPassword = request.POST["password"]
-        user = authenticate(request, username=providedUsername, password=providedPassword)
+        provided_username = request.POST["username"]
+        provided_password = request.POST["password"]
+        user = authenticate(request, username=provided_username, password=provided_password)
 
         if user is not None:
             login(request, user)
@@ -27,7 +27,7 @@ def login_view(request):
             return render(
                 request,
                 "accounts/login.html",
-                {"signInError": "Invalid username and/or password"},
+                {"signin_error": "Invalid username and/or password"},
             )
     elif request.method == "GET":
         return render(request, "accounts/login.html")
@@ -60,12 +60,12 @@ def signup(request):
         # Else, determine error in signup and return message
         else:
             # checks if username is taken
-            providedUsername = request.POST["username"]
-            if User.objects.filter(username=providedUsername).exists():
+            provided_username = request.POST["username"]
+            if User.objects.filter(username=provided_username).exists():
                 return render(
                     request,
                     "accounts/login.html",
-                    {"form": form, "signUpError": "Username has already been taken"},
+                    {"form": form, "signup_error": "Username has already been taken"},
                 )
             # checks if email is taken
             providedEmail = request.POST["email"]
@@ -73,7 +73,7 @@ def signup(request):
                 return render(
                     request,
                     "accounts/login.html",
-                    {"form": form, "signUpError": "Email address is already in use"},
+                    {"form": form, "signup_error": "Email address is already in use"},
                 )
             # checks if passwords match
             password1 = request.POST["password1"]
@@ -82,13 +82,13 @@ def signup(request):
                 return render(
                     request,
                     "accounts/login.html",
-                    {"form": form, "signUpError": "Passwords do not match"},
+                    {"form": form, "signup_error": "Passwords do not match"},
                 )
             # if all else fails, return unknown error
             return render(
                 request,
                 "accounts/login.html",
-                {"form": form, "signUpError": "An unknown error occured."},
+                {"form": form, "signup_error": "An unknown error occured."},
             )
     elif request.method == "GET":
         form = CustomUserCreationForm()

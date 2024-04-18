@@ -5,8 +5,8 @@
     <form action="{% url 'accounts:register' %}" method="post">
       {% csrf_token %}
       <h1>Create Account</h1>
-      {% if signUpError %}
-      <p class="error">{{ signUpError }}</p>
+      {% if signup_error %}
+      <p class="error">{{ signup_error }}</p>
       {% endif %}
       <input type="text" placeholder="Username" name="username" required />
       <input type="email" placeholder="Email" name="email" required />
@@ -20,8 +20,8 @@
     <form action="{% url 'accounts:login' %}" method="post">
       {% csrf_token %}
       <h1>Sign In</h1>
-      {% if signInError %}
-      <p class="error">{{ signInError }}</p>
+      {% if signin_error %}
+      <p class="error">{{ signin_error }}</p>
       {% endif %}
       <input type="text" placeholder="Username" name="username" required />
       <input type="password" placeholder="Password" name="password" required />
