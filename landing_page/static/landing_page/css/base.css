@@ -29,6 +29,10 @@ body {
   background-color: var(--periwinkle);
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .content_container {
   display: flex;
   background-color: var(--white);
@@ -121,9 +125,53 @@ header {
 #searched_movies_container {
   width: 30rem;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   background-color: white;
-  margin-top: -10px;
+  position: absolute;
+  border-radius: 0 0 12px 12px;
+}
+
+#magnifying-glass {
+  cursor: pointer;
+}
+
+.searched_movie {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 1rem;
+  z-index: 2;
+}
+
+.searched_movie:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+}
+
+.searched_movie:nth-child(odd) {
+  background-color: lightgray;
+}
+
+/* CSS for even-numbered divs */
+.searched_movie:nth-child(even) {
+  background-color: white;
+}
+
+.searched_movie_details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  justify-content: left;
+  text-align: left;
+
+}
+
+.last_movie {
+  border-radius: 0 0 12px 12px;
 }
 
 #profile_div {
