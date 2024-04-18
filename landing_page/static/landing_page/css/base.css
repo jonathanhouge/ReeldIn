@@ -218,3 +218,87 @@ footer {
 #footer_nav a:hover {
   color: #a994b4;
 }
+
+/* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
+@media (max-width:550px) {
+  header {
+    display: block;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  #profile_div {
+    display: block;
+    margin-top: 10px;
+  }
+
+  #searchbar_div input {
+    width:80%;
+    align-content: center;
+  }
+
+  nav {
+    width: 100%;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  #title_div {
+    font-size: 15px;
+    margin-left: 0;
+  }
+
+  
+}
+
+/* For Tablet 768px */
+@media (max-width:850px) and (min-width:550px) {
+  header {
+    display: block;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  #profile_div {
+    display: block;
+    margin-top: 10px;
+  }
+
+  #searchbar_div input {
+    width:80%
+  }
+
+  nav {
+    width: 100%;
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+/* For Laptop 1024px / Laptop L 1440px / Laptop 4k 2560px */
+@media (max-width:1050px) and (min-width:850px) {
+  header {
+    font-size: 35px;
+    font-family: var(--primary-font);
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width:2600px) and (min-width:1441px) {
+  header {
+    font-size: 40px;
+    font-family: var(--primary-font);
+    width:100%;
+    height:100%;
+  }
+  nav {
+    font-size: 40px;
+  }
+  
+  footer {
+    font-size: 40px;
+  }
+}

@@ -2,41 +2,78 @@
 
 #movie-button {
     font-size: 28.7px;
-    border-radius: 12px;
-    color: var(--black);
-    text-align: center;
     font-family: var(--primary-font);
+    color: var(--black);
+    border-radius: 12px;
+    text-align: center;
+    padding: 10px;
+
 }
 
 #movie_summary {
-    font-size: 1.5rem;
     font-family: var(--primary-font);
-    color: var(--black);
-    background-color: var(--white);
-    /* content box not too close to other things */
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    font-size: 32px;
 }
 #movie_name {
     font-size: 32px;
-    display: flex;
-    column-gap: 16cqmax;
-    background-color: var(--white);
     font-family: var(--primary-font);
-    /* content box not too close to other things */
-    margin-left: 1rem;
-    margin-right: 1rem;
-
+    margin-left: 10px;
+    display: flex;
+    
 }
 
 #movie_button_nav {
-    font-size: 16px;
-    background-color: var(--white);
-    color: var(--black);
-    text-align: center;
-    border-radius: 1rem;
-    display: flex;
-    column-gap: 1rem;
+    margin-left: 250px;
+}
+
+/* The poster / buttons / font size for each screen size will slighly differ */
+@media (max-width:500px){
+    img{
+        height: 350px;
+        width: 300px;
+        align-items: center;
+    }
+    p {
+        display: block;
+        font-size: 20px;
+    }
+
+    #movie_button_nav {
+        margin-left: 0px;
+        display: block;
+    }
+
+    #movie_name {
+        display: block;
+    }
+}
+
+@media (max-width:800px) and (min-width:500px) {
+    img{
+        height: 500;
+        width: 350;
+    }
+    p {
+        font-size: 28px;
+    }
+
+    #movie_button_nav {
+        margin-left: 0px;
+    }
+}
+
+@media (max-width:3000px) and (min-width:1441px){
+    img{
+        height:700;
+        width: 550;
+    }
+    
+    p {
+        font-size: 40px;
+    }
+
+    #movie_button {
+        display: flex;
+
+    }
 }
