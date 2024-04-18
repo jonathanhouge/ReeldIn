@@ -29,11 +29,7 @@
   justify-content: space-between;
 }
 
-.user_lists_div {
-  width: 100%;
-  margin-right: 20px;
-}
-
+.user_lists_div,
 .middle_col {
   width: 100%;
   margin-right: 20px;

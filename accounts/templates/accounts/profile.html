@@ -7,6 +7,7 @@
   <h1>Hi {{request.user}}!</h1>
 </div>
 <div class="content_div">
+  <!-- User information and Settings Button -->
   <div id="user_info_div">
     <div id="profile_pic_div">
       <img
@@ -26,10 +27,12 @@
   </div>
 
   <div class="user_content">
+    <!-- Start of Movie Lists & Left Column -->
     <div class="user_lists_div">
       <div class="list_div">
         <h3>Recommended</h3>
         <div class="list" id="recommended_movies">
+          <!-- Placeholder Movie Poster -->
           <img src="{% static 'landing_page/images/darkknight.webp' %}" />
         </div>
       </div>
@@ -47,6 +50,7 @@
       </div>
     </div>
 
+    <!-- Middle Column of Lists -->
     <div class="middle_col">
       <div class="list_div">
         <h3>Watchlist</h3>
@@ -62,29 +66,31 @@
       </div>
     </div>
 
+    <!-- Friends List Container & Right Column -->
     <div class="friends_div">
       <div class="friends_title">
         <h2>Your Friends</h2>
         <button class="btn btn-open">Add Friend</button>
       </div>
       <div class="friends_list">
+        <!-- Placeholder Friends -->
         <div class="friend">
           <img
-            src="{% static 'landing_page/images/profile.png' %}"
+            src="{% static 'accounts/images/profile.png' %}"
             class="profile_img"
           />
           <h3>Friend Name</h3>
         </div>
         <div class="friend">
           <img
-            src="{% static 'landing_page/images/profile.png' %}"
+            src="{% static 'accounts/images/profile.png' %}"
             class="profile_img"
           />
           <h3>Friend Name</h3>
         </div>
         <div class="friend">
           <img
-            src="{% static 'landing_page/images/profile.png' %}"
+            src="{% static 'accounts/images/profile.png' %}"
             class="profile_img"
           />
           <h3>Friend Name</h3>
@@ -94,6 +100,8 @@
   </div>
 </div>
 
+<!-- Modal Box for "Add Friend" Button
+     Hidden until button is clicked -->
 <section class="modal hidden">
   <div class="flex">
     <h3>Enter your friend's Username!</h3>

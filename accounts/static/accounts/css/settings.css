@@ -14,6 +14,15 @@
   margin: 0 auto;
 }
 
+#info {
+  display: flex;
+  align-items: center;
+}
+
+#change_username {
+  margin-left: 20px;
+}
+
 .settings_container:nth-child(even) {
   background-color: #f1f1f1;
 }
