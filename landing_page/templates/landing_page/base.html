@@ -1,7 +1,6 @@
 {% load static %} {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,21 +11,19 @@
       crossorigin="anonymous"
     ></script>
     <script src="{% static 'landing_page/js/index.js' %}" defer></script>
-    <link
-      rel="stylesheet"
-      href="{% static 'landing_page/css/base.css' %}"
-    />
+    <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'landing_page/css/index.css' %}" />
     <link rel="stylesheet" href="{% static 'landing_page/css/about.css' %}" />
     <title>ReeldIn</title>
-    
   </head>
 
   <header>
-
     <div id="logo_div">
       <a href="{% url 'landing_page:index' %}">
-        <img src="{% static 'landing_page/images/REELDIN.png' %}" alt="ReeldIn Logo" />
+        <img
+          src="{% static 'landing_page/images/REELDIN.png' %}"
+          alt="ReeldIn Logo"
+        />
       </a>
       <a href="{% url 'landing_page:index' %}">
         <h1>ReeldIn</h1>
@@ -45,15 +42,16 @@
     </div>
     <div id="profile_div">
       <a href="{% url 'recommendations:index' %}">
-        <button id="get_recommendations_btm">
-          Get Recommendations
-        </button>
+        <button id="get_recommendations_btm">Get Recommendations</button>
       </a>
       <a href="{% url 'accounts:login' %}">
         <button id="login_button">Login</button>
       </a>
-      <img id="profile_pic" src="{% static 'landing_page/images/profile.png' %}" />
-      </img>
+      <img
+        id="profile_pic"
+        src="{% static 'landing_page/images/profile.png' %}"
+      />
+    </div>
   </header>
 
   <nav>
@@ -64,14 +62,14 @@
   </nav>
 
   <body>
-    <input type="hidden" id="csrf_token" value="{% csrf_token %}">
+    <input type="hidden" id="csrf_token" value="{{ csrf_token }}" />
     {% block content %} {% endblock content %}
   </body>
 
   <footer>
     <div id="footer_nav">
       <a href="{% url 'landing_page:index' %}">Home</a>
-      <a href="profile.html">Profile</a>
+      <a href="{% url 'landing_page:profile' %}">Profile</a>
       <a href="search.html">Search</a>
       <a href="20Qs.html">20 Questions</a>
       <a href="{% url 'landing_page:about' %}">About</a>
@@ -82,5 +80,4 @@
       <p>ReeldIn 2024 &copy;</p>
     </div>
   </footer>
-
 </html>

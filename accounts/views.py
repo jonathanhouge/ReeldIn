@@ -81,3 +81,7 @@ def register_view(request):
     elif request.method == "GET":
         form = CustomUserCreationForm()
         return render(request, "accounts/register.html", {"form": form})
+
+
+def settings_view(request):
+    return render(request, "accounts/profile_settings.html")

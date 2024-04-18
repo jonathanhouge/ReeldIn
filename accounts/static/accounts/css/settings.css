@@ -1,0 +1,39 @@
+.settings_container {
+  padding: 20px;
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+}
+
+#profile_info img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.settings_container:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+button {
+  font-family: Inter Tight, sans-serif;
+  padding: 0.75rem;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  background-color: #c8adff;
+  cursor: pointer;
+  margin: 0.5rem;
+  border-radius: 10px;
+}
+
+button:hover {
+  background-color: #a38fff;
+}
+
+.delete_account_btn:hover {
+  background-color: #ff4d4d;
+}

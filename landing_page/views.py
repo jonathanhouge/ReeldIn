@@ -18,12 +18,15 @@ def about(request):
 def contact(request):
     return render(request, "landing_page/contact.html")
 
-def about(request):
-    return render(request, "landing_page/about.html")
 
-#testing purposes
+def profile(request):
+    return render(request, "accounts/profile.html")
+
+
+# testing purposes
 def movie(request):
     return render(request, "landing_page/movie.html")
+
 
 def get_csrf_token(request):
     csrf_token = get_token(request)

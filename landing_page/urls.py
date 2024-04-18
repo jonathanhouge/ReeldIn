@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("get-csrf-token/", views.get_csrf_token, name="get_csrf_token"),
     path("about/", views.about, name="about"),
+    path("profile/", views.profile, name="profile"),
     path("contact/", views.contact, name="contact"),
     path("search/movies", views.search_movies, name="search_movies"),
     path("movie/", views.movie, name="movie"),
