@@ -1,9 +1,14 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from recommendations.models import Movie
-from django.db.models import Q, CharField, TextField
-from django.middleware.csrf import get_token
 import json
+import os
+
+from django.conf import settings
+from django.db.models import CharField, Q, TextField
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
+from django.shortcuts import redirect, render
+from fuzzywuzzy import fuzz
+
+from recommendations.models import Movie
 
 
 # Initial landing page view.
@@ -18,11 +23,11 @@ def about(request):
 def contact(request):
     return render(request, "landing_page/contact.html")
 
-
+  
 def profile(request):
     return render(request, "accounts/profile.html")
 
-
+  
 # testing purposes
 def movie(request):
     return render(request, "landing_page/movie.html")
@@ -33,29 +38,36 @@ def get_csrf_token(request):
     return JsonResponse({"csrf_token": csrf_token})
 
 
+def sort_by_closeness(query, movie):
+    return fuzz.partial_ratio(query, movie.name)
+
+
 def search_movies(request):
     query = request.GET.get("query")
 
     if query:
-        # Get all field names of the Movie model
-        movie_fields = [
-            field.name
-            for field in Movie._meta.get_fields()
-            if isinstance(field, (CharField, TextField))
-        ]
+        # Construct Q objects for name, director, and release_year fields
+        q_name = Q(name__icontains=query)
+        q_director = Q(director__icontains=query)
+        q_release_year = Q(year__icontains=query)
 
-        # Construct a list of Q objects for each field
-        q_objects = [Q(**{f"{field}__icontains": query}) for field in movie_fields]
+        # Combine Q objects using OR operator
+        query_filter = q_name | q_director | q_release_year
 
-        # Combine all Q objects using OR operator
-        # movies = Movie.objects.filter(*q_objects).distinct()
-        # json_movies = [{"movie": movie} for movie in movies]
-        json_movies = [
-            {"name": "spiderman", "year": 2023},
-            {"name": "batman", "year": 1999},
-        ]
+        # Query movies matching any of the search criteria
+        movies = Movie.objects.filter(query_filter).distinct()
+        sorted_movies = sorted(
+            movies, key=lambda movie: sort_by_closeness(query, movie), reverse=True
+        )
 
-        return render(request, "landing_page/movie.html", {"movies": json_movies})
+        return render(
+            request,
+            "landing_page/search.html",
+            context={
+                "movies": sorted_movies,
+                "WATCHMODE_API_KEY": os.environ.get("WATCHMODE_API_KEY"),
+            },
+        )
 
     return redirect("")
 
@@ -70,16 +82,18 @@ def search_movies_json(request):
 
         # Access specific fields from the JSON data
         search_string = body_data.get("search")
-        movies = [{"name": "Batman Begins"}]
 
-        if search_string and False:  # And False until the DB works
-            movies = Movie.objects.filter(name__icontains=search_string)
+        if search_string:
+            movies = Movie.objects.filter(name__icontains=search_string).order_by(
+                "name"
+            )[:5]
+        else:
+            movies = Movie.objects.none()
 
-        # Perform search operation and get the result
-        result = {"movies": movies}  # Your search result data here
+        result = {"movies": list(movies.values())}  # Your search result data here
 
         # Return the result as JSON response
-        return JsonResponse(result, status=200)
+        return JsonResponse(result, safe=False)
 
     # Return an error response for non-POST requests
     return JsonResponse({"error": "Method not allowed"}, status=405)
