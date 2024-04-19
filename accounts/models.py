@@ -42,6 +42,7 @@ class User(AbstractUser):
     )
 
 
+# shout-out to: https://medium.com/analytics-vidhya/add-friends-with-689a2fa4e41d
 class FriendRequest(models.Model):
     sender = models.ForeignKey(
         "User", related_name="from_user", on_delete=models.CASCADE
