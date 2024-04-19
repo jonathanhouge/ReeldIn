@@ -204,3 +204,11 @@ body {
 .container.active .toggle-right {
   transform: translateX(200%);
 }
+
+.error {
+  color: #f12711;
+}
+
+.errorlist {
+  color: #f12711;
+}
