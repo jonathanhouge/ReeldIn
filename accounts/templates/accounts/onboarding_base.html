@@ -1,0 +1,65 @@
+{% load static %} {% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% csrf_token %}
+  <script src="https://kit.fontawesome.com/c60455fa26.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
+  <link rel="stylesheet" href="{% static 'accounts/css/onboarding_base.css' %}" />
+  <title>ReeldIn</title>
+  {% block head %}{% endblock head %}
+</head>
+
+<header>
+  <div id="home_icon">
+    <a href="{% url 'landing_page:index' %}">
+      <i class="fas fa-home"></i>
+    </a>
+  </div>
+  <div id="logo_div">
+    <a href="{% url 'landing_page:index' %}">
+      <img src="{% static 'landing_page/images/REELDIN.png' %}" alt="ReeldIn Logo" />
+    </a>
+    <a href="{% url 'landing_page:index' %}">
+      <h1>ReeldIn</h1>
+    </a>
+  </div>
+</header>
+<nav></nav>
+
+<body>
+  <div class="onboarding-header">
+    <h1 id="onboarding-title" class="title_div">{% block header %}{% endblock header %}</h1>
+    <p id="onboarding-caption">{% block caption %}{% endblock caption %}</p>    
+  </div>
+  <div class="onboarding-content content_div">
+    {% block form %}
+    <form method="post" id ="onboarding-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+    </form>
+    {% endblock form %}
+    {% block content %}{% endblock content %}
+  </div>
+
+  <!--Forward and backwards buttons-->
+  <div class="footer-buttons">
+    <!--Back button-->
+    {% if back_action %}
+    <button onclick="{{ back_action }}" id="back-button" class="button">{{ back_text }}</button>
+    {% endif %}
+    <!--Forward button-->
+    {% if next_action %}
+    <button onclick="{{ next_action }}" id="next-button" class="button">{{ next_text }}</button>
+    {% endif %}
+  </div>
+  <script src="{% static 'accounts/js/onboarding_base.js' %}"></script>
+  {% block scripts %}{% endblock scripts %}
+</body>
+
+
+</html>

@@ -1,0 +1,36 @@
+#onboarding_search input {
+    padding: 0.75rem;
+    font-size: 20px;
+    border: none;
+    border-radius: 12px;
+    margin-right: 0.5rem;
+    background-color: #f4f4f4;
+}
+
+#onboarding_search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie {
+    display: inline-block;
+    margin: 0.5rem;
+    text-align: center;
+}
+
+img {
+    width: 200px;
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+}
+
+#movie_container { 
+    display: flex;
+    align-items: flex-start;
+    justify-content: center; 
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    max-height: 80vh;
+}

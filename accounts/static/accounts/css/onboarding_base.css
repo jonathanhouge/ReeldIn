@@ -1,0 +1,33 @@
+.footer-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 20px;
+    background-color: rgb(255, 0, 208);
+}
+
+#back-button {
+    position: fixed;
+    left: 20px;
+    width: 100px;
+    height: 30px;
+    background-color: red;
+}
+
+#next-button {
+    position: fixed;
+    right: 20px;
+    width: 100px;
+    height: 30px;
+    background-color: greenyellow;
+}
+
+.onboarding-header {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    padding-top: 20px;
+}

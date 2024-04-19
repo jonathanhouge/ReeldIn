@@ -1,0 +1,16 @@
+{% extends 'accounts/onboarding_base.html' %} {% load static %}
+{% block head %} <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> {% endblock head %}
+{% block header %}Movies{% endblock header %} 
+{% block caption %}Now let's figure out your movie preferences! Tutorial here {% endblock caption %}
+{% block content %}
+<div id="onboarding_search">
+    <input type="text" id="searchbar" name="searchbar" placeholder="Search for movies..." autocomplete="off"
+      autocapitalize="off" onkeyup="searchMovies(event)"/>
+</div>
+<div id="movie_container">
+    
+</div>
+
+{% endblock content %}
+
+{% block scripts %} <script src="{% static 'accounts/js/onboarding_movies.js' %}"></script> {% endblock scripts %}

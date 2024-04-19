@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from accounts.views import get_random_movies
 
 app_name = "landing_page"
 
@@ -11,4 +12,5 @@ urlpatterns = [
     path("search/movies", views.search_movies, name="search_movies"),
     path("movie/", views.movie, name="movie"),
     path("api/search/movies", views.search_movies_json, name="search_movies_json"),
+    path("api/movies/", get_random_movies, name="get_movies"),
 ]
