@@ -18,27 +18,37 @@ class User(AbstractUser):
     imdb_user_id = models.CharField(max_length=32, unique=True, null=True, blank=True)
 
     # 'Movie' connections
-    seen_films = models.ManyToManyField(Movie, related_name="users_seen", blank=True)
+    watched_films = models.ManyToManyField(
+        Movie, related_name="users_seen", default=list, blank=True
+    )
     recommended_films = models.ManyToManyField(
-        Movie, related_name="users_recommended", blank=True
+        Movie, related_name="users_recommended", default=list, blank=True
     )
     watchlist_films = models.ManyToManyField(
-        Movie, related_name="users_watchlisted", blank=True
+        Movie, related_name="users_watchlisted", default=list, blank=True
     )
-    liked_films = models.ManyToManyField(Movie, related_name="users_liked", blank=True)
+    liked_films = models.ManyToManyField(
+        Movie, related_name="users_liked", default=list, blank=True
+    )
     disliked_films = models.ManyToManyField(
-        Movie, related_name="users_disliked", blank=True
+        Movie, related_name="users_disliked", default=list, blank=True
     )
 
     # preferences
-    preferred_genres = ArrayField(
-        models.CharField(max_length=13, choices=GENRES), null=True, blank=True
+    liked_genres = ArrayField(
+        models.CharField(max_length=13, choices=GENRES), default=list, blank=True
     )
-    preferred_triggers = ArrayField(
-        models.CharField(max_length=100, choices=TRIGGERS), null=True, blank=True
+    disliked_genres = ArrayField(
+        models.CharField(max_length=13, choices=GENRES), default=list, blank=True
     )
-    preferred_cast_and_crew = ArrayField(
-        models.CharField(max_length=100), null=True, blank=True
+    liked_cast_and_crew = ArrayField(
+        models.CharField(max_length=100), default=list, blank=True
+    )
+    disliked_cast_and_crew = ArrayField(
+        models.CharField(max_length=100), default=list, blank=True
+    )
+    triggers = ArrayField(
+        models.CharField(max_length=100, choices=TRIGGERS), default=list, blank=True
     )
 
 
@@ -47,6 +57,9 @@ class FriendRequest(models.Model):
     sender = models.ForeignKey(
         "User", related_name="from_user", on_delete=models.CASCADE
     )
-    receipent = models.ForeignKey(
+    receiver = models.ForeignKey(
         "User", related_name="to_user", on_delete=models.CASCADE
     )
+
+    class Meta:
+        unique_together = ("sender", "receiver")  # Ensures no duplicate requests
