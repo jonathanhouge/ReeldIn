@@ -5,9 +5,13 @@
     <form action="{% url 'accounts:register' %}" method="post">
       {% csrf_token %}
       <h1>Create Account</h1>
-      <input type="text" placeholder="Name" />
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
+      {% if signup_error %}
+      <p class="error">{{ signup_error }}</p>
+      {% endif %}
+      <input type="text" placeholder="Username" name="username" required />
+      <input type="email" placeholder="Email" name="email" required />
+      <input type="password" placeholder="Password" name="password1" required />
+      <input type="password" placeholder="Password" name="password2" required />
       <button>Sign Up</button>
     </form>
   </div>
@@ -16,8 +20,11 @@
     <form action="{% url 'accounts:login' %}" method="post">
       {% csrf_token %}
       <h1>Sign In</h1>
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
+      {% if signin_error %}
+      <p class="error">{{ signin_error }}</p>
+      {% endif %}
+      <input type="text" placeholder="Username" name="username" required />
+      <input type="password" placeholder="Password" name="password" required />
       <a href="">Forgot your email or password?</a>
       <button>Sign in</button>
     </form>
@@ -28,12 +35,12 @@
       <div class="toggle-panel toggle-left">
         <h1>Welcome Back!</h1>
         <p>Enter your personal details to use all of site features</p>
-        <button class="hidden" id="login">Sign In</button>
+        <button id="login" class="hidden">Sign In</button>
       </div>
       <div class="toggle-panel toggle-right">
         <h1>Hello, User!</h1>
         <p>Register with your personal details to use all of site features</p>
-        <button class="hidden" id="register">Sign Up</button>
+        <button id="register" class="hidden">Sign Up</button>
       </div>
     </div>
   </div>
