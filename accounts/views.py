@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 
 from .forms import CustomUserCreationForm
-from .models import User
+from .models import User, FriendRequest
 
 
 def login_view(request):
@@ -98,10 +98,57 @@ def signup(request):
         form = CustomUserCreationForm()
         return render(request, "accounts/login.html", {"form": form})
 
+
 def settings_view(request):
     return render(request, "accounts/profile_settings.html")
+
 
 def onboarding(request):
     # if(request.session.get("onboarding")):
     return render(request, "accounts/onboarding.html")
 
+
+# Friend request handling
+def send_friend_request(request, user_id):
+    receiver = get_object_or_404(User, pk=user_id)
+    FriendRequest.objects.create(sender=request.user, receiver=receiver)
+    return redirect("accounts:profile")  # TODO redirect ?
+
+
+def accept_friend_request(request, request_id):
+    friend_request = get_object_or_404(
+        FriendRequest, pk=request_id, receiver=request.user
+    )
+    friend_request.status = "accepted"
+    friend_request.save()
+    # Optionally add to each user's friend list
+    request.user.friends.add(friend_request.sender)
+    friend_request.sender.friends.add(request.user)
+    return redirect("accounts:profile")  # TODO redirect ?
+
+
+def decline_friend_request(request, request_id):
+    friend_request = get_object_or_404(
+        FriendRequest, pk=request_id, receiver=request.user
+    )
+    friend_request.status = "declined"
+    friend_request.save()
+    return redirect("accounts:profile")  # TODO redirect ?
+
+
+def get_sent_friend_requests(request):
+    sent_requests = FriendRequest.objects.filter(sender=request.user)
+    return render(  # TODO make this just return a json
+        request, "accounts/sent_friend_requests.html", {"sent_requests": sent_requests}
+    )
+
+
+def get_pending_friend_requests(request):
+    pending_requests = FriendRequest.objects.filter(
+        receiver=request.user, status="pending"
+    )
+    return render(  # TODO make this just return a json
+        request,
+        "accounts/pending_friend_requests.html",
+        {"pending_requests": pending_requests},
+    )
