@@ -98,7 +98,10 @@ def signup(request):
         form = CustomUserCreationForm()
         return render(request, "accounts/login.html", {"form": form})
 
+def settings_view(request):
+    return render(request, "accounts/profile_settings.html")
 
 def onboarding(request):
     # if(request.session.get("onboarding")):
     return render(request, "accounts/onboarding.html")
+
