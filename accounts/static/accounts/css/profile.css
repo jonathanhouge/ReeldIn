@@ -31,8 +31,10 @@
 
 .user_lists_div,
 .middle_col {
-  width: 100%;
+  flex: 1;
   margin-right: 20px;
+  max-width: calc(25vw - 10px); /* TODO temp solution, replace with grid later */
+
 }
 
 .list_div {
@@ -43,13 +45,15 @@
   min-height: 275px;
 }
 
-.list_div img {
+.list img {
   height: 200px;
   margin-right: 10px;
 }
 
 .list {
   margin-top: 10px;
+  overflow-x: auto;
+  display: flex;
 }
 
 .placeholder_text {

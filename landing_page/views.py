@@ -23,11 +23,28 @@ def about(request):
 def contact(request):
     return render(request, "landing_page/contact.html")
 
-  
-def profile(request):
-    return render(request, "accounts/profile.html")
 
-  
+def profile(request):
+    if request.user.is_authenticated:
+        recommended_movies = list(request.user.recommended_films.values("pk", "poster"))
+        watched_movies = list(request.user.watched_films.values("pk", "poster"))
+        liked_movies = list(request.user.liked_films.values("pk", "poster"))
+        disliked_movies = list(request.user.disliked_films.values("pk", "poster"))
+        watchlist_movies = list(request.user.watchlist_films.values("pk", "poster"))
+        friends = list(request.user.friends.values("pk", "username"))
+
+        context = {
+            "recommended_movies": recommended_movies,
+            "watched_movies": watched_movies,
+            "liked_movies": liked_movies,
+            "disliked_movies": disliked_movies,
+            "watchlist_movies": watchlist_movies,
+            "friends": friends,
+        }
+        return render(request, "accounts/profile.html", context)
+    return render(request, "accounts/login.html")
+
+
 # testing purposes
 def movie(request):
     return render(request, "landing_page/movie.html")

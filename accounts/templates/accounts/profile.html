@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'accounts/css/profile.css' %}" />
 <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
 <script src="{% static 'accounts/js/modal.js' %}" defer></script>
-
+<script src="{% static 'accounts/js/profile.js' %}" defer></script>
 <div id="message_div">
   <h1>Hi {{request.user}}!</h1>
 </div>
@@ -11,13 +11,10 @@
   <!-- User information and Settings Button -->
   <div id="user_info_div">
     <div id="profile_pic_div">
-      <img
-        src="{% static 'landing_page/images/profile.png' %}"
-        class="profile_img"
-      />
+      <img src="{% static 'accounts/images/profile.png' %}" alt="Profile Picture" class="profile_img"> <!--TODO add profile pic connection-->
       <div id="info">
         <h2>{{request.user}}</h2>
-        <p>Member since: {{request.user.date_joined}}</p>
+        <p>Member since: {{ request.user.date_joined|date:"F d, Y" }}</p>
       </div>
     </div>
     <div id="button_div">
@@ -30,23 +27,42 @@
   <div class="user_content">
     <!-- Start of Movie Lists & Left Column -->
     <div class="user_lists_div">
+      <!--Recommended movies list-->
       <div class="list_div">
         <h3>Recommended</h3>
         <div class="list" id="recommended_movies">
-          <!-- Placeholder Movie Poster -->
-          <img src="{% static 'landing_page/images/darkknight.webp' %}" />
+          {% if recommended_movies %}
+            {% for movie in recommended_movies %}
+              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
+            {% endfor %}
+          {% else %}
+            <p class="placeholder_text">No movies yet!</p>
+          {% endif %}
         </div>
-      </div>
+      </div>    
+      <!-- Liked and Disliked Movies Lists -->
       <div class="list_div">
         <h3>Liked Movies</h3>
         <div class="list" id="liked_movies">
-          <p class="placeholder_text">No movies yet!</p>
+          {% if liked_movies %}
+            {% for movie in liked_movies %}
+              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
+            {% endfor %}
+          {% else %}
+            <p class="placeholder_text">No movies yet!</p>
+          {% endif %}
         </div>
       </div>
       <div class="list_div">
         <h3>Disliked Movies</h3>
         <div class="list" id="disliked_movies">
-          <p class="placeholder_text">No movies yet!</p>
+          {% if disliked_movies %}
+            {% for movie in disliked_movies %}
+              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
+            {% endfor %}
+          {% else %}
+            <p class="placeholder_text">No movies yet!</p>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -54,15 +70,27 @@
     <!-- Middle Column of Lists -->
     <div class="middle_col">
       <div class="list_div">
-        <h3>Watchlist</h3>
+        <h3>Watch Later</h3>
         <div class="list" id="watchlist">
-          <p class="placeholder_text">No movies yet!</p>
+          {% if watchlist_movies %}
+            {% for movie in watchlist_movies %}
+              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
+            {% endfor %}
+          {% else %}
+            <p class="placeholder_text">No movies yet!</p>
+          {% endif %}
         </div>
       </div>
       <div class="list_div">
         <h3>Watched</h3>
-        <div class="list" id="liked_movies">
-          <p class="placeholder_text">No movies yet!</p>
+        <div class="list" id="watched_movies">
+          {% if watched_movies %}
+            {% for movie in watched_movies %}
+              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
+            {% endfor %}
+          {% else %}
+            <p class="placeholder_text">No movies yet!</p>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -74,28 +102,19 @@
         <button class="btn btn-open">Add Friend</button>
       </div>
       <div class="friends_list">
-        <!-- Placeholder Friends -->
-        <div class="friend">
-          <img
-            src="{% static 'accounts/images/profile.png' %}"
-            class="profile_img"
-          />
-          <h3>Friend Name</h3>
-        </div>
-        <div class="friend">
-          <img
-            src="{% static 'accounts/images/profile.png' %}"
-            class="profile_img"
-          />
-          <h3>Friend Name</h3>
-        </div>
-        <div class="friend">
-          <img
-            src="{% static 'accounts/images/profile.png' %}"
-            class="profile_img"
-          />
-          <h3>Friend Name</h3>
-        </div>
+        {% if friends %}
+          {% for friend in friends %}
+            <div class="friend">
+              <img
+                src="{% static 'accounts/images/profile.png' %}"
+                class="profile_img" onclick="openFriendModal('{{ friend.pk }}')"
+              />
+              <h3>{{ friend.username }}</h3>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="placeholder_text">No friends yet!</p>
+        {% endif %}
       </div>
     </div>
   </div>
