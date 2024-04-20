@@ -33,7 +33,7 @@ def login_view(request):
             return render(
                 request,
                 "accounts/login.html",
-                {"signin_error": "Invalid username and/or password"},
+                {"signin_error": "Invalid username and/or password."},
             )
     elif request.method == "GET":
         return render(request, "accounts/login.html")
@@ -56,45 +56,47 @@ def signup(request):
 
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
-        # If signup valid, log user in and redirect to onboarding
         if form.is_valid():
             user = form.save()
             login(request, user)
             # request.session["onboarding"] = True TODO link to onboarding later
             # return render(request, "accounts/onboarding.html")
             return redirect("landing_page:index")
-        # Else, determine error in signup and return message
         else:
-            # checks if username is taken
+            # taken username?
             provided_username = request.POST["username"]
             if User.objects.filter(username=provided_username).exists():
                 return render(
                     request,
                     "accounts/login.html",
-                    {"form": form, "signup_error": "Username has already been taken"},
+                    {"form": form, "signup_error": "Username has already been taken."},
                 )
-            # checks if email is taken
+
+            # taken email?
             providedEmail = request.POST["email"]
             if User.objects.filter(email=providedEmail).exists():
                 return render(
                     request,
                     "accounts/login.html",
-                    {"form": form, "signup_error": "Email address is already in use"},
+                    {"form": form, "signup_error": "Email address is already in use."},
                 )
-            # checks if passwords match
+
+            # passwords don't match?
             password1 = request.POST["password1"]
             confirm = request.POST["password2"]
             if password1 != confirm:
                 return render(
                     request,
                     "accounts/login.html",
-                    {"form": form, "signup_error": "Passwords do not match"},
+                    {"form": form, "signup_error": "Passwords do not match."},
                 )
-            # if all else fails, return unknown error
+
+            # TODO make sure email is valid and password is long enough, has at least six characters, and isn't entirely numeric
+            # if all else fails, return whatever the form says
             return render(
                 request,
                 "accounts/login.html",
-                {"form": form, "signup_error": "An unknown error occured."},
+                {"form": form, "signup_error": form.errors},
             )
     elif request.method == "GET":
         form = CustomUserCreationForm()
@@ -169,3 +171,7 @@ def get_random_movies(request):
     ]
 
     return JsonResponse({"movies": data})
+
+
+def settings_view(request):
+    return render(request, "accounts/profile_settings.html")

@@ -1,0 +1,82 @@
+{% extends 'landing_page/base.html' %} {% load static %} {% block content %}
+
+<link rel="stylesheet" href="{% static 'accounts/css/settings.css' %}" />
+<link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
+<script src="{% static 'accounts/js/modal.js' %}" defer></script>
+
+<div id="message_div">
+  <h1>Account Settings</h1>
+</div>
+<div class="content_div">
+  <a href="{% url 'landing_page:profile' %}">
+    <button id="settings_btn">Back</button>
+  </a>
+  <!-- Profile Information including Profile pic, username, and password -->
+  <div class="settings_container" id="profile_info">
+    <div class="left_col">
+      <h2>Profile</h2>
+      <p>Edit your Profile picture, Username, and Password.</p>
+    </div>
+    <div class="right_col" id="info">
+      <!-- Placeholder for User's Profile Pic -->
+      <img src="{% static 'accounts/images/profile.png' %}" />
+      <input type="file" id="profile_pic" name="profile_pic" />
+      <button id="change_username">Change Username</button>
+      <button id="change_password">Change Password</button>
+    </div>
+  </div>
+  <!-- Imported Data -->
+  <div class="settings_container" id="data_imports">
+    <div class="left_col">
+      <h2>Imported Data</h2>
+      <p>Import or remove data from IMDB, Letterboxd, and Netflix.</p>
+    </div>
+    <div class="right_col">
+      <button>Import Data</button>
+    </div>
+  </div>
+  <!-- Movie Preferences -->
+  <div class="settings_container" id="movie_preferences">
+    <div class="left_col">
+      <h2>Preferences</h2>
+      <p>Edit your prefered genres, triggers, etc.</p>
+    </div>
+    <div class="right_col">
+      <button>Edit Preferences</button>
+    </div>
+  </div>
+  <!-- Delete Account -->
+  <div class="settings_container" id="delete_account">
+    <div class="left_col">
+      <h2>Delete Account</h2>
+      <p>
+        Your account and its information will be permanently deleted. This
+        action cannot be undone.
+      </p>
+    </div>
+    <div class="right_col">
+      <button class="btn btn-open delete_account_btn">Delete Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Box for "Delete Account" Button
+     Hidden until button is clicked -->
+<section class="modal hidden">
+  <div class="flex">
+    <h3>Delete Your Account</h3>
+    <button class="btn-close">⨉</button>
+  </div>
+  <div>
+    <p>
+      This action cannot be undone. All of your information will be permanently
+      removed.
+    </p>
+  </div>
+
+  <button class="btn delete_account_btn">Delete Account</button>
+</section>
+
+<div class="overlay hidden"></div>
+
+{% endblock content %}
