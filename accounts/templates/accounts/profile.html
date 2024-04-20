@@ -11,7 +11,8 @@
   <!-- User information and Settings Button -->
   <div id="user_info_div">
     <div id="profile_pic_div">
-      <img src="{% static 'accounts/images/profile.png' %}" alt="Profile Picture" class="profile_img"> <!--TODO add profile pic connection-->
+      <img src="{% static 'accounts/images/profile.png' %}" alt="Profile Picture" class="profile_img"> 
+      <!--<img src="{{request.user.profile_picture.url}}" alt="Profile Picture" class="profile_img"> TODO uncomment when ready-->
       <div id="info">
         <h2>{{request.user}}</h2>
         <p>Member since: {{ request.user.date_joined|date:"F d, Y" }}</p>
@@ -102,6 +103,7 @@
         <button class="btn btn-open">Add Friend</button>
       </div>
       <div class="friends_list">
+        <!-- src="{{ friend.profile_picture.url }}" TODO add this line as friend image src once profile_pictures are implemented-->
         {% if friends %}
           {% for friend in friends %}
             <div class="friend">

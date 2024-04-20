@@ -31,7 +31,13 @@ def profile(request):
         liked_movies = list(request.user.liked_films.values("pk", "poster"))
         disliked_movies = list(request.user.disliked_films.values("pk", "poster"))
         watchlist_movies = list(request.user.watchlist_films.values("pk", "poster"))
-        friends = list(request.user.friends.values("pk", "username"))
+        friends = list(
+            request.user.friends.values(
+                "pk",
+                "username",
+            )
+        )
+        # friends = list(request.user.friends.values("pk", "username", "profile_picture")) TODO uncomment later
 
         context = {
             "recommended_movies": recommended_movies,

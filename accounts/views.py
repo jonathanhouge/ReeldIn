@@ -109,9 +109,34 @@ def onboarding(request):
 
 
 # Friend request handling
-def send_friend_request(request, user_id):
-    receiver = get_object_or_404(User, pk=user_id)
-    FriendRequest.objects.create(sender=request.user, receiver=receiver)
+def send_friend_request(request, username):
+    # Friend request error handling
+
+    # user doesn't exist
+    try:
+        receiver_user = get_object_or_404(User, username=username)
+    except User.DoesNotExist:
+        return HttpResponse("User not found.")
+    receiver_id = receiver_user.pk
+    # user sends friend request to themselves
+    if request.user.pk == receiver_id:
+        return HttpResponse("You can't send a friend request to yourself.")
+    # user is already friends with the other user
+    if request.user.friends.filter(pk=receiver_id).exists():
+        return HttpResponse("You are already friends with this user.")
+    # user has already sent a friend request to the other user
+    if FriendRequest.objects.filter(
+        sender=request.user, receiver=receiver_user
+    ).exists():
+        return HttpResponse("You have already sent a friend request to this user.")
+    # user has already received a friend request from the other user
+    if FriendRequest.objects.filter(
+        sender__pk=receiver_id, receiver=request.user
+    ).exists():
+        return HttpResponse(
+            "You have already received a friend request from this user."
+        )
+    FriendRequest.objects.create(sender=request.user, receiver=receiver_id)
     return redirect("accounts:profile")  # TODO redirect ?
 
 
