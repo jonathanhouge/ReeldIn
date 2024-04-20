@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from recommendations.models import Movie
+from recommendations.choices import GENRES, TRIGGERS
+from django.contrib.postgres.fields import ArrayField
 
 
-# Create your models here.
 class User(AbstractUser):
     username = models.CharField(max_length=16, unique=True)
     password = models.CharField(max_length=100)  # to account for salting & hashing
@@ -16,8 +17,49 @@ class User(AbstractUser):
     )
     imdb_user_id = models.CharField(max_length=32, unique=True, null=True, blank=True)
 
-    # 'Movie' connections - movies already seen and movies already recommended
-    seen_films = models.ManyToManyField(Movie, related_name="users_seen", blank=True)
-    recommended_films = models.ManyToManyField(
-        Movie, related_name="users_recommended", blank=True
+    # 'Movie' connections
+    watched_films = models.ManyToManyField(
+        Movie, related_name="users_seen", default=list, blank=True
     )
+    recommended_films = models.ManyToManyField(
+        Movie, related_name="users_recommended", default=list, blank=True
+    )
+    watchlist_films = models.ManyToManyField(
+        Movie, related_name="users_watchlisted", default=list, blank=True
+    )
+    liked_films = models.ManyToManyField(
+        Movie, related_name="users_liked", default=list, blank=True
+    )
+    disliked_films = models.ManyToManyField(
+        Movie, related_name="users_disliked", default=list, blank=True
+    )
+
+    # preferences
+    liked_genres = ArrayField(
+        models.CharField(max_length=13, choices=GENRES), default=list, blank=True
+    )
+    disliked_genres = ArrayField(
+        models.CharField(max_length=13, choices=GENRES), default=list, blank=True
+    )
+    liked_cast_and_crew = ArrayField(
+        models.CharField(max_length=100), default=list, blank=True
+    )
+    disliked_cast_and_crew = ArrayField(
+        models.CharField(max_length=100), default=list, blank=True
+    )
+    triggers = ArrayField(
+        models.CharField(max_length=100, choices=TRIGGERS), default=list, blank=True
+    )
+
+
+# shout-out to: https://medium.com/analytics-vidhya/add-friends-with-689a2fa4e41d
+class FriendRequest(models.Model):
+    sender = models.ForeignKey(
+        "User", related_name="from_user", on_delete=models.CASCADE
+    )
+    receiver = models.ForeignKey(
+        "User", related_name="to_user", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        unique_together = ("sender", "receiver")  # Ensures no duplicate requests
