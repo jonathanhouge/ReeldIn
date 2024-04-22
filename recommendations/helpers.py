@@ -1,13 +1,11 @@
-# TODO generic?
+# TODO only works for genre, year, runtime
 def recommendation_querying(recommendation, field, selection):
-    # fields = recommendation._meta.get_fields()
+    if field == "year" or field == "runtime":
+        span = selection.split("-")
+        print(span)
+        return recommendation.possible_films.filter(
+            **{f"{field}__gte": span[0]}, **{f"{field}__lte": span[1]}
+        )
 
-    # # Print the field names and their values
-    # for field in fields:
-    #     field_name = field.name
-    #     field_value = getattr(recommendation, field_name)
-    #     print(f"{field_name}: {field_value}")
-    if field != "triggers":
-        return recommendation.possible_films.filter(**{f"{field}__contains": selection})
-
-    return recommendation.possible_films.filter()
+    # genre
+    return recommendation.possible_films.filter(**{f"{field}__contains": selection})

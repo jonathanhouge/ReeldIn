@@ -11,14 +11,11 @@ from .forms import *
 from .helpers import recommendation_querying
 from .models import Movie, Recommendation
 
-FORMS = [GenreForm, YearForm, RuntimeForm, TriggerForm]
-FIELD = ["Genres", "Years", "Runtimes", "Triggers"]
-FIELD_DICT = {
-    "Genres": "genres",
-    "Years": "year",
-    "Runtimes": "runtime",
-    "Triggers": "triggers",
-}
+# starts at step 1 - for frontend to make sense
+FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
+FIELD = ["", "Genres", "Years", "Runtimes", "Languages", "Triggers"]
+MOVIE_MODEL_COMPLEMENT = ["", "genres", "year", "runtime", "languages", "triggers"]
+REC_ATTRIBUTE = ["", "genres", "year_span", "runtime_span", "languages", "triggers"]
 
 
 # user has requested to get a recommendation based on their inputs thus far OR has under ten options
@@ -27,14 +24,14 @@ def recommend_view(request):
 
 
 # narrow the possible recommendations by querying based on submitted forms
-# TODO more than just genres (generic problems)
 def narrow_view(request):
     if request.user.is_authenticated is False:
         form = FORMS[random.randint(0, len(FORMS) - 1)]  # guests get to test
+        recommendation = {"possible_film_count": 27122, "step": 1}
         return render(
             request,
             "recommendations/index.html",
-            {"form": form},
+            {"form": form, "recommendation": recommendation},
         )
 
     user = User.objects.get(username=request.user)
@@ -42,24 +39,24 @@ def narrow_view(request):
     step = recommendation.step
 
     form = FORMS[step](request.POST)
-
     if form.is_valid():
         field = FIELD[step]
         selection = form.cleaned_data.get(field, [])
 
-        # first question will always be genre - populate possible films for the first time
-        if step == 0:
-            movies = Movie.objects.filter(genres__contains=selection)
-        else:
-            movies = recommendation_querying(
-                recommendation, FIELD_DICT[field], selection
-            )
-
+        movies = recommendation_querying(
+            recommendation, MOVIE_MODEL_COMPLEMENT[step], selection
+        )
         recommendation.possible_films.set(movies)
+
         recommendation.possible_film_count = len(movies)
         recommendation.step += 1
 
-        recommendation.genres = selection  # TODO generic?
+        # sometimes an array, sometimes a string
+        try:
+            setattr(recommendation, REC_ATTRIBUTE[step], selection)
+        except:
+            setattr(recommendation, REC_ATTRIBUTE[step], selection[0])
+
         recommendation.save()
 
         form = FORMS[step + 1] if step + 1 < len(FORMS) else None
@@ -74,12 +71,13 @@ def narrow_view(request):
     return render(
         request,
         "recommendations/index.html",
-        {"form": form, "error": form.errors},
+        {"form": form, "error": form.errors, "recommendation": recommendation},
     )
 
 
 def index(request):
     form = GenreForm()
+    recommendation = {"possible_film_count": 27122, "step": 1}
 
     # if logged in, see if they have an ongoing, valid recommendation
     if request.user.is_authenticated:
@@ -96,10 +94,15 @@ def index(request):
 
         except ObjectDoesNotExist:
             recommendation = Recommendation(user_id=user)
+            recommendation.save()  # needs id
+
+            all_movies = Movie.objects.all()
+            recommendation.possible_films.set(all_movies)
+            recommendation.possible_film_count = len(all_movies)
             recommendation.save()
 
     return render(
         request,
         "recommendations/index.html",
-        {"form": form},
+        {"form": form, "recommendation": recommendation},
     )

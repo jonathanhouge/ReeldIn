@@ -1,7 +1,7 @@
 {% extends 'recommendations/base.html' %} {% load static %} {% block content %}
 
 <div id="recommendation_space">
-  <h1 id="question">Question #1</h1>
+  <h1 id="question">Question #{{ recommendation.step }}</h1>
   {% block form %}
   <form action="{% url 'recommendations:narrow' %}" method="post">
     {% if error %}
@@ -12,7 +12,9 @@
   </form>
 
   <!-- Number will change later -->
-  <h1 id="remaining">Remaining Films: {{ recommendation.possible_film_count }}</h1>
+  <h1 id="remaining">
+    Remaining Films: {{ recommendation.possible_film_count }}
+  </h1>
 </div>
 
 {% endblock %} {% endblock content %}
