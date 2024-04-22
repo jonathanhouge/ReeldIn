@@ -100,6 +100,6 @@ button:hover {
   background-color: #a38fff;
 }
 
-#remove_friend_modal, #add_friend_modal {
+#remove_friend_modal, #add_friend_modal, #friend_request_modal, #delete_friend_request_modal {
   display: none;
 }

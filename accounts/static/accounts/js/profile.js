@@ -119,7 +119,7 @@ async function sendFriendRequest(username){
 }
 
 
-// --- Friend Request modal elements ---
+// --- Received Friend Request modal elements ---
 const friend_request_modal = document.getElementById("friend_request_modal");
 const friend_request_response = document.getElementById("friend_request_response");
 const friend_request_text = document.getElementById("friend_request_text");
@@ -146,17 +146,16 @@ function closeFriendRequestModal(){
     friend_request_modal.style.display = "none";
 }
 
-// Accept/Reject friend request
-async function confirmFriend(username){
+async function confirmFriend(friend_username){
     // Make a POST request to add friend to friends list
     const csrfToken = await getCSRFToken(); // Wait until getCSRFToken() resolves
-    fetch("/accounts/accept/friend", {
+    fetch("/accounts/accept/friend/", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken
         },
-        body: JSON.stringify({ username: username })
+        body: JSON.stringify({ username: friend_username })
     })
     .then(response => {
         if(response.status == 200){
@@ -178,7 +177,7 @@ async function confirmFriend(username){
     });
 }
 
-async function rejectFriend(username){
+async function rejectFriend(friend_username){
     // Make a POST request to reject friend request
     const csrfToken = await getCSRFToken(); // Wait until getCSRFToken() resolves
 
@@ -188,7 +187,7 @@ async function rejectFriend(username){
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken
         },
-        body: JSON.stringify({ username: username })
+        body: JSON.stringify({ username: friend_username })
     })
     .then(response => {
         if(response.status == 200){
@@ -212,25 +211,56 @@ async function rejectFriend(username){
 
 // --- Delete friend request modal elements ---
 const delete_friend_modal = document.getElementById("delete_friend_request_modal");
-const delete_friend_response = document.getElementById("delete_friend_response");
-const delete_friend_text = document.getElementById("delete_friend_text");
+const delete_friend_request_response = document.getElementById("delete_friend_request_response");
+const delete_friend_request_text = document.getElementById("delete_friend_request_text");
 const delete_friend_button = document.getElementById("yes_delete_friend_request_button");
 const delete_reject_button = document.getElementById("no_delete_friend_request_button");
 
-function openDeleteFriendModal(username){
+function openDeleteFriendRequestModal(username){
     delete_friend_modal.style.display = "block";
-    delete_friend_text.innerHTML = "Would you like to delete your friend request to " + username + "?";
+    delete_friend_request_text.innerHTML = "Would you like to delete your friend request to " + username + "?";
     overlay.classList.remove("hidden");
-    delete_friend_response.innerHTML = "";
+    delete_friend_request_response.innerHTML = "";
     delete_friend_button.style.display = "inline-block";
     delete_reject_button.style.display = "inline-block";
     delete_friend_button.onclick = function() {
-        deleteFriend(username);
+        deleteFriendRequest(username);
     };
 }
 
 function closeDeleteFriendRequestModal(){
     overlay.classList.add("hidden");
     delete_friend_modal.style.display = "none";
+}
+
+async function deleteFriendRequest(friend_username){
+    // Make a POST request to delete friend request
+    const csrfToken = await getCSRFToken(); // Wait until getCSRFToken() resolves
+    fetch("/accounts/delete/friend_request/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ username: friend_username })
+    })
+    .then(response => {
+        if(response.status == 200){
+            delete_friend_button.style.display = "none";
+            delete_reject_button.style.display = "none";
+            delete_friend_request_response.style.color = "green";
+        }else{
+            delete_friend_request_response.style.color = "red";
+        }
+        return response.text();
+    })
+    .then(data => {
+        // Display response message
+        delete_friend_request_response.innerHTML = data;
+    })
+    .catch(error => {
+        // Display error message
+        console.log("An error occured during the delete friend request: " + error);
+    });
 }
 

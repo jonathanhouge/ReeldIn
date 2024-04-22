@@ -114,7 +114,7 @@ def onboarding(request):
 def send_friend_request(request):
     print("send_friend_request called")
     if request.method != "POST":
-        return None  # TODO redirect to error page
+        return redirect("landing_page:index")
     try:
         data = json.loads(request.body)  # Parsing JSON from the request body
         request_username = data["username"]  # Accessing the username field
@@ -159,59 +159,99 @@ def send_friend_request(request):
 
 def remove_friend(request):
     print("remove_friend called")
+    # Friend request error handling
+
+    # request isn't POST or JSON is invalid
     if request.method != "POST":
-        return None  # TODO redirect to error page
+        return redirect("landing_page:index")
     try:
         data = json.loads(request.body)  # Parsing JSON from the request body
         request_username = data["username"]  # Accessing the username field
     except (json.JSONDecodeError, KeyError):
         return HttpResponse("Invalid JSON", status=400)
-    print("request_username: ", request_username)
-    # Friend request error handling
     # user isn't logged in
     if not request.user.is_authenticated:
         return redirect("accounts:login")
-    friend = User.objects.get(username=request_username)
+    # check if user exists
+    try:
+        friend = User.objects.get(username=request_username)
+    except User.DoesNotExist:
+        return HttpResponse("User not found.", status=404)
+    # check if user is friends with the other user
+    if not request.user.friends.filter(pk=friend.pk).exists():
+        return HttpResponse("You are not friends with this user.", status=400)
     with transaction.atomic():
         request.user.friends.remove(friend)
         friend.friends.remove(request.user)
     return HttpResponse("Successfully removed user from friends.", status=200)
 
 
-def accept_friend_request(request, request_id):
-    friend_request = get_object_or_404(
-        FriendRequest, pk=request_id, receiver=request.user
-    )
-    friend_request.status = "accepted"
-    friend_request.save()
-    # Optionally add to each user's friend list
-    request.user.friends.add(friend_request.sender)
-    friend_request.sender.friends.add(request.user)
-    return redirect("accounts:profile")  # TODO redirect ?
+def accept_friend_request(request):
+    if request.method != "POST":
+        return redirect("landing_page:index")
+    try:
+        data = json.loads(request.body)  # Parsing JSON from the request body
+        request_username = data["username"]  # Accessing the username field
+    except (json.JSONDecodeError, KeyError):
+        return HttpResponse("Invalid JSON", status=400)
+    # Friend request error handling
+    # user isn't logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    try:
+        friend_request = FriendRequest.objects.get(
+            sender=User.objects.get(username=request_username), receiver=request.user
+        )
+    except FriendRequest.DoesNotExist:
+        return HttpResponse("Friend request not found.", status=404)
+    with transaction.atomic():
+        request.user.friends.add(friend_request.sender)
+        friend_request.sender.friends.add(request.user)
+        friend_request.delete()
+    return HttpResponse("Successfully accepted friend request.", status=200)
 
 
 def decline_friend_request(request):
-    friend_request = get_object_or_404(
-        FriendRequest, pk=request_id, receiver=request.user
-    )
-    friend_request.status = "declined"
-    friend_request.save()
-    return redirect("accounts:profile")  # TODO redirect ?
+    if request.method != "POST":
+        return redirect("landing_page:index")
+    try:
+        data = json.loads(request.body)  # Parsing JSON from the request body
+        request_username = data["username"]  # Accessing the username field
+    except (json.JSONDecodeError, KeyError):
+        return HttpResponse("Invalid JSON", status=400)
+    # Friend request error handling
+    # user isn't logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    try:
+        friend_request = FriendRequest.objects.get(
+            sender=User.objects.get(username=request_username), receiver=request.user
+        )
+    except FriendRequest.DoesNotExist:
+        return HttpResponse("Friend request not found.", status=404)
+    with transaction.atomic():
+        friend_request.delete()
+    return HttpResponse("Successfully rejected friend request.", status=200)
 
 
-def get_sent_friend_requests(request):
-    sent_requests = FriendRequest.objects.filter(sender=request.user)
-    return render(  # TODO make this just return a json
-        request, "accounts/sent_friend_requests.html", {"sent_requests": sent_requests}
-    )
-
-
-def get_pending_friend_requests(request):
-    pending_requests = FriendRequest.objects.filter(
-        receiver=request.user, status="pending"
-    )
-    return render(  # TODO make this just return a json
-        request,
-        "accounts/pending_friend_requests.html",
-        {"pending_requests": pending_requests},
-    )
+def delete_friend_request(request):
+    if request.method != "POST":
+        return redirect("landing_page:index")
+    try:
+        data = json.loads(request.body)  # Parsing JSON from the request body
+        request_username = data["username"]  # Accessing the username field
+    except (json.JSONDecodeError, KeyError):
+        return HttpResponse("Invalid JSON", status=400)
+    # Friend request error handling
+    # user isn't logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    try:
+        friend_request = FriendRequest.objects.get(
+            receiver=User.objects.get(username=request_username), sender=request.user
+        )
+    except FriendRequest.DoesNotExist:
+        return HttpResponse("Friend request not found.", status=404)
+    with transaction.atomic():
+        friend_request.delete()
+    return HttpResponse("Successfully deleted friend request.", status=200)

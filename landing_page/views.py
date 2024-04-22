@@ -9,6 +9,7 @@ from django.shortcuts import redirect, render
 from fuzzywuzzy import fuzz
 
 from recommendations.models import Movie
+from accounts.models import FriendRequest
 
 
 # Initial landing page view.
@@ -32,6 +33,8 @@ def profile(request):
         disliked_movies = list(request.user.disliked_films.values("pk", "poster"))
         watchlist_movies = list(request.user.watchlist_films.values("pk", "poster"))
         friends = request.user.friends.all()
+        sent_requests = FriendRequest.objects.filter(sender=request.user)
+        received_requests = FriendRequest.objects.filter(receiver=request.user)
         context = {
             "recommended_movies": recommended_movies,
             "watched_movies": watched_movies,
@@ -39,6 +42,8 @@ def profile(request):
             "disliked_movies": disliked_movies,
             "watchlist_movies": watchlist_movies,
             "friends": friends,
+            "sent_requests": sent_requests,
+            "received_requests": received_requests,
         }
         return render(request, "accounts/profile.html", context)
     return render(request, "accounts/login.html")
