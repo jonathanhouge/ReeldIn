@@ -9,4 +9,8 @@ urlpatterns = [
     path("register/", views.signup, name="register"),
     path("onboarding/", views.onboarding, name="onboarding"),
     path("settings/", views.settings_view, name="settings"),
+    path("remove/friend/", views.remove_friend, name="remove_friend"),
+    path("send/friend/", views.send_friend_request, name="add_friend"),
+    path("accept/friend/", views.accept_friend_request, name="accept_friend"),
+    path("reject/friend/", views.decline_friend_request, name="reject_friend"),
 ]

@@ -2,7 +2,6 @@
 
 <link rel="stylesheet" href="{% static 'accounts/css/profile.css' %}" />
 <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
-<script src="{% static 'accounts/js/modal.js' %}" defer></script>
 <script src="{% static 'accounts/js/profile.js' %}" defer></script>
 <div id="message_div">
   <h1>Hi {{request.user}}!</h1>
@@ -11,8 +10,7 @@
   <!-- User information and Settings Button -->
   <div id="user_info_div">
     <div id="profile_pic_div">
-      <img src="{% static 'accounts/images/profile.png' %}" alt="Profile Picture" class="profile_img"> 
-      <!--<img src="{{request.user.profile_picture.url}}" alt="Profile Picture" class="profile_img"> TODO uncomment when ready-->
+      <img src="{{request.user.profile_picture.url}}" alt="Profile Picture" class="profile_img"> 
       <div id="info">
         <h2>{{request.user}}</h2>
         <p>Member since: {{ request.user.date_joined|date:"F d, Y" }}</p>
@@ -100,16 +98,16 @@
     <div class="friends_div">
       <div class="friends_title">
         <h2>Your Friends</h2>
-        <button class="btn btn-open">Add Friend</button>
+        <button class="btn btn-open" onclick="openAddFriendModal()">Add Friend</button>
       </div>
       <div class="friends_list">
-        <!-- src="{{ friend.profile_picture.url }}" TODO add this line as friend image src once profile_pictures are implemented-->
         {% if friends %}
           {% for friend in friends %}
+            
             <div class="friend">
               <img
-                src="{% static 'accounts/images/profile.png' %}"
-                class="profile_img" onclick="openFriendModal('{{ friend.pk }}')"
+                src='{{ friend.profile_picture.url }}'
+                class="profile_img" onclick="openRemoveFriendModal('{{ friend.username }}')"
               />
               <h3>{{ friend.username }}</h3>
             </div>
@@ -122,23 +120,71 @@
   </div>
 </div>
 
+<!-- Modal boxes begin-->
+
 <!-- Modal Box for "Add Friend" Button
      Hidden until button is clicked -->
-<section class="modal hidden">
+<section class="modal" id ="add_friend_modal">
   <div class="flex">
     <h3>Enter your friend's Username!</h3>
-    <button class="btn-close">⨉</button>
+    <button class="btn-close" onclick="closeAddFriendModal()">⨉</button>
   </div>
   <div>
+    <p id="add_friend_response"></p>
     <p>
       We will send a friend request to the user with the username you provide.
     </p>
   </div>
 
-  <input type="email" id="email" placeholder="Username" />
-  <button class="btn">Submit</button>
+  <input type="text" id="send_friend_username" placeholder="Username" name="send_friend_username" />
+  <button class="btn" onclick="sendFriendRequest()">Submit</button>
 </section>
 
-<div class="overlay hidden"></div>
+<!-- Modal Box for "Delete Friend"
+     Hidden until profile picture is clicked -->
+  <section class="modal" id ="remove_friend_modal">
+    <div class="flex">
+      <h3>Delete Friend</h3>
+      <button class="btn-close" onclick="closeRemoveFriendModal()">⨉</button>
+    </div>
+    <div>
+      <p id="remove_friend_response"></p>
+      <p id = "remove_friend_name"></p>
+    </div>
+  
+    <button class="btn friend_yes_btn" id="remove_confirm_button" onclick="removeFriend()">Yes</button>
+    <button class="btn friend_no_btn" id="remove_reject_button" onclick="closeRemoveFriendModal()">No</button>
+  </section>
+    
+  <!--Friend Request Modal-->
+  <section class="modal" id ="friend_request_modal">
+    <div class="flex">
+      <h3>Friend Request</h3>
+      <button class="btn-close" onclick="closeFriendRequestModal()">⨉</button>
+    </div>
+    <div>
+      <p id="friend_request_response"></p>
+      <p id = "friend_request_text"></p>
+    </div>
+  
+    <button class="btn friend_yes_btn" id="accept_friend_button" onclick="acceptFriendRequest()">Accept</button>
+    <button class="btn friend_no_btn" id="reject_friend_button" onclick="rejectFriendRequest()">Reject</button>
+  </section>
+
+  <!-- Delete friend request modal-->
+  <section class="modal" id ="delete_friend_request_modal">
+    <div class="flex">
+      <h3>Friend Request</h3>
+      <button class="btn-close" onclick="closeDeleteFriendRequestModal()">⨉</button>
+    </div>
+    <div>
+      <p id="friend_request_response"></p>
+      <p id = "friend_request_text"></p>
+    </div>
+  
+    <button class="btn friend_yes_btn" id="yes_delete_friend_request_button" onclick="acceptFriendRequest()">Yes</button>
+    <button class="btn friend_no_btn" id="no_delete_friend_request_button" onclick="closeDeleteFriendRequestModal()">No</button>
+  </section>
+  <div class="overlay hidden"></div>
 
 {% endblock content %}

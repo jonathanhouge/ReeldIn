@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User
+from .models import User, FriendRequest
 
 
 class CustomUserAdmin(BaseUserAdmin):
@@ -22,6 +22,7 @@ class CustomUserAdmin(BaseUserAdmin):
                     "liked_cast_and_crew",
                     "disliked_cast_and_crew",
                     "triggers",
+                    "profile_picture",
                 )
             },
         ),
@@ -37,4 +38,14 @@ class CustomUserAdmin(BaseUserAdmin):
     )
 
 
+class FriendRequestAdmin(admin.ModelAdmin):
+    list_display = ("sender", "receiver")
+    list_filter = ("sender", "receiver")
+    fields = (
+        "sender",
+        "receiver",
+    )
+
+
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(FriendRequest, FriendRequestAdmin)

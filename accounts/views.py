@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
+from django.db import transaction
 
 from .forms import CustomUserCreationForm
 from .models import User, FriendRequest
+import json
 
 
 def login_view(request):
@@ -108,36 +110,72 @@ def onboarding(request):
     return render(request, "accounts/onboarding.html")
 
 
-# Friend request handling
-def send_friend_request(request, username):
+# --- Friend request handling ---
+def send_friend_request(request):
+    print("send_friend_request called")
+    if request.method != "POST":
+        return None  # TODO redirect to error page
+    try:
+        data = json.loads(request.body)  # Parsing JSON from the request body
+        request_username = data["username"]  # Accessing the username field
+    except (json.JSONDecodeError, KeyError):
+        return HttpResponse("Invalid JSON", status=400)
+    print("request_username: ", request_username)
     # Friend request error handling
-
+    # user isn't logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
     # user doesn't exist
     try:
-        receiver_user = get_object_or_404(User, username=username)
+        receiver_user = User.objects.get(username=request_username)
     except User.DoesNotExist:
-        return HttpResponse("User not found.")
+        return HttpResponse("User not found.", status=404)
     receiver_id = receiver_user.pk
     # user sends friend request to themselves
     if request.user.pk == receiver_id:
-        return HttpResponse("You can't send a friend request to yourself.")
+        return HttpResponse("You can't send a friend request to yourself.", status=400)
     # user is already friends with the other user
     if request.user.friends.filter(pk=receiver_id).exists():
-        return HttpResponse("You are already friends with this user.")
+        return HttpResponse("You are already friends with this user.", status=400)
     # user has already sent a friend request to the other user
     if FriendRequest.objects.filter(
         sender=request.user, receiver=receiver_user
     ).exists():
-        return HttpResponse("You have already sent a friend request to this user.")
+        return HttpResponse(
+            "You have already sent a friend request to this user.", status=400
+        )
     # user has already received a friend request from the other user
     if FriendRequest.objects.filter(
-        sender__pk=receiver_id, receiver=request.user
+        sender=receiver_user, receiver=request.user
     ).exists():
         return HttpResponse(
-            "You have already received a friend request from this user."
+            "You have already received a friend request from this user.", status=400
         )
-    FriendRequest.objects.create(sender=request.user, receiver=receiver_id)
-    return redirect("accounts:profile")  # TODO redirect ?
+    # create friend request
+    with transaction.atomic():
+        FriendRequest.objects.create(sender=request.user, receiver=receiver_user)
+    return HttpResponse("Friend request sent.", status=200)
+
+
+def remove_friend(request):
+    print("remove_friend called")
+    if request.method != "POST":
+        return None  # TODO redirect to error page
+    try:
+        data = json.loads(request.body)  # Parsing JSON from the request body
+        request_username = data["username"]  # Accessing the username field
+    except (json.JSONDecodeError, KeyError):
+        return HttpResponse("Invalid JSON", status=400)
+    print("request_username: ", request_username)
+    # Friend request error handling
+    # user isn't logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    friend = User.objects.get(username=request_username)
+    with transaction.atomic():
+        request.user.friends.remove(friend)
+        friend.friends.remove(request.user)
+    return HttpResponse("Successfully removed user from friends.", status=200)
 
 
 def accept_friend_request(request, request_id):
@@ -152,7 +190,7 @@ def accept_friend_request(request, request_id):
     return redirect("accounts:profile")  # TODO redirect ?
 
 
-def decline_friend_request(request, request_id):
+def decline_friend_request(request):
     friend_request = get_object_or_404(
         FriendRequest, pk=request_id, receiver=request.user
     )
