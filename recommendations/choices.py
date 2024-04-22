@@ -13,7 +13,7 @@ GENRES = [
     ("Music", "Music"),
     ("Mystery", "Mystery"),
     ("Romance", "Romance"),
-    ("Sci-Fi", "Science Fiction"),
+    ("Science Ficti", "Science Fiction"),  # odd db translation i guess?
     ("Thriller", "Thriller"),
     ("War", "War"),
     ("Western", "Western"),

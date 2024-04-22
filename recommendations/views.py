@@ -1,7 +1,4 @@
 import random
-import re
-
-import django.http
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
@@ -14,7 +11,7 @@ from .models import Movie, Recommendation
 # starts at step 1 - for frontend to make sense
 FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
 FIELD = ["", "Genres", "Years", "Runtimes", "Languages", "Triggers"]
-MOVIE_MODEL_COMPLEMENT = ["", "genres", "year", "runtime", "languages", "triggers"]
+MOVIE_MODEL_COMPLEMENT = ["", "genres", "year", "runtime", "language", "triggers"]
 REC_ATTRIBUTE = ["", "genres", "year_span", "runtime_span", "languages", "triggers"]
 
 

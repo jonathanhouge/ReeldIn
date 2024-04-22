@@ -36,9 +36,12 @@ class Recommendation(models.Model):
     )
     step = models.PositiveIntegerField(default=1)
     possible_films = models.ManyToManyField(
-        "Movie", related_name="recommendations", blank=True
+        "Movie", related_name="possible_recommendations", blank=True
     )
     possible_film_count = models.PositiveIntegerField(default=27122)
+    recommended_films = models.ManyToManyField(
+        "Movie", related_name="recommendations", blank=True
+    )
 
     # answers
     genres = ArrayField(
