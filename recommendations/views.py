@@ -23,8 +23,10 @@ def recommend_view(request):
 # narrow the possible recommendations by querying based on submitted forms
 def narrow_view(request):
     if request.user.is_authenticated is False:
-        form = FORMS[random.randint(0, len(FORMS) - 1)]  # guests get to test
-        recommendation = {"possible_film_count": 27122, "step": 1}
+        step = random.randint(0, len(FORMS) - 1)
+        form = FORMS[step]  # guests get to demo
+
+        recommendation = {"possible_film_count": 27122, "step": step}
         return render(
             request,
             "recommendations/index.html",
