@@ -1,13 +1,24 @@
-from django.shortcuts import render
-from django.core.exceptions import ObjectDoesNotExist
-from .forms import *
-from .models import Movie, Recommendation
-from .helpers import recommendation_querying
-from accounts.models import User
 import random
+import re
 
-FORMS = [GenreForm(), YearForm(), RuntimeForm(), TriggerForm()]
+import django.http
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render
+
+from accounts.models import User
+
+from .forms import *
+from .helpers import recommendation_querying
+from .models import Movie, Recommendation
+
+FORMS = [GenreForm, YearForm, RuntimeForm, TriggerForm]
 FIELD = ["Genres", "Years", "Runtimes", "Triggers"]
+FIELD_DICT = {
+    "Genres": "genres",
+    "Years": "year",
+    "Runtimes": "runtime",
+    "Triggers": "triggers",
+}
 
 
 # user has requested to get a recommendation based on their inputs thus far OR has under ten options
@@ -30,7 +41,7 @@ def narrow_view(request):
     recommendation = Recommendation.objects.get(user_id=user)
     step = recommendation.step
 
-    form = GenreForm(request.POST)  # TODO generic
+    form = FORMS[step](request.POST)
 
     if form.is_valid():
         field = FIELD[step]
@@ -40,7 +51,9 @@ def narrow_view(request):
         if step == 0:
             movies = Movie.objects.filter(genres__contains=selection)
         else:
-            recommendation_querying(recommendation, field, selection)
+            movies = recommendation_querying(
+                recommendation, FIELD_DICT[field], selection
+            )
 
         recommendation.possible_films.set(movies)
         recommendation.possible_film_count = len(movies)
@@ -49,11 +62,11 @@ def narrow_view(request):
         recommendation.genres = selection  # TODO generic?
         recommendation.save()
 
-        form = FORMS[step + 1]
+        form = FORMS[step + 1] if step + 1 < len(FORMS) else None
         return render(
             request,
             "recommendations/index.html",
-            {"form": form},
+            {"form": form, "recommendation": recommendation},
         )
 
     # form was invalid, give them the same form
