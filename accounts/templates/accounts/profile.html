@@ -24,7 +24,7 @@
   </div>
 
   <div class="user_content">
-    <!-- Start of Movie Lists & Left Column -->
+    <!-- Left Column of lists-->
     <div class="user_lists_div">
       <!--Recommended movies list-->
       <div class="list_div">
@@ -39,7 +39,7 @@
           {% endif %}
         </div>
       </div>    
-      <!-- Liked and Disliked Movies Lists -->
+      <!-- Liked movies list -->
       <div class="list_div">
         <h3>Liked Movies</h3>
         <div class="list" id="liked_movies">
@@ -52,6 +52,7 @@
           {% endif %}
         </div>
       </div>
+      <!-- Disliked movies list-->
       <div class="list_div">
         <h3>Disliked Movies</h3>
         <div class="list" id="disliked_movies">
@@ -68,6 +69,7 @@
 
     <!-- Middle Column of Lists -->
     <div class="middle_col">
+      <!-- Watch later list-->
       <div class="list_div">
         <h3>Watch Later</h3>
         <div class="list" id="watchlist">
@@ -80,6 +82,7 @@
           {% endif %}
         </div>
       </div>
+      <!-- Movies watched list-->
       <div class="list_div">
         <h3>Watched</h3>
         <div class="list" id="watched_movies">
@@ -94,7 +97,7 @@
       </div>
     </div>
 
-    <!-- Friends List Container & Right Column -->
+    <!-- Friends List Container / Right Column -->
     <div class="friends_div">
       <div class="friends_title">
         <h2>Your Friends</h2>
@@ -158,8 +161,7 @@
 
 <!-- Modal boxes begin-->
 
-<!-- Modal Box for "Add Friend" Button
-     Hidden until button is clicked -->
+<!-- Modal box for adding/searching for friend -->
 <section class="modal" id ="add_friend_modal">
   <div class="flex">
     <h3>Enter your friend's Username!</h3>
@@ -176,8 +178,7 @@
   <button class="btn" onclick="sendFriendRequest()">Submit</button>
 </section>
 
-<!-- Modal Box for "Delete Friend"
-     Hidden until profile picture is clicked -->
+<!-- Modal box for deleting friend from friends list -->
   <section class="modal" id ="remove_friend_modal">
     <div class="flex">
       <h3>Delete Friend</h3>
@@ -192,7 +193,7 @@
     <button class="btn friend_no_btn" id="remove_reject_button" onclick="closeRemoveFriendModal()">No</button>
   </section>
     
-  <!--Friend Request Modal-->
+  <!-- Modal box for received friend request -->
   <section class="modal" id ="friend_request_modal">
     <div class="flex">
       <h3>Friend Request</h3>
@@ -207,7 +208,7 @@
     <button class="btn friend_no_btn" id="reject_friend_button" onclick="rejectFriendRequest()">Reject</button>
   </section>
 
-  <!-- Delete friend request modal-->
+  <!-- Modal box for sent friend request -->
   <section class="modal" id ="delete_friend_request_modal">
     <div class="flex">
       <h3>Friend Request</h3>
@@ -221,6 +222,7 @@
     <button class="btn friend_yes_btn" id="yes_delete_friend_request_button" onclick="acceptFriendRequest()">Yes</button>
     <button class="btn friend_no_btn" id="no_delete_friend_request_button" onclick="closeDeleteFriendRequestModal()">No</button>
   </section>
+  <!-- Overlay for background blur -->
   <div class="overlay hidden"></div>
 
 {% endblock content %}
