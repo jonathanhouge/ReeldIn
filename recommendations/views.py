@@ -5,8 +5,8 @@ from django.shortcuts import render
 from accounts.models import User
 
 from .forms import *
-from .helpers import recommendation_querying
-from .models import Movie, Recommendation
+from .helpers import recommendation_querying, make_new_recommendation
+from .models import Recommendation
 
 # starts at step 1 - for frontend to make sense
 FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
@@ -84,19 +84,12 @@ def index(request):
             if recommendation.step >= 20 or recommendation.possible_film_count < 10:
                 recommendation.delete()
 
-                recommendation = Recommendation(user_id=user)
-                recommendation.save()
+                recommendation = make_new_recommendation(user)
             else:
                 form = FORMS[recommendation.step]
 
         except ObjectDoesNotExist:
-            recommendation = Recommendation(user_id=user)
-            recommendation.save()  # needs id
-
-            all_movies = Movie.objects.all()
-            recommendation.possible_films.set(all_movies)
-            recommendation.possible_film_count = len(all_movies)
-            recommendation.save()
+            recommendation = make_new_recommendation(user)
 
     return render(
         request,
