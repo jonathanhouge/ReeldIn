@@ -2,41 +2,122 @@
 
 #movie-button {
     font-size: 28.7px;
-    border-radius: 12px;
-    color: var(--black);
-    text-align: center;
     font-family: var(--primary-font);
+    color: var(--black);
+    border-radius: 12px;
+    text-align: center;
+    padding: 10px;
+
 }
 
 #movie_summary {
-    font-size: 1.5rem;
     font-family: var(--primary-font);
-    color: var(--black);
-    background-color: var(--white);
-    /* content box not too close to other things */
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    font-size: 32px;
 }
 #movie_name {
     font-size: 32px;
-    display: flex;
-    column-gap: 16cqmax;
-    background-color: var(--white);
     font-family: var(--primary-font);
-    /* content box not too close to other things */
-    margin-left: 1rem;
-    margin-right: 1rem;
-
+    margin-left: 10px;
+    display: flex;
+    
 }
 
 #movie_button_nav {
+    margin-left: 0px;
+}
+
+p {
+    margin-left: 2rem;
+}
+
+/* The poster / buttons / font size for each screen size will slighly differ */
+@media screen and (max-width:300px) and (min-width:0px){
+    img {
+      height: 100px;
+      width: 70px;
+    }
+    #movie_summary {
+        font-size: 16px;
+    }
+    #movie_name, #movie_button_nav{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+    }
+  }
+  @media screen and (max-width:400px) and (min-width:300px){
+   img{ height: 150px;
+    width: 120px;
+    justify-content: center;
+   }
+   #movie_summary {
     font-size: 16px;
-    background-color: var(--white);
-    color: var(--black);
-    text-align: center;
-    border-radius: 1rem;
+   }
+   #movie_name, #movie_button_nav{
     display: flex;
-    column-gap: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+  }
+@media screen and (max-width:500px) and (min-width:400px){
+    img{
+        height: 40vh;
+        width: 27vh;
+        align-items: center;
+    }
+
+    #movie_name {
+        font-size: 29px;
+    }
+
+    #movie_name, #movie_button_nav{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+    }
+
+    #movie_button_nav {
+        margin-left: 0px;
+        padding: 5px;
+    }
+
+    p {
+        display: block;
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width:800px) and (min-width:500px) {
+    img{
+        height: 500px;
+        width: 350px;
+    }
+    p {
+        font-size: 28px;
+        margin-left: 2rem;
+    }
+
+    #movie_button_nav {
+        margin-left: 0px;
+    }
+}
+
+@media screen and (max-width:3000px) and (min-width:1441px){
+    img{
+        height:700px;
+        width: 550px;
+    }
+    
+    p {
+        font-size: 35px;
+        padding: 10px;
+        margin-left: 2rem;
+    }
+
+    #movie_button_nav {
+        margin-left: 320px;
+    }
 }
