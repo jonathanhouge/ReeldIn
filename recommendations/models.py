@@ -34,19 +34,24 @@ class Recommendation(models.Model):
     user_id = models.OneToOneField(
         "accounts.User", unique=True, on_delete=models.CASCADE, default=0
     )
-    step = models.PositiveIntegerField(default=0)
+    step = models.PositiveIntegerField(default=1)
     possible_films = models.ManyToManyField(
-        "Movie", related_name="recommendations", blank=True
+        "Movie", related_name="possible_recommendations", blank=True
     )
     possible_film_count = models.PositiveIntegerField(default=27122)
+    recommended_films = models.ManyToManyField(
+        "Movie", related_name="recommendations", blank=True
+    )
 
     # answers
     genres = ArrayField(
         models.CharField(max_length=13, choices=GENRES), null=True, blank=True
     )
-    year_span = models.PositiveIntegerField(choices=YEAR_SPANS, null=True, blank=True)
-    runtime_span = models.PositiveIntegerField(
-        choices=RUNTIME_SPANS, null=True, blank=True
+    year_span = models.CharField(
+        max_length=9, choices=YEAR_SPANS, null=True, blank=True
+    )
+    runtime_span = models.CharField(
+        max_length=7, choices=RUNTIME_SPANS, null=True, blank=True
     )
     languages = ArrayField(
         models.CharField(max_length=2, choices=LANGUAGES), null=True, blank=True

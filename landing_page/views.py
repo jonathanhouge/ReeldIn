@@ -23,11 +23,11 @@ def about(request):
 def contact(request):
     return render(request, "landing_page/contact.html")
 
-  
+
 def profile(request):
     return render(request, "accounts/profile.html")
 
-  
+
 # testing purposes
 def movie(request):
     return render(request, "landing_page/movie.html")
@@ -84,13 +84,27 @@ def search_movies_json(request):
         search_string = body_data.get("search")
 
         if search_string:
-            movies = Movie.objects.filter(name__icontains=search_string).order_by(
-                "name"
+            movies = Movie.objects.filter(name__icontains=search_string)
+            sorted_movies = sorted(
+                movies,
+                key=lambda movie: sort_by_closeness(search_string, movie),
+                reverse=True,
             )[:5]
         else:
-            movies = Movie.objects.none()
+            sorted_movies = Movie.objects.none()
 
-        result = {"movies": list(movies.values())}  # Your search result data here
+        result = {
+            "movies": [
+                {
+                    "name": movie.name,
+                    "genres": movie.genres,
+                    "starring": movie.starring,
+                    "poster": movie.poster,
+                    "year": movie.year,
+                }
+                for movie in sorted_movies
+            ]
+        }
 
         # Return the result as JSON response
         return JsonResponse(result, safe=False)

@@ -1,16 +1,20 @@
 {% extends 'recommendations/base.html' %} {% load static %} {% block content %}
 
 <div id="recommendation_space">
-  <h1 id="question">Question #1</h1>
+  <h1 id="question">Question #{{ recommendation.step }}</h1>
   {% block form %}
   <form action="{% url 'recommendations:narrow' %}" method="post">
-    {% csrf_token %} {{ form.as_p }}
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %} {% csrf_token %} {{ form.as_p }}
 
     <input type="submit" value="submit" />
   </form>
 
   <!-- Number will change later -->
-  <h1 id="remaining">Remaining Films: 27,122</h1>
+  <h1 id="remaining">
+    Remaining Films: {{ recommendation.possible_film_count }}
+  </h1>
 </div>
 
 {% endblock %} {% endblock content %}
