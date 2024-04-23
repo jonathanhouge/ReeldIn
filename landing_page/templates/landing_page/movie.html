@@ -1,22 +1,22 @@
 {% extends 'landing_page/base.html' %} {% load static %} {% block content %}
 <link rel="stylesheet" href="{% static 'landing_page/css/movie.css' %}" />
 <script src="{% static 'landing_page/js/movie.js' %}"></script>
+
 <div id="message_div">
     <h1>More about the Movie</h1>
 </div>
-<div class="content_div">
-    <div id="movie_name">
-        <h2>Dark Knight</h2>
-    </div>    
-        <div id="movie_button_nav">
-            
-            <button id="movie-button" onclick="movieOverview()">Overview</button>
-            <button id="movie-button" onclick="movieDetails()">Details </button>
-            <button id="movie-button" onclick="movieWatching()">Watching</button>
-            <button id="movie-button" onclick="movieOptions()">Opinions</button>
-        </div>
 
-    
+<div id="content_div"></div>
+<div id="movie_name">
+    <h2>{{movie.name}}</h2>
+    <div id="movie_button_nav">
+        <!-- For testing purposes -->
+        <button id="movie-button" onclick="movieOverview()">Overview</button>
+        <button id="movie-button" onclick="movieDetails()">Details </button>
+        <button id="movie-button" onclick="movieWatching()">Watching</button>
+        <button id="movie-button" onclick="movieOptions()">Opinions</button>
+    </div>
+
     <div class="content_container">
         <img 
             src="{% static 'landing_page/images/darkknight.webp' %}"

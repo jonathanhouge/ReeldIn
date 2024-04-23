@@ -1,5 +1,4 @@
-function loadDetailsPage(movie) {
+function loadDetailsPage(movie_id) {
     // movie = JSON.parse(jsonMovie);
-    console.log(movie);
-    window.location.href = window.location.origin + "/movie?movie=" + encodeURIComponent(JSON.stringify(movie));
+    window.location.href = window.location.origin + `/movie/${movie_id}`;
 }
