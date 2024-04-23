@@ -37,7 +37,6 @@ p {
         width: 27vh;
         align-items: center;
     }
-    p, #movie_button_nav,
      #movie_name {
         display: block;
         
