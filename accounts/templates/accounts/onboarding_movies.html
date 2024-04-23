@@ -1,5 +1,7 @@
 {% extends 'accounts/onboarding_base.html' %} {% load static %}
-{% block head %} <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> {% endblock head %}
+{% block head %}
+ <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> 
+{% endblock head %}
 {% block header %}Movies{% endblock header %} 
 {% block caption %}Now let's figure out your movie preferences! Tutorial here {% endblock caption %}
 {% block content %}
@@ -8,7 +10,35 @@
       autocapitalize="off" onkeyup="searchMovies(event)"/>
 </div>
 <div id="movie_container">
-    
+  <div class="movie tooltip" id="int_here" onclick="revealDetails(id)"> <!-- Movie begins-->
+    <div class="tooltiptext" >
+      <h3>Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb </h3>
+      <p>1998</p>
+      <p class ="tooltip_message" id ="id_tooltip_message">You cannot add a movie you have seen to your watchlist, did you mean to select the rewatch button?</p>
+      <div class="tooltip_buttons">
+        <div class="row1">
+          <i class="fa-regular fa-2x fa-thumbs-up" id="id_upvote" onclick="addLiked(id)"></i>
+          <i class="fa-regular fa-2x fa-thumbs-down" id="id_dislike"onclick="addDisliked(id)"></i>
+        </div>
+        <div class="row2">
+          <i class="fa-regular fa-2x fa-eye" id="id_seen" onclick="addSeen(id)"></i>
+          <i class="fa-solid fa-2x fa-plus" id = "id_watchlist" onclick="addWatchlist(id)"></i>
+        </div>
+        <div class="row3">
+          <i class="fa-solid fa-2x fa-repeat" id = "id_rewatch" onclick ="addRewatch(id)"></i>
+          <i class="fa-solid fa-2x fa-ban" id = "id_exclude" onclick="addToExclude(id)"></i>
+        </div>
+      </div>
+    </div>
+    <div class="poster_overlay" id="id_overlay"></div>
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg">
+  </div>  <!-- Movie ends-->
+
+
+  <div class="movie tooltip" id="int_here" onclick="revealDetails(id)"> <!-- Movie begins-->
+    <div class="poster_overlay" id="id_overlay"></div>
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg">
+  </div>  <!-- Movie ends-->
 </div>
 
 {% endblock content %}

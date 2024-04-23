@@ -11,4 +11,7 @@ urlpatterns = [
     path("onboarding/genres/", views.onboarding_genre_view, name="onboarding_genres"),
     path("onboarding/movies/", views.onboarding_movie_view, name="onboarding_movies"),
     path("settings/", views.settings_view, name="settings"),
+    path(
+        "preferences/movies/", views.preferences_movies_view, name="preferences_movies"
+    ),
 ]

@@ -175,3 +175,37 @@ def get_random_movies(request):
 
 def settings_view(request):
     return render(request, "accounts/profile_settings.html")
+
+
+def preferences_movies_view(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    if request.method != "GET":
+        return HttpResponse(status=405)
+
+    # Load users preferences and their relevant data
+    movies_liked = list(request.user.liked_films.all().values("pk", "poster", "name"))
+    movies_disliked = list(
+        request.user.disliked_films.all().values("pk", "poster", "name")
+    )
+    movies_watched = list(
+        request.user.watched_films.all().values("pk", "poster", "name")
+    )
+    watchlist = list(request.user.watchlist_films.all().values("pk", "poster", "name"))
+    movies_to_rewatch = list(
+        request.user.films_to_rewatch.all().values("pk", "poster", "name")
+    )
+    dont_recommend = list(
+        request.user.films_dont_recommend.all().values("pk", "poster", "name")
+    )
+
+    return JsonResponse(
+        {
+            "movies_liked": movies_liked,
+            "movies_disliked": movies_disliked,
+            "movies_watched": movies_watched,
+            "watchlist": watchlist,
+            "movies_to_rewatch": movies_to_rewatch,
+            "movies_blocked": dont_recommend,
+        }
+    )

@@ -33,7 +33,12 @@ class User(AbstractUser):
     disliked_films = models.ManyToManyField(
         Movie, related_name="users_disliked", default=list, blank=True
     )
-
+    films_to_rewatch = models.ManyToManyField(
+        Movie, related_name="users_to_rewatch", default=list, blank=True
+    )
+    films_dont_recommend = models.ManyToManyField(
+        Movie, related_name="users_dont_recommend", default=list, blank=True
+    )
     # preferences
     liked_genres = ArrayField(
         models.CharField(max_length=13, choices=GENRES), default=list, blank=True

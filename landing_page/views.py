@@ -23,11 +23,11 @@ def about(request):
 def contact(request):
     return render(request, "landing_page/contact.html")
 
-  
+
 def profile(request):
     return render(request, "accounts/profile.html")
 
-  
+
 # testing purposes
 def movie(request):
     return render(request, "landing_page/movie.html")
@@ -84,9 +84,15 @@ def search_movies_json(request):
         search_string = body_data.get("search")
 
         if search_string:
-            movies = Movie.objects.filter(name__icontains=search_string).order_by(
-                "name"
-            )[:5]
+            # See if all movies must be sent, or only the top 5
+            if body_data.get("send_all"):
+                movies = Movie.objects.filter(name__icontains=search_string).order_by(
+                    "name"
+                )
+            else:
+                movies = Movie.objects.filter(name__icontains=search_string).order_by(
+                    "name"
+                )[:5]
         else:
             movies = Movie.objects.none()
 
