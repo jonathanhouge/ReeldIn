@@ -244,17 +244,17 @@ document.addEventListener("DOMContentLoaded", function () {
  * @returns
  */
 function addLiked(id) {
-  liked_button = document.getElementById(id + "_liked");
+  liked_button = document.getElementById(id + "_upvote");
 
   if (movies_liked.has(id)) {
     // Unliking a movie
-    liked_button.style.backgroundColor = "white";
+    liked_button.style.backgroundColor = "grey";
     movies_liked.delete(id);
     return;
   } else if (movies_disliked.has(id)) {
     // Dislike -> Like
     disliked_button = document.getElementById(id + "_disliked");
-    disliked_button.style.backgroundColor = "white";
+    disliked_button.style.backgroundColor = "grey";
 
     movies_disliked.delete(id);
     movies_liked.add(id);
@@ -268,17 +268,17 @@ function addLiked(id) {
  * @returns
  */
 function addDisliked(id) {
-  disliked_button = document.getElementById(id + "_disliked");
+  disliked_button = document.getElementById(id + "_dislike");
 
   if (movies_disliked.has(id)) {
     // Un-dislike a movie
-    disliked_button.style.backgroundColor = "white";
+    disliked_button.style.backgroundColor = "grey";
     movies_disliked.delete(id);
     return;
   } else if (movies_liked.has(id)) {
     // Like -> Dislike
     liked_button = document.getElementById(id + "_liked");
-    liked_button.style.backgroundColor = "white";
+    liked_button.style.backgroundColor = "grey";
 
     movies_liked.delete(id);
     movies_disliked.add(id);
@@ -300,15 +300,15 @@ function addSeen(id) {
       return;
     }
     // Remove movie from seen
-    seen_button.style.backgroundColor = "white";
+    seen_button.style.backgroundColor = "grey";
     movies_watched.delete(id);
     return;
   }
 
   if (watchlist.has(id)) {
-    // Remove movie from rewatch
-    rewatch_button = document.getElementById(id + "_rewatch");
-    rewatch_button.style.backgroundColor = "white";
+    // Remove movie from watchlist
+    watchlist_button = document.getElementById(id + "_watchlist");
+    watchlist_button.style.backgroundColor = "grey";
     watchlist.delete(id);
   }
   // Add movie to seen
@@ -330,7 +330,7 @@ function addWatchlist(id) {
 
   if (watchlist.has(id)) {
     // Remove movie from watchlist
-    watchlist_button.style.backgroundColor = "white";
+    watchlist_button.style.backgroundColor = "grey";
     watchlist.delete(id);
     return;
   }
@@ -352,7 +352,7 @@ function addRewatch(id) {
 
   if (movies_rewatch.has(id)) {
     // Remove movie from rewatch
-    rewatch_button.style.backgroundColor = "white";
+    rewatch_button.style.backgroundColor = "grey";
     movies_rewatch.delete(id);
     return;
   }
@@ -368,7 +368,7 @@ function addToExclude(id) {
 
   if (movies_blocked.has(id)) {
     // Remove movie from exclude
-    exclude_button.style.backgroundColor = "white";
+    exclude_button.style.backgroundColor = "grey";
     movies_blocked.delete(id);
     return;
   }
@@ -376,7 +376,7 @@ function addToExclude(id) {
   if (watchlist.has(id)) {
     // Remove movie from watchlist
     watchlist_button = document.getElementById(id + "_watchlist");
-    watchlist_button.style.backgroundColor = "white";
+    watchlist_button.style.backgroundColor = "grey";
     watchlist.delete(id);
   }
 
