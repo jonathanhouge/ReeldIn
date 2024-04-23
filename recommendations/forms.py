@@ -26,9 +26,7 @@ class YearForm(forms.Form):
     )
 
     OPTIONS = YEAR_SPANS
-    Years = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple, choices=OPTIONS
-    )
+    Years = forms.ChoiceField(widget=forms.RadioSelect, choices=OPTIONS)
 
 
 class RuntimeForm(forms.Form):
@@ -39,6 +37,17 @@ class RuntimeForm(forms.Form):
     )
 
     OPTIONS = RUNTIME_SPANS
+    Runtimes = forms.ChoiceField(widget=forms.RadioSelect, choices=OPTIONS)
+
+
+class LanguageForm(forms.Form):
+    Question = forms.CharField(
+        initial="Pick some languages! Pick at least three.",
+        disabled=True,
+        max_length=50,
+    )
+
+    OPTIONS = LANGUAGES
     Runtimes = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple, choices=OPTIONS
     )

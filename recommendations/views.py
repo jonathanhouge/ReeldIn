@@ -1,12 +1,18 @@
-from django.shortcuts import render
-from django.core.exceptions import ObjectDoesNotExist
-from .forms import *
-from .models import Movie, Recommendation
-from accounts.models import User
 import random
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render
 
-FORMS = [GenreForm(), YearForm(), RuntimeForm(), TriggerForm()]
-FIELD = ["Genres", "Years", "Runtimes", "Triggers"]
+from accounts.models import User
+
+from .forms import *
+from .helpers import recommendation_querying, make_new_recommendation
+from .models import Recommendation
+
+# starts at step 1 - for frontend to make sense
+FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
+FIELD = ["", "Genres", "Years", "Runtimes", "Languages", "Triggers"]
+MOVIE_MODEL_COMPLEMENT = ["", "genres", "year", "runtime", "language", "triggers"]
+REC_ATTRIBUTE = ["", "genres", "year_span", "runtime_span", "languages", "triggers"]
 
 
 # user has requested to get a recommendation based on their inputs thus far OR has under ten options
@@ -15,52 +21,62 @@ def recommend_view(request):
 
 
 # narrow the possible recommendations by querying based on submitted forms
-# TODO more than just genres (generic problems)
 def narrow_view(request):
-    form = GenreForm(request.POST)  # TODO generic
+    if request.user.is_authenticated is False:
+        step = random.randint(0, len(FORMS) - 1)
+        form = FORMS[step]  # guests get to demo
 
-    # keep track of for logged in user, give a random joe any ol' form next (experience w/o actual rec)
-    if form.is_valid() and request.user.is_authenticated:
-        user = User.objects.get(username=request.user)
-        recommendation = Recommendation.objects.get(user_id=user)
-        step = recommendation.step
-        selection = form.cleaned_data.get(FIELD[step], [])
+        recommendation = {"possible_film_count": 27122, "step": step}
+        return render(
+            request,
+            "recommendations/index.html",
+            {"form": form, "recommendation": recommendation},
+        )
 
-        # first question will always be genre - populate possible films for the first time
-        if step == 0:
-            movies = Movie.objects.filter(genres__contains=selection)
-        else:
-            movies = recommendation.possible_films.filter(
-                genres__contains=selection
-            )  # TODO generic?
+    user = User.objects.get(username=request.user)
+    recommendation = Recommendation.objects.get(user_id=user)
+    step = recommendation.step
 
+    form = FORMS[step](request.POST)
+    if form.is_valid():
+        field = FIELD[step]
+        selection = form.cleaned_data.get(field, [])
+
+        movies = recommendation_querying(
+            recommendation, MOVIE_MODEL_COMPLEMENT[step], selection
+        )
         recommendation.possible_films.set(movies)
+
         recommendation.possible_film_count = len(movies)
         recommendation.step += 1
 
-        recommendation.genres = selection  # TODO generic?
+        # sometimes an array, sometimes a string
+        try:
+            setattr(recommendation, REC_ATTRIBUTE[step], selection)
+        except:
+            setattr(recommendation, REC_ATTRIBUTE[step], selection[0])
+
         recommendation.save()
 
-        form = FORMS[step + 1]
+        form = FORMS[step + 1] if step + 1 < len(FORMS) else None
         return render(
             request,
             "recommendations/index.html",
-            {"form": form},
-        )
-    elif form.is_valid() and request.user.is_authenticated is False:
-        form = FORMS[random.randint(0, len(FORMS) - 1)]
-        return render(
-            request,
-            "recommendations/index.html",
-            {"form": form},
+            {"form": form, "recommendation": recommendation},
         )
 
-    # form was invalid
-    return render(request, "dashboard/404.html")  # TODO implement punishment
+    # form was invalid, give them the same form
+    form = FORMS[step]
+    return render(
+        request,
+        "recommendations/index.html",
+        {"form": form, "error": form.errors, "recommendation": recommendation},
+    )
 
 
 def index(request):
     form = GenreForm()
+    recommendation = {"possible_film_count": 27122, "step": 1}
 
     # if logged in, see if they have an ongoing, valid recommendation
     if request.user.is_authenticated:
@@ -70,17 +86,15 @@ def index(request):
             if recommendation.step >= 20 or recommendation.possible_film_count < 10:
                 recommendation.delete()
 
-                recommendation = Recommendation(user_id=user)
-                recommendation.save()
+                recommendation = make_new_recommendation(user)
             else:
                 form = FORMS[recommendation.step]
 
         except ObjectDoesNotExist:
-            recommendation = Recommendation(user_id=user)
-            recommendation.save()
+            recommendation = make_new_recommendation(user)
 
     return render(
         request,
         "recommendations/index.html",
-        {"form": form},
+        {"form": form, "recommendation": recommendation},
     )
