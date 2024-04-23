@@ -12,7 +12,7 @@
         {% if movies %}
             {% for movie in movies %}
                 <div class="search_result" id="movie_{{ movie.id }}">
-                    <img loading="lazy" id="poster_{{ movie.id }}" class="poster" alt="{{ movie.name }}" onclick="loadDetailsPage({{ movie.id }})" src="https://image.tmdb.org/t/p/w200{{movie.poster}}">
+                    <img loading="lazy" id="poster_{{ movie.id }}" class="poster" alt="{{ movie.name }}" onclick="loadDetailsPage('{{ movie.id }}')" src="https://image.tmdb.org/t/p/w200{{movie.poster}}">
                     <div class="searched_movie_details">
                         <h1 class="movie_title"><a class="movie_link" href="/movie/{{movie.id}}">{{ movie.name }}</a></h1>
                         <p>{{ movie.overview }}</p>
