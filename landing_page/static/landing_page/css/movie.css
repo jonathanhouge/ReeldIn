@@ -23,7 +23,7 @@
 }
 
 #movie_button_nav {
-    margin-left: 250px;
+    margin-left: 0px;
 }
 
 p {
@@ -31,7 +31,37 @@ p {
 }
 
 /* The poster / buttons / font size for each screen size will slighly differ */
-@media screen and (max-width:500px){
+@media screen and (max-width:300px) and (min-width:0px){
+    img {
+      height: 100px;
+      width: 70px;
+    }
+    #movie_summary {
+        font-size: 16px;
+    }
+    #movie_name, #movie_button_nav{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+    }
+  }
+  @media screen and (max-width:400px) and (min-width:300px){
+   img{ height: 150px;
+    width: 120px;
+    justify-content: center;
+   }
+   #movie_summary {
+    font-size: 16px;
+   }
+   #movie_name, #movie_button_nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+  }
+@media screen and (max-width:500px) and (min-width:400px){
     img{
         height: 40vh;
         width: 27vh;
