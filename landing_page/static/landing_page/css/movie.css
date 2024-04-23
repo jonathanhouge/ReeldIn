@@ -37,17 +37,25 @@ p {
         width: 27vh;
         align-items: center;
     }
-     #movie_name {
-        display: block;
+
+    #movie_name {
+        font-size: 29px;
+    }
+
+    #movie_name, #movie_button_nav{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         
     }
 
     #movie_button_nav {
         margin-left: 0px;
-
+        padding: 5px;
     }
 
     p {
+        display: block;
         font-size: 20px;
     }
 }

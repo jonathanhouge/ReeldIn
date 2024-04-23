@@ -269,12 +269,21 @@ footer {
 
 /* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
 /* no padding for this section, and reduce margins */
-@media (max-width:550px) {
+@media screen and (max-width:550px) {
   header {
-    display: block;
-    flex-direction: row;
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
+  }
+
+  * {
+    margin: none;
+    padding: none;
+  }
+
+  #logo_div {
+    justify-content: center;
   }
 
   #profile_div {
@@ -282,9 +291,15 @@ footer {
     margin-top: 5px;
   }
 
+  #profile-div button {
+    padding: 5px;
+  }
+
   #searchbar_div input {
     width:80%;
     align-content: center;
+    padding: 8.5px;
+    margin-top: 10px;
   }
 
   nav {
@@ -298,8 +313,7 @@ footer {
     margin-left: 5px;
   }
 
-  .content_div, header, #searchbar_div input, 
-  #get_recommendations_btm, #login_button {
+  .content_div, header {
     padding: 0%;
   }
 
@@ -307,12 +321,12 @@ footer {
     font-size: 16px;
     margin-left: 0;
     margin-right: 0;
+    padding: 2.5px;
+    flex-direction: column;
   }
 
-  #profile_div button {
-    padding: 0%;
-    font-size: 16px;
-    margin: 0%;
+  #login_button {
+    margin-left: 4px;
   }
 
   .content_container {
