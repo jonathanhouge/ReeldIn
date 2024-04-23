@@ -12,7 +12,7 @@ urlpatterns = [
     path("remove/friend/", views.remove_friend, name="remove_friend"),
     path("send/friend/", views.send_friend_request, name="add_friend"),
     path("accept/friend/", views.accept_friend_request, name="accept_friend"),
-    path("reject/friend/", views.decline_friend_request, name="reject_friend"),
+    path("reject/friend/", views.delete_friend_request, name="reject_friend"),
     path(
         "delete/friend_request/",
         views.delete_friend_request,
