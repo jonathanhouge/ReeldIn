@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
@@ -8,6 +9,17 @@ from recommendations.models import (
 import random
 from .forms import *
 from .models import User
+from django.db import transaction
+
+MOVIES_POST_TO_MODEL = {
+    "movies_liked": "liked_films",
+    "movies_disliked": "disliked_films",
+    "movies_watched": "watched_films",
+    "watchlist": "watchlist_films",
+    # TODO uncomment when ready
+    # 'movies_rewatch': 'films_to_rewatch',
+    # 'movies_blocked': 'films_dont_recommend'
+}
 
 
 def login_view(request):
@@ -118,9 +130,14 @@ def onboarding(request):
 
 
 def onboarding_genre_view(request):
+    """
+    This function handles the POST/GET requests for the onboarding genre form.
+    """
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
     if request.method == "POST":
         form = GenreForm(request.POST)
-        # TODO populate with user preferences (here or in forms.py)
         if form.is_valid():
             # TODO Process the form data
             return redirect("/accounts/onboarding/movies")
@@ -138,12 +155,19 @@ def onboarding_genre_view(request):
     )
 
 
-# TODO back_action does not redirect to home page
-
-
 def onboarding_movie_view(request):
+    """
+    This function handles the POST/GET requests for the onboarding movie form.
+    POST saves the user's preferences while GET renders the page.
+    """
     if request.method == "POST":
-        # TODO
+        data = json.loads(request.body)
+
+        with transaction.atomic():
+            for post_name, model_name in MOVIES_POST_TO_MODEL.items():
+                movie_list = data.get(post_name, [])
+                add_movies_to_user_list(request.user, movie_list, model_name)
+
         return HttpResponse(status=200)
     return render(
         request,
@@ -157,11 +181,27 @@ def onboarding_movie_view(request):
     )
 
 
+def add_movies_to_user_list(user, movie_list, model_name):
+    """
+    This helper function adds the movies in movie_list
+    to the list specified by model_name for the user.
+    """
+    users_list = getattr(user, model_name)
+    users_list.clear()
+    for movie in movie_list:
+        int_id = int(movie)
+        movie_model = Movie.objects.get(pk=int_id)
+        users_list.add(movie_model)
+
+
 def get_random_movies(request):
+    """
+    This function returns a JSON response containing a list of random movies
+    specified by the amount parameter in the GET request. It is used in
+    the movie onboarding process.
+    """
     amount = int(request.GET.get("amount", 25))
-    movies = list(Movie.objects.all())
-    random.shuffle(movies)
-    movies = movies[:amount]
+    movies = Movie.objects.order_by("?")[:amount]
 
     data = [
         {
@@ -181,28 +221,37 @@ def settings_view(request):
 
 
 def preferences_movies_view(request):
+    """
+    This function handles the GET request for sending the user's movie preferences.
+    """
     if not request.user.is_authenticated:
         return redirect("accounts:login")
+
     if request.method != "GET":
         return HttpResponse(status=405)
 
-    # Load users preferences and their relevant data
     movies_liked = list(request.user.liked_films.all().values("pk", "poster", "name"))
+
     movies_disliked = list(
         request.user.disliked_films.all().values("pk", "poster", "name")
     )
+
     movies_watched = list(
         request.user.watched_films.all().values("pk", "poster", "name")
     )
+
     watchlist = list(request.user.watchlist_films.all().values("pk", "poster", "name"))
-    # movies_to_rewatch = list(
+    # TODO uncomment when ready
+    # movies_rewatch = list(
     #     request.user.films_to_rewatch.all().values("pk", "poster", "name")
     # )
-    # dont_recommend = list(
+
+    # movies_excluded = list(
     #     request.user.films_dont_recommend.all().values("pk", "poster", "name")
     # )
-    movies_to_rewatch = []
-    dont_recommend = []
+
+    movies_rewatch = []
+    movies_excluded = []
 
     return JsonResponse(
         {
@@ -210,8 +259,8 @@ def preferences_movies_view(request):
             "movies_disliked": movies_disliked,
             "movies_watched": movies_watched,
             "watchlist": watchlist,
-            "movies_to_rewatch": movies_to_rewatch,
-            "movies_blocked": dont_recommend,
+            "movies_rewatch": movies_rewatch,
+            "movies_excluded": movies_excluded,
         }
     )
 

@@ -80,6 +80,10 @@ function createMovieDiv(movie) {
   var poster = document.createElement("img");
   poster.src = "https://image.tmdb.org/t/p/w300" + movie.poster;
   poster.loading = "lazy";
+  poster.alt = movie.name;
+  poster.onmouseenter = function () {
+    updateButtons(movie.id);
+  };
 
   movieDiv.appendChild(poster);
   return movieDiv;
@@ -95,7 +99,18 @@ function revealDetails(movie_id) {
     currentTooltiptext.style.display = "none";
   }
   var tooltip = document.getElementById(movie_id);
-  // Add styling to the buttons
+  updateButtons(movie_id);
+
+  currentTooltiptext = tooltip;
+  currentTooltiptext.style.display = "block";
+}
+
+/**
+ * This function updates the buttons with the state of the movie in the user's preferences.
+ * It is called in the revealDetails function (which is called when the user clicks on a movie)
+ * and whenever the user hovers over a movie
+ */
+function updateButtons(movie_id) {
   if (movies_liked.has(movie_id)) {
     document.getElementById(movie_id + "_upvote").style.backgroundColor =
       "green";
@@ -119,8 +134,6 @@ function revealDetails(movie_id) {
     document.getElementById(movie_id + "_exclude").style.backgroundColor =
       "red";
   }
-  currentTooltiptext = tooltip;
-  currentTooltiptext.style.display = "block";
 }
 
 /**
@@ -157,7 +170,6 @@ async function searchMovies(event) {
         movieContainer.innerHTML = "";
         // Iterate through results, adding them to the movie container
         data.movies.forEach((movie) => {
-          console.log("Movie: ", movie);
           // First make the movie div
           var movieDiv = createMovieDiv(movie);
           movieContainer.appendChild(movieDiv);
@@ -172,7 +184,7 @@ async function searchMovies(event) {
 
 /**
  * Fetches random movies from the database and adds them to the movie container.
- * @param {int} numMovies
+ * @param {int} numMovies the number of movies to fetch
  * @returns
  */
 async function fetchMovies(numMovies = 35) {
@@ -234,6 +246,10 @@ async function submitOnboardingMovieForm() {
     });
 }
 
+function redirectToOnboardingGenreForm() {
+  window.location.href = "/accounts/onboarding/genres/";
+}
+
 /************************************
  *
  *  Page initialization
@@ -245,7 +261,7 @@ async function submitOnboardingMovieForm() {
  */
 async function loadUserMovies() {
   const csrfToken = await getCSRFToken();
-  fetch("/accounts/preferences/movies", {
+  fetch("/accounts/preferences/movies/", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -260,21 +276,26 @@ async function loadUserMovies() {
       return response.json();
     })
     .then((data) => {
-      movies_liked = new Set(data.movies_liked);
-      movies_disliked = new Set(data.movies_disliked);
-      movies_watched = new Set(data.movies_watched);
-      watchlist = new Set(data.watchlist);
-      movies_rewatch = new Set(data.movies_rewatch);
-      movies_blocked = new Set(data.movies_blocked);
+      movies_liked = extractIds(data.movies_liked);
+      movies_disliked = extractIds(data.movies_disliked);
+      movies_watched = extractIds(data.movies_watched);
+      watchlist = extractIds(data.watchlist);
+      movies_rewatch = extractIds(data.movies_rewatch);
+      movies_blocked = extractIds(data.movies_excluded);
     });
+}
+
+function extractIds(movieList) {
+  return new Set(movieList.map((movie) => movie.pk));
 }
 
 // Random movie fetch when scrolling past halfway point
 document.addEventListener("DOMContentLoaded", function () {
   movieContainer.addEventListener("scroll", () => {
     searchString = searchbar.value.trim();
-    threshold = movieContainer.scrollHeight - movieContainer.clientHeight / 2;
+    threshold = (movieContainer.scrollHeight * 3) / 4;
     if (!searchString && movieContainer.scrollTop >= threshold) {
+      console.log("Fetching more movies...");
       fetchMovies();
     }
   });
@@ -283,7 +304,6 @@ document.addEventListener("DOMContentLoaded", function () {
 // Hides the tooltip when the user clicks outside of it
 document.addEventListener("click", function (event) {
   if (currentTooltiptext && !currentTooltiptext.contains(event.target)) {
-    console.log("Hiding tooltip - click event listener!");
     currentTooltiptext.style.display = "none";
   }
 });
@@ -498,4 +518,28 @@ function addToExclude(id) {
   // Add movie to exclude
   exclude_button.style.backgroundColor = "red";
   movies_blocked.add(id);
+}
+
+/**
+ *
+ * Debugging functions
+ *
+ */
+
+function clearMovies() {
+  movies_liked.clear();
+  movies_disliked.clear();
+  movies_watched.clear();
+  watchlist.clear();
+  movies_rewatch.clear();
+  movies_blocked.clear();
+}
+
+function printState() {
+  console.log("Movies Liked: ", movies_liked);
+  console.log("Movies Disliked: ", movies_disliked);
+  console.log("Movies Watched: ", movies_watched);
+  console.log("Watchlist: ", watchlist);
+  console.log("Movies Rewatch: ", movies_rewatch);
+  console.log("Movies Blocked: ", movies_blocked);
 }

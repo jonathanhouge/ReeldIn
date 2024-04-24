@@ -5,7 +5,8 @@
 {% block header %}Movies{% endblock header %} 
 {% block caption %}Now let's figure out your movie preferences! Tutorial here {% endblock caption %}
 {% block content %}
-<button onclick="printStatus()" style="min-height: 100px;"></button>
+<button onclick="printState()" style="min-height: 100px;">Print State of movies</button>
+<button onclick="clearMovies()" style="min-height: 100px;">Clear State</button>
 
 <div id="onboarding_search">
     <input type="text" id="searchbar" name="searchbar" placeholder="Search for movies..." autocomplete="off"
