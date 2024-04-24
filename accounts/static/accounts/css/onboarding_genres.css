@@ -1,0 +1,9 @@
+.genre-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.genre-table th, .genre-table td {
+    border: 1px solid #ccc;
+    text-align: left;
+    padding: 0.5rem;
+}

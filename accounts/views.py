@@ -139,10 +139,39 @@ def onboarding_genre_view(request):
     if request.method == "POST":
         form = GenreForm(request.POST)
         if form.is_valid():
-            # TODO Process the form data
+            liked_genres = []
+            disliked_genres = []
+            blocked_genres = []
+            for genre, preference in form.cleaned_data.items():
+                if preference == "like":
+                    liked_genres.append(genre)
+                elif preference == "dislike":
+                    disliked_genres.append(genre)
+                # TODO uncomment ? later elif preference == "block":
+                #     blocked_genres.append(genre)
+            with transaction.atomic():
+                request.user.liked_genres = liked_genres
+                request.user.disliked_genres = disliked_genres
+                # TODO uncomment ? request.user.blocked_genres = blocked_genres
+                request.user.save()
             return redirect("/accounts/onboarding/movies")
     else:
-        form = GenreForm()
+        # Fetch the user's preferences
+        liked_genres = request.user.liked_genres
+        disliked_genres = request.user.disliked_genres
+        # TODO add ? blocked_genres = request.user.blocked_genres
+
+        # Prepare initial data dictionary for the form
+        initial_data = {}
+        for genre in GENRES:
+            genre_value = genre[0]
+            if genre_value in liked_genres:
+                initial_data[genre_value] = "like"
+            elif genre_value in disliked_genres:
+                initial_data[genre_value] = "dislike"
+            # TODO uncomment ? elif genre_value in blocked_genres:
+            #     initial_data[genre_value] = "block"
+        form = GenreForm(initial_preferences=initial_data)
     return render(
         request,
         "accounts/onboarding_genres.html",
@@ -187,11 +216,9 @@ def add_movies_to_user_list(user, movie_list, model_name):
     to the list specified by model_name for the user.
     """
     users_list = getattr(user, model_name)
-    users_list.clear()
-    for movie in movie_list:
-        int_id = int(movie)
-        movie_model = Movie.objects.get(pk=int_id)
-        users_list.add(movie_model)
+    movie_ids = [int(movie) for movie in movie_list]
+    movie_models = Movie.objects.filter(pk__in=movie_ids)
+    users_list.set(movie_models)
 
 
 def get_random_movies(request):
@@ -266,10 +293,14 @@ def preferences_movies_view(request):
 
 
 def onboarding_trigger_view(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    form = CustomTriggerForm()
     return render(
         request,
         "accounts/onboarding_triggers.html",
         {
+            "form": form,
             "back_action": "redirectToOnboardingMovieForm()",
             "next_action": "submitOnboardingTriggerForm()",
             "back_text": "Back",

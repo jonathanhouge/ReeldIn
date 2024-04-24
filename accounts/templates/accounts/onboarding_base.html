@@ -37,12 +37,6 @@
     <p id="onboarding-caption">{% block caption %}{% endblock caption %}</p>    
   </div>
   <div class="onboarding-content content_div">
-    {% block form %}
-    <form method="post" id ="onboarding-form">
-      {% csrf_token %}
-      {{ form.as_p }}
-    </form>
-    {% endblock form %}
     {% block content %}{% endblock content %}
   </div>
 
