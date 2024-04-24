@@ -142,6 +142,9 @@ def onboarding_genre_view(request):
 
 
 def onboarding_movie_view(request):
+    if request.method == "POST":
+        # TODO
+        return HttpResponse(status=200)
     return render(
         request,
         "accounts/onboarding_movies.html",
@@ -192,12 +195,14 @@ def preferences_movies_view(request):
         request.user.watched_films.all().values("pk", "poster", "name")
     )
     watchlist = list(request.user.watchlist_films.all().values("pk", "poster", "name"))
-    movies_to_rewatch = list(
-        request.user.films_to_rewatch.all().values("pk", "poster", "name")
-    )
-    dont_recommend = list(
-        request.user.films_dont_recommend.all().values("pk", "poster", "name")
-    )
+    # movies_to_rewatch = list(
+    #     request.user.films_to_rewatch.all().values("pk", "poster", "name")
+    # )
+    # dont_recommend = list(
+    #     request.user.films_dont_recommend.all().values("pk", "poster", "name")
+    # )
+    movies_to_rewatch = []
+    dont_recommend = []
 
     return JsonResponse(
         {
@@ -208,4 +213,17 @@ def preferences_movies_view(request):
             "movies_to_rewatch": movies_to_rewatch,
             "movies_blocked": dont_recommend,
         }
+    )
+
+
+def onboarding_trigger_view(request):
+    return render(
+        request,
+        "accounts/onboarding_triggers.html",
+        {
+            "back_action": "redirectToOnboardingMovieForm()",
+            "next_action": "submitOnboardingTriggerForm()",
+            "back_text": "Back",
+            "next_text": "Continue",
+        },
     )

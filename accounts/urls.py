@@ -14,4 +14,9 @@ urlpatterns = [
     path(
         "preferences/movies/", views.preferences_movies_view, name="preferences_movies"
     ),
+    path(
+        "onboarding/triggers/",
+        views.onboarding_trigger_view,
+        name="onboarding_triggers",
+    ),
 ]

@@ -36,15 +36,25 @@ img {
     max-height: 80vh;
 }
 
-.row1 i, .row2 i, .row3 i {
+.tooltip_button {
     display: inline-block;
     margin-right: 10px;
-    background-color: red;
+    background-color: #9a8aff;
     padding:1rem;
     width:100px;
     border-radius: 10%;
     margin-right:1rem;
     margin-left:1rem;
+}
+
+.tooltip_button:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.2) !important;
+    transition: all 0.3s ease;
+}
+  
+.tooltip_button:active {
+    transform: scale(1) !important;
 }
 .row1,.row2,.row3{
     margin-top:20px;
@@ -87,7 +97,7 @@ img {
 }
   
 .tooltip:hover .tooltiptext {
-    display: block;
+    display: block !important; 
     transition: all 0.3s ease;
 }
 
