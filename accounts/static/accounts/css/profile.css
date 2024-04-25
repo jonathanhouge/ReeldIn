@@ -99,6 +99,16 @@ button:hover {
   background-color: #a38fff;
 }
 
-#remove_friend_modal, #add_friend_modal, #friend_request_modal, #delete_friend_request_modal {
-  display: none;
+
+#yes_delete_friend_request_button:hover, #reject_friend_button:hover, #remove_confirm_button:hover {
+  background-color: #ff4d4d;
+}
+
+#accept_friend_button:hover {
+  background-color: #15d615;
+}
+
+.friend:hover {
+  transform: scale(1.2) !important;
+  transition: all 0.3s ease;
 }

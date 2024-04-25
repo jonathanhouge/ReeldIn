@@ -104,55 +104,56 @@
         <button class="btn btn-open" onclick="openAddFriendModal()">Add Friend</button>
       </div>
       <!--Friends List-->
-      <div class="friends_list">
+      <div class="friends_list" id ="friends_list">
         {% if friends %}
+        <p class="placeholder_text hidden" id="friends_list_text">No friends yet!</p>
           {% for friend in friends %}
-            
-            <div class="friend">
+            <div class="friend" id="{{friend.username}}_profile_div" onclick="openRemoveFriendModal('{{ friend.username }}')">
               <img
                 src='{{ friend.profile_picture.url }}'
-                class="profile_img" onclick="openRemoveFriendModal('{{ friend.username }}')"
+                class="profile_img" 
               />
               <h3>{{ friend.username }}</h3>
             </div>
           {% endfor %}
         {% else %}
-          <p class="placeholder_text">No friends yet!</p>
+          <p class="placeholder_text" id="friends_list_text">No friends yet!</p>
         {% endif %}
       </div>
-      <!--Recieved Friend Requests-->
-      <h2>Recieved Requests</h2>
-      <div class="friends_list">
+      <!--Received Friend Requests-->
+      <h2>Received Requests</h2>
+      <div class="friends_list" id="received_requests">
         {% if received_requests %}
+          <p class="placeholder_text hidden" id="received_requests_text">No friend requests received!</p>
           {% for request in received_requests %}
-            <div class="friend">
+            <div class="friend" id="{{request.sender.username}}_profile_div"  onclick="openFriendRequestModal('{{ request.sender.username }}')">
               <img
               src='{{ request.sender.profile_picture.url }}'
-              class="profile_img" onclick="openFriendRequestModal('{{ request.sender.username }}')"
+              class="profile_img"
               />
               <h3>{{  request.sender.username }}</h3>
             </div>
           {% endfor %}
         {% else %}
-          <p class="placeholder_text">No friend requests received!</p>
+          <p class="placeholder_text" id="received_requests_text">No friend requests received!</p>
         {% endif %}
       </div>
       <!--Sent Friend Requests-->
       <h2>Sent Requests</h2>
-      <div class="friends_list">
+      <div class="friends_list" id="sent_requests">
         {% if sent_requests %}
+        <p class="placeholder_text hidden" id="sent_requests_text">No friend requests sent!</p>
           {% for request in sent_requests %}
-            
-            <div class="friend">
+            <div class="friend" id="{{request.receiver.username}}_profile_div" onclick="openDeleteFriendRequestModal('{{ request.receiver.username }}')">
               <img
                 src='{{ request.receiver.profile_picture.url }}'
-                class="profile_img" onclick="openDeleteFriendRequestModal('{{ request.receiver.username }}')"
+                class="profile_img" 
               />
               <h3>{{  request.receiver.username }}</h3>
             </div>
           {% endfor %}
         {% else %}
-          <p class="placeholder_text">No friend requests sent!</p>
+          <p class="placeholder_text" id="sent_requests_text">No friend requests sent!</p>
         {% endif %}
       </div>
     </div>
@@ -162,7 +163,7 @@
 <!-- Modal boxes begin-->
 
 <!-- Modal box for adding/searching for friend -->
-<section class="modal" id ="add_friend_modal">
+<section class="modal hidden" id ="add_friend_modal">
   <div class="flex">
     <h3>Enter your friend's Username!</h3>
     <button class="btn-close" onclick="closeAddFriendModal()">⨉</button>
@@ -179,7 +180,7 @@
 </section>
 
 <!-- Modal box for deleting friend from friends list -->
-  <section class="modal" id ="remove_friend_modal">
+  <section class="modal hidden" id ="remove_friend_modal">
     <div class="flex">
       <h3>Delete Friend</h3>
       <button class="btn-close" onclick="closeRemoveFriendModal()">⨉</button>
@@ -189,12 +190,12 @@
       <p id = "remove_friend_name"></p>
     </div>
   
-    <button class="btn friend_yes_btn" id="remove_confirm_button" onclick="removeFriend()">Yes</button>
-    <button class="btn friend_no_btn" id="remove_reject_button" onclick="closeRemoveFriendModal()">No</button>
+    <button class="btn profile_button" id="remove_confirm_button" onclick="removeFriend()">Yes</button>
+    <button class="btn profile_button" id="remove_reject_button" onclick="closeRemoveFriendModal()">No</button>
   </section>
     
   <!-- Modal box for received friend request -->
-  <section class="modal" id ="friend_request_modal">
+  <section class="modal hidden" id ="friend_request_modal">
     <div class="flex">
       <h3>Friend Request</h3>
       <button class="btn-close" onclick="closeFriendRequestModal()">⨉</button>
@@ -204,12 +205,12 @@
       <p id = "friend_request_text"></p>
     </div>
   
-    <button class="btn friend_yes_btn" id="accept_friend_button" onclick="acceptFriendRequest()">Accept</button>
-    <button class="btn friend_no_btn" id="reject_friend_button" onclick="rejectFriendRequest()">Reject</button>
+    <button class="btn profile_button" id="accept_friend_button" onclick="acceptFriendRequest()">Accept</button>
+    <button class="btn profile_button" id="reject_friend_button" onclick="rejectFriendRequest()">Reject</button>
   </section>
 
   <!-- Modal box for sent friend request -->
-  <section class="modal" id ="delete_friend_request_modal">
+  <section class="modal hidden" id ="delete_friend_request_modal">
     <div class="flex">
       <h3>Friend Request</h3>
       <button class="btn-close" onclick="closeDeleteFriendRequestModal()">⨉</button>
@@ -219,10 +220,10 @@
       <p id = "delete_friend_request_text"></p>
     </div>
   
-    <button class="btn friend_yes_btn" id="yes_delete_friend_request_button" onclick="acceptFriendRequest()">Yes</button>
-    <button class="btn friend_no_btn" id="no_delete_friend_request_button" onclick="closeDeleteFriendRequestModal()">No</button>
+    <button class="btn profile_button" id="yes_delete_friend_request_button" onclick="rejectFriendRequest()">Yes</button>
+    <button class="btn profile_button" id="no_delete_friend_request_button" onclick="closeDeleteFriendRequestModal()">No</button>
   </section>
   <!-- Overlay for background blur -->
-  <div class="overlay hidden"></div>
+  <div class="overlay hidden" onclick="closeCurrentModal()"></div>
 
 {% endblock content %}

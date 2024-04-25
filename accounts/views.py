@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db import transaction
 
 from .forms import CustomUserCreationForm
@@ -116,6 +116,7 @@ def onboarding(request):
 def send_friend_request(request):
     """
     This function handles when a user wants to send a friend request to another user.
+    It returns the User object of the receiver if the request is successful.
     """
 
     # Check user is logged in
@@ -129,37 +130,50 @@ def send_friend_request(request):
         data = json.loads(request.body)
         request_username = data["username"]
     except (json.JSONDecodeError, KeyError):
-        return HttpResponse("Invalid JSON", status=400)
+        return JsonResponse({"message": "Invalid JSON", "status": 400})
 
     # Invalid request handling
     try:
         receiver_user = User.objects.get(username=request_username)
     except User.DoesNotExist:
-        return HttpResponse("User not found.", status=404)
+        return JsonResponse({"message": "User not found.", "status": 404})
 
     receiver_id = receiver_user.pk
 
+    error_message = None
+    status = 200
     if request.user.pk == receiver_id:
-        return HttpResponse("You can't send a friend request to yourself.", status=400)
+        error_message = "You can't send a friend request to yourself."
+        status = 400
     elif request.user.friends.filter(pk=receiver_id).exists():
-        return HttpResponse("You are already friends with this user.", status=409)
+        error_message = "You are already friends with this user."
+        status = 409
     elif FriendRequest.objects.filter(
         sender=request.user, receiver=receiver_user
     ).exists():
-        return HttpResponse(
-            "You have already sent a friend request to this user.", status=409
-        )
+        error_message = "You have already sent a friend request to this user."
+        status = 409
     elif FriendRequest.objects.filter(
         sender=receiver_user, receiver=request.user
     ).exists():
-        return HttpResponse(
-            "You have already received a friend request from this user.", status=409
-        )
+        error_message = ("You have already received a friend request from this user.",)
+        status = 409
 
+    if error_message is not None:
+        return JsonResponse({"message": error_message}, status=status)
     # Create friend request
     with transaction.atomic():
         FriendRequest.objects.create(sender=request.user, receiver=receiver_user)
-    return HttpResponse("Friend request sent.", status=200)
+    print(receiver_user.profile_picture.url)
+    return JsonResponse(
+        {
+            "message": "Friend request successfully sent!",
+            "receiver": {
+                "username": receiver_user.username,
+                "profile_picture": receiver_user.profile_picture.url,
+            },
+        }
+    )
 
 
 def remove_friend(request):

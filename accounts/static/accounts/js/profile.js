@@ -10,6 +10,7 @@ async function getCSRFToken() {
     throw error; // Rethrow the error to propagate it
   }
 }
+
 // Goes to movie page when user clicks movie poster
 function goToMoviePage(movieId) {
   window.location.href = "/movie/${movieId}";
@@ -17,6 +18,7 @@ function goToMoviePage(movieId) {
 
 // Overlay element for background blur
 const overlay = document.querySelector(".overlay");
+var current_modal = null;
 
 /****************************************************
  *
@@ -32,28 +34,31 @@ const remove_friend_response = document.getElementById(
   "remove_friend_response"
 );
 
+function closeCurrentModal() {
+  current_modal.classList.add("hidden");
+  overlay.classList.add("hidden");
+}
+
 /**
  * This function opens/resets the modal for removing a friend
  * from the users friends list.
  * @param {String} username the username of the friend that may be removed
  */
 function openRemoveFriendModal(username) {
-  // Make accept/reject buttons visible
-  remove_friend_button.style.display = "inline-block";
-  remove_reject_button.style.display = "inline-block";
+  remove_friend_button.classList.remove("hidden");
+  remove_reject_button.classList.remove("hidden");
 
-  // Update text with friend's username
+  remove_friend_response.innerHTML = "";
   remove_friend_name.innerHTML =
     "Would you like to remove " + username + " from your friends list?";
 
-  // Make modal visible, blur background
   overlay.classList.remove("hidden");
-  remove_friend_modal.style.display = "block";
+  remove_friend_modal.classList.remove("hidden");
 
-  // Add proper functionality to button
   remove_friend_button.onclick = function () {
     removeFriend(username);
   };
+  current_modal = remove_friend_modal;
 }
 
 /**
@@ -62,16 +67,16 @@ function openRemoveFriendModal(username) {
 function closeRemoveFriendModal() {
   // Make modal invisible
   overlay.classList.add("hidden");
-  remove_friend_modal.style.display = "none";
+  remove_friend_modal.classList.add("hidden");
 }
 
 /**
  * This function sends a POST request to remove a friend from the users friends list.
- * @param {String} friend_username
+ * @param {String} friend_username the username of the friend to be removed
  */
 async function removeFriend(friend_username) {
-  // Make a POST request to remove friend from friends list
   const csrfToken = await getCSRFToken();
+
   fetch("/accounts/remove/friend/", {
     method: "POST",
     headers: {
@@ -81,19 +86,20 @@ async function removeFriend(friend_username) {
     body: JSON.stringify({ username: friend_username }),
   })
     .then((response) => {
-      // Update response message styling
       if (response.status == 200) {
-        remove_friend_button.style.display = "none";
-        remove_reject_button.style.display = "none";
+        remove_friend_button.classList.add("hidden");
+        remove_reject_button.classList.add("hidden");
         remove_friend_response.style.color = "green";
+        remove_friend_name.innerHTML = "";
+        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div.remove();
       } else {
         remove_friend_response.style.color = "red";
       }
-
+      checkDivEmpty("friends_list");
       return response.text();
     })
     .then((data) => {
-      // Display response message
       remove_friend_response.innerHTML = data;
     })
     .catch((error) => {
@@ -118,13 +124,12 @@ const send_friend_username = document.getElementById("send_friend_username");
  * to another user and blurs the background.
  */
 function openAddFriendModal() {
-  // Make response/username input empty
   add_friend_response.innerHTML = "";
   send_friend_username.value = "";
 
-  // Make modal visible, blur background
-  add_friend_modal.style.display = "block";
+  add_friend_modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
+  current_modal = add_friend_modal;
 }
 
 /**
@@ -132,7 +137,7 @@ function openAddFriendModal() {
  */
 function closeAddFriendModal() {
   overlay.classList.add("hidden");
-  add_friend_modal.style.display = "none";
+  add_friend_modal.classList.add("hidden");
 }
 
 /**
@@ -140,7 +145,6 @@ function closeAddFriendModal() {
  * @param {String} username the username of the user to send a friend request to
  */
 async function sendFriendRequest(username) {
-  // Make a POST request to send friend request
   const csrfToken = await getCSRFToken();
   const name_input = send_friend_username.value;
 
@@ -153,22 +157,43 @@ async function sendFriendRequest(username) {
     body: JSON.stringify({ username: name_input }),
   })
     .then((response) => {
-      // Update response message styling
       if (response.status == 200) {
         add_friend_response.style.color = "green";
+        send_friend_username.value = "";
       } else {
         add_friend_response.style.color = "red";
       }
-
-      return response.text();
+      return response.json();
     })
     .then((data) => {
-      // Display response message
-      add_friend_response.innerHTML = data;
+      add_friend_response.innerHTML = data.message;
+      if (data.receiver) {
+        addUserToSentRequests(data.receiver);
+        checkDivEmpty("sent_requests");
+      }
     })
     .catch((error) => {
       console.log("An error occured during the add friend request: " + error);
     });
+}
+
+function addUserToSentRequests(user) {
+  const sent_requests = document.getElementById("sent_requests");
+  const user_div = document.createElement("div");
+  user_div.id = user.username + "_profile_div";
+  user_div.classList.add("friend");
+  user_div.setAttribute(
+    "onclick",
+    `openDeleteFriendRequestModal('${user.username}')`
+  );
+  user_div.innerHTML = `
+    <img
+    src='${user.profile_picture}'
+    class="profile_img" 
+    />
+    <h3>${user.username}</h3>
+  `;
+  sent_requests.appendChild(user_div);
 }
 
 /****************************************************
@@ -191,12 +216,10 @@ const reject_friend_button = document.getElementById("reject_friend_button");
  * @param {String} username the username of the user that sent the friend request
  */
 function openFriendRequestModal(username) {
-  // Make response empty, update text with username
   friend_request_response.innerHTML = "";
   friend_request_text.innerHTML =
     username + " has sent you a friend request! Would you like to accept?";
 
-  // Add functionality to buttons
   accept_friend_button.onclick = function () {
     confirmFriend(username);
   };
@@ -204,11 +227,11 @@ function openFriendRequestModal(username) {
     rejectFriend(username);
   };
 
-  // Enable modal, buttons, and blur
-  friend_request_modal.style.display = "block";
-  accept_friend_button.style.display = "inline-block";
-  reject_friend_button.style.display = "inline-block";
+  friend_request_modal.classList.remove("hidden");
+  accept_friend_button.classList.remove("hidden");
+  reject_friend_button.classList.remove("hidden");
   overlay.classList.remove("hidden");
+  current_modal = friend_request_modal;
 }
 
 /**
@@ -216,7 +239,7 @@ function openFriendRequestModal(username) {
  */
 function closeFriendRequestModal() {
   overlay.classList.add("hidden");
-  friend_request_modal.style.display = "none";
+  friend_request_modal.classList.add("hidden");
 }
 
 /**
@@ -224,7 +247,6 @@ function closeFriendRequestModal() {
  * @param {String} friend_username the username of the user that sent the friend request
  */
 async function confirmFriend(friend_username) {
-  // Make a POST request to add friend to friends list
   const csrfToken = await getCSRFToken();
   fetch("/accounts/accept/friend/", {
     method: "POST",
@@ -235,11 +257,24 @@ async function confirmFriend(friend_username) {
     body: JSON.stringify({ username: friend_username }),
   })
     .then((response) => {
-      // Update response message styling
       if (response.status == 200) {
-        accept_friend_button.style.display = "none";
-        reject_friend_button.style.display = "none";
+        accept_friend_button.classList.add("hidden");
+        reject_friend_button.classList.add("hidden");
         friend_request_response.style.color = "green";
+        friend_request_text.innerHTML = "";
+
+        user_div = document.getElementById(friend_username + "_profile_div");
+        console.log("Changing attribute to openRemoveFriendModal");
+        user_div.setAttribute(
+          "onclick",
+          `openRemoveFriendModal('${friend_username}')`
+        );
+        user_div.remove();
+
+        friends_list = document.getElementById("friends_list");
+        friends_list.appendChild(user_div);
+        checkDivEmpty("friends_list");
+        checkDivEmpty("received_requests");
       } else {
         friend_request_response.style.color = "red";
       }
@@ -247,7 +282,6 @@ async function confirmFriend(friend_username) {
       return response.text();
     })
     .then((data) => {
-      // Display response message
       friend_request_response.innerHTML = data;
     })
     .catch((error) => {
@@ -257,14 +291,25 @@ async function confirmFriend(friend_username) {
     });
 }
 
+function checkDivEmpty(div_name) {
+  div = document.getElementById(div_name);
+  console.log(div.childElementCount);
+  if (div.childElementCount == 1) {
+    div_text = document.getElementById(div_name + "_text");
+    div_text.classList.remove("hidden");
+  } else {
+    div_text = document.getElementById(div_name + "_text");
+    div_text.classList.add("hidden");
+  }
+}
+
 /**
  * This function sends a POST request to reject a received friend request.
  * @param {String} friend_username the username of the user that sent the friend request
  */
 async function rejectFriend(friend_username) {
-  // Make a POST request to reject friend request
   const csrfToken = await getCSRFToken();
-  fetch("/accounts/reject/friend/", {
+  fetch("/accounts/delete/friend_request/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -276,11 +321,14 @@ async function rejectFriend(friend_username) {
     }),
   })
     .then((response) => {
-      // Update response message styling
       if (response.status == 200) {
-        accept_friend_button.style.display = "none";
-        reject_friend_button.style.display = "none";
+        accept_friend_button.classList.add("hidden");
+        reject_friend_button.classList.add("hidden");
         friend_request_response.style.color = "green";
+        friend_request_text.innerHTML = "";
+        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div.remove();
+        checkDivEmpty("received_requests");
       } else {
         friend_request_response.style.color = "red";
       }
@@ -288,7 +336,6 @@ async function rejectFriend(friend_username) {
       return response.text();
     })
     .then((data) => {
-      // Display response message
       friend_request_response.innerHTML = data;
     })
     .catch((error) => {
@@ -300,7 +347,7 @@ async function rejectFriend(friend_username) {
 
 /****************************************************
  *
- * Send friend request functionality
+ * Delete sent friend request functionality
  *
  ***************************************************/
 
@@ -326,28 +373,27 @@ const delete_reject_button = document.getElementById(
  * @param {String} username the username of the user that the friend request was sent to
  */
 function openDeleteFriendRequestModal(username) {
-  // Reset response text, update text with username
   delete_friend_request_response.innerHTML = "";
   delete_friend_request_text.innerHTML =
     "Would you like to delete your friend request to " + username + "?";
 
-  // Populate delete button with proper username
   delete_friend_button.onclick = function () {
     deleteFriendRequest(username);
   };
 
-  // Enable modal, buttons, and blur
-  delete_friend_modal.style.display = "block";
+  delete_friend_modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
-  delete_friend_button.style.display = "inline-block";
-  delete_reject_button.style.display = "inline-block";
+  delete_friend_button.classList.remove("hidden");
+  delete_reject_button.classList.remove("hidden");
+  current_modal = delete_friend_modal;
 }
+
 /**
  * This function closes the modal for deleting a friend request.
  */
 function closeDeleteFriendRequestModal() {
   overlay.classList.add("hidden");
-  delete_friend_modal.style.display = "none";
+  delete_friend_modal.classList.add("hidden");
 }
 
 /**
@@ -355,7 +401,6 @@ function closeDeleteFriendRequestModal() {
  * @param {String} friend_username the username of the user that the friend request was sent to
  */
 async function deleteFriendRequest(friend_username) {
-  // Make a POST request to delete friend request
   const csrfToken = await getCSRFToken();
   fetch("/accounts/delete/friend_request/", {
     method: "POST",
@@ -369,11 +414,14 @@ async function deleteFriendRequest(friend_username) {
     }),
   })
     .then((response) => {
-      // Update response message styling
       if (response.status == 200) {
-        delete_friend_button.style.display = "none";
-        delete_reject_button.style.display = "none";
+        delete_friend_button.classList.add("hidden");
+        delete_reject_button.classList.add("hidden");
         delete_friend_request_response.style.color = "green";
+        delete_friend_request_text.innerHTML = "";
+        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div.remove();
+        checkDivEmpty("sent_requests");
       } else {
         delete_friend_request_response.style.color = "red";
       }
@@ -381,7 +429,6 @@ async function deleteFriendRequest(friend_username) {
       return response.text();
     })
     .then((data) => {
-      // Display response message
       delete_friend_request_response.innerHTML = data;
     })
     .catch((error) => {
