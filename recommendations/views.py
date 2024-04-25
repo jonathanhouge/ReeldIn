@@ -6,7 +6,7 @@ from accounts.models import User
 
 from .forms import *
 from .helpers import recommendation_querying, make_new_recommendation
-from .models import Recommendation
+from .models import Movie, Recommendation
 
 # starts at step 1 - for frontend to make sense
 FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
@@ -17,7 +17,48 @@ REC_ATTRIBUTE = ["", "genres", "year_span", "runtime_span", "languages", "trigge
 
 # user has requested to get a recommendation based on their inputs thus far OR has under ten options
 def recommend_view(request):
-    pass  # TODO
+    if request.user.is_authenticated is False:
+        all_movies = Movie.objects.all()
+        random_movies = random.sample(all_movies, 3)
+        return render(
+            request,
+            "recommendations/recommendation.html",
+            {"recommendations": random_movies},
+        )
+
+    user = User.objects.get(username=request.user)
+    recommendation = Recommendation.objects.get(user_id=user)
+
+    recommendation.recommended_films.set(recommendation.possible_films)
+    if recommendation.possible_film_count > 10:
+        recommended_films = []
+        possible_films = recommendation.recommended_films
+
+        foreign_films = possible_films.exclude(language="en")
+        while len(foreign_films):
+            foreign_film = foreign_films[random.randint(0, len(foreign_films) - 1)]
+
+            recommended_films.append(foreign_film)
+            foreign_films.remove(foreign_film)
+            possible_films.remove(foreign_film)
+
+            if len(recommended_films) == 5:
+                break
+
+        while len(recommended_films) < 10:
+            film = possible_films[random.randint(0, len(possible_films) - 1)]
+
+            recommended_films.append(film)
+            possible_films.remove(foreign_film)
+
+        recommendation.recommended_films.set(recommended_films)
+
+    recommendation.save()
+    return render(
+        request,
+        "recommendations/recommendation.html",
+        {"recommendations": recommendation.recommended_films},
+    )
 
 
 # narrow the possible recommendations by querying based on submitted forms
