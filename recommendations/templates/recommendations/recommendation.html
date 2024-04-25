@@ -1,0 +1,32 @@
+{% extends 'recommendations/base.html' %} {% load static %} {% block content %}
+
+<script src="{% static 'landing_page/js/search.js' %}"></script>
+
+<div class="content_div">
+    <div id="title_div">
+        <h2>Recommendations</h2>
+    </div>
+    <div class=" movies_div content_container">
+        {% if movies %}
+        {% for movie in movies %}
+        <div class="movie tooltip">
+            <div class="tooltiptext">
+                <h3>{{ movie.name }}</h3>
+                <p>{{ movie.genres }}</p>
+                <p>{{ movie.year }}</p>
+                <p>{{ movie.directors }}</p>
+                <button href="/movie/{{movie.id}}">Go to Movie Page</button>
+            </div>
+
+            <img loading="lazy" id="poster_{{ movie.id }}" class="poster"
+                alt="{{ movie.name }}" onclick="loadDetailsPage('{{ movie.id }}')"
+                src="https://image.tmdb.org/t/p/w200{{movie.poster}}" />
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No movies found.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %} {% endblock content %}
