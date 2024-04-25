@@ -1,5 +1,3 @@
-// TODO keep track of user's question count
-
 // if the user is starting a new recommendation, this message pops up
 window.onload = function () {
   let from_where = document.referrer.split("/");

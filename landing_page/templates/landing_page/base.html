@@ -50,28 +50,32 @@
     </div>
     <div id="profile_div">
       <a href="{% url 'recommendations:index' %}">
-        <button id="get_recommendations_btm">Get Recommendations</button>
-      </a>
         {% if user.is_authenticated %}
-    <a href="{% url 'accounts:logout' %}">
-      <button id="login_button">Sign Out</button>
-    </a>
-    {% else %}
-    <a href="{% url 'accounts:login' %}">
-      <button id="login_button">Sign In</button>
-    </a>
-    {% endif %}
+        <button id="get_recommendations_btm">Get Recommendations</button>
+        {% else %}
+        <button id="get_recommendations_btm">Demo Recommendations</button>
+        {% endif %}
+      </a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'accounts:logout' %}">
+        <button id="login_button">Sign Out</button>
+      </a>
+      {% else %}
+      <a href="{% url 'accounts:login' %}">
+        <button id="login_button">Sign In</button>
+      </a>
+      {% endif %}
       <!-- Placeholder for User's Profile Picture when Logged In -->
       <img id="profile_pic" src="{% static 'accounts/images/profile.png' %}" />
     </div>
   </header>
 
-<nav>
-  <a href="{% url 'landing_page:index' %}"> Home</a>
-  <a href="{% url 'landing_page:about' %}">About</a>
-  <!-- remove movie tab from nav later, testing only-->
-  <a href="{% url 'landing_page:movie' %}">movie</a>
-</nav>
+  <nav>
+    <a href="{% url 'landing_page:index' %}"> Home</a>
+    <a href="{% url 'landing_page:about' %}">About</a>
+    <!-- remove movie tab from nav later, testing only-->
+    <a href="{% url 'landing_page:movie' movie_id=12 %}">movie</a>
+  </nav>
 
   <body>
     <input type="hidden" id="csrf_token" value="{{csrf_token }}" />

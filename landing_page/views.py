@@ -5,10 +5,11 @@ from django.conf import settings
 from django.db.models import CharField, Q, TextField
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
 
 from recommendations.models import Movie
+from accounts.models import FriendRequest
 
 
 # Initial landing page view.
@@ -25,12 +26,38 @@ def contact(request):
 
 
 def profile(request):
-    return render(request, "accounts/profile.html")
+    if not request.user.is_authenticated:
+        return render(request, "accounts/login.html")
+
+    # Load context with user data
+    recommended_movies = list(request.user.recommended_films.values("pk", "poster"))
+    watched_movies = list(request.user.watched_films.values("pk", "poster"))
+    liked_movies = list(request.user.liked_films.values("pk", "poster"))
+    disliked_movies = list(request.user.disliked_films.values("pk", "poster"))
+    watchlist_movies = list(request.user.watchlist_films.values("pk", "poster"))
+    friends = request.user.friends.all()
+    sent_requests = FriendRequest.objects.filter(sender=request.user)
+    received_requests = FriendRequest.objects.filter(receiver=request.user)
+
+    context = {
+        "recommended_movies": recommended_movies,
+        "watched_movies": watched_movies,
+        "liked_movies": liked_movies,
+        "disliked_movies": disliked_movies,
+        "watchlist_movies": watchlist_movies,
+        "friends": friends,
+        "sent_requests": sent_requests,
+        "received_requests": received_requests,
+    }
+
+    return render(request, "accounts/profile.html", context)
 
 
 # testing purposes
-def movie(request):
-    return render(request, "landing_page/movie.html")
+def movie(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    return render(request, "landing_page/movie.html", {"movie": movie})
 
 
 def get_csrf_token(request):
@@ -39,7 +66,7 @@ def get_csrf_token(request):
 
 
 def sort_by_closeness(query, movie):
-    return fuzz.partial_ratio(query, movie.name)
+    return fuzz.ratio(query, movie.name)
 
 
 def search_movies(request):
@@ -47,9 +74,9 @@ def search_movies(request):
 
     if query:
         # Construct Q objects for name, director, and release_year fields
-        q_name = Q(name__icontains=query)
-        q_director = Q(director__icontains=query)
-        q_release_year = Q(year__icontains=query)
+        q_name = Q(name__istartswith=query)
+        q_director = Q(director__istartswith=query)
+        q_release_year = Q(year__istartswith=query)
 
         # Combine Q objects using OR operator
         query_filter = q_name | q_director | q_release_year
@@ -84,19 +111,35 @@ def search_movies_json(request):
         search_string = body_data.get("search")
 
         if search_string:
-            # See if all movies must be sent, or only the top 5
+            movies = Movie.objects.filter(name__istartswith=search_string)
             if body_data.get("send_all"):
-                movies = Movie.objects.filter(name__icontains=search_string).order_by(
-                    "name"
+                sorted_movies = sorted(
+                    movies,
+                    key=lambda movie: sort_by_closeness(search_string, movie),
+                    reverse=True,
                 )
             else:
-                movies = Movie.objects.filter(name__icontains=search_string).order_by(
-                    "name"
+                sorted_movies = sorted(
+                    movies,
+                    key=lambda movie: sort_by_closeness(search_string, movie),
+                    reverse=True,
                 )[:5]
         else:
-            movies = Movie.objects.none()
+            sorted_movies = Movie.objects.none()
 
-        result = {"movies": list(movies.values())}  # Your search result data here
+        result = {
+            "movies": [
+                {
+                    "id": movie.id,
+                    "name": movie.name,
+                    "genres": movie.genres,
+                    "starring": movie.starring,
+                    "poster": movie.poster,
+                    "year": movie.year,
+                }
+                for movie in sorted_movies
+            ]
+        }
 
         # Return the result as JSON response
         return JsonResponse(result, safe=False)

@@ -26,13 +26,14 @@
 
 .user_content {
   display: flex;
-  justify-content: space-between;
 }
 
 .user_lists_div,
 .middle_col {
-  width: 100%;
+  flex: 1;
   margin-right: 20px;
+  max-width: calc(25vw - 10px); /* TODO temp solution, replace with grid later */
+
 }
 
 .list_div {
@@ -43,13 +44,15 @@
   min-height: 275px;
 }
 
-.list_div img {
+.list img {
   height: 200px;
   margin-right: 10px;
 }
 
 .list {
   margin-top: 10px;
+  overflow-x: auto;
+  display: flex;
 }
 
 .placeholder_text {
@@ -94,4 +97,18 @@ button {
 
 button:hover {
   background-color: #a38fff;
+}
+
+
+#yes_delete_friend_request_button:hover, #reject_friend_button:hover, #remove_confirm_button:hover {
+  background-color: #ff4d4d;
+}
+
+#accept_friend_button:hover {
+  background-color: #15d615;
+}
+
+.friend:hover {
+  transform: scale(1.2) !important;
+  transition: all 0.3s ease;
 }

@@ -1,15 +1,15 @@
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+from django.db import transaction
 from recommendations.models import (
     Movie,
-)  # Adjust the import according to your app structure
+)
 import random
 from .forms import *
-from .models import User
-from django.db import transaction
+from .models import User, FriendRequest
+import json
 
 MOVIES_POST_TO_MODEL = {
     "movies_liked": "liked_films",
@@ -307,3 +307,186 @@ def onboarding_trigger_view(request):
             "next_text": "Continue",
         },
     )
+
+
+# --- Friend handling begins ---
+
+
+def send_friend_request(request):
+    """
+    This function handles when a user wants to send a friend request to another user.
+    It returns the User object of the receiver if the request is successful.
+    """
+
+    # Check user is logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    # Check request is POST and has username field
+    if request.method != "POST":
+        return redirect("landing_page:index")
+    try:
+        data = json.loads(request.body)
+        request_username = data["username"]
+    except (json.JSONDecodeError, KeyError):
+        return JsonResponse({"message": "Invalid JSON", "status": 400})
+
+    # Invalid request handling
+    try:
+        receiver_user = User.objects.get(username=request_username)
+    except User.DoesNotExist:
+        return JsonResponse({"message": "User not found.", "status": 404})
+
+    receiver_id = receiver_user.pk
+
+    error_message = None
+    status = 200
+    if request.user.pk == receiver_id:
+        error_message = "You can't send a friend request to yourself."
+        status = 400
+    elif request.user.friends.filter(pk=receiver_id).exists():
+        error_message = "You are already friends with this user."
+        status = 409
+    elif FriendRequest.objects.filter(
+        sender=request.user, receiver=receiver_user
+    ).exists():
+        error_message = "You have already sent a friend request to this user."
+        status = 409
+    elif FriendRequest.objects.filter(
+        sender=receiver_user, receiver=request.user
+    ).exists():
+        error_message = ("You have already received a friend request from this user.",)
+        status = 409
+
+    if error_message is not None:
+        return JsonResponse({"message": error_message}, status=status)
+    # Create friend request
+    with transaction.atomic():
+        FriendRequest.objects.create(sender=request.user, receiver=receiver_user)
+    print(receiver_user.profile_picture.url)
+    return JsonResponse(
+        {
+            "message": "Friend request successfully sent!",
+            "receiver": {
+                "username": receiver_user.username,
+                "profile_picture": receiver_user.profile_picture.url,
+            },
+        }
+    )
+
+
+def remove_friend(request):
+    """
+    This function handles when a user wants to remove a friend from their
+    friends list.
+    """
+
+    # Check user is logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    # Check request is POST and has username field
+    if request.method != "POST":
+        return redirect("landing_page:index")
+    try:
+        data = json.loads(request.body)
+        request_username = data["username"]
+    except (json.JSONDecodeError, KeyError):
+        return HttpResponse("Invalid JSON", status=400)
+
+    # Invalid request handling
+    try:
+        friend = User.objects.get(username=request_username)
+    except User.DoesNotExist:
+        return HttpResponse("User not found.", status=404)
+
+    if not request.user.friends.filter(pk=friend.pk).exists():
+        return HttpResponse("You are not friends with this user.", status=404)
+
+    # Remove user from each others friends list
+    with transaction.atomic():
+        request.user.friends.remove(friend)
+        friend.friends.remove(request.user)
+
+    return HttpResponse("Successfully removed user from friends.", status=200)
+
+
+def accept_friend_request(request):
+    """
+    This function handles when a user wants to accept a friend request they
+    have received.
+    """
+
+    # Check user is logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    # Check request is POST and has username field
+    if request.method != "POST":
+        return redirect("landing_page:index")
+    try:
+        data = json.loads(request.body)
+        request_username = data["username"]
+    except (json.JSONDecodeError, KeyError):
+        return HttpResponse("Invalid JSON", status=400)
+
+    # Error handling
+    try:
+        friend_request = FriendRequest.objects.get(
+            sender=User.objects.get(username=request_username), receiver=request.user
+        )
+    except FriendRequest.DoesNotExist:
+        return HttpResponse(
+            "There is no friend request between you and this user.", status=404
+        )
+
+    # Handle friend request acceptance
+    with transaction.atomic():
+        request.user.friends.add(friend_request.sender)
+        friend_request.sender.friends.add(request.user)
+        friend_request.delete()
+
+    return HttpResponse("Successfully accepted friend request.", status=200)
+
+
+def delete_friend_request(request):
+    """
+    This function handles when a user either deletes a friend request they have sent,
+    or rejects a friend request they have received.
+    """
+    # Check user is logged in
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    # Check request is POST and has necessary fields
+    if request.method != "POST":
+        return redirect("landing_page:index")
+    try:
+        data = json.loads(request.body)
+        request_username = data["username"]
+        username_is_sender = data["username_is_sender"]
+    except (json.JSONDecodeError, KeyError):
+        return HttpResponse("Invalid JSON", status=400)
+
+    # Error handling
+    try:
+        if username_is_sender:
+            friend_request = FriendRequest.objects.get(
+                sender=User.objects.get(username=request_username),
+                receiver=request.user,
+            )
+        else:
+            friend_request = FriendRequest.objects.get(
+                sender=request.user,
+                receiver=User.objects.get(username=request_username),
+            )
+    except FriendRequest.DoesNotExist:
+        return HttpResponse(
+            "There is no friend request between you and this user.", status=404
+        )
+
+    # Delete friend request
+    with transaction.atomic():
+        friend_request.delete()
+
+    return HttpResponse("Successfully deleted friend request.", status=200)

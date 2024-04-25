@@ -1,72 +1,94 @@
-<!-- Practically the same as 'landing_page/base.html' -->
-
 {% load static %} {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/c60455fa26.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'recommendations/js/index.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'recommendations/css/index.css' %}"
+    />
+    <script src="{% static 'landing_page/js/index.js' %}" defer></script>
+    <title>ReeldIn</title>
+  </head>
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="https://kit.fontawesome.com/c60455fa26.js" crossorigin="anonymous">
-        </script>
-        <script src="{% static 'recommendations/js/index.js' %}" defer></script>
-        <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
-        <link rel="stylesheet" href="{% static 'recommendations/css/index.css' %}" />
-        <title>ReeldIn</title>
-    </head>
+  <header>
+    <div id="logo_div">
+      <a href="{% url 'landing_page:index' %}">
+        <img
+          src="{% static 'landing_page/images/REELDIN.png' %}"
+          alt="ReeldIn Logo"
+        />
+      </a>
+      <a href="{% url 'landing_page:index' %}">
+        <h1>ReeldIn</h1>
+      </a>
+    </div>
+    <div id="searchbar_div">
+      <input
+        type="text"
+        id="searchbar"
+        name="searchbar"
+        placeholder="Search for movies..."
+        autocomplete="off"
+        autocapitalize="off"
+        onkeyup="searchMovies(event)"
+        onblur="hideSearchResults()"
+        onfocus="showSearchResults()"
+      />
+      <i
+        id="magnifying-glass"
+        class="fa-solid fa-magnifying-glass"
+        onclick="searchMovies(event)"
+      ></i>
+      <div id="searched_movies_container"></div>
+    </div>
+    <div id="profile_div">
+      {% if user.is_authenticated %}
+      <a href="{% url 'accounts:logout' %}">
+        <button id="login_button">Sign Out</button>
+      </a>
+      {% else %}
+      <a href="{% url 'accounts:login' %}">
+        <button id="login_button">Sign In</button>
+      </a>
+      {% endif %}
+      <!-- Placeholder for User's Profile Picture when Logged In -->
+      <img id="profile_pic" src="{% static 'accounts/images/profile.png' %}" />
+    </div>
+  </header>
 
-    <header>
+  <nav>
+    <a href="{% url 'landing_page:index' %}"> Home</a>
+    <a href="{% url 'landing_page:about' %}">About</a>
+    <!-- remove movie tab from nav later, testing only-->
+    <a href="{% url 'landing_page:movie' movie_id=12 %}">movie</a>
+  </nav>
 
-        <div id="logo_div">
-            <a href="{% url 'landing_page:index' %}">
-                <img src="{% static 'landing_page/images/REELDIN.png' %}"
-                    alt="ReeldIn Logo" />
-            </a>
-            <a href="{% url 'landing_page:index' %}">
-                <h1>ReeldIn</h1>
-            </a>
-        </div>
-        <div id="searchbar_div">
-            <input type="text" id="searchbar" name="searchbar"
-                placeholder="Search for movies..." onkeydown="searchMovies(event)" />
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <div id="profile_div">
-            <a href="{% url 'recommendations:index' %}">
-                <button id="get_recommendations_btm">
-                    Get Recommendations
-                </button>
-            </a>
-            <a href="{% url 'accounts:login' %}">
-                <button id="login_button">Login</button>
-            </a>
-            <img id="profile_pic" src="{% static 'landing_page/images/profile.png' %}" />
-            </img>
-    </header>
+  <body>
+    <input type="hidden" id="csrf_token" value="{{csrf_token }}" />
+    {% block content %} {% endblock content %}
+  </body>
 
-    <nav>
-        <a href="{% url 'landing_page:index' %}">Home</a>
-        <a href="{% url 'landing_page:about' %}">About</a>
-    </nav>
-
-    <body>
-        {% block content %} {% endblock content %}
-    </body>
-
-    <!-- <footer>
-            <div id="footer_nav">
-                <a href="{% url 'landing_page:index' %}">Home</a>
-                <a href="profile.html">Profile</a>
-                <a href="search.html">Search</a>
-                <a href="20Qs.html">20 Questions</a>
-                <a href="{% url 'landing_page:about' %}">About</a>
-                <a href="{% url 'landing_page:contact' %}">Contact Us</a>
-                <a href="team.html">Our Team</a>
-            </div>
-            <div id="copyright">
-                <p>ReeldIn 2024 &copy;</p>
-            </div>
-        </footer> -->
-
+  <footer>
+    <div id="footer_nav">
+      <a href="{% url 'landing_page:index' %}">Home</a>
+      <a href="{% url 'landing_page:profile' %}">Profile</a>
+      <a href="search.html">Search</a>
+      <a href="20Qs.html">20 Questions</a>
+      <a href="{% url 'landing_page:about' %}">About</a>
+      <a href="{% url 'landing_page:contact' %}">Contact Us</a>
+      <a href="team.html">Our Team</a>
+    </div>
+    <div id="copyright">
+      <p>ReeldIn 2024 &copy;</p>
+    </div>
+  </footer>
 </html>
