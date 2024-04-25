@@ -41,6 +41,16 @@ class GenreForm(forms.Form):
                 initial=initial_preferences.get(genre_value, "neutral"),
             )
 
+    def clean(self):
+        cleaned_data = super(GenreForm, self).clean()
+        for genre_value, _ in GENRES:  # Ensure at least one genre is not set to block
+            preference = cleaned_data.get(genre_value)
+            if preference != "block":
+                return cleaned_data
+        raise forms.ValidationError(
+            "Not all genres can be set to 'Block'. Please choose different preferences for at least one genre."
+        )
+
 
 class CustomTriggerForm(forms.Form):
     """

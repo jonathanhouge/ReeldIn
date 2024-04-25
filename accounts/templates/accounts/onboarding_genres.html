@@ -5,6 +5,13 @@
 {% block caption %}Select the genres that you like, dislike, and would prefer to block (meaning a movie with that genre will never be recommended){% endblock caption %}
 {% block content %}
 <!--Form inspired by https://stackoverflow.com/questions/8727436/display-a-grid-radio-form-with-django-forms-or-django-floppyforms-->
+    {% if form.non_field_errors %}
+    <div class="genre_error">
+        {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
     <form method="post" id="onboarding-form">
         {% csrf_token %}
         <table class="genre-table">
