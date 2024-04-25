@@ -10,7 +10,11 @@ class User(AbstractUser):
     password = models.CharField(max_length=100)  # to account for salting & hashing
     email = models.EmailField(max_length=254)
     friends = models.ManyToManyField("User", blank=True)
-
+    profile_picture = models.ImageField(
+        upload_to="profile_pictures/",
+        blank=True,
+        default="profile_pictures/default.png",
+    )
     # external accounts, used for connections
     letterboxd_username = models.CharField(
         max_length=15, unique=True, null=True, blank=True
