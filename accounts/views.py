@@ -215,8 +215,18 @@ def add_movies_to_user_list(user, movie_list, model_name):
     to the list specified by model_name for the user.
     """
     users_list = getattr(user, model_name)
-    movie_models = Movie.objects.filter(pk__in=movie_list)
-    users_list.set(movie_models)
+    current_movies = set(users_list.values_list("id", flat=True))
+
+    new_movie_set = set(movie_list)
+
+    # TODO ideally do this before the POST on the client side
+    movies_to_add = new_movie_set - current_movies
+    movies_to_remove = current_movies - new_movie_set
+
+    if movies_to_remove:
+        users_list.remove(*Movie.objects.filter(id__in=movies_to_remove))
+    if movies_to_add:
+        users_list.add(*Movie.objects.filter(id__in=movies_to_add))
 
 
 def get_random_movies(request):
