@@ -12,7 +12,7 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("contact/", views.contact, name="contact"),
     path("search/movies", views.search_movies, name="search_movies"),
-    path("movie/", views.movie, name="movie"),
+    path("movie/<int:movie_id>", views.movie, name="movie"),
     path("api/search/movies", views.search_movies_json, name="search_movies_json"),
 ]
 

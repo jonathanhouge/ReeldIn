@@ -5,7 +5,7 @@ from django.conf import settings
 from django.db.models import CharField, Q, TextField
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
 
 from recommendations.models import Movie
@@ -54,8 +54,10 @@ def profile(request):
 
 
 # testing purposes
-def movie(request):
-    return render(request, "landing_page/movie.html")
+def movie(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    return render(request, "landing_page/movie.html", {"movie": movie})
 
 
 def get_csrf_token(request):
@@ -64,7 +66,7 @@ def get_csrf_token(request):
 
 
 def sort_by_closeness(query, movie):
-    return fuzz.partial_ratio(query, movie.name)
+    return fuzz.ratio(query, movie.name)
 
 
 def search_movies(request):
@@ -72,9 +74,9 @@ def search_movies(request):
 
     if query:
         # Construct Q objects for name, director, and release_year fields
-        q_name = Q(name__icontains=query)
-        q_director = Q(director__icontains=query)
-        q_release_year = Q(year__icontains=query)
+        q_name = Q(name__istartswith=query)
+        q_director = Q(director__istartswith=query)
+        q_release_year = Q(year__istartswith=query)
 
         # Combine Q objects using OR operator
         query_filter = q_name | q_director | q_release_year
@@ -109,7 +111,7 @@ def search_movies_json(request):
         search_string = body_data.get("search")
 
         if search_string:
-            movies = Movie.objects.filter(name__icontains=search_string)
+            movies = Movie.objects.filter(name__istartswith=search_string)
             sorted_movies = sorted(
                 movies,
                 key=lambda movie: sort_by_closeness(search_string, movie),
@@ -121,6 +123,7 @@ def search_movies_json(request):
         result = {
             "movies": [
                 {
+                    "id": movie.id,
                     "name": movie.name,
                     "genres": movie.genres,
                     "starring": movie.starring,
