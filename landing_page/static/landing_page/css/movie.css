@@ -13,17 +13,21 @@
 #movie_summary {
     font-family: var(--primary-font);
     font-size: 32px;
+    text-align: left;
 }
 #movie_name {
-    font-size: 32px;
+    font-size: 40px;
     font-family: var(--primary-font);
     margin-left: 10px;
-    display: flex;
-    
+    display: inline;
+    padding: 10px;
+    text-align: center;
 }
 
 #movie_button_nav {
     margin-left: 0px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 p {
