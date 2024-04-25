@@ -111,14 +111,15 @@ def search_movies_json(request):
         search_string = body_data.get("search")
 
         if search_string:
-            movies = Movie.objects.filter(name__istartswith=search_string)
             if body_data.get("send_all"):
+                movies = Movie.objects.filter(name__icontains=search_string)
                 sorted_movies = sorted(
                     movies,
                     key=lambda movie: sort_by_closeness(search_string, movie),
                     reverse=True,
                 )
             else:
+                movies = Movie.objects.filter(name__istartswith=search_string)
                 sorted_movies = sorted(
                     movies,
                     key=lambda movie: sort_by_closeness(search_string, movie),

@@ -16,9 +16,8 @@ MOVIES_POST_TO_MODEL = {
     "movies_disliked": "disliked_films",
     "movies_watched": "watched_films",
     "watchlist": "watchlist_films",
-    # TODO uncomment when ready
-    # 'movies_rewatch': 'films_to_rewatch',
-    # 'movies_blocked': 'films_dont_recommend'
+    "movies_rewatch": "rewatchable_films",
+    "movies_blocked": "excluded_films",
 }
 
 
@@ -147,19 +146,19 @@ def onboarding_genre_view(request):
                     liked_genres.append(genre)
                 elif preference == "dislike":
                     disliked_genres.append(genre)
-                # TODO uncomment ? later elif preference == "block":
-                #     blocked_genres.append(genre)
+                elif preference == "block":
+                    blocked_genres.append(genre)
             with transaction.atomic():
                 request.user.liked_genres = liked_genres
                 request.user.disliked_genres = disliked_genres
-                # TODO uncomment ? request.user.blocked_genres = blocked_genres
+                request.user.excluded_genres = blocked_genres
                 request.user.save()
             return redirect("/accounts/onboarding/movies")
     else:
         # Fetch the user's preferences
         liked_genres = request.user.liked_genres
         disliked_genres = request.user.disliked_genres
-        # TODO add ? blocked_genres = request.user.blocked_genres
+        blocked_genres = request.user.excluded_genres
 
         # Prepare initial data dictionary for the form
         initial_data = {}
@@ -169,8 +168,8 @@ def onboarding_genre_view(request):
                 initial_data[genre_value] = "like"
             elif genre_value in disliked_genres:
                 initial_data[genre_value] = "dislike"
-            # TODO uncomment ? elif genre_value in blocked_genres:
-            #     initial_data[genre_value] = "block"
+            elif genre_value in blocked_genres:
+                initial_data[genre_value] = "block"
         form = GenreForm(initial_preferences=initial_data)
     return render(
         request,
@@ -216,8 +215,7 @@ def add_movies_to_user_list(user, movie_list, model_name):
     to the list specified by model_name for the user.
     """
     users_list = getattr(user, model_name)
-    movie_ids = [int(movie) for movie in movie_list]
-    movie_models = Movie.objects.filter(pk__in=movie_ids)
+    movie_models = Movie.objects.filter(pk__in=movie_list)
     users_list.set(movie_models)
 
 
@@ -268,17 +266,13 @@ def preferences_movies_view(request):
     )
 
     watchlist = list(request.user.watchlist_films.all().values("pk", "poster", "name"))
-    # TODO uncomment when ready
-    # movies_rewatch = list(
-    #     request.user.films_to_rewatch.all().values("pk", "poster", "name")
-    # )
+    movies_rewatch = list(
+        request.user.rewatchable_films.all().values("pk", "poster", "name")
+    )
 
-    # movies_excluded = list(
-    #     request.user.films_dont_recommend.all().values("pk", "poster", "name")
-    # )
-
-    movies_rewatch = []
-    movies_excluded = []
+    movies_excluded = list(
+        request.user.excluded_films.all().values("pk", "poster", "name")
+    )
 
     return JsonResponse(
         {
