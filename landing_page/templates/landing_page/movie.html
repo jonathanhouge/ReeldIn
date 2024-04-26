@@ -47,5 +47,6 @@
   // (fails to interpret Django syntax)
   var movie_data = {{ movie_json | safe}}; 
   console.log(movie_data)
+  movieOverview(movie_data);
 </script>
 {% endblock content %}
