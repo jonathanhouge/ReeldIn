@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
-
+from django.core.serializers import serialize
 from recommendations.models import Movie
 
 
@@ -31,8 +31,11 @@ def profile(request):
 # testing purposes
 def movie(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-
-    return render(request, "landing_page/movie.html", {"movie": movie})
+    movie_json = serialize("json", [movie])
+    movie_json = json.loads(movie_json)[0]["fields"]
+    return render(
+        request, "landing_page/movie.html", {"movie": movie, "movie_json": movie_json}
+    )
 
 
 def get_csrf_token(request):

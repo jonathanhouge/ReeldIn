@@ -1,29 +1,51 @@
-{% extends 'landing_page/base.html' %} {% load static %} {% block content %}
+{% extends 'landing_page/base.html' %} 
+{% load static %} 
+{% block content %}
 <link rel="stylesheet" href="{% static 'landing_page/css/movie.css' %}" />
 <script src="{% static 'landing_page/js/movie.js' %}"></script>
 
 <div id="message_div">
-    <h1>More about the Movie</h1>
+  <h1>More about the Movie</h1>
 </div>
 
 <div class="content_div">
-    <div id="movie_name">
-        <h2>{{movie.name}}</h2>
-        <div id="movie_button_nav">
-            <button id="movie-button" onclick="movieOverview(' {{ movie.name }} ', `{{ movie.overview }}` )"> Overview </button>
-            <button id="movie-button" onclick="movieDetails(' {{ movie.director.0 }}','{{ movie.year }}', '{{ movie.runtime }} ', ` {{movie.genres.0}} `, ` {{movie.genres.1}} `, ` {{movie.genres.2}} `)"> Details </button>
-            <button id="movie-button" onclick="movieWatching()">Watching</button>
-            <button id="movie-button" onclick="movieOptions()">Opinions</button>
-        </div>
-
-        <div class="content_container">
-            <img loading="lazy" id="poster_{{ movie.id }}" class="poster" alt="{{ movie.name }}" onclick="loadDetailsPage('{{ movie.id }}')" src="https://image.tmdb.org/t/p/w200{{movie.poster}}">
-
-                <p id="movie_summary"> Click Buttons to see Movie Information
-
-                </p>
-            </div>
-        </div>
+  <div id="movie_name">
+    <h2>{{movie.name}}</h2>
+    <div id="movie_button_nav">
+      <button id="movie-button" onclick="movieOverview(movie_data)"> Overview </button>
+      <button id="movie-button" onclick="movieDetails(movie_data)"> Details </button>
+      <button id="movie-button" onclick="moviePeople(movie_data)">Cast & Crew</button>
     </div>
+    <div class="content_container">
+      <div class="tooltip">
+        <div class="tooltiptext" id ="tooltiptext" onclick="openTooltip()">
+          <p class="tooltip_message hidden" id="tooltip_message" ></p>
+          <div class="tooltip_buttons">
+            <div class="row1">
+              <i class="fa-regular fa-2x fa-thumbs-up tooltip_button" id="${movie.id}_upvote" onclick="addLiked('${movie.id}')"></i>
+              <i class="fa-regular fa-2x fa-thumbs-down tooltip_button" id="${movie.id}_dislike" onclick="addDisliked('${movie.id}')"></i>
+            </div>
+            <div class="row2">
+              <i class="fa-regular fa-2x fa-eye tooltip_button" id="${movie.id}_seen" onclick="addSeen('${movie.id}')"></i>
+              <i class="fa-solid fa-2x fa-plus tooltip_button" id="${movie.id}_watchlist" onclick="addWatchlist('${movie.id}')"></i>
+            </div>
+            <div class="row3">
+              <i class="fa-solid fa-2x fa-repeat tooltip_button" id="${movie.id}_rewatch" onclick="addRewatch('${movie.id}')"></i>
+              <i class="fa-solid fa-2x fa-ban tooltip_button" id="${movie.id}_exclude" onclick="addToExclude('${movie.id}')"></i>
+            </div>
+          </div>
+        </div>
+        <img loading="lazy" id="poster_{{ movie.id }}" class="poster" alt="{{ movie.name }}" src="https://image.tmdb.org/t/p/original{{movie.poster}}" >
+      </div>
+      <p id="movie_summary"> Click Buttons to see Movie Information</p>
+
+    </div>
+  </div>
 </div>    
+<script>
+  // NOTE: ignore IDE error as it is a false positive 
+  // (fails to interpret Django syntax)
+  var movie_data = {{ movie_json | safe}}; 
+  console.log(movie_data)
+</script>
 {% endblock content %}
