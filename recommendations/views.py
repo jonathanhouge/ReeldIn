@@ -9,6 +9,7 @@ from .helpers import (
     recommendation_querying,
     make_new_recommendation,
     make_readable_recommendation,
+    relevant_options,
 )
 from .models import Movie, Recommendation
 
@@ -116,6 +117,11 @@ def narrow_view(request):
         recommendation.save()
 
         form = FORMS[step + 1] if step + 1 < len(FORMS) else None
+        if form.declared_fields["Languages"]:
+            form.declared_fields["Languages"].choices = relevant_options(
+                form, recommendation.possible_films, recommendation.possible_film_count
+            )
+
         return render(
             request,
             "recommendations/index.html",
@@ -154,6 +160,10 @@ def index(request):
                 )
             else:
                 form = FORMS[recommendation.step]
+                if form.declared_fields["Languages"]:
+                    form.declared_fields["Languages"].choices = relevant_options(
+                        form, recommendation.possible_films, recommendation.possible_film_count
+                    )
 
         except ObjectDoesNotExist:
             recommendation = make_new_recommendation(user)

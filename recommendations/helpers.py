@@ -2,6 +2,7 @@ from .models import Movie, Recommendation
 from .choices import LANGUAGES
 
 
+# creates a new recommendation model and sets it up
 def make_new_recommendation(user):
     recommendation = Recommendation(user_id=user)
     recommendation.save()  # needs id
@@ -11,6 +12,24 @@ def make_new_recommendation(user):
     recommendation.possible_film_count = len(all_movies)
     recommendation.save()
     return recommendation
+
+
+# makes sure the user only sees relevant options (only for languages so far)
+def relevant_options(form, possible_films, possible_films_count):
+    relevant_languages = [form.OPTIONS[0]]  # always have 'no preference'
+    films_covered = 0
+
+    for language in form.OPTIONS:
+        language_films = possible_films.filter(language=language[0])
+
+        if language_films.count():
+            films_covered += language_films.count()
+            relevant_languages.append(language)
+
+        if films_covered == possible_films_count:
+            break  # stop early if possible
+
+    return relevant_languages
 
 
 # TODO only works for genre, year, runtime, language
