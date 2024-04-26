@@ -6,24 +6,24 @@
     <h1>More about the Movie</h1>
 </div>
 
-<div id="content_div">
-<div id="movie_name">
-    <h2>{{movie.name}}</h2>
-    <div id="movie_button_nav">
-        <button id="movie-button" onclick="movieOverview(' {{ movie.name }} ', `{{ movie.overview }} ` )"> Overview </button>
-        <button id="movie-button" onclick="movieDetails(' {{ movie.director.0 }}','{{ movie.year }}', '{{ movie.runtime }} ', ` {{movie.genres.0}} `, ` {{movie.genres.1}} `, ` {{movie.genres.2}} `)"> Details </button>
-        <button id="movie-button" onclick="movieWatching()">Watching</button>
-        <button id="movie-button" onclick="movieOptions()">Opinions</button>
-    </div>
-
-    <div class="content_container">
-        <img loading="lazy" id="poster_{{ movie.id }}" class="poster" alt="{{ movie.name }}" onclick="loadDetailsPage('{{ movie.id }}')" src="https://image.tmdb.org/t/p/w200{{movie.poster}}">
-
-            <p id="movie_summary"> Click Buttons to see Movie Information
-
-            </p>
+<div class="content_div">
+    <div id="movie_name">
+        <h2>{{movie.name}}</h2>
+        <div id="movie_button_nav">
+            <button id="movie-button" onclick="movieOverview(' {{ movie.name }} ', `{{ movie.overview }}` )"> Overview </button>
+            <button id="movie-button" onclick="movieDetails(' {{ movie.director.0 }}','{{ movie.year }}', '{{ movie.runtime }} ', ` {{movie.genres.0}} `, ` {{movie.genres.1}} `, ` {{movie.genres.2}} `)"> Details </button>
+            <button id="movie-button" onclick="movieWatching()">Watching</button>
+            <button id="movie-button" onclick="movieOptions()">Opinions</button>
         </div>
-    </div>
+
+        <div class="content_container">
+            <img loading="lazy" id="poster_{{ movie.id }}" class="poster" alt="{{ movie.name }}" onclick="loadDetailsPage('{{ movie.id }}')" src="https://image.tmdb.org/t/p/w200{{movie.poster}}">
+
+                <p id="movie_summary"> Click Buttons to see Movie Information
+
+                </p>
+            </div>
+        </div>
     </div>
 </div>    
 {% endblock content %}
