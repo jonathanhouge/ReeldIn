@@ -15,7 +15,7 @@ urlpatterns = [
     path("search/movies", views.search_movies, name="search_movies"),
     path("movie/<int:movie_id>", views.movie, name="movie"),
     path("api/search/movies", views.search_movies_json, name="search_movies_json"),
-    path("api/movies/", get_random_movies, name="get_movies"),
+    path("api/random/movies/", get_random_movies, name="get_movies"),
 ]
 
 # TODO this allows for media to be served in development, change in production#

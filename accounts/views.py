@@ -11,7 +11,7 @@ from .forms import *
 from .models import User, FriendRequest
 import json
 
-MOVIES_POST_TO_MODEL = {
+MOVIES_POST_TO_MODEL = {  # maps the POST request names to the model names
     "movies_liked": "liked_films",
     "movies_disliked": "disliked_films",
     "movies_watched": "watched_films",
@@ -119,12 +119,6 @@ def onboarding(request):
     return render(
         request,
         "accounts/onboarding.html",
-        {
-            "back_action": "redirectToLandingPage()",
-            "next_action": "proceedToOnboardingGenreForm()",
-            "back_text": "Exit",
-            "next_text": "Continue",
-        },
     )
 
 
@@ -176,9 +170,6 @@ def onboarding_genre_view(request):
         "accounts/onboarding_genres.html",
         {
             "form": form,
-            # "back_action": "/landing_page/index",
-            "next_action": "submitOnboardingGenreForm()",
-            "next_text": "Continue",
         },
     )
 
@@ -200,12 +191,6 @@ def onboarding_movie_view(request):
     return render(
         request,
         "accounts/onboarding_movies.html",
-        {
-            "back_action": "redirectToOnboardingGenreForm()",
-            "next_action": "submitOnboardingMovieForm()",
-            "back_text": "Back",
-            "next_text": "Continue",
-        },
     )
 
 
@@ -305,10 +290,6 @@ def onboarding_trigger_view(request):
         "accounts/onboarding_triggers.html",
         {
             "form": form,
-            "back_action": "redirectToOnboardingMovieForm()",
-            "next_action": "submitOnboardingTriggerForm()",
-            "back_text": "Back",
-            "next_text": "Continue",
         },
     )
 

@@ -47,6 +47,19 @@ img {
     margin-left:1rem;
 }
 
+.row1,.row2,.row3{
+    margin-top:20px;
+}
+
+/*TODO play with overlay to get poster colors*/
+.poster_overlay{ 
+    z-index: 1;
+    background: rgba(0, 128, 0, 0.5); /* semi-transparent green */
+
+}
+
+/* tooltip modified & repurposed from landing_page/index.css */
+
 .tooltip_button:hover {
     background-color: #e0e0e0;
     transform: scale(1.2) !important;
@@ -56,9 +69,7 @@ img {
 .tooltip_button:active {
     transform: scale(1) !important;
 }
-.row1,.row2,.row3{
-    margin-top:20px;
-}
+
 /*TODO style the tooltip message background*/
 .tooltip_message{ 
     min-height:80px;
@@ -68,14 +79,8 @@ img {
     text-align:center;
     padding:10px;
 }
-/* Displays over Movie Poster - repurposed from landing_page/index.css */
 
-/*TODO play with overlay to get poster colors*/
-.poster_overlay{ 
-    z-index: 1;
-    background: rgba(0, 128, 0, 0.5); /* semi-transparent green */
 
-}
 .tooltip {
     position: relative;
     display: inline-block;

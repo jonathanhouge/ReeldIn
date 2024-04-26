@@ -193,7 +193,7 @@ async function fetchMovies(numMovies = 35) {
 
   try {
     // Fetch movies from the API
-    const response = await fetch(`/api/movies/?amount=${numMovies}`);
+    const response = await fetch(`/api/random/movies/?amount=${numMovies}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -247,6 +247,16 @@ async function submitOnboardingMovieForm() {
 
 function redirectToOnboardingGenreForm() {
   window.location.href = "/accounts/onboarding/genres/";
+}
+
+function openBackModal() {
+  document.getElementById("confirm_back_modal").classList.remove("hidden");
+  document.getElementById("exit_overlay").classList.remove("hidden");
+}
+
+function closeBackModal() {
+  document.getElementById("confirm_back_modal").classList.add("hidden");
+  document.getElementById("exit_overlay").classList.add("hidden");
 }
 
 /************************************

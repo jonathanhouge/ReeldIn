@@ -1,8 +1,15 @@
 {% extends 'accounts/onboarding_base.html' %} {% load static %}
 
 {%block header %}Welcome!{% endblock header %}
-{% block caption %}Before we start recommending movies, would you like to go through your movie preferences? {% endblock caption %}
+{% block caption %}{% endblock caption %}
 
 {% block content %}
-
+    <div class = "onboarding_intro">
+        <h1>Let's get started!</h1>
+        <p>Before we start recommending movies, would you like to go through your movie preferences?</p>
+    </div>
+    <div class = "onboarding_buttons">
+        <button class="button" onclick="redirectToOnboardingMovies()">Yes</button>
+        <button class="button" onclick="redirectToLandingPage()">No</button>
+    </div>
 {% endblock content %}

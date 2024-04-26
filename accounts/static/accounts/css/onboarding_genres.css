@@ -3,7 +3,7 @@
     border-collapse: collapse;
 }
 .genre-table th, .genre-table td {
-    border: 1px solid #ccc;
+    border: 1px solid #8f8f8f;
     text-align: left;
     padding: 0.5rem;
 }

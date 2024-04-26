@@ -3,7 +3,7 @@ from .models import User
 from django import forms
 from recommendations.choices import GENRES, TRIGGER_DICT, TRIGGERS
 
-PREFERENCES = (
+GENRE_PREFERENCES = (
     ("like", "Like"),
     ("dislike", "Dislike"),
     ("block", "Block"),
@@ -17,16 +17,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 
-class CustomRadioSelect(forms.RadioSelect):
-    template_name = "accounts/row_radio_select.html"
-
-
 class GenreForm(forms.Form):
-    """
-    This form is used to collect user preferences for each genre,
-    the genre choices come from recommendations.choices.GENRES
-    """
-
     def __init__(self, *args, **kwargs):
         initial_preferences = kwargs.pop("initial_preferences", {})
         super(GenreForm, self).__init__(*args, **kwargs)
@@ -34,9 +25,9 @@ class GenreForm(forms.Form):
             genre_value = genre[0]
             genre_label = genre[1]
             self.fields[genre_value] = forms.ChoiceField(
-                choices=PREFERENCES,
+                choices=GENRE_PREFERENCES,
                 label=genre_label,
-                widget=CustomRadioSelect,
+                widget=forms.RadioSelect,
                 required=False,
                 initial=initial_preferences.get(genre_value, "neutral"),
             )
@@ -48,7 +39,7 @@ class GenreForm(forms.Form):
             if preference != "block":
                 return cleaned_data
         raise forms.ValidationError(
-            "Not all genres can be set to 'Block'. Please choose different preferences for at least one genre."
+            "Not all genres can be set to 'Block'. Please choose a different preference for at least one genre."
         )
 
 

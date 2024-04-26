@@ -10,23 +10,18 @@
   <script src="https://kit.fontawesome.com/c60455fa26.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
   <link rel="stylesheet" href="{% static 'accounts/css/onboarding_base.css' %}" />
+  <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
   <title>ReeldIn</title>
   {% block head %}{% endblock head %}
 </head>
 
 <header>
-  <div id="home_icon">
-    <a href="{% url 'landing_page:index' %}">
-      <i class="fas fa-home"></i>
-    </a>
+  <div id="home_icon" >
+      <i class="fas fa-home" onclick="openExitModal()"></i>
   </div>
-  <div id="logo_div">
-    <a href="{% url 'landing_page:index' %}">
-      <img src="{% static 'landing_page/images/REELDIN.png' %}" alt="ReeldIn Logo" />
-    </a>
-    <a href="{% url 'landing_page:index' %}">
+  <div id="logo_div" onclick="openExitModal()">
+      <img src="{% static 'landing_page/images/REELDIN.png' %}" alt="ReeldIn Logo" onclick="openExitModal()"/>
       <h1>ReeldIn</h1>
-    </a>
   </div>
 </header>
 <nav></nav>
@@ -42,15 +37,26 @@
 
   <!--Forward and backwards buttons-->
   <div class="footer-buttons">
-    <!--Back button-->
-    {% if back_action %}
-    <button onclick="{{ back_action }}" id="back-button" class="button">{{ back_text }}</button>
-    {% endif %}
-    <!--Forward button-->
-    {% if next_action %}
-    <button onclick="{{ next_action }}" id="next-button" class="button">{{ next_text }}</button>
-    {% endif %}
+    {% block footer_buttons %}
+    
+    {% endblock footer_buttons %}
   </div>
+
+  <!-- Exit modal-->
+  <section class="modal hidden" id ="confirm_exit_modal">
+    <div class="flex">
+      <h3>Are you sure you want to exit?</h3>
+      <button class="btn-close" onclick="closeExitModal()">⨉</button>
+    </div>
+    <div>
+      <p id="exit_warning">Any changes made will not be saved!</p>
+    </div>
+  
+    <button class="btn profile_button" id="yes_delete_friend_request_button" onclick="redirectToLandingPage()">Yes</button>
+    <button class="btn profile_button" id="no_delete_friend_request_button" onclick="closeExitModal()">No</button>
+  </section>
+  <!-- Overlay for background blur -->
+  <div class="overlay hidden" id ="exit_overlay" onclick="closeExitModal()"></div>
   <script src="{% static 'accounts/js/onboarding_base.js' %}"></script>
   {% block scripts %}{% endblock scripts %}
 </body>

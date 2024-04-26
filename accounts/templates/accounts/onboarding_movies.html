@@ -3,7 +3,7 @@
  <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> 
 {% endblock head %}
 {% block header %}Movies{% endblock header %} 
-{% block caption %}Now let's figure out your movie preferences! Tutorial here {% endblock caption %}
+{% block caption %}Let's figure out your movie preferences, search for as many films as you'd like! {% endblock caption %}
 {% block content %}
 <button onclick="printState()" style="min-height: 100px;">Print State of movies</button>
 <button onclick="clearMovies()" style="min-height: 100px;">Clear State</button>
@@ -15,6 +15,25 @@
 <div id="movie_container">
 </div>
 
+<!--Back Modal-->
+<section class="modal hidden" id ="confirm_back_modal">
+  <div class="flex">
+    <h3>Are you sure you want to go back to the previous section?</h3>
+    <button class="btn-close" onclick="closeBackModal()">⨉</button>
+  </div>
+  <div>
+    <p id="exit_warning">Any changes made will not be saved!</p>
+  </div>
+
+  <button class="btn profile_button" id="yes_delete_friend_request_button" onclick="redirectToOnboardingGenreForm()">Yes</button>
+  <button class="btn profile_button" id="no_delete_friend_request_button" onclick="closeBackModal()">No</button>
+</section>
+
 {% endblock content %}
+{% block footer_buttons %}
+  <button onclick="openBackModal()" id="back-button" class="button">Back</button>
+  <button onclick="submitOnboardingMovieForm()" id="next-button" class="button">Save & Continue</button>
+{% endblock footer_buttons %}
+
 
 {% block scripts %} <script src="{% static 'accounts/js/onboarding_movies.js' %}"></script> {% endblock scripts %}
