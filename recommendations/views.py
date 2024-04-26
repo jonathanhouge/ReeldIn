@@ -116,6 +116,10 @@ def narrow_view(request):
 
         recommendation.save()
 
+        # stop early
+        if recommendation.possible_film_count < 10:
+            return recommend_view(request)
+
         form = FORMS[step + 1] if step + 1 < len(FORMS) else None
         if "Languages" in form.declared_fields:
             form.declared_fields["Languages"].choices = relevant_options(

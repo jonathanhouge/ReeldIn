@@ -1,5 +1,6 @@
 from .models import Movie, Recommendation
 from .choices import LANGUAGES
+from django.db.models import Count
 
 
 # creates a new recommendation model and sets it up
@@ -15,16 +16,28 @@ def make_new_recommendation(user):
 
 
 # makes sure the user only sees relevant options (only for languages so far)
+# note: chatgpt helped make this way more efficient - was querying the db too much
 def relevant_options(form, possible_films, possible_films_count):
     relevant_languages = [form.OPTIONS[0]]  # always have 'no preference'
     films_covered = 0
 
-    for language in form.OPTIONS:
-        language_films = possible_films.filter(language=language[0])
+    # Annotate the queryset with the count of films for each language
+    annotated_films = possible_films.values("language").annotate(num_films=Count("id"))
 
-        if language_films.count():
-            films_covered += language_films.count()
-            relevant_languages.append(language)
+    for language_code, language_name in form.OPTIONS:
+        # Find the count of films for the current language
+        language_count = next(
+            (
+                entry["num_films"]
+                for entry in annotated_films
+                if entry["language"] == language_code
+            ),
+            0,
+        )
+
+        if language_count:
+            relevant_languages.append((language_code, language_name))
+            films_covered += language_count
 
         if films_covered == possible_films_count:
             break  # stop early if possible

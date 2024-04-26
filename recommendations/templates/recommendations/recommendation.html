@@ -15,7 +15,7 @@
 <div class="content_div">
   {% if user.is_authenticated %}
   <div id="reset-recommendations">
-    <button id="get_recommendations_btm" class="rec-btn-open">
+    <button id="gen-recommendations-btm" class="rec-btn-open">
       Generate New Recommendation
     </button>
   </div>
@@ -65,7 +65,7 @@
       your profile page.
     </p>
   </div>
-  <button class="button btn rec-delete-btn" >
+  <button class="button btn rec-delete-btn">
     <a href="{% url 'recommendations:delete' %}">Generate</a>
   </button>
 </section>
