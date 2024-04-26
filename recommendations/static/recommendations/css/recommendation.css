@@ -57,3 +57,11 @@
 .rec-delete-btn:hover {
   background-color: #ff4d4d;
 }
+
+.rec-delete-btn a {
+  display: block;
+}
+
+.rec-delete-btn a:hover {
+  color: black;
+}

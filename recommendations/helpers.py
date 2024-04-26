@@ -13,7 +13,7 @@ def make_new_recommendation(user):
     return recommendation
 
 
-# TODO only works for genre, year, runtime, language (untested)
+# TODO only works for genre, year, runtime, language
 def recommendation_querying(recommendation, field, selection):
     if field == "year" or field == "runtime":
         span = selection.split("-")

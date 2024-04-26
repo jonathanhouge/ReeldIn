@@ -48,7 +48,7 @@ class LanguageForm(forms.Form):
     )
 
     OPTIONS = LANGUAGES
-    Runtimes = forms.MultipleChoiceField(
+    Languages = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple, choices=OPTIONS
     )
 
