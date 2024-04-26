@@ -1,20 +1,17 @@
-// Adapted from "How to Build a Modal with JavaScript" by Victor Eke
-// https://www.freecodecamp.org/news/how-to-build-a-modal-with-javascript/
-
-let modal = document.querySelector(".rec-modal");
-let overlay = document.querySelector(".rec-overlay");
-let openModalBtn = document.querySelector(".rec-btn-open");
-let closeModalBtn = document.querySelector(".rec-btn-close");
+const recModal = document.querySelector(".rec-modal");
+const recOverlay = document.querySelector(".rec-overlay");
+const recOpenModalBtn = document.querySelector(".rec-btn-open");
+const recCloseModalBtn = document.querySelector(".rec-btn-close");
 
 // close modal function
-let closeModal = function () {
-  modal.classList.add("hidden");
-  overlay.classList.add("hidden");
+const recCloseModal = function () {
+  recModal.classList.add("hidden");
+  recOverlay.classList.add("hidden");
 };
 
 // close the modal when the close button and overlay is clicked
-closeModalBtn.addEventListener("click", closeModal);
-overlay.addEventListener("click", closeModal);
+recCloseModalBtn.addEventListener("click", recCloseModal);
+recOverlay.addEventListener("click", recCloseModal);
 
 // close modal when the Esc key is pressed
 document.addEventListener("keydown", function (e) {
@@ -24,9 +21,9 @@ document.addEventListener("keydown", function (e) {
 });
 
 // open modal function
-let openModal = function () {
-  modal.classList.remove("hidden");
-  overlay.classList.remove("hidden");
+const recOpenModal = function () {
+  recModal.classList.remove("hidden");
+  recOverlay.classList.remove("hidden");
 };
 // open modal event
-openModalBtn.addEventListener("click", openModal);
+recOpenModalBtn.addEventListener("click", recOpenModal);

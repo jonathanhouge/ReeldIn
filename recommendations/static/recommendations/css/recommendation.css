@@ -40,3 +40,20 @@
 .movie p {
   margin: 0.5rem;
 }
+
+/* for modal button */
+.rec-delete-btn {
+  font-family: Inter Tight, sans-serif;
+  padding: 0.75rem;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  background-color: #c8adff;
+  cursor: pointer;
+  margin: 0.5rem;
+  border-radius: 10px;
+}
+
+.rec-delete-btn:hover {
+  background-color: #ff4d4d;
+}
