@@ -11,7 +11,7 @@
     <h2>{{movie.name}}</h2>
     <div id="movie_button_nav">
         <button id="movie-button" onclick="movieOverview(' {{ movie.name }} ', `{{ movie.overview }} ` )"> Overview </button>
-        <button id="movie-button" onclick="movieDetails(' {{ movie.director.0 }}','{{ movie.year }}', '{{ movie.runtime }} ')"> Details </button>
+        <button id="movie-button" onclick="movieDetails(' {{ movie.director.0 }}','{{ movie.year }}', '{{ movie.runtime }} ', ` {{movie.genres.0}} `, ` {{movie.genres.1}} `, ` {{movie.genres.2}} `)"> Details </button>
         <button id="movie-button" onclick="movieWatching()">Watching</button>
         <button id="movie-button" onclick="movieOptions()">Opinions</button>
     </div>

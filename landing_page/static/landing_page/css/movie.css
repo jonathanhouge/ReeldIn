@@ -27,11 +27,19 @@
 #movie_button_nav {
     margin-left: 0px;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 p {
-    margin-left: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+img {
+    height: 600px;
+    width: auto;
 }
 
 /* The poster / buttons / font size for each screen size will slighly differ */
@@ -51,8 +59,8 @@ p {
     }
   }
   @media screen and (max-width:400px) and (min-width:300px){
-   img{ height: 150px;
-    width: 120px;
+   img{ height: 250px;
+    width: auto;
     justify-content: center;
    }
    #movie_summary {
@@ -62,13 +70,13 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
-}
+
+    }
   }
 @media screen and (max-width:500px) and (min-width:400px){
     img{
         height: 40vh;
-        width: 27vh;
+        width: auto;
         align-items: center;
     }
 
@@ -112,16 +120,16 @@ p {
 @media screen and (max-width:3000px) and (min-width:1441px){
     img{
         height:700px;
-        width: 550px;
+        width: auto;
     }
     
     p {
         font-size: 35px;
         padding: 10px;
-        margin-left: 2rem;
+        margin-left: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        margin-right: 1rem;
     }
 
-    #movie_button_nav {
-        margin-left: 320px;
-    }
 }
