@@ -1,15 +1,8 @@
 {% extends 'recommendations/base.html' %} {% load static %} {% block content %}
 
-<!-- 'end querying' button -->
-<a href="{% url 'recommendations:recommend_view' %}">
-  {% if user.is_authenticated %}
-  <button id="get_recommendations_btm">Generate Recommendation</button>
-  {% else %}
-  <button id="get_recommendations_btm">Demo Recommendation Generation</button>
-  {% endif %}
-</a>
-
 <!-- question & form -->
+<script src="{% static 'recommendations/js/index.js' %}" defer></script>
+
 <div id="recommendation_space">
   <h1 id="question">Question #{{ recommendation.step }}</h1>
   {% block form %}

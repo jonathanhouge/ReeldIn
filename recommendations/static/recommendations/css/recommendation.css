@@ -1,0 +1,42 @@
+.content_container {
+  display: flex;
+  background-color: var(--white);
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+.content_div {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+
+  gap: 1rem;
+  margin-right: 4rem;
+  margin-left: 4rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 20px;
+}
+
+#reset-recommendations {
+  margin-left: auto;
+  margin-right: 0;
+  margin-right: 0.5rem;
+}
+
+#reset-recommendations button {
+  font-family: Inter Tight, sans-serif;
+  padding: 0.75rem;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  background-color: #f4f4f4;
+  cursor: pointer;
+  margin: 0.5rem;
+  border-radius: 10px;
+}
+
+.movie p {
+  margin: 0.5rem;
+}

@@ -1,32 +1,50 @@
 {% extends 'recommendations/base.html' %} {% load static %} {% block content %}
 
 <script src="{% static 'landing_page/js/search.js' %}"></script>
+<link
+  rel="stylesheet"
+  href="{% static 'recommendations/css/recommendation.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'landing_page/css/index.css' %}" />
 
 <div class="content_div">
-    <div id="title_div">
-        <h2>Recommendations</h2>
-    </div>
-    <div class=" movies_div content_container">
-        {% if movies %}
-        {% for movie in movies %}
-        <div class="movie tooltip">
-            <div class="tooltiptext">
-                <h3>{{ movie.name }}</h3>
-                <p>{{ movie.genres }}</p>
-                <p>{{ movie.year }}</p>
-                <p>{{ movie.directors }}</p>
-                <button href="/movie/{{movie.id}}">Go to Movie Page</button>
-            </div>
+  {% if user.is_authenticated %}
+  <div id="reset-recommendations">
+    <a href="{% url 'recommendations:delete' %}">
+      <button id="get_recommendations_btm">Generate New Recommendation</button>
+    </a>
+  </div>
+  {% endif %}
+  <div id="title_div">
+    <h2>Here are your recommendations!</h2>
+  </div>
+  <div class="movies_div content_container">
+    {% if recommendations %} {% for recommendation in recommendations %}
+    <div class="movie tooltip">
+      <div class="tooltiptext">
+        <h3>{{ recommendation.name }}</h3>
+        <p>{{ recommendation.year }}</p>
+        <p><strong>Language:</strong> {{ recommendation.language }}</p>
+        <p><strong>Director:</strong> {{ recommendation.director }}</p>
+        <p><strong></strong>Genres:</strong> {{ recommendation.genres }}</p>
+        <button onclick="loadDetailsPage('{{ recommendation.id }}')">
+          Go to Movie Page
+        </button>
+      </div>
 
-            <img loading="lazy" id="poster_{{ movie.id }}" class="poster"
-                alt="{{ movie.name }}" onclick="loadDetailsPage('{{ movie.id }}')"
-                src="https://image.tmdb.org/t/p/w200{{movie.poster}}" />
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No movies found.</p>
-        {% endif %}
+      <img
+        loading="lazy"
+        id="poster_{{ recommendation.id }}"
+        class="poster"
+        alt="{{ recommendation.name }}"
+        onclick="loadDetailsPage('{{ recommendation.id }}')"
+        src="https://image.tmdb.org/t/p/w200{{recommendation.poster}}"
+      />
     </div>
+    {% endfor %} {% else %}
+    <p>No movies found.</p>
+    {% endif %}
+  </div>
 </div>
 
-{% endblock %} {% endblock content %}
+{% endblock %}
