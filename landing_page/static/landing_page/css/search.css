@@ -20,6 +20,8 @@ p {
 
 .poster {
   cursor: pointer;
+  border-radius: 7px;
+  border: 1px solid var(--black);
   transition: all 0.3s ease;
 }
 
