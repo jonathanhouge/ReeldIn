@@ -40,6 +40,8 @@ def recommendation_querying(recommendation, field, selection):
             **{f"{field}__gte": span[0]}, **{f"{field}__lte": span[1]}
         )
     elif field == "language":
+        if "" in selection:
+            return recommendation.possible_films.all()  # user has no pref
         return recommendation.possible_films.filter(language__in=selection)
 
     # genre

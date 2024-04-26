@@ -117,7 +117,7 @@ def narrow_view(request):
         recommendation.save()
 
         form = FORMS[step + 1] if step + 1 < len(FORMS) else None
-        if form.declared_fields["Languages"]:
+        if "Languages" in form.declared_fields:
             form.declared_fields["Languages"].choices = relevant_options(
                 form, recommendation.possible_films, recommendation.possible_film_count
             )
@@ -160,9 +160,11 @@ def index(request):
                 )
             else:
                 form = FORMS[recommendation.step]
-                if form.declared_fields["Languages"]:
+                if "Languages" in form.declared_fields:
                     form.declared_fields["Languages"].choices = relevant_options(
-                        form, recommendation.possible_films, recommendation.possible_film_count
+                        form,
+                        recommendation.possible_films,
+                        recommendation.possible_film_count,
                     )
 
         except ObjectDoesNotExist:
