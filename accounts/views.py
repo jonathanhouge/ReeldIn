@@ -70,9 +70,10 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            # request.session["onboarding"] = True TODO link to onboarding later
-            # return render(request, "accounts/onboarding.html")
-            return redirect("landing_page:index")
+            request.session["onboarding"] = (
+                True  # allows transition from onboarding to recommendations
+            )
+            return render(request, "accounts/onboarding.html")
         else:
             # taken username?
             provided_username = request.POST["username"]
@@ -115,6 +116,7 @@ def signup(request):
 
 
 def onboarding(request):
+    # TODO uncomment this and make else redirect to page not found or home
     # if(request.session.get("onboarding")):
     return render(
         request,

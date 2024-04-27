@@ -6,7 +6,6 @@
     bottom: 0;
     width: 100%;
     padding-bottom: 20px;
-    background-color: rgb(255, 0, 208);
 }
 
 #back-button {
@@ -20,7 +19,7 @@
 #next-button {
     position: fixed;
     right: 20px;
-    background-color: greenyellow;
+    background-color: var(--like-green);
 }
 
 
@@ -32,7 +31,7 @@
 }
 
 button {
-    font-family: Inter Tight, sans-serif;
+    font-family: var(--primary-font);
     padding: 0.75rem;
     font-size: 20px;
     font-weight: 600;

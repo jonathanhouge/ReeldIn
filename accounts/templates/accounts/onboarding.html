@@ -1,15 +1,19 @@
 {% extends 'accounts/onboarding_base.html' %} {% load static %}
 
+{% block head %} <link rel="stylesheet" href="{% static 'accounts/css/onboarding_intro.css' %}" /> {% endblock head %}
 {%block header %}Welcome!{% endblock header %}
 {% block caption %}{% endblock caption %}
 
 {% block content %}
     <div class = "onboarding_intro">
-        <h1>Let's get started!</h1>
-        <p>Before we start recommending movies, would you like to go through your movie preferences?</p>
+        <h1>Let's get started {{request.user.username}}!</h1>
+        <p id = "caption_1">Before you begin getting recommended movies, would you like to go through your movie preferences?</p>
+        <p id = "caption_2">You can always update your preferences later through <strong>Profile</strong> -> <strong>Settings</strong>.</p>
     </div>
     <div class = "onboarding_buttons">
-        <button class="button" onclick="redirectToOnboardingMovies()">Yes</button>
-        <button class="button" onclick="redirectToLandingPage()">No</button>
+        <button class="button" id="intro_no" onclick="redirectToRecommendations()">No</button>
+        <button class="button" id="intro_yes" onclick="redirectToOnboardingMovies()">Yes</button>
     </div>
 {% endblock content %}
+
+{% block scripts %} <script src="{% static 'accounts/js/onboarding_intro.js' %}"></script> {% endblock scripts %}

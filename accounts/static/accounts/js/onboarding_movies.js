@@ -14,7 +14,17 @@ const movieContainer = document.getElementById("movie_container");
 const searchbar = document.getElementById("searchbar");
 const tooltipBackgroundColor = "#9a8aff"; // Original tooltip button color
 var currentTooltiptext = null; // Holds the last tooltip that was clicked on
+const likeGreen = getComputedStyle(document.documentElement).getPropertyValue(
+  "--like-green"
+);
+const excludeRed = getComputedStyle(document.documentElement).getPropertyValue(
+  "--exclude-red"
+);
+const rewatchOrange = getComputedStyle(
+  document.documentElement
+).getPropertyValue("--rewatch-orange");
 
+// Page initialization
 loadUserMovies();
 fetchMovies(50);
 
@@ -31,6 +41,7 @@ async function getCSRFToken() {
     throw error; // Rethrow the error to propagate it
   }
 }
+
 function printStatus() {
   console.log("Movies Liked: ", movies_liked);
   console.log("Movies Disliked: ", movies_disliked);
@@ -113,26 +124,24 @@ function updateButtons(movie_id) {
   intID = parseInt(movie_id);
   if (movies_liked.has(intID)) {
     document.getElementById(movie_id + "_upvote").style.backgroundColor =
-      "green";
-  }
-  if (movies_disliked.has(intID)) {
+      likeGreen;
+  } else if (movies_disliked.has(intID)) {
     document.getElementById(movie_id + "_dislike").style.backgroundColor =
       "red";
   }
   if (movies_watched.has(intID)) {
     document.getElementById(movie_id + "_seen").style.backgroundColor = "blue";
-  }
-  if (watchlist.has(intID)) {
+  } else if (watchlist.has(intID)) {
     document.getElementById(movie_id + "_watchlist").style.backgroundColor =
       "cornflowerblue";
   }
   if (movies_rewatch.has(intID)) {
     document.getElementById(movie_id + "_rewatch").style.backgroundColor =
-      "orange";
+      rewatchOrange;
   }
   if (movies_blocked.has(intID)) {
     document.getElementById(movie_id + "_exclude").style.backgroundColor =
-      "red";
+      excludeRed;
   }
 }
 
@@ -346,7 +355,7 @@ function addLiked(id) {
   }
 
   movies_liked.add(intID);
-  liked_button.style.backgroundColor = "green";
+  liked_button.style.backgroundColor = likeGreen;
 }
 
 /**
@@ -476,7 +485,7 @@ function addRewatch(id) {
     return;
   }
 
-  rewatch_button.style.backgroundColor = "orange";
+  rewatch_button.style.backgroundColor = rewatchOrange;
   movies_rewatch.add(intID);
 }
 
@@ -504,7 +513,7 @@ function addToExclude(id) {
     movies_rewatch.delete(intID);
   }
 
-  exclude_button.style.backgroundColor = "red";
+  exclude_button.style.backgroundColor = excludeRed;
   movies_blocked.add(intID);
 }
 
