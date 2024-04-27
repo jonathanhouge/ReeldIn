@@ -70,7 +70,6 @@ img {
     transform: scale(1) !important;
 }
 
-/*TODO style the tooltip message background*/
 .tooltip_message{ 
     min-height:80px;
     color:red;
@@ -79,7 +78,6 @@ img {
     text-align:center;
     padding:10px;
 }
-
 
 .tooltip {
     position: relative;

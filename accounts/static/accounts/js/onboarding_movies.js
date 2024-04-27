@@ -1,7 +1,4 @@
-/**
- * These variables holds the data for the end movie preference POST request content,
- * and also aid in the process of making the site more interactive.
- */
+// Movie data int ID sets
 var movies_liked = new Set();
 var movies_disliked = new Set();
 var movies_watched = new Set();
@@ -9,11 +6,7 @@ var watchlist = new Set();
 var movies_rewatch = new Set();
 var movies_blocked = new Set();
 
-let isLoading = false; // Prevents multiple movie fetches at once
-const movieContainer = document.getElementById("movie_container");
-const searchbar = document.getElementById("searchbar");
-const tooltipBackgroundColor = "#9a8aff"; // Original tooltip button color
-var currentTooltiptext = null; // Holds the last tooltip that was clicked on
+// Button colors
 const likeGreen = getComputedStyle(document.documentElement).getPropertyValue(
   "--like-green"
 );
@@ -24,32 +17,18 @@ const rewatchOrange = getComputedStyle(
   document.documentElement
 ).getPropertyValue("--rewatch-orange");
 
+// Page elements
+const movieContainer = document.getElementById("movie_container");
+const searchbar = document.getElementById("searchbar");
+const tooltipBackgroundColor = "#9a8aff"; // Original tooltip button color
+
+// Page variables
+var currentTooltiptext = null; // Holds the last tooltip that was clicked on
+var isLoading = false; // Prevents multiple movie fetches at once
+
 // Page initialization
 loadUserMovies();
 fetchMovies(50);
-
-/*Function from landing_page/js/index.js */
-async function getCSRFToken() {
-  try {
-    const response = await fetch("/get-csrf-token/");
-    const data = await response.json();
-    const csrfToken = data.csrf_token;
-
-    return csrfToken;
-  } catch (error) {
-    console.error("Error fetching CSRF token:", error);
-    throw error; // Rethrow the error to propagate it
-  }
-}
-
-function printStatus() {
-  console.log("Movies Liked: ", movies_liked);
-  console.log("Movies Disliked: ", movies_disliked);
-  console.log("Movies Watched: ", movies_watched);
-  console.log("Watchlist: ", watchlist);
-  console.log("Movies Rewatch: ", movies_rewatch);
-  console.log("Movies Blocked: ", movies_blocked);
-}
 
 /**
  * This class is used to create the div that holds a movie object.
@@ -87,6 +66,7 @@ function createMovieDiv(movie) {
     </div>
   </div>`;
   movieDiv.appendChild(tooltiptext);
+
   var poster = document.createElement("img");
   poster.src = "https://image.tmdb.org/t/p/w300" + movie.poster;
   poster.loading = "lazy";
@@ -94,8 +74,8 @@ function createMovieDiv(movie) {
   poster.onmouseenter = function () {
     updateButtons(movie.id);
   };
-
   movieDiv.appendChild(poster);
+
   return movieDiv;
 }
 
