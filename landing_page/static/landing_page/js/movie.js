@@ -1,4 +1,4 @@
-// Buttons for the movie page's
+// Buttons for the movie info page
 // context change depending on button clicked, testing visuals
 function movieOverview(movie_data) {
   console.log("movie_data: ", movie_data);
@@ -25,12 +25,36 @@ function movieDetails(movie_data) {
   movie_genres = JSON.parse(movie_data.genres);
   movie_genres = movie_genres.toString();
 
+  /* the movie_data has an language section, but is not added to views.py
+  movie_language = JSON.parse(movie_data.language);
+  movie_language = movie_language.toString(); */
+
   document.getElementById(
     "movie_summary"
   ).innerHTML = `<p><strong>Director(s):</strong> ${movie_director}</p>
+  <div style="margin-top: 10px;">
     <p><strong>Movie Release Year:</strong> ${movie_data.year} </p>
+  </div>
+  <div style="margin-top: 10px;">
     <p><strong>Movie Runtime:</strong> ${movie_data.runtime} minutes</p>
-    <p><strong>Genres:</strong> ${movie_genres}</p>`;
+    </div>
+    <div style="margin-top: 10px;">
+    <p><strong>Genres:</strong> ${movie_genres} </p> </div>
+    <div style="margin-top: 10px;">
+    <p><strong>Movie Language:</strong>  </p> </div>
+    <div style="margin-top: 10px;">
+    <p><strong>Movie MPAA Rating:</strong> ` + String(get_mpaa(movie_id, requests)) + 
+    `</p> </div>`;
+    
+}
+
+function moviePeople(movie_data) {
+  movie_starring = JSON.parse(movie_data.starring);
+  movie_starring = movie_starring.toString();
+
+  document.getElementById("movie_summary").innerHTML = 
+  `<div style="margin-top: 10px;">
+    <p><strong>Movie Starring: </strong> ${movie_starring} </p> </div>`;
 }
 
 function openTooltip() {

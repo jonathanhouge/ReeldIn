@@ -117,3 +117,16 @@ def search_movies_json(request):
 
     # Return an error response for non-POST requests
     return JsonResponse({"error": "Method not allowed"}, status=405)
+
+def get_mpaa(movie_id, requests):
+    """
+    This function takes in a movie and returns the MPAA rating of the movie. 
+    """
+    API_KEY = os.environ.get("TMBD_API_KEY")
+    url = "https://api.themoviedb.org/3/movie/" + str(movie_id) + "/release_dates?api_key="+ API_KEY
+    response = requests.get(url)
+    data = response.json()
+    for result in data["results"]:
+        if result["iso_3166_1"] == "US":
+            return result["certification"]
+    return None
