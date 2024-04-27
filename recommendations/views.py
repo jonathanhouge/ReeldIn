@@ -1,14 +1,17 @@
 import random
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
 from accounts.models import User
+from landing_page.views import movie
+from recommendations.choices import GENRES
 
 from .forms import *
 from .helpers import (
-    recommendation_querying,
     make_new_recommendation,
     make_readable_recommendation,
+    recommendation_querying,
     relevant_options,
 )
 from .models import Movie, Recommendation
@@ -99,10 +102,12 @@ def narrow_view(request):
     if form.is_valid():
         field = FIELD[step]
         selection = form.cleaned_data.get(field, [])
+        filter_method = form.cleaned_data.get("Filters", "")
 
         movies = recommendation_querying(
-            recommendation, MOVIE_MODEL_COMPLEMENT[step], selection
+            recommendation, MOVIE_MODEL_COMPLEMENT[step], selection, filter_method
         )
+
         recommendation.possible_films.set(movies)
 
         recommendation.possible_film_count = len(movies)

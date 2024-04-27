@@ -1,4 +1,5 @@
 GENRES = [
+    ("", "Any Genre"),
     ("Action", "Action"),
     ("Adventure", "Adventure"),
     ("Animation", "Animation"),
@@ -469,4 +470,9 @@ STREAMING = [
     ("Paramount Plus", "Paramount Plus"),
     ("Peacock Premium", "Peacock Premium"),
     ("Shudder", "Shudder"),
+]
+
+FILTER_METHOD = [
+    ("And", "Movie Contains All Genres"),
+    ("Or", "Movie Contains Any of the Genres"),
 ]

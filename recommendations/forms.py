@@ -1,4 +1,8 @@
+from calendar import c
+from logging import Filter
+
 from django import forms
+
 from .choices import *
 
 
@@ -11,10 +15,17 @@ class GenreForm(forms.Form):
     Genres = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         choices=OPTIONS,
+    )
+
+    FILTERS = FILTER_METHOD
+    Filters = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=FILTERS,
         help_text=(
             "Note: Your selected movie will have an element of all these genres "
             "so if you select 'romance' and 'comedy', we'll find rom-coms for you."
         ),
+        initial=FILTERS[0],
     )
 
 
