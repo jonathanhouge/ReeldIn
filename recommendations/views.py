@@ -54,8 +54,8 @@ def recommend_view(request):
                 foreign_films = foreign_films.exclude(id=foreign_film.id)
                 possible_films = possible_films.exclude(id=foreign_film.id)
 
-                if len(recommended_films) == 5:
-                    break  # ensure at least five non-english films
+                if len(recommended_films) == 3:
+                    break  # ensure at least three non-english films
 
             while len(recommended_films) < 10 or possible_films.count() == 0:
                 pks = possible_films.values_list("pk", flat=True)

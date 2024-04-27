@@ -38,15 +38,15 @@ footer {
 
 .tooltiptext {
   display: none;
-  width: 200px;
-  height: auto;
+  width: 234px;
+  height: 350px;
   background-color: #00000095;
   color: #fff;
-  text-align: left;
-  margin: 1rem;
+  text-align: center;
   padding: 15px;
   border-radius: 6px;
   position: absolute;
+  overflow-y: auto;
 }
 
 .tooltiptext button {

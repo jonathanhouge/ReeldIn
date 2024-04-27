@@ -85,19 +85,20 @@ def make_readable_recommendation(recommended_films):
     for film in recommended_films:
         readable_film = {
             "id": film.id,
-            "name": film.name,
+            "name": f"{film.name} ({film.year})",
             "poster": film.poster,
-            "year": film.year,
+            "overview": film.overview,
             "language": "",
             "genre": "",
-            "director": "",
         }
+
+        if len(film.overview) > 100:
+            readable_film["overview"] = f"{film.overview[:100]}..."
 
         language_dict = dict(LANGUAGES)  # thanks chatgpt
         readable_film["language"] = language_dict.get(film.language)
 
-        readable_film["genres"] = (", ").join(film.genres)
-        readable_film["director"] = (", ").join(film.director)
+        readable_film["genres"] = (", ").join(film.genres[:3])
 
         readable_recommendation.append(readable_film)
 
