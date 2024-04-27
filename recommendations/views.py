@@ -1,16 +1,17 @@
 import random
 
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
 from accounts.models import User
-from landing_page.views import movie
-from recommendations.choices import GENRES
 
 from .forms import *
 from .helpers import (
+    form_error_checking,
     make_new_recommendation,
     make_readable_recommendation,
+    narrow_view_error,
     recommendation_querying,
     relevant_options,
 )
@@ -104,6 +105,10 @@ def narrow_view(request):
         selection = form.cleaned_data.get(field, [])
         filter_method = form.cleaned_data.get("Filters", "")
 
+        error_message = form_error_checking(field, selection)
+        if error_message:
+            return narrow_view_error(request, form, error_message, recommendation)
+
         movies = recommendation_querying(
             recommendation, MOVIE_MODEL_COMPLEMENT[step], selection, filter_method
         )
@@ -137,12 +142,16 @@ def narrow_view(request):
             {"form": form, "recommendation": recommendation},
         )
 
+    if settings.DEBUG:
+        print(form.errors)
+
     # form was invalid, give them the same form
     form = FORMS[step]
-    return render(
+    return narrow_view_error(
         request,
-        "recommendations/index.html",
-        {"form": form, "error": form.errors, "recommendation": recommendation},
+        form,
+        "Error: Try again. If this persists, contact the devs.",
+        recommendation,
     )
 
 

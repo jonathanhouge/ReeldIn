@@ -1,10 +1,6 @@
-from turtle import pos
-
-import django.urls
+from django.conf import settings
 from django.db.models import Count
-
-from dashboard.views import get_all_movies
-from landing_page.views import movie
+from django.shortcuts import render
 
 from .choices import LANGUAGES
 from .models import Movie, Recommendation
@@ -52,35 +48,35 @@ def relevant_options(form, possible_films, possible_films_count):
     return relevant_languages
 
 
-# TODO only works for genre, year, runtime, language
+# works for genre, year, runtime, language
 def recommendation_querying(recommendation, field, selection, filter):
+    if ("" in selection and isinstance(selection, list)) or len(selection) == 0:
+        return recommendation.possible_films.all()  # user has no pref
+
     if field == "year" or field == "runtime":
         span = selection.split("-")
         return recommendation.possible_films.filter(
             **{f"{field}__gte": span[0]}, **{f"{field}__lte": span[1]}
         )
     elif field == "language":
-        if "" in selection:
-            return recommendation.possible_films.all()  # user has no pref
         return recommendation.possible_films.filter(language__in=selection)
+    elif field == "genres":
+        if filter == "Or":
+            possible_movies = Movie.objects.none()
+            for genre in selection:
+                possible_movies |= recommendation.possible_films.filter(
+                    genres__contains=[genre]
+                )
 
-    # genre
-    if (
-        selection[0] == "" and len(selection) == 1
-    ):  # if the only selected genre is all genres
-        return recommendation.possible_films.all()
-    # Find movies that contain at least one of the selected genres
-    if filter and filter == "Or":
-        possible_movies = Movie.objects.none()
+            return possible_movies
+        return recommendation.possible_films.filter(**{f"{field}__contains": selection})
 
-        for genre in selection:
-            possible_movies |= recommendation.possible_films.filter(
-                genres__contains=[genre]
-            )
+    if settings.DEBUG:
+        print(
+            f"How did you get here? Here's what I have for everything: {recommendation.__dict__}, {field}, {selection}, {filter}"
+        )
 
-        return possible_movies
-    # Find movies that contain all selected genres
-    return recommendation.possible_films.filter(**{f"{field}__contains": selection[1:]})
+    return recommendation.possible_films.all()  # prevent rec from being broken
 
 
 # make arrays strings, make choices human readable, etc.
@@ -106,3 +102,24 @@ def make_readable_recommendation(recommended_films):
         readable_recommendation.append(readable_film)
 
     return readable_recommendation
+
+
+# if we have any requirements that django wouldn't normally catch
+def form_error_checking(field, selection):
+    if field == "Languages" and (len(selection) < 3 and "" not in selection):
+        return "You must pick at least three languages. If there are less than three, select 'No Preference'."
+
+    return ""
+
+
+# since we return this in two place, i made a function to avoid code duplication
+def narrow_view_error(request, form, message, recommendation):
+    return render(
+        request,
+        "recommendations/index.html",
+        {
+            "form": form,
+            "error": message,
+            "recommendation": recommendation,
+        },
+    )
