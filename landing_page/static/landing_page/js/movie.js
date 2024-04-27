@@ -1,4 +1,5 @@
 // Buttons for the movie page's
+// Buttons for the movie page's
 // context change depending on button clicked, testing visuals
 function movieOverview(movie_data) {
   console.log("movie_data: ", movie_data);

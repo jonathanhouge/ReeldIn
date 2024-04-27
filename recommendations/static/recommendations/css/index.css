@@ -29,7 +29,6 @@ li {
 
 #recommendation_space {
   width: 75vw;
-  height: 60vh;
   margin: auto;
 }
 
@@ -40,7 +39,9 @@ li {
   color: black;
 }
 
-p, input, label {
+p,
+input,
+label {
   margin-bottom: 1em;
   font-size: 1em;
 }

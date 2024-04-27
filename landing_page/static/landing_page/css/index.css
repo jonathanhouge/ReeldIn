@@ -4,17 +4,6 @@
   overflow-x: auto;
 }
 
-footer {
-  position: static;
-  bottom: 0;
-  width: 100%;
-  background-color: var(--black);
-  color: var(--white);
-
-  padding: 1rem;
-  text-align: center;
-}
-
 .movie {
   display: flex;
   flex-direction: column;
@@ -64,4 +53,13 @@ footer {
 .tooltip:hover .tooltiptext {
   display: block;
   transition: all 0.3s ease;
+}
+
+/* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
+/* no padding for this section, and reduce margins */
+@media screen and (max-width: 550px) {
+  #title_div {
+    margin-left: 10px;
+    font-size: 14px;
+  }
 }
