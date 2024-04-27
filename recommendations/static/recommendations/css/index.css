@@ -27,7 +27,7 @@ li {
   bottom: 0;
 }
 
-#recommendation_space {
+#recommendation-space {
   width: 75vw;
   height: 60vh;
   margin: auto;
@@ -40,13 +40,11 @@ li {
   color: black;
 }
 
-p, input, label {
+p,
+label,
+.form-submission {
   margin-bottom: 1em;
   font-size: 1em;
-}
-
-label {
-  margin-bottom: 1em;
 }
 
 h2 {
