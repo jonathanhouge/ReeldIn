@@ -1,0 +1,75 @@
+{% extends 'recommendations/base.html' %} {% load static %} {% block content %}
+
+<script src="{% static 'landing_page/js/search.js' %}"></script>
+<script
+  src="{% static 'recommendations/js/recommendation.js' %}"
+  defer
+></script>
+<link
+  rel="stylesheet"
+  href="{% static 'recommendations/css/recommendation.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'landing_page/css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
+
+<div class="content_div">
+  {% if user.is_authenticated %}
+  <div id="reset-recommendations">
+    <button id="gen-recommendations-btm" class="rec-btn-open">
+      Generate New Recommendation
+    </button>
+  </div>
+  {% endif %}
+  <div id="title_div">
+    <h2>Here are your recommendations!</h2>
+  </div>
+  <div class="movies_div content_container">
+    {% if recommendations %} {% for recommendation in recommendations %}
+    <div class="movie tooltip">
+      <div class="tooltiptext">
+        <h3>{{ recommendation.name }}</h3>
+        <p>{{ recommendation.year }}</p>
+        <p><strong>Language:</strong> {{ recommendation.language }}</p>
+        <p><strong>Director:</strong> {{ recommendation.director }}</p>
+        <p><strong>Genres:</strong> {{ recommendation.genres }}</p>
+        <button onclick="loadDetailsPage('{{ recommendation.id }}')">
+          Go to Movie Page
+        </button>
+      </div>
+
+      <img
+        loading="lazy"
+        id="poster_{{ recommendation.id }}"
+        class="poster"
+        alt="{{ recommendation.name }}"
+        onclick="loadDetailsPage('{{ recommendation.id }}')"
+        src="https://image.tmdb.org/t/p/w200{{recommendation.poster}}"
+      />
+    </div>
+    {% endfor %} {% else %}
+    <p>No movies found.</p>
+    {% endif %}
+  </div>
+</div>
+
+<section class="rec-modal hidden">
+  <div class="flex">
+    <h3>Generate New Recommendation</h3>
+    <button class="rec-btn-close">⨉</button>
+  </div>
+  <div>
+    <p>
+      Are you sure you want to start a new recommendation? This action cannot be
+      undone.<br /><br />
+      You'll be able to find these movies in the 'Recommended Flims' section on
+      your profile page.
+    </p>
+  </div>
+  <button class="button btn rec-delete-btn">
+    <a href="{% url 'recommendations:delete' %}">Generate</a>
+  </button>
+</section>
+
+<div class="rec-overlay hidden"></div>
+
+{% endblock %}

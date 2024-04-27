@@ -9,13 +9,13 @@
       src="https://kit.fontawesome.com/c60455fa26.js"
       crossorigin="anonymous"
     ></script>
-    <script src="{% static 'recommendations/js/index.js' %}" defer></script>
+    <script src="{% static 'landing_page/js/index.js' %}" defer></script>
     <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'recommendations/css/base.css' %}" />
     <link
       rel="stylesheet"
       href="{% static 'recommendations/css/index.css' %}"
     />
-    <script src="{% static 'landing_page/js/index.js' %}" defer></script>
     <title>ReeldIn</title>
   </head>
 
@@ -51,6 +51,15 @@
       <div id="searched_movies_container"></div>
     </div>
     <div id="profile_div">
+      <a href="{% url 'recommendations:recommend' %}">
+        {% if user.is_authenticated and recommendations is None %}
+        <button id="gen-recommendations-btm">Generate Recommendation</button>
+        {% elif user.is_authenticated is False %}
+        <button id="gen-recommendations-btm">
+          Demo Recommendation Generation
+        </button>
+        {% endif %}
+      </a>
       {% if user.is_authenticated %}
       <a href="{% url 'accounts:logout' %}">
         <button id="login_button">Sign Out</button>
