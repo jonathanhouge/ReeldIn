@@ -8,96 +8,31 @@
     <h2>Latest Recommendations...</h2>
   </div>
   <div class=" movies_div content_container">
+    {% if recommendations %} {% for recommendation in recommendations %}
     <div class="movie tooltip">
       <div class="tooltiptext">
-        <h3>Spiderman: Into the Spiderverse</h3>
-        <p>Rating: 4.5/5</p>
-        <p>Genre: Animation, Action, Adventure</p>
-        <p>Year: 2018</p>
-        <p>Director: Bob Persichetti, Peter Ramsey, Rodney Rothman</p>
-        <button>Click</button>
+        <h3><strong>{{ recommendation.name }}</strong></h3>
+        <p><strong>Language:</strong> {{ recommendation.language }}</p>
+        <p><strong>Genres:</strong> {{ recommendation.genres }}</p>
+        <p>{{ recommendation.overview }}</p>
+        <button onclick="loadDetailsPage('{{ recommendation.id }}')">
+          Go to Movie Page
+        </button>
       </div>
 
-      <img src="{% static 'landing_page/images/spiderverse.webp' %}" alt="Movie 1" />
+      <img
+        loading="lazy"
+        id="poster_{{ recommendation.id }}"
+        class="poster"
+        alt="{{ recommendation.name }}"
+        onclick="loadDetailsPage('{{ recommendation.id }}')"
+        src="https://image.tmdb.org/t/p/w200{{recommendation.poster}}"
+      />
     </div>
-
-    <div class="movie tooltip">
-      <div class="tooltiptext">
-        <h3>Spiderman: Into the Spiderverse</h3>
-        <p>Rating: 4.5/5</p>
-        <p>Genre: Animation, Action, Adventure</p>
-        <p>Year: 2018</p>
-        <p>Director: Bob Persichetti, Peter Ramsey, Rodney Rothman</p>
-        <button>Click</button>
-      </div>
-
-      <img src="{% static 'landing_page/images/spiderverse.webp' %}" alt="Movie 1" />
-    </div>
-
-    <div class="movie tooltip">
-      <div class="tooltiptext">
-        <h3>Spiderman: Into the Spiderverse</h3>
-        <p>Rating: 4.5/5</p>
-        <p>Genre: Animation, Action, Adventure</p>
-        <p>Year: 2018</p>
-        <p>Director: Bob Persichetti, Peter Ramsey, Rodney Rothman</p>
-        <button>Click</button>
-      </div>
-
-      <img src="{% static 'landing_page/images/spiderverse.webp' %}" alt="Movie 1" />
-    </div>
-
-    <div class="movie tooltip">
-      <div class="tooltiptext">
-        <h3>Spiderman: Into the Spiderverse</h3>
-        <p>Rating: 4.5/5</p>
-        <p>Genre: Animation, Action, Adventure</p>
-        <p>Year: 2018</p>
-        <p>Director: Bob Persichetti, Peter Ramsey, Rodney Rothman</p>
-        <button>Click</button>
-      </div>
-
-      <img src="{% static 'landing_page/images/spiderverse.webp' %}" alt="Movie 1" />
-    </div>
-
-    <div class="movie tooltip">
-      <div class="tooltiptext">
-        <h3>Spiderman: Into the Spiderverse</h3>
-        <p>Rating: 4.5/5</p>
-        <p>Genre: Animation, Action, Adventure</p>
-        <p>Year: 2018</p>
-        <p>Director: Bob Persichetti, Peter Ramsey, Rodney Rothman</p>
-        <button>Click</button>
-      </div>
-
-      <img src="{% static 'landing_page/images/spiderverse.webp' %}" alt="Movie 1" />
-    </div>
-
-    <div class="movie tooltip">
-      <div class="tooltiptext">
-        <h3>Spiderman: Into the Spiderverse</h3>
-        <p>Rating: 4.5/5</p>
-        <p>Genre: Animation, Action, Adventure</p>
-        <p>Year: 2018</p>
-        <p>Director: Bob Persichetti, Peter Ramsey, Rodney Rothman</p>
-        <button>Click</button>
-      </div>
-
-      <img src="{% static 'landing_page/images/spiderverse.webp' %}" alt="Movie 1" />
-    </div>
-
-    <div class="movie tooltip">
-      <div class="tooltiptext">
-        <h3>Spiderman: Into the Spiderverse</h3>
-        <p>Rating: 4.5/5</p>
-        <p>Genre: Animation, Action, Adventure</p>
-        <p>Year: 2018</p>
-        <p>Director: Bob Persichetti, Peter Ramsey, Rodney Rothman</p>
-        <button>Click</button>
-      </div>
-
-      <img src="{% static 'landing_page/images/spiderverse.webp' %}" alt="Movie 1" />
-    </div>
+    {% endfor %} {% else %}
+    <p>No movies found.</p>
+    {% endif %}
+  </div>
   </div>
 </div>
 

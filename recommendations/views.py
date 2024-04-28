@@ -15,7 +15,7 @@ from .helpers import (
     recommendation_querying,
     relevant_options,
 )
-from .models import Movie, Recommendation
+from .models import Movie, Recommendation, RecentRecommendations
 
 # starts at step 1 - for frontend to make sense
 FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
@@ -70,6 +70,20 @@ def recommend_view(request):
             recommendation.recommended_films.set(recommendation.possible_films.all())
 
         recommendation.save()
+
+        # update user's recommended and site-wide recommended
+        already_recommended = list(user.recommended_films.all())
+        all_recommended = list(recommendation.recommended_films.all())
+        user.recommended_films.set(already_recommended + all_recommended)
+
+        try:
+            all_recommendations = RecentRecommendations.objects.get(id=1)
+        except:
+            all_recommendations = RecentRecommendations()  # should exist, just in case
+            all_recommendations.save()
+
+        recent_recs = list(all_recommendations.recent.all())[:27]
+        all_recommendations.recent.set(all_recommended[:3] + recent_recs)
 
     readable_recommendation = make_readable_recommendation(
         recommendation.recommended_films.all()
