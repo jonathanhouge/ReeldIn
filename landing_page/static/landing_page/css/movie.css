@@ -138,15 +138,22 @@
     .content_container img{ height: 250px;
     width: auto;
     justify-content: center;
-   }
-   #movie_summary {
+  }
+}
+@media screen and (max-width: 400px) and (min-width: 300px) {
+  .content_container img {
+    height: 250px;
+    width: auto;
+    justify-content: center;
+  }
+  #movie_summary {
     font-size: 16px;
-   }
-   #movie_name, #movie_button_nav{
+  }
+  #movie_name,
+  #movie_button_nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     }
   }
 @media screen and (max-width:500px) and (min-width:400px){

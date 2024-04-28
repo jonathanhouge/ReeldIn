@@ -9,7 +9,6 @@ from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
 from django.core.serializers import serialize
-
 from recommendations.models import Movie, RecentRecommendations
 from recommendations.helpers import make_readable_recommendation
 from recommendations.choices import LANGUAGES

@@ -7,7 +7,7 @@
   <div id="title_div">
     <h2>Latest Recommendations...</h2>
   </div>
-  <div class=" movies_div content_container">
+  <div class="movies_div content_container">
     {% if recommendations %} {% for recommendation in recommendations %}
     <div class="movie tooltip">
       <div class="tooltiptext">
@@ -31,7 +31,6 @@
     {% endfor %} {% else %}
     <p>No movies found.</p>
     {% endif %}
-  </div>
   </div>
 </div>
 
