@@ -25,7 +25,6 @@ li {
 
 #recommendation-space {
   width: 75vw;
-  height: 60vh;
   margin: auto;
 }
 
@@ -38,7 +37,8 @@ li {
 
 p,
 label,
-.form-submission {
+.form-submission,
+label {
   margin-bottom: 1em;
   font-size: 1em;
 }
