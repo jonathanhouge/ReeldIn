@@ -1,8 +1,4 @@
-/* Just copied from 'landing_page/index.css' for now. */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
-
 :root {
-  --primary-font: "Inter", sans-serif;
   --heading-color: black;
   --footer-color: green;
 }
@@ -29,7 +25,6 @@ li {
 
 #recommendation-space {
   width: 75vw;
-  height: 60vh;
   margin: auto;
 }
 
@@ -42,7 +37,8 @@ li {
 
 p,
 label,
-.form-submission {
+.form-submission,
+label {
   margin-bottom: 1em;
   font-size: 1em;
 }
@@ -51,4 +47,8 @@ h2 {
   font-weight: 600;
   font-size: 28px;
   color: var(--heading-color);
+}
+
+.error {
+  color: #f12711;
 }

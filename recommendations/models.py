@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
+
 from .choices import *
 
 
@@ -28,6 +30,9 @@ class Movie(models.Model):
     tmdb_id = models.PositiveIntegerField()
     imdb_rating = models.DecimalField(max_digits=10, decimal_places=2)
     imdb_votes = models.PositiveIntegerField()
+    imdb_id = models.CharField(max_length=9, default="tt0000000")
+    ddd_id = models.PositiveIntegerField(default=0)
+    group_lens_id = models.PositiveIntegerField(default=0)
 
 
 class Recommendation(models.Model):
@@ -73,3 +78,15 @@ class Recommendation(models.Model):
     external_account_influence = models.BooleanField(default=False)
 
     # TODO jokey questions
+
+
+# only one of these - populates the front page
+class RecentRecommendations(models.Model):
+    recent = models.ManyToManyField(
+        "Movie", related_name="recently_recommended", blank=True
+    )
+
+    def save(self, *args, **kwargs):
+        if not self.pk and RecentRecommendations.objects.exists():
+            raise ValidationError("There can only be one!")
+        return super(RecentRecommendations, self).save(*args, **kwargs)
