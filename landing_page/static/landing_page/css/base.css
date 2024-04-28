@@ -171,7 +171,6 @@ header {
   margin-left: 1rem;
   justify-content: left;
   text-align: left;
-
 }
 
 .last_movie {
@@ -273,7 +272,7 @@ footer {
 
 /* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
 /* no padding for this section, and reduce margins */
-@media screen and (max-width:550px) {
+@media screen and (max-width: 550px) {
   header {
     display: flex;
     flex-direction: column;
@@ -300,7 +299,7 @@ footer {
   }
 
   #searchbar_div input {
-    width:80%;
+    width: 80%;
     align-content: center;
     padding: 8.5px;
     margin-top: 10px;
@@ -317,11 +316,13 @@ footer {
     margin-left: 5px;
   }
 
-  .content_div, header {
+  .content_div,
+  header {
     padding: 0%;
   }
 
-  #get_recommendations_btm, #login_button {
+  #get_recommendations_btm,
+  #login_button {
     font-size: 16px;
     margin-left: 0;
     margin-right: 0;
@@ -339,7 +340,7 @@ footer {
 }
 
 /* For Tablet 768px */
-@media screen and (max-width:849px) and (min-width:550px) {
+@media screen and (max-width: 849px) and (min-width: 550px) {
   header {
     display: block;
     flex-direction: row;
@@ -353,7 +354,7 @@ footer {
   }
 
   #searchbar_div input {
-    width:80%
+    width: 80%;
   }
 
   nav {
@@ -369,7 +370,7 @@ footer {
 
 /* For Laptop 1024px / Laptop L 1440px / Laptop 4k 2560px */
 /* For Laptop 1024 and 1440 */
-@media screen and (max-width:1200px) and (min-width:850px) {
+@media screen and (max-width: 1200px) and (min-width: 850px) {
   header {
     font-size: 35px;
     font-family: var(--primary-font);
@@ -383,19 +384,21 @@ footer {
     margin-top: 10px;
   }
 
-  nav, footer {
+  nav,
+  footer {
     font-size: 32px;
   }
 }
 
 /* For Laptop 2560 */
-@media screen and (max-width:3000px) and (min-width:1441px) {
+@media screen and (max-width: 3000px) and (min-width: 1441px) {
   header {
     font-family: var(--primary-font);
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
   }
-  nav, footer {
+  nav,
+  footer {
     font-size: 35px;
     width: 100%;
   }

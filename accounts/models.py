@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from recommendations.models import Movie
-from recommendations.choices import GENRES, TRIGGERS
+from recommendations.choices import GENRES, STREAMING, TRIGGERS
 from django.contrib.postgres.fields import ArrayField
 
 
@@ -10,7 +10,11 @@ class User(AbstractUser):
     password = models.CharField(max_length=100)  # to account for salting & hashing
     email = models.EmailField(max_length=254)
     friends = models.ManyToManyField("User", blank=True)
-
+    profile_picture = models.ImageField(
+        upload_to="profile_pictures/",
+        blank=True,
+        default="profile_pictures/default.png",
+    )
     # external accounts, used for connections
     letterboxd_username = models.CharField(
         max_length=15, unique=True, null=True, blank=True
@@ -20,6 +24,12 @@ class User(AbstractUser):
     # 'Movie' connections
     watched_films = models.ManyToManyField(
         Movie, related_name="users_seen", default=list, blank=True
+    )
+    rewatchable_films = models.ManyToManyField(
+        Movie, related_name="users_to_rewatch", default=list, blank=True
+    )
+    excluded_films = models.ManyToManyField(
+        Movie, related_name="users_dont_recommend", default=list, blank=True
     )
     recommended_films = models.ManyToManyField(
         Movie, related_name="users_recommended", default=list, blank=True
@@ -41,11 +51,17 @@ class User(AbstractUser):
     disliked_genres = ArrayField(
         models.CharField(max_length=13, choices=GENRES), default=list, blank=True
     )
+    excluded_genres = ArrayField(
+        models.CharField(max_length=13, choices=GENRES), default=list, blank=True
+    )
     liked_cast_and_crew = ArrayField(
         models.CharField(max_length=100), default=list, blank=True
     )
     disliked_cast_and_crew = ArrayField(
         models.CharField(max_length=100), default=list, blank=True
+    )
+    subscriptions = ArrayField(
+        models.CharField(max_length=18, choices=STREAMING), default=list, blank=True
     )
     triggers = ArrayField(
         models.CharField(max_length=100, choices=TRIGGERS), default=list, blank=True

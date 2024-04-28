@@ -18,18 +18,13 @@ function movieOverview(movie_data) {
       </div>`;
 }
 
-
-
 function movieDetails(movie_data) {
-
   movie_genres = JSON.parse(movie_data.genres);
-  movie_genres = movie_genres.toString();
+  movie_genres = movie_genres.join(", ");
 
   /*MPAA Rating goes here */
 
-  document.getElementById(
-    "movie_summary"
-  ).innerHTML = `
+  document.getElementById("movie_summary").innerHTML = `
   <div style="margin-top: 10px;">
     <p><strong>Movie Release Year:</strong> ${movie_data.year} </p> </div>
   <div style="margin-top: 10px;">
@@ -40,7 +35,6 @@ function movieDetails(movie_data) {
     <p><strong>Movie Language:</strong> ${movie_data.language} </p> </div>
     <div style="margin-top: 10px;">
     <p><strong>Movie MPAA Rating:</strong>  </p> </div>`;
-    
 }
 
 function moviePeople(movie_data) {
@@ -59,8 +53,9 @@ function moviePeople(movie_data) {
   movie_cinematographer = JSON.parse(movie_data.cinematographer);
   movie_cinematographer = movie_cinematographer.toString();
 
-  document.getElementById("movie_summary").innerHTML = 
-  `<p><strong>Director(s):</strong> ${movie_director}</p>
+  document.getElementById(
+    "movie_summary"
+  ).innerHTML = `<p><strong>Director(s):</strong> ${movie_director}</p>
   <div style="margin-top: 10px;">
     <p><strong>Movie Starring: </strong> ${movie_starring} </p> </div>
     <div style="margin-top: 10px;">

@@ -11,6 +11,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="{% static 'landing_page/js/index.js' %}" defer></script>
+    <script src="{% static 'landing_page/js/search.js' %}" defer></script>
     <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'landing_page/css/index.css' %}" />
     <link rel="stylesheet" href="{% static 'landing_page/css/about.css' %}" />
@@ -51,9 +52,9 @@
     <div id="profile_div">
       <a href="{% url 'recommendations:index' %}">
         {% if user.is_authenticated %}
-        <button id="get_recommendations_btm">Get Recommendations</button>
+        <button id="get-recommendations-btm">Get Recommendations</button>
         {% else %}
-        <button id="get_recommendations_btm">Demo Recommendations</button>
+        <button id="get-recommendations-btm">Demo Recommendations</button>
         {% endif %}
       </a>
       {% if user.is_authenticated %}
@@ -84,11 +85,8 @@
     <div id="footer_nav">
       <a href="{% url 'landing_page:index' %}">Home</a>
       <a href="{% url 'landing_page:profile' %}">Profile</a>
-      <a href="search.html">Search</a>
-      <a href="20Qs.html">20 Questions</a>
       <a href="{% url 'landing_page:about' %}">About</a>
       <a href="{% url 'landing_page:contact' %}">Contact Us</a>
-      <a href="team.html">Our Team</a>
     </div>
     <div id="copyright">
       <p>ReeldIn 2024 &copy;</p>
