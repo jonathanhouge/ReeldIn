@@ -1,4 +1,5 @@
 from django import forms
+
 from .choices import *
 
 
@@ -9,12 +10,21 @@ class GenreForm(forms.Form):
 
     OPTIONS = GENRES
     Genres = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-        choices=OPTIONS,
+        widget=forms.CheckboxSelectMultiple, choices=OPTIONS
+    )
+
+    FILTERS = [
+        ("And", "Movie Contains All Genres"),
+        ("Or", "Movie Contains Any of the Genres"),
+    ]
+    Filters = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=FILTERS,
         help_text=(
-            "Note: Your selected movie will have an element of all these genres "
-            "so if you select 'romance' and 'comedy', we'll find rom-coms for you."
+            "With 'all genres', your selected movie will have an element of all these genres "
+            "so if you select 'romance' and 'comedy', we'll only find rom-coms for you."
         ),
+        initial=FILTERS[0],
     )
 
 
@@ -26,7 +36,9 @@ class YearForm(forms.Form):
     )
 
     OPTIONS = YEAR_SPANS
-    Years = forms.ChoiceField(widget=forms.RadioSelect, choices=OPTIONS)
+    Years = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=OPTIONS, initial=OPTIONS[0], required=False
+    )
 
 
 class RuntimeForm(forms.Form):
@@ -37,7 +49,9 @@ class RuntimeForm(forms.Form):
     )
 
     OPTIONS = RUNTIME_SPANS
-    Runtimes = forms.ChoiceField(widget=forms.RadioSelect, choices=OPTIONS)
+    Runtimes = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=OPTIONS, initial=OPTIONS[0], required=False
+    )
 
 
 class LanguageForm(forms.Form):
@@ -62,5 +76,5 @@ class TriggerForm(forms.Form):
 
     OPTIONS = TRIGGERS
     Triggers = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple, choices=OPTIONS
+        widget=forms.CheckboxSelectMultiple, choices=OPTIONS, initial=OPTIONS[0]
     )

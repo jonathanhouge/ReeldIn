@@ -1,4 +1,6 @@
 import random
+
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
@@ -6,12 +8,14 @@ from accounts.models import User
 
 from .forms import *
 from .helpers import (
-    recommendation_querying,
+    form_error_checking,
     make_new_recommendation,
     make_readable_recommendation,
+    narrow_view_error,
+    recommendation_querying,
     relevant_options,
 )
-from .models import Movie, Recommendation
+from .models import Movie, Recommendation, RecentRecommendations
 
 # starts at step 1 - for frontend to make sense
 FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
@@ -50,8 +54,8 @@ def recommend_view(request):
                 foreign_films = foreign_films.exclude(id=foreign_film.id)
                 possible_films = possible_films.exclude(id=foreign_film.id)
 
-                if len(recommended_films) == 5:
-                    break  # ensure at least five non-english films
+                if len(recommended_films) == 3:
+                    break  # ensure at least three non-english films
 
             while len(recommended_films) < 10 or possible_films.count() == 0:
                 pks = possible_films.values_list("pk", flat=True)
@@ -66,6 +70,20 @@ def recommend_view(request):
             recommendation.recommended_films.set(recommendation.possible_films.all())
 
         recommendation.save()
+
+        # update user's recommended and site-wide recommended
+        already_recommended = list(user.recommended_films.all())
+        all_recommended = list(recommendation.recommended_films.all())
+        user.recommended_films.set(already_recommended + all_recommended)
+
+        try:
+            all_recommendations = RecentRecommendations.objects.get(id=1)
+        except:
+            all_recommendations = RecentRecommendations()  # should exist, just in case
+            all_recommendations.save()
+
+        recent_recs = list(all_recommendations.recent.all())[:27]
+        all_recommendations.recent.set(all_recommended[:3] + recent_recs)
 
     readable_recommendation = make_readable_recommendation(
         recommendation.recommended_films.all()
@@ -99,10 +117,16 @@ def narrow_view(request):
     if form.is_valid():
         field = FIELD[step]
         selection = form.cleaned_data.get(field, [])
+        filter_method = form.cleaned_data.get("Filters", "")
+
+        error_message = form_error_checking(field, selection)
+        if error_message:
+            return narrow_view_error(request, form, error_message, recommendation)
 
         movies = recommendation_querying(
-            recommendation, MOVIE_MODEL_COMPLEMENT[step], selection
+            recommendation, MOVIE_MODEL_COMPLEMENT[step], selection, filter_method
         )
+
         recommendation.possible_films.set(movies)
 
         recommendation.possible_film_count = len(movies)
@@ -132,12 +156,16 @@ def narrow_view(request):
             {"form": form, "recommendation": recommendation},
         )
 
+    if settings.DEBUG:
+        print(form.errors)
+
     # form was invalid, give them the same form
     form = FORMS[step]
-    return render(
+    return narrow_view_error(
         request,
-        "recommendations/index.html",
-        {"form": form, "error": form.errors, "recommendation": recommendation},
+        form,
+        "Error: Try again. If this persists, contact the devs.",
+        recommendation,
     )
 
 

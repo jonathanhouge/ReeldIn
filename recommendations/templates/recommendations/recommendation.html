@@ -27,11 +27,10 @@
     {% if recommendations %} {% for recommendation in recommendations %}
     <div class="movie tooltip">
       <div class="tooltiptext">
-        <h3>{{ recommendation.name }}</h3>
-        <p>{{ recommendation.year }}</p>
+        <h3><strong>{{ recommendation.name }}</strong></h3>
         <p><strong>Language:</strong> {{ recommendation.language }}</p>
-        <p><strong>Director:</strong> {{ recommendation.director }}</p>
         <p><strong>Genres:</strong> {{ recommendation.genres }}</p>
+        <p>{{ recommendation.overview }}</p>
         <button onclick="loadDetailsPage('{{ recommendation.id }}')">
           Go to Movie Page
         </button>
@@ -42,7 +41,6 @@
         id="poster_{{ recommendation.id }}"
         class="poster"
         alt="{{ recommendation.name }}"
-        onclick="loadDetailsPage('{{ recommendation.id }}')"
         src="https://image.tmdb.org/t/p/w200{{recommendation.poster}}"
       />
     </div>

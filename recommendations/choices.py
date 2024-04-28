@@ -1,4 +1,5 @@
 GENRES = [
+    ("", "No Preference"),
     ("Action", "Action"),
     ("Adventure", "Adventure"),
     ("Animation", "Animation"),
@@ -20,6 +21,7 @@ GENRES = [
 ]
 
 YEAR_SPANS = [
+    ("", "No Preference"),
     ("1900-1960", "1960 and before"),
     ("1960-1979", "1960-1979"),
     ("1980-1999", "1980-1999"),
@@ -27,6 +29,7 @@ YEAR_SPANS = [
 ]
 
 RUNTIME_SPANS = [
+    ("", "No Preference"),
     ("0-90", "90 or less"),
     ("90-120", "90-120"),
     ("120-150", "120-150"),
