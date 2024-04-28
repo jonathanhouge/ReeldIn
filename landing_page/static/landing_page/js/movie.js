@@ -7,11 +7,16 @@ function movieOverview(movie_data) {
   if (streaming.length == 0) {
     streaming = "No streaming options available...";
   } else {
-    streaming = streaming.toString();
+    streaming = streaming.join(", ");
   }
+
+  if (!movie_data.tagline) movie_data.tagline = "No tagline.";
+
   document.getElementById(
     "movie_summary"
-  ).innerHTML = `<p><strong>Description:</strong> </p>
+  ).innerHTML = `<p><strong>Tagline:</strong> </p>
+      <p> ${movie_data.tagline} </p>
+      <p><strong>Description:</strong> </p>
       <p> ${movie_data.overview} </p>
       <div id="streaming_info">
         <strong>Streaming:</strong> <p>${streaming}</p>
@@ -26,38 +31,44 @@ function movieDetails(movie_data) {
 
   document.getElementById("movie_summary").innerHTML = `
   <div style="margin-top: 10px;">
-    <p><strong>Movie Release Year:</strong> ${movie_data.year} </p> </div>
+    <p><strong>Release Year:</strong> ${movie_data.year} </p> </div>
   <div style="margin-top: 10px;">
-    <p><strong>Movie Runtime:</strong> ${movie_data.runtime} minutes</p> </div>
+    <p><strong>Runtime:</strong> ${movie_data.runtime} minutes</p> </div>
     <div style="margin-top: 10px;">
     <p><strong>Genres:</strong> ${movie_genres} </p> </div>
     <div style="margin-top: 10px;">
-    <p><strong>Movie Language:</strong> ${movie_data.language} </p> </div>
+    <p><strong>Language:</strong> ${movie_data.language} </p> </div>
     <div style="margin-top: 10px;">
     <p><strong>Movie MPAA Rating:</strong>  </p> </div>`;
 }
 
 function moviePeople(movie_data) {
   movie_director = JSON.parse(movie_data.director);
-  movie_director = movie_director.toString();
+  movie_director = movie_director.join(", ");
+  if (!movie_director) movie_director = "No director found.";
 
   movie_starring = JSON.parse(movie_data.starring);
-  movie_starring = movie_starring.toString();
+  movie_starring = movie_starring.join(", ");
+  if (!movie_starring) movie_starring = "No actors found.";
 
   movie_writer = JSON.parse(movie_data.writer);
-  movie_writer = movie_writer.toString();
+  movie_writer = movie_writer.join(", ");
+  if (!movie_writer) movie_writer = "No writer found.";
 
   movie_composer = JSON.parse(movie_data.composer);
-  movie_composer = movie_composer.toString();
+  movie_composer = movie_composer.join(", ");
+  if (!movie_composer) movie_composer = "No composer found.";
 
   movie_cinematographer = JSON.parse(movie_data.cinematographer);
-  movie_cinematographer = movie_cinematographer.toString();
+  movie_cinematographer = movie_cinematographer.join(", ");
+  if (!movie_cinematographer)
+    movie_cinematographer = "No cinematographer found.";
 
   document.getElementById(
     "movie_summary"
   ).innerHTML = `<p><strong>Director(s):</strong> ${movie_director}</p>
   <div style="margin-top: 10px;">
-    <p><strong>Movie Starring: </strong> ${movie_starring} </p> </div>
+    <p><strong>Starring: </strong> ${movie_starring} </p> </div>
     <div style="margin-top: 10px;">
     <p><strong>Writer(s): </strong> ${movie_writer} </p> </div>
     <div style="margin-top: 10px;">

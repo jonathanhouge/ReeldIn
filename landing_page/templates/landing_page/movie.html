@@ -4,10 +4,6 @@
 <link rel="stylesheet" href="{% static 'landing_page/css/movie.css' %}" />
 <script src="{% static 'landing_page/js/movie.js' %}"></script>
 
-<div id="message_div">
-  <h1>More about the Movie</h1>
-</div>
-
 <div class="content_div">
   <div id="movie_name">
     <h2>{{movie.name}}</h2>
@@ -17,7 +13,7 @@
       <button id="movie-button" onclick="moviePeople(movie_data)">Cast & Crew</button>
     </div>
     <div class="content_container">
-      <div class="tooltip">
+      <div class="movie tooltip">
         <div class="tooltiptext" id ="tooltiptext" onclick="openTooltip()">
           <p class="tooltip_message hidden" id="tooltip_message" ></p>
           <div class="tooltip_buttons">
