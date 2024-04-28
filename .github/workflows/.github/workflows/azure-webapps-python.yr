@@ -25,7 +25,7 @@ env:
 
 on:
   push:
-    branches: [ "site-online-setup" ]
+    branches: [ "master" ]
   workflow_dispatch:
 
 permissions:
