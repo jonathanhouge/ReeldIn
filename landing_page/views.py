@@ -1,5 +1,6 @@
 import json
 import os
+import requests
 
 from django.conf import settings
 from django.db.models import CharField, Q, TextField
@@ -10,6 +11,7 @@ from fuzzywuzzy import fuzz
 from django.core.serializers import serialize
 from recommendations.models import Movie, RecentRecommendations
 from recommendations.helpers import make_readable_recommendation
+from recommendations.choices import LANGUAGES
 from accounts.models import FriendRequest
 
 
@@ -72,9 +74,24 @@ def movie(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     movie_json = serialize("json", [movie])
     movie_json = json.loads(movie_json)[0]["fields"]
+
+    language_dict = dict(LANGUAGES)  # from rec/helpers
+    movie_json["language"] = language_dict.get(movie.language)
+
     return render(
         request, "landing_page/movie.html", {"movie": movie, "movie_json": movie_json}
     )
+
+
+"""
+def mpaa(requests, movie_id):
+    mpaa = get_mpaa(requests, pk=movie_id) 
+    mpaa_json = serialize("json", [mpaa])
+    mpaa_json = json.load(mpaa_json)[0]["fields"]
+    return render( 
+        requests, "landing_page/movie.html", {"mpaa": mpaa, "mpaa_json": mpaa_json}
+    )
+"""
 
 
 def get_csrf_token(request):
@@ -156,3 +173,23 @@ def search_movies_json(request):
 
     # Return an error response for non-POST requests
     return JsonResponse({"error": "Method not allowed"}, status=405)
+
+
+# TODO in-progress
+def get_mpaa(requests, movie_id):
+    """
+    This function takes in a movie and returns the MPAA rating of the movie.
+    """
+    API_KEY = os.environ.get("TMBD_API_KEY")
+    url = (
+        "https://api.themoviedb.org/3/movie/"
+        + str(movie_id)
+        + "/release_dates?api_key="
+        + API_KEY
+    )
+    response = requests.get(url)
+    data = response.json()
+    for result in data["results"]:
+        if result["iso_3166_1"] == "US":
+            return result["certification"]
+    return None
