@@ -8,13 +8,27 @@ from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
 from django.core.serializers import serialize
-from recommendations.models import Movie
+from recommendations.models import Movie, RecentRecommendations
+from recommendations.helpers import make_readable_recommendation
 from accounts.models import FriendRequest
 
 
-# Initial landing page view.
 def index(request):
-    return render(request, "landing_page/index.html")
+    try:
+        all_recommendations = RecentRecommendations.objects.get(id=1)
+    except:
+        all_recommendations = RecentRecommendations()
+        all_recommendations.save()
+
+    readable_recommendations = make_readable_recommendation(
+        all_recommendations.recent.all()
+    )
+
+    return render(
+        request,
+        "landing_page/index.html",
+        {"recommendations": readable_recommendations},
+    )
 
 
 def about(request):

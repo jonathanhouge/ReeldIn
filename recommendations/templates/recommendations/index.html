@@ -1,6 +1,9 @@
 {% extends 'recommendations/base.html' %} {% load static %} {% block content %}
 
-<div id="recommendation_space">
+<!-- question & form -->
+<script src="{% static 'recommendations/js/index.js' %}" defer></script>
+
+<div id="recommendation-space">
   <h1 id="question">Question #{{ recommendation.step }}</h1>
   {% block form %}
   <form action="{% url 'recommendations:narrow' %}" method="post">
@@ -8,7 +11,7 @@
     <p class="error">{{ error }}</p>
     {% endif %} {% csrf_token %} {{ form.as_p }}
 
-    <input type="submit" value="submit" />
+    <input id="form-submission" type="submit" value="submit" />
   </form>
 
   <!-- Number will change later -->

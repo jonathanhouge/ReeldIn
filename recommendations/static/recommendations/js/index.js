@@ -5,7 +5,7 @@ window.onload = function () {
     alert(
       `This is ReeldIn's main functionality - the recommendation feature!\n
 As you walk through our questions, we'll query our movie pool for what matches your inputs.
-On average, most users will answer ten to twenty questions before having the option to choose a movie.
+Click the button in the top right labeled 'Generate Recommendation' when you're ready!
 Note the bottom of the page's counter on how many possible movies remaining meet your criteria. If it ever drops below ten, we'll stop early.
 Happy querying!`
     );
