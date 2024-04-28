@@ -3,13 +3,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.db import transaction
-from recommendations.models import (
-    Movie,
-)
+from recommendations.models import Movie
+
 import random
 from .forms import *
 from .models import User, FriendRequest
 import json
+from .helpers import (
+    get_user_genre_preferences,
+    add_movies_to_user_list,
+    get_genre_form_data,
+)
 
 MOVIES_POST_TO_MODEL = {  # maps the POST request names to the model names
     "movies_liked": "liked_films",
@@ -70,9 +74,8 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            request.session["onboarding"] = (
-                True  # allows transition from onboarding to recommendations
-            )
+            # onboarding set to true so final page redirects to recommendations
+            request.session["onboarding"] = True
             return render(request, "accounts/onboarding.html")
         else:
             # taken username?
@@ -115,13 +118,16 @@ def signup(request):
         return render(request, "accounts/login.html", {"form": form})
 
 
-def onboarding(request):
-    # TODO uncomment this and make else redirect to page not found or home
-    # if(request.session.get("onboarding")):
-    return render(
-        request,
-        "accounts/onboarding.html",
-    )
+def onboarding_view(request):
+    """
+    The intro page is only visible to users who have just signed up.
+    """
+    if request.session.get("onboarding"):
+        return render(
+            request,
+            "accounts/onboarding.html",
+        )
+    return redirect("landing_page:index")
 
 
 def onboarding_genre_view(request):
@@ -134,16 +140,7 @@ def onboarding_genre_view(request):
     if request.method == "POST":
         form = GenreForm(request.POST)
         if form.is_valid():
-            liked_genres = []
-            disliked_genres = []
-            blocked_genres = []
-            for genre, preference in form.cleaned_data.items():
-                if preference == "like":
-                    liked_genres.append(genre)
-                elif preference == "dislike":
-                    disliked_genres.append(genre)
-                elif preference == "block":
-                    blocked_genres.append(genre)
+            liked_genres, disliked_genres, blocked_genres = get_genre_form_data(form)
             with transaction.atomic():
                 request.user.liked_genres = liked_genres
                 request.user.disliked_genres = disliked_genres
@@ -151,29 +148,9 @@ def onboarding_genre_view(request):
                 request.user.save()
             return redirect("/accounts/onboarding/movies")
     else:
-        # Fetch the user's preferences
-        liked_genres = request.user.liked_genres
-        disliked_genres = request.user.disliked_genres
-        blocked_genres = request.user.excluded_genres
-
-        # Prepare initial data dictionary for the form
-        initial_data = {}
-        for genre in GENRES:
-            genre_value = genre[0]
-            if genre_value in liked_genres:
-                initial_data[genre_value] = "like"
-            elif genre_value in disliked_genres:
-                initial_data[genre_value] = "dislike"
-            elif genre_value in blocked_genres:
-                initial_data[genre_value] = "block"
+        initial_data = get_user_genre_preferences(request.user)
         form = GenreForm(initial_preferences=initial_data)
-    return render(
-        request,
-        "accounts/onboarding_genres.html",
-        {
-            "form": form,
-        },
-    )
+    return render(request, "accounts/onboarding_genres.html", {"form": form})
 
 
 def onboarding_movie_view(request):
@@ -181,48 +158,29 @@ def onboarding_movie_view(request):
     This function handles the POST/GET requests for the onboarding movie form.
     POST saves the user's preferences while GET renders the page.
     """
-    if request.method == "POST":
-        data = json.loads(request.body)
+    if request.method != "POST":
+        return render(
+            request,
+            "accounts/onboarding_movies.html",
+        )
 
-        with transaction.atomic():
-            for post_name, model_name in MOVIES_POST_TO_MODEL.items():
-                movie_list = data.get(post_name, [])
-                add_movies_to_user_list(request.user, movie_list, model_name)
+    data = json.loads(request.body)
 
-        return HttpResponse(status=200)
-    return render(
-        request,
-        "accounts/onboarding_movies.html",
-    )
+    with transaction.atomic():
+        for post_name, model_name in MOVIES_POST_TO_MODEL.items():
+            movie_list = data.get(post_name, [])
+            add_movies_to_user_list(request.user, movie_list, model_name)
 
-
-def add_movies_to_user_list(user, movie_list, model_name):
-    """
-    This helper function adds the movies in movie_list
-    to the list specified by model_name for the user.
-    """
-    users_list = getattr(user, model_name)
-    current_movies = set(users_list.values_list("id", flat=True))
-
-    new_movie_set = set(movie_list)
-
-    # TODO ideally do this before the POST on the client side
-    movies_to_add = new_movie_set - current_movies
-    movies_to_remove = current_movies - new_movie_set
-
-    if movies_to_remove:
-        users_list.remove(*Movie.objects.filter(id__in=movies_to_remove))
-    if movies_to_add:
-        users_list.add(*Movie.objects.filter(id__in=movies_to_add))
+    return HttpResponse(status=200)
 
 
-def get_random_movies(request):
+def get_random_movies(request, amount=25):
     """
     This function returns a JSON response containing a list of random movies
     specified by the amount parameter in the GET request. It is used in
     the movie onboarding process.
     """
-    amount = int(request.GET.get("amount", 25))
+
     movies = Movie.objects.order_by("?")[:amount]
 
     data = [
@@ -234,7 +192,6 @@ def get_random_movies(request):
         }
         for movie in movies
     ]
-
     return JsonResponse({"movies": data})
 
 
@@ -286,14 +243,49 @@ def preferences_movies_view(request):
 def onboarding_trigger_view(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
+
     form = CustomTriggerForm()
-    return render(
-        request,
-        "accounts/onboarding_triggers.html",
-        {
-            "form": form,
-        },
-    )
+    return render(request, "accounts/onboarding_triggers.html", {"form": form})
+
+
+def search_movie(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+    # Decode the request body
+    body_unicode = request.body.decode("utf-8")
+
+    # Parse the JSON data
+    body_data = json.loads(body_unicode)
+
+    # Access specific fields from the JSON data
+    search_string = body_data.get("search")
+
+    if search_string:
+        movies = Movie.objects.filter(name__icontains=search_string)
+        sorted_movies = sorted(
+            movies,
+            key=lambda movie: sort_by_closeness(search_string, movie),
+            reverse=True,
+        )
+    else:
+        sorted_movies = Movie.objects.none()
+
+    result = {
+        "movies": [
+            {
+                "id": movie.pk,  # TODO id?
+                "name": movie.name,
+                "genres": movie.genres,
+                "starring": movie.starring,
+                "poster": movie.poster,
+                "year": movie.year,
+            }
+            for movie in sorted_movies
+        ]
+    }
+
+    # Return the result as JSON response
+    return JsonResponse(result, safe=False)
 
 
 # --- Friend handling begins ---

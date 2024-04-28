@@ -48,17 +48,10 @@ img {
   transition: ease 0.3s;
 }
 
-.row1,
-.row2,
-.row3 {
+.row1, .row2, .row3 {
   margin-top: 20px;
 }
 
-/*TODO play with overlay to get poster colors*/
-.poster_overlay {
-  z-index: 1;
-  background: rgba(0, 128, 0, 0.5); /* semi-transparent green */
-}
 
 /* tooltip modified & repurposed from landing_page/index.css */
 
@@ -85,9 +78,11 @@ img {
   position: relative;
   display: inline-block;
 }
+
 .tooltip_content {
   overflow-y: auto;
 }
+
 .tooltiptext {
   width: 100%;
   height: 100%;

@@ -49,14 +49,9 @@ class GenreForm(forms.Form):
             if not all_block and not all_dislike:
                 return cleaned_data
 
-        if all_block:
+        if all_block or all_dislike:
             raise forms.ValidationError(
-                "Not all genres can be set to 'Block'. Please choose a different preference for at least one genre."
-            )
-
-        if all_dislike:
-            raise forms.ValidationError(
-                "Not all genres can be set to 'Dislike'. Please choose a different preference for at least one genre."
+                "Not all genres can be set to 'Block' or 'Dislike'. Please choose a different preference for at least one genre."
             )
 
 
