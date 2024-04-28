@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
 
 from recommendations.models import Movie, RecentRecommendations
+from recommendations.helpers import make_readable_recommendation
 from accounts.models import FriendRequest
 
 
@@ -19,10 +20,14 @@ def index(request):
         all_recommendations = RecentRecommendations()
         all_recommendations.save()
 
+    readable_recommendations = make_readable_recommendation(
+        all_recommendations.recent.all()
+    )
+
     return render(
         request,
         "landing_page/index.html",
-        {"recommendations": all_recommendations.recent.all()},
+        {"recommendations": readable_recommendations},
     )
 
 
