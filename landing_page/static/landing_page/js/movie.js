@@ -18,43 +18,58 @@ function movieOverview(movie_data) {
       </div>`;
 }
 
+
+
 function movieDetails(movie_data) {
-  movie_director = JSON.parse(movie_data.director);
-  movie_director = movie_director.toString();
 
   movie_genres = JSON.parse(movie_data.genres);
   movie_genres = movie_genres.toString();
 
-  /* the movie_data has an language section, but is not added to views.py
-  movie_language = JSON.parse(movie_data.language);
-  movie_language = movie_language.toString(); */
+  /*MPAA Rating goes here */
 
   document.getElementById(
     "movie_summary"
-  ).innerHTML = `<p><strong>Director(s):</strong> ${movie_director}</p>
+  ).innerHTML = `
   <div style="margin-top: 10px;">
-    <p><strong>Movie Release Year:</strong> ${movie_data.year} </p>
-  </div>
+    <p><strong>Movie Release Year:</strong> ${movie_data.year} </p> </div>
   <div style="margin-top: 10px;">
-    <p><strong>Movie Runtime:</strong> ${movie_data.runtime} minutes</p>
-    </div>
+    <p><strong>Movie Runtime:</strong> ${movie_data.runtime} minutes</p> </div>
     <div style="margin-top: 10px;">
     <p><strong>Genres:</strong> ${movie_genres} </p> </div>
     <div style="margin-top: 10px;">
-    <p><strong>Movie Language:</strong>  </p> </div>
+    <p><strong>Movie Language:</strong> ${movie_data.language} </p> </div>
     <div style="margin-top: 10px;">
-    <p><strong>Movie MPAA Rating:</strong> ` + String(get_mpaa(movie_id, requests)) + 
-    `</p> </div>`;
+    <p><strong>Movie MPAA Rating:</strong>  </p> </div>`;
     
 }
 
 function moviePeople(movie_data) {
+  movie_director = JSON.parse(movie_data.director);
+  movie_director = movie_director.toString();
+
   movie_starring = JSON.parse(movie_data.starring);
   movie_starring = movie_starring.toString();
 
+  movie_writer = JSON.parse(movie_data.writer);
+  movie_writer = movie_writer.toString();
+
+  movie_composer = JSON.parse(movie_data.composer);
+  movie_composer = movie_composer.toString();
+
+  movie_cinematographer = JSON.parse(movie_data.cinematographer);
+  movie_cinematographer = movie_cinematographer.toString();
+
   document.getElementById("movie_summary").innerHTML = 
-  `<div style="margin-top: 10px;">
-    <p><strong>Movie Starring: </strong> ${movie_starring} </p> </div>`;
+  `<p><strong>Director(s):</strong> ${movie_director}</p>
+  <div style="margin-top: 10px;">
+    <p><strong>Movie Starring: </strong> ${movie_starring} </p> </div>
+    <div style="margin-top: 10px;">
+    <p><strong>Writer(s): </strong> ${movie_writer} </p> </div>
+    <div style="margin-top: 10px;">
+    <p><strong>Composer: </strong> ${movie_composer} </p> </div>
+    <div style="margin-top: 10px;">
+    <p><strong>Cinematographer: </strong> ${movie_cinematographer} </p> </div>
+    `;
 }
 
 function openTooltip() {
