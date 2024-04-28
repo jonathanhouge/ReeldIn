@@ -1,11 +1,14 @@
 {% extends 'accounts/onboarding_base.html' %} {% load static %}
+
 {% block head %}
   <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> 
   <title>ReeldIn: Movie Preferences</title>
 {% endblock head %}
 
 {% block header %}Movies{% endblock header %} 
-{% block caption %}Let's figure out your movie preferences, search for as many films as you'd like! {% endblock caption %}
+{% block caption %}
+  Let's figure out your movie preferences, search for as many films as you'd like! 
+{% endblock caption %}
 
 {% block content %}
 

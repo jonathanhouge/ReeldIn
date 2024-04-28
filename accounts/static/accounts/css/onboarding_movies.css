@@ -25,6 +25,8 @@ img {
   height: auto;
   display: block;
   margin: 0 auto;
+  border-radius: 7px;
+  border: 1px solid var(--black);
 }
 
 #movie_container {
@@ -52,7 +54,6 @@ img {
   margin-top: 20px;
 }
 
-
 /* tooltip modified & repurposed from landing_page/index.css */
 
 .tooltip_button:hover {
@@ -66,12 +67,14 @@ img {
 }
 
 .tooltip_message {
-  min-height: 80px;
   color: red;
   background-color: white;
   border-radius: 10px;
   text-align: center;
   padding: 10px;
+}
+.tooltip_message_container{
+  min-height: 80px;
 }
 
 .tooltip {

@@ -50,7 +50,9 @@ function createMovieDiv(movie) {
   tooltiptext.innerHTML = `
   <h3>${movie.name}</h3>
   <p>${movie.year}</p>
-  <p class ="tooltip_message hidden" id ="${movie.id}_tooltip_message"></p>
+  <div class="tooltip_message_container">
+    <p class ="tooltip_message hidden" id ="${movie.id}_tooltip_message"></p>
+  </div>
   <div class="tooltip_buttons">
     <div class="row1">
       <i class="fa-regular fa-2x fa-thumbs-up tooltip_button" id="${movie.id}_upvote" onclick="addLiked('${movie.id}')"></i>
@@ -299,6 +301,9 @@ document.addEventListener("click", function (event) {
  * @param {String} id the id of the movie to be updated
  */
 function addLiked(id) {
+  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message.classList.add("hidden");
+
   liked_button = document.getElementById(id + "_upvote");
   intID = parseInt(id);
 
@@ -327,6 +332,9 @@ function addLiked(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addDisliked(id) {
+  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message.classList.add("hidden");
+
   dislike_button = document.getElementById(id + "_dislike");
   intID = parseInt(id);
 
@@ -355,12 +363,14 @@ function addDisliked(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addSeen(id) {
+  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message.classList.add("hidden");
+
   seen_button = document.getElementById(id + "_seen");
   intID = parseInt(id);
 
   if (movies_watched.has(intID)) {
     if (movies_liked.has(intID) || movies_disliked.has(intID)) {
-      tooltip_message = document.getElementById(id + "_tooltip_message");
       tooltip_message.classList.remove("hidden");
       tooltip_message.innerHTML =
         "Please remove your rating before marking a movie as un-watched.";
@@ -394,6 +404,9 @@ function addSeen(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addWatchlist(id) {
+  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message.classList.add("hidden");
+
   watchlist_button = document.getElementById(id + "_watchlist");
   intID = parseInt(id);
 
@@ -428,15 +441,11 @@ function addWatchlist(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addRewatch(id) {
+  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message.classList.add("hidden");
+
   rewatch_button = document.getElementById(id + "_rewatch");
   intID = parseInt(id);
-
-  if (!movies_watched.has(intID)) {
-    tooltip_message = document.getElementById(id + "_tooltip_message");
-    tooltip_message.innerHTML = "You cannot rewatch a movie you have not seen.";
-    tooltip_message.classList.remove("hidden");
-    return;
-  }
 
   if (movies_blocked.has(intID)) {
     tooltip_message = document.getElementById(id + "_tooltip_message");
@@ -452,6 +461,16 @@ function addRewatch(id) {
     return;
   }
 
+  if (!movies_watched.has(intID)) {
+    movies_watched.add(intID);
+    rewatch_button.style.backgroundColor = rewatchOrange;
+  }
+  if (watchlist.has(intID)) {
+    watchlist.delete(intID);
+    watchlist_button = document.getElementById(id + "_watchlist");
+    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
+  }
+
   rewatch_button.style.backgroundColor = rewatchOrange;
   movies_rewatch.add(intID);
 }
@@ -461,6 +480,9 @@ function addRewatch(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addToExclude(id) {
+  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message.classList.add("hidden");
+
   exclude_button = document.getElementById(id + "_exclude");
   intID = parseInt(id);
 
