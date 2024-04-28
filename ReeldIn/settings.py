@@ -32,9 +32,9 @@ DDD_API_KEY = os.environ.get("DDD_API_KEY")
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
 WATCHMODE_API_KEY = os.environ.get("WATCHMODE_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  # TODO update via env variable
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["reeld.in", "www.reeld.in"]
 
 
 # Application definition

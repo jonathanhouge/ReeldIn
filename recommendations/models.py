@@ -30,6 +30,9 @@ class Movie(models.Model):
     tmdb_id = models.PositiveIntegerField()
     imdb_rating = models.DecimalField(max_digits=10, decimal_places=2)
     imdb_votes = models.PositiveIntegerField()
+    imdb_id = models.CharField(max_length=9, default="tt0000000")
+    ddd_id = models.PositiveIntegerField(default=0)
+    group_lens_id = models.PositiveIntegerField(default=0)
 
 
 class Recommendation(models.Model):
