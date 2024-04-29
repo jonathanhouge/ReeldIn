@@ -19,10 +19,9 @@
     </div>
     <div class="right_col" id="info">
       <!-- Placeholder for User's Profile Pic -->
-      <img src="{% static 'accounts/images/profile.png' %}" />
-      <input type="file" id="profile_pic" name="profile_pic" />
       <button id="change_username">Change Username</button>
       <button id="change_password">Change Password</button>
+      <button id="change_profile_picture">Change Profile Picture</button>
     </div>
   </div>
   <!-- Imported Data -->
@@ -42,7 +41,7 @@
       <p>Edit your prefered genres, triggers, etc.</p>
     </div>
     <div class="right_col">
-      <button>Edit Preferences</button>
+      <button onclick="window.location.href='/accounts/onboarding/genres/'">Edit Preferences</button>
     </div>
   </div>
   <!-- Delete Account -->
