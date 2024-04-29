@@ -1,8 +1,9 @@
+import requests
 from django.conf import settings
 from django.db.models import Count
 from django.shortcuts import render
 
-from .choices import LANGUAGES
+from .choices import LANGUAGES, TRIGGER_DICT
 from .models import Movie, Recommendation
 
 
@@ -70,6 +71,43 @@ def recommendation_querying(recommendation, field, selection, filter):
 
             return possible_movies
         return recommendation.possible_films.filter(**{f"{field}__contains": selection})
+    elif field == "triggers":
+        ddd_ids = recommendation.possible_films.values("ddd_id").annotate(
+            num_films=Count("id")
+        )
+
+        no_ddd_id = ddd_ids.filter(ddd_id=0)
+        if no_ddd_id.count():
+            films_with_ddd_ids = recommendation.possible_films.exclude(ddd_id=0)
+            recommendation.possible_films.set(films_with_ddd_ids.all())
+
+        for trigger in selection:
+            if trigger in TRIGGER_DICT:
+                selection.extend(TRIGGER_DICT[trigger])
+                selection.remove(trigger)
+
+        trigger_movie_ids = []
+        for movie in recommendation.possible_films.all():
+            headers = {"Accept": "application/json", "X-API-KEY": settings.DDD_API_KEY}
+            ddd_url = f"https://www.doesthedogdie.com/media/{movie.ddd_id}"
+            ddd_response = requests.get(ddd_url, headers=headers)
+
+            if ddd_response.status_code != 200:
+                print("ERROR")
+                break
+
+            ddd_obj = ddd_response.json()
+            movie_triggers = [
+                obj["topic"]["name"]
+                for obj in ddd_obj["topicItemStats"]
+                if obj["yesSum"] > obj["noSum"]
+            ]
+
+            isTriggering = bool(set(selection) & set(movie_triggers))
+            if isTriggering:
+                trigger_movie_ids.append(movie.id)
+
+        return recommendation.possible_films.exclude(id__in=trigger_movie_ids)
 
     if settings.DEBUG:
         print(
