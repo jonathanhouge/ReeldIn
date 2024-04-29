@@ -1,6 +1,7 @@
 :root {
   --heading-color: black;
   --footer-color: green;
+  font-family: var(--primary-font);
 }
 
 li {
@@ -23,22 +24,17 @@ li {
   bottom: 0;
 }
 
-#recommendation-space {
-  width: 75vw;
-  height: 60vh;
-  margin: auto;
-}
-
 #id_Question {
-  width: 75vw;
-  background-color: var(--periwinkle);
+  width: 70vw;
+  background-color: var(--white);
   border-width: 0px;
   color: black;
+  font-family: var(--primary-font);
 }
 
 p,
 label,
-.form-submission {
+#id_Question {
   margin-bottom: 1em;
   font-size: 1em;
 }
@@ -53,15 +49,47 @@ h2 {
   color: #f12711;
 }
 
-@media screen and (max-width:550px) {
-  label {  
+.helptext {
+  padding-top: 10em;
+}
+
+#form-submission {
+  font-family: Inter Tight, sans-serif;
+  padding: 0.75rem;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  background-color: #f4f4f4;
+  cursor: pointer;
+  margin: 0.5rem;
+  border-radius: 10px;
+}
+
+#form-submission:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+#form-submission:active {
+  transform: scale(0.95);
+  transition: all 0.1s ease;
+}
+
+@media screen and (max-width: 550px) {
+  p,
+  label,
+  #id_Question {
     display: block;
     padding: 10px;
+    font-size: 24px;
   }
 }
 
-@media screen and (min-width:1000px){
-  label {
-  font-size: 24px;
+@media screen and (min-width: 1000px) and (max-width: 1500px) {
+  p,
+  label,
+  #id_Question {
+    font-size: 24px;
   }
 }
