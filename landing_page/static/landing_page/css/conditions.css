@@ -1,0 +1,17 @@
+.terms_div {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section h2 {
+  margin-bottom: 10px;
+}
+
+a {
+  color: black;
+}
