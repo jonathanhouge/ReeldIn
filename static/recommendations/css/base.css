@@ -1,0 +1,9 @@
+#gen-recommendations-btm {
+  font-size: 30px;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 2.5px;
+  flex-direction: column;
+  color: red;
+  border: solid red !important;
+}

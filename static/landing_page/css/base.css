@@ -1,0 +1,441 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Lexend+Deca:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --primary-font: "Inter Tight", sans-serif;
+  --secondary-font: "Lexend Deca", sans-serif;
+  --tertiary-font: "Montserrat", sans-serif;
+  --black: #333;
+  --white: #fafafa;
+  --periwinkle: #d2ccfc;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #a994b4;
+}
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.content-wrap {
+  padding-bottom: 9rem;
+}
+
+body {
+  font-family: var(--primary-font);
+  background-color: var(--periwinkle);
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.content_container {
+  display: flex;
+  background-color: var(--white);
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+#message_div {
+  text-align: center;
+  margin: 1.5rem;
+  font-family: var(--tertiary-font);
+}
+
+.content_div {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+
+  gap: 1rem;
+  margin-right: 4rem;
+  margin-left: 4rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 20px;
+}
+
+#title_div {
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+  transition: all 0.1s ease;
+}
+
+header {
+  background-color: var(--periwinkle);
+  padding: 1rem;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+#logo_div {
+  display: flex;
+  align-items: center;
+  color: var(--black);
+}
+
+#logo_div img {
+  margin-left: 0.5rem;
+  width: 85px;
+  height: auto;
+}
+
+#logo_div h1 {
+  margin-left: 0.5rem;
+  font-size: 50px;
+}
+
+#logo_div a:hover {
+  color: var(--black);
+}
+
+#logo_div a {
+  color: var(--black);
+}
+
+#searchbar_div input {
+  padding: 0.75rem;
+  width: 30rem;
+  font-size: 32px;
+  border: none;
+  border-radius: 12px;
+  margin-right: 0.5rem;
+  background-color: #f4f4f4;
+}
+
+#searched_movies_container {
+  width: 30rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  position: absolute;
+  border-radius: 0 0 12px 12px;
+}
+
+#magnifying-glass {
+  cursor: pointer;
+}
+
+.searched_movie {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 1rem;
+  z-index: 2;
+}
+
+.searched_movie:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+}
+
+.searched_movie:nth-child(odd) {
+  background-color: lightgray;
+}
+
+/* CSS for even-numbered divs */
+.searched_movie:nth-child(even) {
+  background-color: white;
+}
+
+.searched_movie_details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  justify-content: left;
+  text-align: left;
+}
+
+.last_movie {
+  border-radius: 0 0 12px 12px;
+}
+
+#profile_div {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+#profile_div button {
+  font-family: Inter Tight, sans-serif;
+  padding: 0.75rem;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  background-color: #f4f4f4;
+  cursor: pointer;
+  margin: 0.5rem;
+  border-radius: 10px;
+}
+
+#profile_pic {
+  display: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+#profile_pic img:hover {
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+#profile_pic img:active {
+  transform: scale(0.95);
+  transition: all 0.1s ease;
+}
+
+nav {
+  display: flex;
+  gap: 1.5rem;
+  height: 4rem;
+  align-items: center;
+  background-color: var(--black);
+  justify-content: center;
+  font-size: 20px;
+}
+
+nav a {
+  color: #f4f4f4;
+}
+
+nav,
+footer {
+  font-size: 25px;
+}
+
+#links_div i {
+  font-size: 2rem;
+  color: var(--black);
+  background-color: var(--white);
+
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+}
+
+#links_div i:hover {
+  color: var(--white);
+
+  background-color: var(--black);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 9rem;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 1rem;
+  text-align: center;
+  align-items: center;
+}
+
+#footer_nav {
+  padding: 1rem;
+}
+
+#footer_nav a {
+  color: #f4f4f4;
+  text-decoration: none;
+  margin: 0.5rem;
+}
+
+#footer_nav a:hover {
+  color: #a994b4;
+}
+
+/* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
+/* no padding for this section, and reduce margins */
+@media screen and (max-width: 550px) {
+  header {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  * {
+    margin: none;
+    padding: none;
+  }
+
+  .content_div {
+    gap: 0.5rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 20px;
+  }
+
+  #logo_div {
+    justify-content: center;
+  }
+
+  #profile_div {
+    display: block;
+    margin-top: 5px;
+  }
+
+  #profile-div button {
+    padding: 5px;
+  }
+
+  #searchbar_div input {
+    width: 80%;
+    align-content: center;
+    padding: 8.5px;
+    margin-top: 10px;
+  }
+
+  nav {
+    width: 100%;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  nav,
+  footer {
+    font-size: 20px;
+  }
+
+  #title_div {
+    font-size: 16px;
+    margin-left: 5px;
+  }
+
+  #get_recommendations_btm,
+  #login_button {
+    font-size: 16px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 2.5px;
+    flex-direction: column;
+  }
+
+  #login_button {
+    margin-left: 4px;
+  }
+
+  .content-wrap {
+    padding-bottom: 8rem;
+  }
+
+  footer {
+    height: 8rem;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+/* For Tablet 768px */
+@media screen and (max-width: 849px) and (min-width: 550px) {
+  header {
+    display: block;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  #profile_div {
+    display: block;
+    margin-top: 10px;
+  }
+
+  #searchbar_div input {
+    width: 80%;
+  }
+
+  nav {
+    width: 100%;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .content-wrap {
+    padding-bottom: 8rem;
+  }
+
+  footer {
+    height: 8rem;
+  }
+}
+
+/* For Laptop 1024px / Laptop L 1440px / Laptop 4k 2560px */
+/* For Laptop 1024 and 1440 */
+@media screen and (max-width: 1200px) and (min-width: 850px) {
+  header {
+    font-size: 35px;
+    font-family: var(--primary-font);
+    height: 100%;
+    width: 100%;
+    display: block;
+    flex-wrap: wrap;
+  }
+  #profile_div {
+    display: block;
+    margin-top: 10px;
+  }
+
+  nav,
+  footer {
+    font-size: 25px;
+  }
+}
+
+/* For Laptop 2560 */
+@media screen and (max-width: 3000px) and (min-width: 1441px) {
+  header {
+    font-family: var(--primary-font);
+    width: 100%;
+    height: 100%;
+  }
+  nav,
+  footer {
+    width: 100%;
+    font-size: 25px;
+  }
+}

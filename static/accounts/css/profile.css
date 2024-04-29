@@ -1,0 +1,114 @@
+.profile_img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+#user_info_div {
+  padding: 20px;
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+}
+
+#profile_pic_div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#info {
+  margin-left: 20px;
+}
+
+.user_content {
+  display: flex;
+}
+
+.user_lists_div,
+.middle_col {
+  flex: 1;
+  margin-right: 20px;
+  max-width: calc(25vw - 10px); /* TODO temp solution, replace with grid later */
+
+}
+
+.list_div {
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+  min-height: 275px;
+}
+
+.list img {
+  height: 200px;
+  margin-right: 10px;
+}
+
+.list {
+  margin-top: 10px;
+  overflow-x: auto;
+  display: flex;
+}
+
+.placeholder_text {
+  color: #a1a1a1;
+  opacity: 0.75;
+}
+
+.friends_div {
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.friends_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.friends_list {
+  display: flex;
+}
+
+.friend {
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+
+button {
+  font-family: Inter Tight, sans-serif;
+  padding: 0.75rem;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  background-color: #c8adff;
+  cursor: pointer;
+  margin: 0.5rem;
+  border-radius: 10px;
+}
+
+button:hover {
+  background-color: #a38fff;
+}
+
+
+#yes_delete_friend_request_button:hover, #reject_friend_button:hover, #remove_confirm_button:hover {
+  background-color: #ff4d4d;
+}
+
+#accept_friend_button:hover {
+  background-color: #15d615;
+}
+
+.friend:hover {
+  transform: scale(1.2) !important;
+  transition: all 0.3s ease;
+}
