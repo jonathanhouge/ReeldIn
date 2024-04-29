@@ -39,7 +39,7 @@ ALLOWED_HOSTS = [
     "www.reeld.in",
     "localhost",
     "reeldin.azurewebsites.net",
-    "169.254.129.3",
+    "169.254.129.3",  # Web App's IP address
     "127.0.0.1",
 ]
 
