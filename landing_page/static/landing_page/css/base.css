@@ -8,6 +8,9 @@
   --black: #333;
   --white: #fafafa;
   --periwinkle: #d2ccfc;
+  --like-green: #0f9e02;
+  --exclude-red: #cc0c23;
+  --rewatch-orange: #ff9b0f;
 }
 
 * {
@@ -22,6 +25,15 @@ a {
 
 a:hover {
   color: #a994b4;
+}
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.content-wrap {
+  padding-bottom: 9rem;
 }
 
 body {
@@ -196,7 +208,6 @@ header {
 }
 
 #profile_pic {
-  display: none;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -228,6 +239,11 @@ nav a {
   color: #f4f4f4;
 }
 
+nav,
+footer {
+  font-size: 25px;
+}
+
 #links_div i {
   font-size: 2rem;
   color: var(--black);
@@ -250,10 +266,12 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+  height: 9rem;
   background-color: var(--black);
   color: var(--white);
   padding: 1rem;
   text-align: center;
+  align-items: center;
 }
 
 #footer_nav {
@@ -285,6 +303,16 @@ footer {
     padding: none;
   }
 
+  .content_div {
+    gap: 0.5rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 20px;
+  }
+
   #logo_div {
     justify-content: center;
   }
@@ -311,14 +339,14 @@ footer {
     flex-direction: row;
   }
 
+  nav,
+  footer {
+    font-size: 20px;
+  }
+
   #title_div {
     font-size: 16px;
     margin-left: 5px;
-  }
-
-  .content_div,
-  header {
-    padding: 0%;
   }
 
   #get_recommendations_btm,
@@ -334,8 +362,14 @@ footer {
     margin-left: 4px;
   }
 
-  .content_container {
-    display: block;
+  .content-wrap {
+    padding-bottom: 8rem;
+  }
+
+  footer {
+    height: 8rem;
+    display: flex;
+    flex-direction: row;
   }
 }
 
@@ -363,8 +397,12 @@ footer {
     flex-direction: row;
   }
 
-  .content_container {
-    display: block;
+  .content-wrap {
+    padding-bottom: 8rem;
+  }
+
+  footer {
+    height: 8rem;
   }
 }
 
@@ -386,7 +424,7 @@ footer {
 
   nav,
   footer {
-    font-size: 32px;
+    font-size: 25px;
   }
 }
 
@@ -399,7 +437,7 @@ footer {
   }
   nav,
   footer {
-    font-size: 35px;
     width: 100%;
+    font-size: 25px;
   }
 }

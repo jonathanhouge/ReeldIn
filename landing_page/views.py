@@ -1,19 +1,19 @@
 import json
 import os
-import requests
 
+import requests
 from django.conf import settings
+from django.core.serializers import serialize
 from django.db.models import CharField, Q, TextField
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
-from django.core.serializers import serialize
 
-from recommendations.models import Movie, RecentRecommendations
-from recommendations.helpers import make_readable_recommendation
-from recommendations.choices import LANGUAGES
 from accounts.models import FriendRequest
+from recommendations.choices import LANGUAGES
+from recommendations.helpers import make_readable_recommendation
+from recommendations.models import Movie, RecentRecommendations
 
 
 def index(request):
@@ -98,7 +98,7 @@ def search_movies(request):
 
     if query:
         # Construct Q objects for name, director, and release_year fields
-        q_name = Q(name__istartswith=query)
+        q_name = Q(name__icontains=query)
         q_director = Q(director__istartswith=query)
         q_release_year = Q(year__istartswith=query)
 
@@ -135,7 +135,7 @@ def search_movies_json(request):
         search_string = body_data.get("search")
 
         if search_string:
-            movies = Movie.objects.filter(name__istartswith=search_string)
+            movies = Movie.objects.filter(name__icontains=search_string)
             sorted_movies = sorted(
                 movies,
                 key=lambda movie: sort_by_closeness(search_string, movie),

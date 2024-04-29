@@ -99,6 +99,11 @@ def make_readable_recommendation(recommended_films):
         readable_film["language"] = language_dict.get(film.language)
 
         readable_film["genres"] = (", ").join(film.genres[:3])
+        readable_film["genres"] = readable_film["genres"].replace(
+            "Science Ficti", "Science Fiction"
+        )
+        if len(film.genres) > 3:
+            readable_film["genres"] += "..."
 
         readable_recommendation.append(readable_film)
 

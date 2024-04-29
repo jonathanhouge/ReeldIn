@@ -1,0 +1,36 @@
+{% extends 'accounts/onboarding_base.html' %} {% load static %}
+
+{% block head %} 
+    <link rel="stylesheet" href="{% static 'accounts/css/onboarding_triggers.css' %}" /> 
+    <title>ReeldIn: Trigger Preferences</title>
+{% endblock head %}
+
+{% block header %}Triggers{% endblock header %} 
+{% block caption %}
+  Select any triggers that you would like to avoid being recommended (these will be auto-selected).
+{% endblock caption %}
+
+{% block content %}
+  <h1>TODO PAGE/BUTTONS NOT FUNCTIONAL</h1>
+
+<!--Back Modal-->
+<section class="modal hidden" id ="confirm_back_modal">
+  <div class="flex">
+    <h3>Are you sure you want to go back to the previous section?</h3>
+    <button class="btn-close" onclick="closeBackModal()">⨉</button>
+  </div>
+  <div>
+    <p id="exit_warning">Any changes made will not be saved!</p>
+  </div>
+
+  <button class="btn" onclick="window.location.href = '/accounts/onboarding/movies'">Yes</button>
+  <button class="btn" onclick="closeBackModal()">No</button>
+</section>
+{% endblock content %}
+
+{% block footer_buttons %}
+  <button onclick="openBackModal()" id="back-button" class="button">Back</button>
+  <button onclick="window.location.href='/'" id="next-button" class="button">Save & Continue</button>
+{% endblock footer_buttons %}
+
+{% block scripts %} <script src="{% static 'accounts/js/onboarding_triggers.js' %}"></script> {% endblock scripts %}
