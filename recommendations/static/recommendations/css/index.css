@@ -52,3 +52,16 @@ h2 {
 .error {
   color: #f12711;
 }
+
+@media screen and (max-width:550px) {
+  label {  
+    display: block;
+    padding: 10px;
+  }
+}
+
+@media screen and (min-width:1000px){
+  label {
+  font-size: 24px;
+  }
+}

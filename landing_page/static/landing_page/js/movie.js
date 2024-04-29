@@ -16,18 +16,42 @@ function movieOverview(movie_data) {
     "movie_summary"
   ).innerHTML = `<p><strong>Tagline:</strong> </p>
       <p> ${movie_data.tagline} </p>
+
+      <div id="streaming_info">
       <p><strong>Description:</strong> </p>
       <p> ${movie_data.overview} </p>
+      </div>
       <div id="streaming_info">
         <strong>Streaming:</strong> <p>${streaming}</p>
       </div>`;
 }
 
+/*MPAA Rating goes here */
+  function mpaa () {
+  const data = null;
+
+  const xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+
+  xhr.addEventListener('readystatechange', function () {
+    if (this.readyState === this.DONE) {
+      console.log(this.responseText);
+    }
+  });
+
+  xhr.open('GET', 'https://api.themoviedb.org/3/certification/movie/list');
+  xhr.setRequestHeader('accept', 'application/json');
+  xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MzU5MTNmNmNjY2QzOTIxMmM5ZGJlNzhkZmVkZTdkZCIsInN1YiI6IjY2MmRiNjg0YTgwNjczMDEyOGU4YTVmMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Dk2oO1GOaMT2bVttBzMHj5SiyX9UqCxQs0FlwBrWpZ8');
+
+  xhr.send(data);
+
+  }
+
 function movieDetails(movie_data) {
   movie_genres = JSON.parse(movie_data.genres);
   movie_genres = movie_genres.join(", ");
 
-  /*MPAA Rating goes here */
+  
 
   document.getElementById("movie_summary").innerHTML = `
   <div style="margin-top: 10px;">
@@ -37,9 +61,7 @@ function movieDetails(movie_data) {
     <div style="margin-top: 10px;">
     <p><strong>Genres:</strong> ${movie_genres} </p> </div>
     <div style="margin-top: 10px;">
-    <p><strong>Language:</strong> ${movie_data.language} </p> </div>
-    <div style="margin-top: 10px;">
-    <p><strong>Movie MPAA Rating:</strong>  </p> </div>`;
+    <p><strong>Language:</strong> ${movie_data.language} </p> </div>`;
 }
 
 function moviePeople(movie_data) {
