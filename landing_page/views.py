@@ -41,6 +41,10 @@ def contact(request):
     return render(request, "landing_page/contact.html")
 
 
+def conditions(request):
+    return render(request, "landing_page/conditions.html")
+
+
 def profile(request):
     if not request.user.is_authenticated:
         return render(request, "accounts/login.html")

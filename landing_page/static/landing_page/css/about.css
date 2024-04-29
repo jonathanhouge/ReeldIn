@@ -5,3 +5,31 @@
   margin-right: 1rem;
   margin-left: 1rem;
 }
+
+.attribution img {
+  height: 50px;
+  width: auto;
+  margin-right: 15px;
+}
+
+.attribution {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 10px;
+}
+
+/* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
+/* no padding for this section, and reduce margins */
+@media screen and (max-width: 550px) {
+  .attribution img {
+    height: 20px;
+  }
+}
+
+/* For Tablet 768px */
+@media screen and (max-width: 849px) and (min-width: 550px) {
+  .attribution img {
+    height: 30px;
+  }
+}
