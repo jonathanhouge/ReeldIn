@@ -23,6 +23,10 @@ function openBoxdModal() {
 function closeModal() {
   overlay.classList.add("hidden");
   upload_modal.classList.add("hidden");
+  title.innerHTML = "Select File here";
+  title.style.color = "black";
+  subtitle.innerHTML = "Files Supported: CSV";
+  document.getElementById("file").value = "";
 }
 
 overlay.addEventListener("click", closeModal);

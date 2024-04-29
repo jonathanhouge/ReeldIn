@@ -260,20 +260,27 @@ def add_IMDb_Data(reader, user):
     blocked_list = getattr(user, "excluded_films")
     liked_list = getattr(user, "liked_films")
     disliked_list = getattr(user, "disliked_films")
+    watched_list = getattr(user, "watched_films")
 
-    blocked_movies = set(blocked_list.values_list("id", flat=True))
-    liked_movies = set(liked_list.values_list("id", flat=True))
-    disliked_movies = set(disliked_list.values_list("id", flat=True))
+    blocked_movies = set(blocked_list.values_list("imdb_id", flat=True))
+    liked_movies = set(liked_list.values_list("imdb_id", flat=True))
+    disliked_movies = set(disliked_list.values_list("imdb_id", flat=True))
+    watched_movies = set(watched_list.values_list("imdb_id", flat=True))
 
     new_liked = set()
     new_disliked = set()
+    new_watched = set()
+
     for row in reader:
         tt_id = row[0]
         user_rating = row[1]
 
-        if tt_id in blocked_movies:
-            pass
+        if tt_id in blocked_movies or tt_id in watched_movies:
+            print(tt_id, "is blocked or watched")
+            continue
         else:
+            new_watched.add(tt_id)
+            print(tt_id, "is newly watched")
             if tt_id not in liked_movies and int(user_rating) >= MIN_LIKED_RATING_IMDB:
                 new_liked.add(tt_id)
             elif (
@@ -284,9 +291,12 @@ def add_IMDb_Data(reader, user):
 
     liked_list.add(*Movie.objects.filter(imdb_id__in=new_liked))
     disliked_list.add(*Movie.objects.filter(imdb_id__in=new_disliked))
+    watched_list.add(*Movie.objects.filter(imdb_id__in=new_watched))
 
 
 # For testing purposes
+# add this button to profile.html
+# <button onclick="clearLists()">Clear Lists</button>
 def clear_lists(request):
     user = request.user
     with transaction.atomic():
@@ -296,6 +306,7 @@ def clear_lists(request):
         user.watchlist_films.clear()
         user.rewatchable_films.clear()
         user.excluded_films.clear()
+    user.watched_films.add(Movie.objects.get(imdb_id="tt0137523"))
     return HttpResponse("Lists cleared", status=200)
 
 
@@ -304,13 +315,15 @@ def add_Letterboxd_Data(reader, user):
     blocked_list = getattr(user, "excluded_films")
     liked_list = getattr(user, "liked_films")
     disliked_list = getattr(user, "disliked_films")
+    watched_list = getattr(user, "watched_films")
 
-    blocked_movies = set(blocked_list.values_list("id", flat=True))
-    liked_movies = set(liked_list.values_list("id", flat=True))
-    disliked_movies = set(disliked_list.values_list("id", flat=True))
+    blocked_movies = set(blocked_list.values_list("imdb_id", flat=True))
+    watched_movies = set(watched_list.values_list("imdb_id", flat=True))
 
     liked_data = set()
     disliked_data = set()
+    new_watched = set()
+
     for row in reader:
         movie_data = (row[1], row[2], row[4])
         movie_name, movie_year, rating = movie_data
@@ -319,8 +332,9 @@ def add_Letterboxd_Data(reader, user):
 
         if movie is None:
             continue
-        if movie in blocked_movies:
-            pass
+        if movie.imdb_id in blocked_movies or movie.imdb_id in watched_movies:
+            continue
+        new_watched.add(movie.imdb_id)
         if float(rating) >= MIN_LIKED_RATING_LETTERBOXD:
             liked_data.add(movie.imdb_id)
         else:
@@ -328,6 +342,7 @@ def add_Letterboxd_Data(reader, user):
 
     liked_list.add(*Movie.objects.filter(imdb_id__in=liked_data))
     disliked_list.add(*Movie.objects.filter(imdb_id__in=disliked_data))
+    watched_list.add(*Movie.objects.filter(imdb_id__in=new_watched))
 
 
 def get_random_movies(request):
