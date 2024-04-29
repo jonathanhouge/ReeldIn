@@ -3,7 +3,7 @@
 <!-- question & form -->
 <script src="{% static 'recommendations/js/index.js' %}" defer></script>
 
-<div id="recommendation-space">
+<div class="content_div">
   <h1 id="question">Question #{{ recommendation.step }}</h1>
   {% block form %}
   <form action="{% url 'recommendations:narrow' %}" method="post">
@@ -11,7 +11,7 @@
     <p class="error">{{ error }}</p>
     {% endif %} {% csrf_token %} {{ form.as_p }}
 
-    <input id="form-submission" type="submit" value="submit" />
+    <input id="form-submission" type="submit" value="Continue" />
   </form>
 
   <!-- Number will change later -->

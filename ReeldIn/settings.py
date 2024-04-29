@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
-
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Obtain the base directory of the project and use it to build the path to the .env file
@@ -32,9 +32,18 @@ DDD_API_KEY = os.environ.get("DDD_API_KEY")
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
 WATCHMODE_API_KEY = os.environ.get("WATCHMODE_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # TODO update via env variable
+DEBUG = False  # TODO update via env variable
 
-ALLOWED_HOSTS = ["reeld.in", "www.reeld.in", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "reeld.in",
+    "www.reeld.in",
+    "localhost",
+    "reeldin.azurewebsites.net",
+    "169.254.129.3",  # Web App's IP address
+    "127.0.0.1",
+]
+
+CSRF_TRUSTED_ORIGINS = ["https://reeld.in"]
 
 
 # Application definition
@@ -58,6 +67,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -139,7 +149,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+if DEBUG:
+    STATIC_URL = "/static/"
+else:
+    STATIC_URL = "https://reeldincdn-evgmbyaye3gehbbt.z02.azurefd.net/static/"
+
 STATIC_ROOT = BASE_DIR / "static"
 
 # Media files (user-uploaded files i.e profile pictures)

@@ -26,6 +26,7 @@ function closeModal() {
   title.innerHTML = "Select File here";
   title.style.color = "black";
   subtitle.innerHTML = "Files Supported: CSV";
+  upload_btn.innerHTML = "Upload";
   document.getElementById("file").value = "";
 }
 
@@ -39,6 +40,7 @@ async function uploadFile(source) {
   const file = document.getElementById("file").files[0];
   const formData = new FormData();
   formData.append("document", file);
+  upload_btn.innerHTML = "Adding Ratings...";
 
   fetch("/accounts/onboarding/upload/", {
     method: "POST",
@@ -53,10 +55,12 @@ async function uploadFile(source) {
         console.log("Success");
         title.innerHTML = "File uploaded successfully!";
         title.style.color = "green";
+        upload_btn.innerHTML = "Upload";
       } else {
         title.innerHTML = "Error!";
         title.style.color = "red";
         console.log("Error");
+        upload_btn.innerHTML = "Upload";
       }
       return response.text();
     })

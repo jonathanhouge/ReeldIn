@@ -255,12 +255,13 @@ def add_IMDb_Data(reader, user):
         tt_id = row[0]
         user_rating = row[1]
 
+        if tt_id == "" or user_rating == "":
+            continue
+
         if tt_id in all_movies:
-            print(tt_id, "is blocked or watched")
             continue
         else:
             new_watched.add(tt_id)
-            print(tt_id, "is newly watched")
             if int(user_rating) >= MIN_LIKED_RATING_IMDB:
                 new_liked.add(tt_id)
             elif int(user_rating) < MIN_LIKED_RATING_IMDB:
@@ -309,6 +310,9 @@ def add_Letterboxd_Data(reader, user):
         movie_data = (row[1], row[2], row[4])
         movie_name, movie_year, rating = movie_data
 
+        if movie_name == "" or movie_year == "" or rating == "":
+            continue
+
         movie = Movie.objects.filter(name=movie_name, year=movie_year).first()
 
         if movie is None:
@@ -316,6 +320,7 @@ def add_Letterboxd_Data(reader, user):
         if movie.imdb_id in all_movies:
             continue
         new_watched.add(movie.imdb_id)
+
         if float(rating) >= MIN_LIKED_RATING_LETTERBOXD:
             liked_data.add(movie.imdb_id)
         else:

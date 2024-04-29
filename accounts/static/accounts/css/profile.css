@@ -112,3 +112,12 @@ button:hover {
   transform: scale(1.2) !important;
   transition: all 0.3s ease;
 }
+
+@media screen and (max-width:550px) {
+  #user_info_div, .user_content {
+    display: block;
+  }
+  .user_lists_div, .middle_col  {
+    max-width: none;
+  }
+}

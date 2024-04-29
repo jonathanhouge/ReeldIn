@@ -28,10 +28,12 @@
   <div class="settings_container" id="data_imports">
     <div class="left_col">
       <h2>Imported Data</h2>
-      <p>Import or remove data from IMDB, Letterboxd, and Netflix.</p>
+      <p>Import data from IMDB and Letterboxd.</p>
     </div>
     <div class="right_col">
-      <button>Import Data</button>
+      <button onclick="window.location.href='/accounts/onboarding/imports/'">
+        Import Data
+      </button>
     </div>
   </div>
   <!-- Movie Preferences -->
@@ -41,7 +43,9 @@
       <p>Edit your prefered genres, triggers, etc.</p>
     </div>
     <div class="right_col">
-      <button onclick="window.location.href='/accounts/onboarding/genres/'">Edit Preferences</button>
+      <button onclick="window.location.href='/accounts/onboarding/genres/'">
+        Edit Preferences
+      </button>
     </div>
   </div>
   <!-- Delete Account -->
