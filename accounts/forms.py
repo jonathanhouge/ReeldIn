@@ -64,4 +64,7 @@ class CustomTriggerForm(forms.Form):
     This form is used to collect user preferences for each trigger,
     """
 
-    # TODO
+    OPTIONS = TRIGGERS
+    Triggers = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple, choices=OPTIONS
+    )
