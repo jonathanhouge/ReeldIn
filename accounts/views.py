@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.db import transaction
 from recommendations.models import Movie
+from fuzzywuzzy import fuzz
 
 import random
 from .forms import *
@@ -246,6 +247,10 @@ def onboarding_trigger_view(request):
 
     form = CustomTriggerForm()
     return render(request, "accounts/onboarding_triggers.html", {"form": form})
+
+
+def sort_by_closeness(query, movie):
+    return fuzz.ratio(query, movie.name)
 
 
 def search_movie(request):

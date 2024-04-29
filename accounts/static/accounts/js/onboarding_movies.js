@@ -137,7 +137,7 @@ async function searchMovies(event) {
 
   if (searchString) {
     const csrfToken = await getCSRFToken();
-    fetch("accounts/onboarding/api/search/movies/", {
+    fetch("/accounts/onboarding/movies/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -47,20 +47,6 @@
       </table>
   </form>
 
-    <!-- Exit modal-->
-    <section class="modal hidden" id ="confirm_exit_modal">
-        <div class="flex">
-          <h3>Are you sure you want to exit?</h3>
-          <button class="btn-close" onclick="closeExitModal()">⨉</button>
-        </div>
-        <div>
-          <p id="exit_warning">Any unsaved changes will be lost!</p>
-        </div>
-      
-        <button class="btn"  onclick="window.location.href = '/'">Yes</button>
-        <button class="btn" onclick="closeExitModal()">No</button>
-    </section>
-
 {% endblock content %}
 
 {% block footer_buttons %}

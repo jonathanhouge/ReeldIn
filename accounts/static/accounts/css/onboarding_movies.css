@@ -20,7 +20,7 @@
   gap: 0.5rem;
 }
 
-img {
+.movie img {
   width: 300px;
   height: auto;
   display: block;
@@ -50,7 +50,9 @@ img {
   transition: ease 0.3s;
 }
 
-.row1, .row2, .row3 {
+.row1,
+.row2,
+.row3 {
   margin-top: 20px;
 }
 
@@ -73,7 +75,7 @@ img {
   text-align: center;
   padding: 10px;
 }
-.tooltip_message_container{
+.tooltip_message_container {
   min-height: 80px;
 }
 

@@ -67,11 +67,12 @@
           <a href="{% url 'accounts:login' %}">
             <button id="login_button">Sign In</button>
           </a>
+          {% endif %} {% if user.is_authenticated %}
+          <a href="/profile">
+            <img id="profile_pic" src="{{request.user.profile_picture.url}}" />
+          </a>
           {% endif %}
-
-          {% if user.is_authenticated %}
-            <img id="profile_pic" src="{{request.user.profile_picture.url}}"/>
-          {% endif %}
+        </div>
       </header>
 
       <nav>

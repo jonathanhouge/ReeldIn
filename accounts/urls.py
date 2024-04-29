@@ -32,5 +32,5 @@ urlpatterns = [
         views.get_random_movies,
         name="get_movies",
     ),
-    path("api/seach/movies/", views.search_movie, name="search_movies"),
+    path("onboarding/movies/search", views.search_movie, name="search_movies"),
 ]
