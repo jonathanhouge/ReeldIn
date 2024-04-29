@@ -10,10 +10,7 @@ function movieOverview(movie_data) {
     streaming = streaming.join(", ");
   }
 
-  if (!movie_data.tagline) movie_data.tagline = "No tagline.";
-
-  document.getElementById("movie_tagline").innerHTML =`<p>
-   "${movie_data.tagline}" </p>`;
+  
 
   document.getElementById(
     "movie_summary"
