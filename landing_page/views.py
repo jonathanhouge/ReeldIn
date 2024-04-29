@@ -84,17 +84,6 @@ def movie(request, movie_id):
     )
 
 
-"""
-def mpaa(requests, movie_id):
-    mpaa = get_mpaa(requests, pk=movie_id) 
-    mpaa_json = serialize("json", [mpaa])
-    mpaa_json = json.load(mpaa_json)[0]["fields"]
-    return render( 
-        requests, "landing_page/movie.html", {"mpaa": mpaa, "mpaa_json": mpaa_json}
-    )
-"""
-
-
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({"csrf_token": csrf_token})
