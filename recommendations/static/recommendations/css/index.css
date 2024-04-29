@@ -75,3 +75,21 @@ h2 {
   transform: scale(0.95);
   transition: all 0.1s ease;
 }
+
+@media screen and (max-width: 550px) {
+  p,
+  label,
+  #id_Question {
+    display: block;
+    padding: 10px;
+    font-size: 24px;
+  }
+}
+
+@media screen and (min-width: 1000px) and (max-width: 1500px) {
+  p,
+  label,
+  #id_Question {
+    font-size: 24px;
+  }
+}

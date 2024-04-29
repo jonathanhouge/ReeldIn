@@ -47,3 +47,9 @@ button:hover {
 .delete_account_btn:hover {
   background-color: #ff4d4d;
 }
+
+@media screen and (max-width:550px) {
+  .settings_container, #info{
+    display: block;
+  }  
+}

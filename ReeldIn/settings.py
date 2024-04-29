@@ -32,7 +32,7 @@ DDD_API_KEY = os.environ.get("DDD_API_KEY")
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
 WATCHMODE_API_KEY = os.environ.get("WATCHMODE_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # TODO update via env variable
+DEBUG = False  # TODO update via env variable
 
 ALLOWED_HOSTS = [
     "reeld.in",
@@ -149,7 +149,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "https://reeldincdn-evgmbyaye3gehbbt.z02.azurefd.net/static/"
+if DEBUG:
+    STATIC_URL = "/static/"
+else:
+    STATIC_URL = "https://reeldincdn-evgmbyaye3gehbbt.z02.azurefd.net/static/"
+
 STATIC_ROOT = BASE_DIR / "static"
 
 # Media files (user-uploaded files i.e profile pictures)
