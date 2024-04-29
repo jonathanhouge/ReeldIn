@@ -113,7 +113,10 @@ def narrow_view(request):
     recommendation = Recommendation.objects.get(user_id=user)
     step = recommendation.step
 
-    form = FORMS[step](request.POST)
+    form = FORMS[step](request.POST) if step < len(FORMS) else None
+    if form is None:
+        return recommend_view(request)  # weird bug i got once - counters it
+
     if form.is_valid():
         field = FIELD[step]
         selection = form.cleaned_data.get(field, [])
@@ -140,11 +143,12 @@ def narrow_view(request):
 
         recommendation.save()
 
-        # stop early
-        if recommendation.possible_film_count < 10:
+        form = FORMS[step + 1] if step + 1 < len(FORMS) else None
+
+        # stop early or when no more questions remain
+        if recommendation.possible_film_count < 10 or form is None:
             return recommend_view(request)
 
-        form = FORMS[step + 1] if step + 1 < len(FORMS) else None
         if "Languages" in form.declared_fields:
             form.declared_fields["Languages"].choices = relevant_options(
                 form, recommendation.possible_films, recommendation.possible_film_count
@@ -164,13 +168,13 @@ def narrow_view(request):
     return narrow_view_error(
         request,
         form,
-        "Error: Try again. If this persists, contact the devs.",
+        "Error: Try again. Maybe you didn't make a selection? If this persists, contact the devs.",
         recommendation,
     )
 
 
 def index(request):
-    form = GenreForm()
+    form = FORMS[1]  # GenreForm()
     recommendation = {"possible_film_count": 27122, "step": 1}
 
     # if logged in, see if they have an ongoing, valid recommendation
@@ -191,7 +195,13 @@ def index(request):
                     {"recommendations": readable_recommendation},
                 )
             else:
-                form = FORMS[recommendation.step]
+                step = recommendation.step
+                form = FORMS[step] if step < len(FORMS) else None
+
+                # shouldn't happen but just in case
+                if recommendation.possible_film_count < 10 or form is None:
+                    return recommend_view(request)
+
                 if "Languages" in form.declared_fields:
                     form.declared_fields["Languages"].choices = relevant_options(
                         form,
