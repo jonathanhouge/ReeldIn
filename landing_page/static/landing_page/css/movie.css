@@ -145,10 +145,11 @@
         flex-direction: column;
     }
 
-    .tooltip_buttons div {
+    #movie_name, #movie_button_nav{
         display: flex;
         flex-direction: column;
         justify-content: center;
+        
     }
 
     #movie_name h2 {
