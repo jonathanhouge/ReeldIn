@@ -10,24 +10,26 @@ function movieOverview(movie_data) {
     streaming = streaming.join(", ");
   }
 
-  if (!movie_data.tagline) movie_data.tagline = "No tagline.";
+  
 
   document.getElementById(
     "movie_summary"
-  ).innerHTML = `<p><strong>Tagline:</strong> </p>
-      <p> ${movie_data.tagline} </p>
+  ).innerHTML = `
+      <div id="streaming_info">
       <p><strong>Description:</strong> </p>
       <p> ${movie_data.overview} </p>
+      </div>
       <div id="streaming_info">
         <strong>Streaming:</strong> <p>${streaming}</p>
       </div>`;
 }
 
+
 function movieDetails(movie_data) {
   movie_genres = JSON.parse(movie_data.genres);
   movie_genres = movie_genres.join(", ");
 
-  /*MPAA Rating goes here */
+  
 
   document.getElementById("movie_summary").innerHTML = `
   <div style="margin-top: 10px;">
@@ -37,9 +39,7 @@ function movieDetails(movie_data) {
     <div style="margin-top: 10px;">
     <p><strong>Genres:</strong> ${movie_genres} </p> </div>
     <div style="margin-top: 10px;">
-    <p><strong>Language:</strong> ${movie_data.language} </p> </div>
-    <div style="margin-top: 10px;">
-    <p><strong>Movie MPAA Rating:</strong>  </p> </div>`;
+    <p><strong>Language:</strong> ${movie_data.language} </p> </div>`;
 }
 
 function moviePeople(movie_data) {

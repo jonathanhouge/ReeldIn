@@ -42,6 +42,10 @@ def contact(request):
     return render(request, "landing_page/contact.html")
 
 
+def conditions(request):
+    return render(request, "landing_page/conditions.html")
+
+
 def profile(request):
     if not request.user.is_authenticated:
         return render(request, "accounts/login.html")
@@ -82,17 +86,6 @@ def movie(request, movie_id):
     return render(
         request, "landing_page/movie.html", {"movie": movie, "movie_json": movie_json}
     )
-
-
-"""
-def mpaa(requests, movie_id):
-    mpaa = get_mpaa(requests, pk=movie_id) 
-    mpaa_json = serialize("json", [mpaa])
-    mpaa_json = json.load(mpaa_json)[0]["fields"]
-    return render( 
-        requests, "landing_page/movie.html", {"mpaa": mpaa, "mpaa_json": mpaa_json}
-    )
-"""
 
 
 def get_csrf_token(request):

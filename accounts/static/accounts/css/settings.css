@@ -37,6 +37,7 @@ button {
   cursor: pointer;
   margin: 0.5rem;
   border-radius: 10px;
+  transition: 0.3s;
 }
 
 button:hover {
@@ -45,4 +46,10 @@ button:hover {
 
 .delete_account_btn:hover {
   background-color: #ff4d4d;
+}
+
+@media screen and (max-width:550px) {
+  .settings_container, #info{
+    display: block;
+  }  
 }

@@ -10,6 +10,12 @@ urlpatterns = [
     path("onboarding/", views.onboarding_view, name="onboarding"),
     path("onboarding/genres/", views.onboarding_genre_view, name="onboarding_genres"),
     path("onboarding/movies/", views.onboarding_movie_view, name="onboarding_movies"),
+    path("onboarding/imports/", views.onboarding_import_view, name="onboarding_import"),
+    path(
+        "onboarding/upload/",
+        views.onboarding_upload,
+        name="onboarding_upload",
+    ),
     path("settings/", views.settings_view, name="settings"),
     path(
         "preferences/movies/", views.preferences_movies_view, name="preferences_movies"
@@ -33,4 +39,5 @@ urlpatterns = [
         name="get_movies",
     ),
     path("onboarding/movies/search", views.search_movie, name="search_movies"),
+    path("clear/lists/", views.clear_lists, name="clear_lists"),
 ]
