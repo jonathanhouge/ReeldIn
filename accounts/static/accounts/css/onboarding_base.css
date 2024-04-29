@@ -44,3 +44,7 @@ button {
 button:hover {
   background-color: #a38fff;
 }
+
+#logo_div:hover {
+  cursor: pointer;
+}

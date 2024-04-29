@@ -24,11 +24,26 @@
       <h1>ReeldIn</h1>
   </div>
   <div id="profile_div">
+    <a href="{% url 'recommendations:index' %}">
+      {% if user.is_authenticated %}
+      <button id="get-recommendations-btm">Get Recommendations</button>
+      {% else %}
+      <button id="get-recommendations-btm">Demo Recommendations</button>
+      {% endif %}
+    </a>
+    {% if user.is_authenticated %}
     <a href="{% url 'accounts:logout' %}">
       <button id="login_button">Sign Out</button>
     </a>
-    <!-- Placeholder for User's Profile Picture when Logged In -->
-    <img id="profile_pic" src="{{request.user.profile_picture.url}}" />
+    {% else %}
+    <a href="{% url 'accounts:login' %}">
+      <button id="login_button">Sign In</button>
+    </a>
+    {% endif %} {% if user.is_authenticated %}
+    <a href="/profile">
+      <img id="profile_pic" src="{{request.user.profile_picture.url}}" />
+    </a>
+    {% endif %}
   </div>
 </header>
 <nav></nav>
@@ -52,8 +67,21 @@
   </div>
 
 
+  <!-- Exit modal-->
+  <section class="modal hidden" id ="confirm_exit_modal">
+    <div class="flex">
+      <h3>
+        {% block exit_header %}{% endblock exit_header %}
+      </h3>
+      <button class="btn-close" onclick="closeExitModal()">⨉</button>
+    </div>
+    <div>
+      <p id="exit_warning">Any changes made will not be saved!</p>
+    </div>
+    {% block exit_button %}{% endblock exit_button %}
+    <button class="btn" onclick="closeExitModal()">No</button>
+  </section>
 
-  <!-- Overlay for background blur -->
   <div class="overlay hidden" id ="exit_overlay" onclick="closeExitModal()"></div>
   <script src="{% static 'accounts/js/onboarding_base.js' %}"></script>
   

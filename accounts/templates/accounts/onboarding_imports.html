@@ -1,0 +1,96 @@
+{% extends 'accounts/onboarding_base.html' %} {% load static %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{% static 'accounts/css/onboarding_imports.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'accounts/css/settings.css' %}" />
+<link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
+
+{% endblock head %} {% block header %}Imports{% endblock header %} {% block
+caption %} Import your likes and ratings from IMDB and Letterboxd! {% endblock
+caption %} {% block content %}
+
+<div class="imports_div">
+  <div class="settings_container" id="imdb_div">
+    <div class="left_col">
+      <h2>IMDB</h2>
+      <br />
+      <p> To upload your ratings from IMDB:</p>
+      <div class="explanation">
+        <ol class="instructions">
+          <li>Sign in to your account</li>
+          <li>Click on your username and from the dropdown click "Your Ratings"</li>
+          <li>Select the three dots in the upper right corner of the Ratings window</li>
+          <li>Click Export</li>
+          <li>Upload the file</li>
+        </ol>
+      </div>
+      <p>NOTE: Uploading may take a moment depending on the size of the file</p>
+    </div>
+
+    <div class="right_col" id="info">
+      <button id="imdb_file" onclick="openImdbModal()">Upload</button>
+    </div>
+  </div>
+
+  <div class="settings_container" id="letterboxd_div">
+    <div class="left_col">
+      <h2>Letterboxd</h2>
+      <br />
+      <p>To upload your ratings from Letterboxd:</p>
+      <div class="explanation">
+        <ol class="instructions">
+          <li>Sign in to your account</li>
+          <li>Go to: <a href="https://letterboxd.com/settings/data/">https://letterboxd.com/settings/data/ </a></li>
+          <li>Click on the "Export Your Data" button</li>
+          <li>Once you've exported your data, unzip the file and upload "ratings.csv"</li>
+        </ol>
+      </div>
+      <p>NOTE: Uploading may take a moment depending on the size of the file</p>
+
+    </div>
+    <div class="right_col" id="info">
+      <button id="letterboxd_file" onclick="openBoxdModal()">Upload</button>
+    </div>
+  </div>
+
+  <!-- Modal box for Uploads -->
+  <div class="modal hidden" id="upload_modal">
+    <div class="flex">
+      <h3 id="top_header"></h3>
+      <button class="btn-close" onclick="closeModal()">⨉</button>
+    </div>
+    <div class="dropbox">
+      <div class="header">
+        <h4 id="title">Select File here</h4">
+      </div>
+      <div class="dropbox_content">
+        <p id="subtitle">Files Supported: CSV</p>
+        <form id="onboarding-form">
+          {% csrf_token %}
+          <input type="file" name="document" id="file" accept=".csv" />
+          <button type="button" id="upload_btn" onclick="uploadFile()">Upload File</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  
+{% endblock content %} 
+
+{% block exit_header %}
+  Are you sure you want to go back to the previous section?
+{% endblock exit_header %}
+
+{% block exit_button %}
+  <button class="btn"  onclick="window.location.href = '/accounts/onboarding/genres/'">Yes</button>
+{% endblock exit_button %}
+  
+{% block footer_buttons %}
+  <button onclick="openExitModal()" id="back-button" class="button">Back</button>
+  <button onclick="window.location.href='/accounts/onboarding/movies/'" id="next-button" class="button">Continue</button>
+{% endblock footer_buttons %}
+
+{% block scripts %}
+  <script src="{% static 'accounts/js/onboarding_imports.js' %}"></script>
+{% endblock scripts %}
