@@ -40,8 +40,11 @@ ALLOWED_HOSTS = [
     "localhost",
     "reeldin.azurewebsites.net",
     "169.254.129.3",
+    "127.0.0.1",
 ]
+
 CSRF_TRUSTED_ORIGINS = ["https://reeld.in"]
+
 
 # Application definition
 
