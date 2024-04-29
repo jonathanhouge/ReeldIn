@@ -38,3 +38,4 @@ textblob==0.18.0.post0
 tqdm==4.66.2
 types-python-dateutil==2.8.19.14
 urllib3==2.0.7
+whitenoise
