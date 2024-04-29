@@ -30,6 +30,16 @@ var isLoading = false; // Prevents multiple movie fetches at once
 loadUserMovies();
 fetchMovies(50);
 
+// Debugging functions
+function printStatus() {
+  console.log("Movies Liked: ", movies_liked);
+  console.log("Movies Disliked: ", movies_disliked);
+  console.log("Movies Watched: ", movies_watched);
+  console.log("Watchlist: ", watchlist);
+  console.log("Movies Rewatch: ", movies_rewatch);
+  console.log("Movies Blocked: ", movies_blocked);
+}
+
 /**
  * This class is used to create the div that holds a movie object.
  * Note that buttons aren't stylized with user preferences until they

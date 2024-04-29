@@ -10,6 +10,17 @@ urlpatterns = [
     path("onboarding/", views.onboarding, name="onboarding"),
     path("onboarding/genres/", views.onboarding_genre_view, name="onboarding_genres"),
     path("onboarding/movies/", views.onboarding_movie_view, name="onboarding_movies"),
+    path("onboarding/import/", views.onboarding_import_view, name="onboarding_import"),
+    path(
+        "onboarding/upload/imdb/",
+        views.onboarding_upload,
+        name="onboarding_upload_imdb",
+    ),
+    path(
+        "onboarding/upload/letterboxd/",
+        views.onboarding_upload,
+        name="onboarding_upload_letterboxd",
+    ),
     path("settings/", views.settings_view, name="settings"),
     path(
         "preferences/movies/", views.preferences_movies_view, name="preferences_movies"
@@ -27,4 +38,5 @@ urlpatterns = [
         views.delete_friend_request,
         name="delete_friend_request",
     ),
+    path("clear/lists/", views.clear_lists, name="clear_lists"),
 ]

@@ -2,6 +2,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
+from django.core.files.storage import FileSystemStorage
 from django.db import transaction
 from recommendations.models import (
     Movie,
@@ -10,6 +11,7 @@ import random
 from .forms import *
 from .models import User, FriendRequest
 import json
+import csv
 
 MOVIES_POST_TO_MODEL = {  # maps the POST request names to the model names
     "movies_liked": "liked_films",
@@ -19,6 +21,8 @@ MOVIES_POST_TO_MODEL = {  # maps the POST request names to the model names
     "movies_rewatch": "rewatchable_films",
     "movies_blocked": "excluded_films",
 }
+MIN_LIKED_RATING_LETTERBOXD = 3.0
+MIN_LIKED_RATING_IMDB = 6.5
 
 
 def login_view(request):
@@ -214,6 +218,116 @@ def add_movies_to_user_list(user, movie_list, model_name):
         users_list.remove(*Movie.objects.filter(id__in=movies_to_remove))
     if movies_to_add:
         users_list.add(*Movie.objects.filter(id__in=movies_to_add))
+
+
+def onboarding_import_view(request):
+    return render(request, "accounts/onboarding_imports.html")
+
+
+# Sends file to either IMDb or Letterboxd data handling functions
+def onboarding_upload(request):
+    if request.method != "POST":
+        return HttpResponse(status=405)
+    if "document" not in request.FILES:
+        return HttpResponse("No file uploaded", status=400)
+    else:
+        uploaded_file = request.FILES["document"]
+        file_object = uploaded_file.file
+        decoded_file = file_object.read().decode("utf-8").splitlines()
+
+        reader = csv.reader(decoded_file)
+        columns = next(reader)
+        try:
+            if columns[0] == "Const" and columns[1] == "Your Rating":
+                add_IMDb_Data(reader, request.user)
+            elif (
+                columns[1] == "Name" and columns[2] == "Year" and columns[4] == "Rating"
+            ):
+                add_Letterboxd_Data(reader, request.user)
+            else:
+                return HttpResponse(
+                    "Invalid file format. Please make sure you're uploading the correct file.",
+                    status=400,
+                )
+        except IndexError:
+            return HttpResponse("Invalid file format", status=400)
+        print(uploaded_file.name)
+        return HttpResponse("File uploaded", status=200)
+
+
+# Adds IMDb data to the user's liked and disliked lists
+def add_IMDb_Data(reader, user):
+    blocked_list = getattr(user, "excluded_films")
+    liked_list = getattr(user, "liked_films")
+    disliked_list = getattr(user, "disliked_films")
+
+    blocked_movies = set(blocked_list.values_list("id", flat=True))
+    liked_movies = set(liked_list.values_list("id", flat=True))
+    disliked_movies = set(disliked_list.values_list("id", flat=True))
+
+    new_liked = set()
+    new_disliked = set()
+    for row in reader:
+        tt_id = row[0]
+        user_rating = row[1]
+
+        if tt_id in blocked_movies:
+            pass
+        else:
+            if tt_id not in liked_movies and int(user_rating) >= MIN_LIKED_RATING_IMDB:
+                new_liked.add(tt_id)
+            elif (
+                tt_id not in disliked_movies
+                and int(user_rating) < MIN_LIKED_RATING_IMDB
+            ):
+                new_disliked.add(tt_id)
+
+    liked_list.add(*Movie.objects.filter(imdb_id__in=new_liked))
+    disliked_list.add(*Movie.objects.filter(imdb_id__in=new_disliked))
+
+
+# For testing purposes
+def clear_lists(request):
+    user = request.user
+    with transaction.atomic():
+        user.liked_films.clear()
+        user.disliked_films.clear()
+        user.watched_films.clear()
+        user.watchlist_films.clear()
+        user.rewatchable_films.clear()
+        user.excluded_films.clear()
+    return HttpResponse("Lists cleared", status=200)
+
+
+# Adds Letterboxd data to the user's liked and disliked lists
+def add_Letterboxd_Data(reader, user):
+    blocked_list = getattr(user, "excluded_films")
+    liked_list = getattr(user, "liked_films")
+    disliked_list = getattr(user, "disliked_films")
+
+    blocked_movies = set(blocked_list.values_list("id", flat=True))
+    liked_movies = set(liked_list.values_list("id", flat=True))
+    disliked_movies = set(disliked_list.values_list("id", flat=True))
+
+    liked_data = set()
+    disliked_data = set()
+    for row in reader:
+        movie_data = (row[1], row[2], row[4])
+        movie_name, movie_year, rating = movie_data
+
+        movie = Movie.objects.filter(name=movie_name, year=movie_year).first()
+
+        if movie is None:
+            continue
+        if movie in blocked_movies:
+            pass
+        if float(rating) >= MIN_LIKED_RATING_LETTERBOXD:
+            liked_data.add(movie.imdb_id)
+        else:
+            disliked_data.add(movie.imdb_id)
+
+    liked_list.add(*Movie.objects.filter(imdb_id__in=liked_data))
+    disliked_list.add(*Movie.objects.filter(imdb_id__in=disliked_data))
 
 
 def get_random_movies(request):
