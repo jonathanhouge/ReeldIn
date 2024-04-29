@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Lexend+Deca:wght@100..900&display=swap");
+
+#movie-button {
+    font-size: 28.7px;
+    font-family: var(--primary-font);
+    font-weight: 600;
+    color: var(--black);
+    border-radius: 12px;
+    text-align: center;
+    padding: 10px;
+    border: none;
+}
+
+#movie_summary {
+    font-family: var(--primary-font);
+    font-size: 32px;
+    text-align: left;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 20px;
+    width: 100%;
+}
+
+#streaming_info {
+    margin-top: 15px;
+}
+
+#movie_name {
+    font-size: 40px;
+    font-family: var(--primary-font);
+    margin-left: 10px;
+    display: inline;
+    padding: 10px;
+    text-align: center;
+}
+
+#movie_button_nav {
+    margin-left: 0px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+#movie-summary p {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.content_container img {
+    height: 600px;
+    width: auto;
+}
+
+/*TODO mobile styling for tooltip*/ 
+/* tooltip modified & repurposed from landing_page/index.css */
+
+.tooltip_button {
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #9a8aff;
+    padding:1rem;
+    width:150px;
+    border-radius: 10%;
+    margin-right:1rem;
+    margin-left:1rem;
+}
+
+
+.row1,.row2,.row3{
+    margin-top:20px;
+}
+
+
+.tooltip_button:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.2) !important;
+    transition: all 0.3s ease;
+}
+  
+.tooltip_button:active {
+    transform: scale(1) !important;
+}
+
+.tooltip_message{ 
+    min-height:80px;
+    color:red;
+    background-color: white;
+    border-radius:10px;
+    text-align:center;
+    padding:10px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+.tooltip_content{
+    overflow-y:auto;
+}
+.tooltiptext {
+    width: 100%;
+    height: 100%; 
+    background-color: #00000095;
+    color: #fff;
+    text-align: left;
+    padding: 15px;
+    border-radius: 6px;
+    position: absolute;
+    text-align: center;
+    display:none;
+    margin:0px;
+}
+  
+.tooltip:hover .tooltiptext {
+    display: block !important; 
+    transition: all 0.3s ease;
+}
+
+
+/* The poster / buttons / font size for each screen size will slighly differ */
+@media screen and (max-width:300px) and (min-width:0px){
+    .tooltip{
+      height: 100px;
+      width: 70px;
+    }
+    #movie_summary {
+        font-size: 16px;
+    }
+    #movie_name, #movie_button_nav{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+    }
+  }
+  @media screen and (max-width:400px) and (min-width:300px){
+    .content_container img{ height: 250px;
+    width: auto;
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 400px) and (min-width: 300px) {
+  .content_container img {
+    height: 250px;
+    width: auto;
+    justify-content: center;
+  }
+  #movie_summary {
+    font-size: 16px;
+  }
+  #movie_name,
+  #movie_button_nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+  }
+@media screen and (max-width:500px) and (min-width:400px){
+    .content_container img{
+        height: 40vh;
+        width: auto;
+        align-items: center;
+    }
+
+    #movie_name {
+        font-size: 29px;
+    }
+
+    #movie_name, #movie_button_nav{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+    }
+
+    #movie_button_nav {
+        margin-left: 0px;
+        padding: 5px;
+    }
+
+    #movie-summary p {
+        display: block;
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width:800px) and (min-width:500px) {
+    .content_container img{
+        height: 500px;
+        width: 350px;
+    }
+    #movie-summary p {
+        font-size: 28px;
+        margin-left: 2rem;
+    }
+
+    #movie_button_nav {
+        margin-left: 0px;
+    }
+}
+
+@media screen and (max-width:3000px) and (min-width:1441px){
+    .content_container img{
+        height:700px;
+        width: auto;
+    }
+    
+    #movie-summary p {
+        font-size: 35px;
+        padding: 10px;
+        margin-left: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        margin-right: 1rem;
+    }
+
+}

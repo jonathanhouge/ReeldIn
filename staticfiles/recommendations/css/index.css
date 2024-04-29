@@ -1,0 +1,54 @@
+:root {
+  --heading-color: black;
+  --footer-color: green;
+}
+
+li {
+  margin: 5px 0px;
+}
+
+#question {
+  font-weight: 600;
+  font-size: 5vh;
+  color: var(--heading-color);
+  text-align: center;
+}
+
+#remaining {
+  font-weight: 600;
+  font-size: 4vh;
+  color: var(--footer-color);
+  text-align: center;
+  padding-bottom: 1%;
+  bottom: 0;
+}
+
+#recommendation-space {
+  width: 75vw;
+  margin: auto;
+}
+
+#id_Question {
+  width: 75vw;
+  background-color: var(--periwinkle);
+  border-width: 0px;
+  color: black;
+}
+
+p,
+label,
+.form-submission,
+label {
+  margin-bottom: 1em;
+  font-size: 1em;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 28px;
+  color: var(--heading-color);
+}
+
+.error {
+  color: #f12711;
+}

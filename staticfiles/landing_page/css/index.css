@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Lexend+Deca:wght@100..900&display=swap");
+
+.movies_div {
+  overflow-x: auto;
+}
+
+.movie {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.movie img {
+  width: auto;
+  height: 350px;
+  border-radius: 7px;
+  border: 1px solid var(--black);
+}
+
+/* Displays over Movie Poster */
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltiptext {
+  display: none;
+  width: 234px;
+  height: 350px;
+  background-color: #000000cc;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  border-radius: 6px;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.tooltiptext button {
+  font-family: var(--primary-font);
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  background-color: #d6d6d6;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.tooltip:hover .tooltiptext {
+  display: block;
+  transition: all 0.3s ease;
+}
+
+/* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
+/* no padding for this section, and reduce margins */
+@media screen and (max-width: 550px) {
+  #title_div {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+}
