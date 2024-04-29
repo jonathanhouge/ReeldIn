@@ -246,6 +246,8 @@ def add_IMDb_Data(reader, user):
     disliked_movies = set(disliked_list.values_list("imdb_id", flat=True))
     watched_movies = set(watched_list.values_list("imdb_id", flat=True))
 
+    all_movies = set(blocked_movies | liked_movies | disliked_movies | watched_movies)
+
     new_liked = set()
     new_disliked = set()
     new_watched = set()
@@ -254,18 +256,15 @@ def add_IMDb_Data(reader, user):
         tt_id = row[0]
         user_rating = row[1]
 
-        if tt_id in blocked_movies or tt_id in watched_movies:
+        if tt_id in all_movies:
             print(tt_id, "is blocked or watched")
             continue
         else:
             new_watched.add(tt_id)
             print(tt_id, "is newly watched")
-            if tt_id not in liked_movies and int(user_rating) >= MIN_LIKED_RATING_IMDB:
+            if int(user_rating) >= MIN_LIKED_RATING_IMDB:
                 new_liked.add(tt_id)
-            elif (
-                tt_id not in disliked_movies
-                and int(user_rating) < MIN_LIKED_RATING_IMDB
-            ):
+            elif int(user_rating) < MIN_LIKED_RATING_IMDB:
                 new_disliked.add(tt_id)
 
     liked_list.add(*Movie.objects.filter(imdb_id__in=new_liked))
@@ -298,6 +297,10 @@ def add_Letterboxd_Data(reader, user):
 
     blocked_movies = set(blocked_list.values_list("imdb_id", flat=True))
     watched_movies = set(watched_list.values_list("imdb_id", flat=True))
+    liked_movies = set(liked_list.values_list("imdb_id", flat=True))
+    disliked_movies = set(disliked_list.values_list("imdb_id", flat=True))
+
+    all_movies = set(blocked_movies | liked_movies | disliked_movies | watched_movies)
 
     liked_data = set()
     disliked_data = set()
@@ -311,7 +314,7 @@ def add_Letterboxd_Data(reader, user):
 
         if movie is None:
             continue
-        if movie.imdb_id in blocked_movies or movie.imdb_id in watched_movies:
+        if movie.imdb_id in all_movies:
             continue
         new_watched.add(movie.imdb_id)
         if float(rating) >= MIN_LIKED_RATING_LETTERBOXD:
@@ -324,7 +327,7 @@ def add_Letterboxd_Data(reader, user):
     watched_list.add(*Movie.objects.filter(imdb_id__in=new_watched))
 
 
-def get_random_movies(request):
+def get_random_movies(request, amount=25):
     """
     This function returns a JSON response containing a list of random movies
     specified by the amount parameter in the GET request. It is used in
