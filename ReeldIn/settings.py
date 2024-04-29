@@ -34,7 +34,13 @@ WATCHMODE_API_KEY = os.environ.get("WATCHMODE_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # TODO update via env variable
 
-ALLOWED_HOSTS = ["reeld.in", "www.reeld.in", "localhost", "reeldin.azurewebsites.net"]
+ALLOWED_HOSTS = [
+    "reeld.in",
+    "www.reeld.in",
+    "localhost",
+    "reeldin.azurewebsites.net",
+    "169.254.129.3",
+]
 
 
 # Application definition
