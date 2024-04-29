@@ -9,6 +9,7 @@
     text-align: center;
     padding: 10px;
     border: none;
+    margin: .5rem;
 }
 
 #movie_summary {
@@ -120,6 +121,10 @@
 
 /* The poster / buttons / font size for each screen size will slighly differ */
 @media screen and (max-width:300px) and (min-width:0px){
+    .content_container {
+        display: flex;
+        flex-direction: column;
+    }
     .tooltip{
       height: 100px;
       width: 70px;
@@ -135,12 +140,31 @@
     }
   }
   @media screen and (max-width:400px) and (min-width:300px){
+    .content_container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tooltip_buttons div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #movie_name h2 {
+        font-size: 3rem;
+    }
+
     .content_container img{ height: 250px;
     width: auto;
     justify-content: center;
   }
 }
 @media screen and (max-width: 400px) and (min-width: 300px) {
+    .content_container {
+        display: flex;
+        flex-direction: column;
+    }
   .content_container img {
     height: 250px;
     width: auto;
@@ -157,6 +181,11 @@
     }
   }
 @media screen and (max-width:500px) and (min-width:400px){
+    .content_container {
+        display: flex;
+        flex-direction: column;
+    }
+
     .content_container img{
         height: 40vh;
         width: auto;
@@ -185,7 +214,12 @@
     }
 }
 
-@media screen and (max-width:800px) and (min-width:500px) {
+@media screen and (max-width:1000px) and (min-width:500px) {
+    .content_container {
+        display: flex;
+        flex-direction: column;
+    }
+    
     .content_container img{
         height: 500px;
         width: 350px;
