@@ -406,25 +406,18 @@ def onboarding_trigger_view(request):
     if request.method == "POST":
         form = CustomBooleanForm(request.POST, items=TRIGGERS)
         if form.is_valid():
-            print("Raw POST data:", request.POST)
 
-            # See contents of form.cleaned_data
-            for trigger_value, checked in form.cleaned_data.items():
-                print(trigger_value, checked)
-            print("AFTER")
             user.triggers = [
                 trigger_value
                 for trigger_value, checked in form.cleaned_data.items()
                 if checked
             ]
-            print("User triggers POST:" + str(user.triggers))
+
             user.save()
 
             return redirect("/accounts/onboarding/streaming")
     else:
-        print("User triggers GET:" + str(user.triggers))
         initial_data = {trigger: True for trigger in user.triggers}
-        print(initial_data)
         form = CustomBooleanForm(items=TRIGGERS, initial_preferences=initial_data)
     return render(request, "accounts/onboarding_triggers.html", {"form": form})
 
