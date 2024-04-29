@@ -41,7 +41,7 @@ ALLOWED_HOSTS = [
     "reeldin.azurewebsites.net",
     "169.254.129.3",
 ]
-
+CSRF_TRUSTED_ORIGINS = ["https://reeld.in"]
 
 # Application definition
 
