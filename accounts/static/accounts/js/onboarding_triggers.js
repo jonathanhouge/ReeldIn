@@ -3,7 +3,7 @@ function redirectToOnboardingMovieForm() {
 }
 
 function submitTriggerForm() {
-  //TODO
+  document.getElementById("onboarding-form").submit();
 }
 
 function openBackModal() {

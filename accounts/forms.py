@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from django import forms
-from recommendations.choices import GENRES, TRIGGER_DICT, TRIGGERS
+from recommendations.choices import GENRES
 
 GENRE_PREFERENCES = (
     ("like", "Like"),
@@ -59,12 +59,23 @@ class GenreForm(forms.Form):
             )
 
 
-class CustomTriggerForm(forms.Form):
+class CustomBooleanForm(forms.Form):
     """
-    This form is used to collect user preferences for each trigger,
+    This form is used to collect user preferences for a users
+    streaming services and triggers.
     """
 
-    OPTIONS = TRIGGERS
-    Triggers = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple, choices=OPTIONS
-    )
+    def __init__(self, *args, items=[], **kwargs):
+        initial_preferences = kwargs.pop("initial_preferences", {})
+        super(CustomBooleanForm, self).__init__(*args, **kwargs)
+
+        filtered_items = [item for item in items if item[0] != ""]  # Skip no preference
+        for item in filtered_items:
+            item_value = item[0]
+            item_label = item[1]
+            self.fields[item_value] = forms.BooleanField(
+                label=item_label,
+                widget=forms.CheckboxInput,
+                required=False,
+                initial=initial_preferences.get(item_value, False),
+            )
