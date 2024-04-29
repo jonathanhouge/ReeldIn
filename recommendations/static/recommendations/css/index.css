@@ -32,9 +32,9 @@ li {
   font-family: var(--primary-font);
 }
 
-#id_Question,
 p,
-label {
+label,
+#id_Question {
   margin-bottom: 1em;
   font-size: 1em;
 }
@@ -47,6 +47,10 @@ h2 {
 
 .error {
   color: #f12711;
+}
+
+.helptext {
+  padding-top: 10em;
 }
 
 #form-submission {

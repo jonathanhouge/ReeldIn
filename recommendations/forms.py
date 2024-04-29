@@ -14,17 +14,11 @@ class GenreForm(forms.Form):
     )
 
     FILTERS = [
-        ("And", "Movie Contains All Genres"),
-        ("Or", "Movie Contains Any of the Genres"),
+        ("And", "Movies Contain All Selected Genres"),
+        ("Or", "Movies Contain at Least One Selected Genre"),
     ]
     Filters = forms.ChoiceField(
-        widget=forms.RadioSelect,
-        choices=FILTERS,
-        help_text=(
-            "With 'all genres', your selected movie will have an element of all these genres "
-            "so if you select 'romance' and 'comedy', we'll only find rom-coms for you."
-        ),
-        initial=FILTERS[0],
+        widget=forms.RadioSelect, choices=FILTERS, initial=FILTERS[0]
     )
 
 
