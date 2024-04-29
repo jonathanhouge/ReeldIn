@@ -10,7 +10,11 @@
   <!-- User information and Settings Button -->
   <div id="user_info_div">
     <div id="profile_pic_div">
-      <img src="{{request.user.profile_picture.url}}" alt="Profile Picture" class="profile_img"> 
+      <img
+        src="{{request.user.profile_picture.url}}"
+        alt="Profile Picture"
+        class="profile_img"
+      />
       <div id="info">
         <h2>{{request.user}}</h2>
         <p>Member since: {{ request.user.date_joined|date:"F d, Y" }}</p>
@@ -30,25 +34,29 @@
       <div class="list_div">
         <h3>Recommended</h3>
         <div class="list" id="recommended_movies">
-          {% if recommended_movies %}
-            {% for movie in recommended_movies %}
-              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
-            {% endfor %}
-          {% else %}
-            <p class="placeholder_text">No movies yet!</p>
+          {% if recommended_movies %} {% for movie in recommended_movies %}
+          <img
+            src="https://image.tmdb.org/t/p/original{{ movie.poster }}"
+            onclick="goToMoviePage('{{ movie.pk }}')"
+            alt="Movie Poster"
+          />
+          {% endfor %} {% else %}
+          <p class="placeholder_text">No movies yet!</p>
           {% endif %}
         </div>
-      </div>    
+      </div>
       <!-- Liked movies list -->
       <div class="list_div">
         <h3>Liked Movies</h3>
         <div class="list" id="liked_movies">
-          {% if liked_movies %}
-            {% for movie in liked_movies %}
-              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
-            {% endfor %}
-          {% else %}
-            <p class="placeholder_text">No movies yet!</p>
+          {% if liked_movies %} {% for movie in liked_movies %}
+          <img
+            src="https://image.tmdb.org/t/p/original{{ movie.poster }}"
+            onclick="goToMoviePage('{{ movie.pk }}')"
+            alt="Movie Poster"
+          />
+          {% endfor %} {% else %}
+          <p class="placeholder_text">No movies yet!</p>
           {% endif %}
         </div>
       </div>
@@ -56,12 +64,14 @@
       <div class="list_div">
         <h3>Disliked Movies</h3>
         <div class="list" id="disliked_movies">
-          {% if disliked_movies %}
-            {% for movie in disliked_movies %}
-              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
-            {% endfor %}
-          {% else %}
-            <p class="placeholder_text">No movies yet!</p>
+          {% if disliked_movies %} {% for movie in disliked_movies %}
+          <img
+            src="https://image.tmdb.org/t/p/original{{ movie.poster }}"
+            onclick="goToMoviePage('{{ movie.pk }}')"
+            alt="Movie Poster"
+          />
+          {% endfor %} {% else %}
+          <p class="placeholder_text">No movies yet!</p>
           {% endif %}
         </div>
       </div>
@@ -73,12 +83,14 @@
       <div class="list_div">
         <h3>Watch Later</h3>
         <div class="list" id="watchlist">
-          {% if watchlist_movies %}
-            {% for movie in watchlist_movies %}
-              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
-            {% endfor %}
-          {% else %}
-            <p class="placeholder_text">No movies yet!</p>
+          {% if watchlist_movies %} {% for movie in watchlist_movies %}
+          <img
+            src="https://image.tmdb.org/t/p/original{{ movie.poster }}"
+            onclick="goToMoviePage('{{ movie.pk }}')"
+            alt="Movie Poster"
+          />
+          {% endfor %} {% else %}
+          <p class="placeholder_text">No movies yet!</p>
           {% endif %}
         </div>
       </div>
@@ -86,12 +98,14 @@
       <div class="list_div">
         <h3>Watched</h3>
         <div class="list" id="watched_movies">
-          {% if watched_movies %}
-            {% for movie in watched_movies %}
-              <img src="https://image.tmdb.org/t/p/original{{ movie.poster }}" onclick="goToMoviePage('{{ movie.pk }}')" alt="Movie Poster" />
-            {% endfor %}
-          {% else %}
-            <p class="placeholder_text">No movies yet!</p>
+          {% if watched_movies %} {% for movie in watched_movies %}
+          <img
+            src="https://image.tmdb.org/t/p/original{{ movie.poster }}"
+            onclick="goToMoviePage('{{ movie.pk }}')"
+            alt="Movie Poster"
+          />
+          {% endfor %} {% else %}
+          <p class="placeholder_text">No movies yet!</p>
           {% endif %}
         </div>
       </div>
@@ -101,59 +115,77 @@
     <div class="friends_div">
       <div class="friends_title">
         <h2>Your Friends</h2>
-        <button class="btn btn-open" onclick="openAddFriendModal()">Add Friend</button>
+        <button class="btn btn-open" onclick="openAddFriendModal()">
+          Add Friend
+        </button>
       </div>
       <!--Friends List-->
-      <div class="friends_list" id ="friends_list">
+      <div class="friends_list" id="friends_list">
         {% if friends %}
-        <p class="placeholder_text hidden" id="friends_list_text">No friends yet!</p>
-          {% for friend in friends %}
-            <div class="friend" id="{{friend.username}}_profile_div" onclick="openRemoveFriendModal('{{ friend.username }}')">
-              <img
-                src='{{ friend.profile_picture.url }}'
-                class="profile_img" 
-              />
-              <h3>{{ friend.username }}</h3>
-            </div>
-          {% endfor %}
-        {% else %}
-          <p class="placeholder_text" id="friends_list_text">No friends yet!</p>
+        <p class="placeholder_text hidden" id="friends_list_text">
+          No friends yet!
+        </p>
+        {% for friend in friends %}
+        <div
+          class="friend"
+          id="{{friend.username}}_profile_div"
+          onclick="openRemoveFriendModal('{{ friend.username }}')"
+        >
+          <img src="{{ friend.profile_picture.url }}" class="profile_img" />
+          <h3>{{ friend.username }}</h3>
+        </div>
+        {% endfor %} {% else %}
+        <p class="placeholder_text" id="friends_list_text">No friends yet!</p>
         {% endif %}
       </div>
       <!--Received Friend Requests-->
       <h2>Received Requests</h2>
       <div class="friends_list" id="received_requests">
         {% if received_requests %}
-          <p class="placeholder_text hidden" id="received_requests_text">No friend requests received!</p>
-          {% for request in received_requests %}
-            <div class="friend" id="{{request.sender.username}}_profile_div"  onclick="openFriendRequestModal('{{ request.sender.username }}')">
-              <img
-              src='{{ request.sender.profile_picture.url }}'
-              class="profile_img"
-              />
-              <h3>{{  request.sender.username }}</h3>
-            </div>
-          {% endfor %}
-        {% else %}
-          <p class="placeholder_text" id="received_requests_text">No friend requests received!</p>
+        <p class="placeholder_text hidden" id="received_requests_text">
+          No friend requests received!
+        </p>
+        {% for request in received_requests %}
+        <div
+          class="friend"
+          id="{{request.sender.username}}_profile_div"
+          onclick="openFriendRequestModal('{{ request.sender.username }}')"
+        >
+          <img
+            src="{{ request.sender.profile_picture.url }}"
+            class="profile_img"
+          />
+          <h3>{{ request.sender.username }}</h3>
+        </div>
+        {% endfor %} {% else %}
+        <p class="placeholder_text" id="received_requests_text">
+          No friend requests received!
+        </p>
         {% endif %}
       </div>
       <!--Sent Friend Requests-->
       <h2>Sent Requests</h2>
       <div class="friends_list" id="sent_requests">
         {% if sent_requests %}
-        <p class="placeholder_text hidden" id="sent_requests_text">No friend requests sent!</p>
-          {% for request in sent_requests %}
-            <div class="friend" id="{{request.receiver.username}}_profile_div" onclick="openDeleteFriendRequestModal('{{ request.receiver.username }}')">
-              <img
-                src='{{ request.receiver.profile_picture.url }}'
-                class="profile_img" 
-              />
-              <h3>{{  request.receiver.username }}</h3>
-            </div>
-          {% endfor %}
-        {% else %}
-          <p class="placeholder_text" id="sent_requests_text">No friend requests sent!</p>
+        <p class="placeholder_text hidden" id="sent_requests_text">
+          No friend requests sent!
+        </p>
+        {% for request in sent_requests %}
+        <div
+          class="friend"
+          id="{{request.receiver.username}}_profile_div"
+          onclick="openDeleteFriendRequestModal('{{ request.receiver.username }}')"
+        >
+          <img
+            src="{{ request.receiver.profile_picture.url }}"
+            class="profile_img"
+          />
+          <h3>{{ request.receiver.username }}</h3>
+        </div>
+        {% endfor %} {% else %}
+        <p class="placeholder_text" id="sent_requests_text">
+          No friend requests sent!
+        </p>
         {% endif %}
       </div>
     </div>
@@ -163,7 +195,7 @@
 <!-- Modal boxes begin-->
 
 <!-- Modal box for adding/searching for friend -->
-<section class="modal hidden" id ="add_friend_modal">
+<section class="modal hidden" id="add_friend_modal">
   <div class="flex">
     <h3>Enter your friend's Username!</h3>
     <button class="btn-close" onclick="closeAddFriendModal()">⨉</button>
@@ -175,55 +207,98 @@
     </p>
   </div>
 
-  <input type="text" id="send_friend_username" placeholder="Username" name="send_friend_username" />
+  <input
+    type="text"
+    id="send_friend_username"
+    placeholder="Username"
+    name="send_friend_username"
+  />
   <button class="btn" onclick="sendFriendRequest()">Submit</button>
 </section>
 
 <!-- Modal box for deleting friend from friends list -->
-  <section class="modal hidden" id ="remove_friend_modal">
-    <div class="flex">
-      <h3>Delete Friend</h3>
-      <button class="btn-close" onclick="closeRemoveFriendModal()">⨉</button>
-    </div>
-    <div>
-      <p id="remove_friend_response"></p>
-      <p id = "remove_friend_name"></p>
-    </div>
-  
-    <button class="btn profile_button" id="remove_confirm_button" onclick="removeFriend()">Yes</button>
-    <button class="btn profile_button" id="remove_reject_button" onclick="closeRemoveFriendModal()">No</button>
-  </section>
-    
-  <!-- Modal box for received friend request -->
-  <section class="modal hidden" id ="friend_request_modal">
-    <div class="flex">
-      <h3>Friend Request</h3>
-      <button class="btn-close" onclick="closeFriendRequestModal()">⨉</button>
-    </div>
-    <div>
-      <p id="friend_request_response"></p>
-      <p id = "friend_request_text"></p>
-    </div>
-  
-    <button class="btn profile_button" id="accept_friend_button" onclick="acceptFriendRequest()">Accept</button>
-    <button class="btn profile_button" id="reject_friend_button" onclick="rejectFriendRequest()">Reject</button>
-  </section>
+<section class="modal hidden" id="remove_friend_modal">
+  <div class="flex">
+    <h3>Delete Friend</h3>
+    <button class="btn-close" onclick="closeRemoveFriendModal()">⨉</button>
+  </div>
+  <div>
+    <p id="remove_friend_response"></p>
+    <p id="remove_friend_name"></p>
+  </div>
 
-  <!-- Modal box for sent friend request -->
-  <section class="modal hidden" id ="delete_friend_request_modal">
-    <div class="flex">
-      <h3>Friend Request</h3>
-      <button class="btn-close" onclick="closeDeleteFriendRequestModal()">⨉</button>
-    </div>
-    <div>
-      <p id="delete_friend_request_response"></p>
-      <p id = "delete_friend_request_text"></p>
-    </div>
-  
-    <button class="btn profile_button" id="yes_delete_friend_request_button" onclick="rejectFriendRequest()">Yes</button>
-    <button class="btn profile_button" id="no_delete_friend_request_button" onclick="closeDeleteFriendRequestModal()">No</button>
-  </section>
-  <!-- Overlay for background blur -->
-  <div class="overlay hidden" onclick="closeCurrentModal()"></div>
+  <button
+    class="btn profile_button"
+    id="remove_confirm_button"
+    onclick="removeFriend()"
+  >
+    Yes
+  </button>
+  <button
+    class="btn profile_button"
+    id="remove_reject_button"
+    onclick="closeRemoveFriendModal()"
+  >
+    No
+  </button>
+</section>
+
+<!-- Modal box for received friend request -->
+<section class="modal hidden" id="friend_request_modal">
+  <div class="flex">
+    <h3>Friend Request</h3>
+    <button class="btn-close" onclick="closeFriendRequestModal()">⨉</button>
+  </div>
+  <div>
+    <p id="friend_request_response"></p>
+    <p id="friend_request_text"></p>
+  </div>
+
+  <button
+    class="btn profile_button"
+    id="accept_friend_button"
+    onclick="acceptFriendRequest()"
+  >
+    Accept
+  </button>
+  <button
+    class="btn profile_button"
+    id="reject_friend_button"
+    onclick="rejectFriendRequest()"
+  >
+    Reject
+  </button>
+</section>
+
+<!-- Modal box for sent friend request -->
+<section class="modal hidden" id="delete_friend_request_modal">
+  <div class="flex">
+    <h3>Friend Request</h3>
+    <button class="btn-close" onclick="closeDeleteFriendRequestModal()">
+      ⨉
+    </button>
+  </div>
+  <div>
+    <p id="delete_friend_request_response"></p>
+    <p id="delete_friend_request_text"></p>
+  </div>
+
+  <button
+    class="btn profile_button"
+    id="yes_delete_friend_request_button"
+    onclick="rejectFriendRequest()"
+  >
+    Yes
+  </button>
+  <button
+    class="btn profile_button"
+    id="no_delete_friend_request_button"
+    onclick="closeDeleteFriendRequestModal()"
+  >
+    No
+  </button>
+</section>
+<!-- Overlay for background blur -->
+<div class="overlay hidden" onclick="closeCurrentModal()"></div>
 
 {% endblock content %}

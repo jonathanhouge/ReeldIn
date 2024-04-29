@@ -1,4 +1,5 @@
 const overlay = document.getElementById("exit_overlay");
+overlay.addEventListener("click", closeExitModal);
 
 /*Function from landing_page/js/index.js */
 async function getCSRFToken() {
@@ -7,6 +8,7 @@ async function getCSRFToken() {
     const data = await response.json();
     const csrfToken = data.csrf_token;
 
+    console.log("CSRF token fetched:", csrfToken);
     return csrfToken;
   } catch (error) {
     console.error("Error fetching CSRF token:", error);

@@ -11,9 +11,22 @@ async function getCSRFToken() {
   }
 }
 
+// For testing purposes
+function clearLists() {
+  fetch("/accounts/clear/lists/")
+    .then((response) => {
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    })
+    .catch((error) => {
+      console.error("Error clearing lists:", error);
+    });
+}
+
 // Goes to movie page when user clicks movie poster
 function goToMoviePage(movieId) {
-  window.location.href = "/movie/${movieId}";
+  window.location.href = "/movie/" + movieId;
 }
 
 // Overlay element for background blur
