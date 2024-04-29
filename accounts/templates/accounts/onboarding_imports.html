@@ -75,8 +75,22 @@ caption %} {% block content %}
     </div>
   </div>
 
+  
+{% endblock content %} 
 
-  {% endblock content %} {% block scripts %}
+{% block exit_header %}
+  Are you sure you want to go back to the previous section?
+{% endblock exit_header %}
+
+{% block exit_button %}
+  <button class="btn"  onclick="window.location.href = '/accounts/onboarding/genres/'">Yes</button>
+{% endblock exit_button %}
+  
+{% block footer_buttons %}
+  <button onclick="openExitModal()" id="back-button" class="button">Back</button>
+  <button onclick="window.location.href='/accounts/onboarding/movies/'" id="next-button" class="button">Continue</button>
+{% endblock footer_buttons %}
+
+{% block scripts %}
   <script src="{% static 'accounts/js/onboarding_imports.js' %}"></script>
-  {% endblock scripts %}
-</div>
+{% endblock scripts %}

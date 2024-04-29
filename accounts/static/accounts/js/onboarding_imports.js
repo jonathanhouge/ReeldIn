@@ -40,7 +40,7 @@ async function uploadFile(source) {
   const formData = new FormData();
   formData.append("document", file);
 
-  fetch("/accounts/onboarding/upload/" + source + "/", {
+  fetch("/accounts/onboarding/upload/", {
     method: "POST",
     enctype: "multipart/form-data",
     headers: {

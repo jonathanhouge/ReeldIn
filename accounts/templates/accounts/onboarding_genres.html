@@ -47,7 +47,16 @@
       </table>
   </form>
 
+    
+
 {% endblock content %}
+
+{% block exit_header %}
+    Are you sure you want to exit the onboarding process?
+{% endblock exit_header %}
+{% block exit_button %}
+    <button class="btn"  onclick="window.location.href = '/'">Yes</button>
+{% endblock exit_button %}
 
 {% block footer_buttons %}
     <button onclick="openExitModal()" id="back-button" class="button">Exit</button>

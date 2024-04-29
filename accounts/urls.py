@@ -10,16 +10,11 @@ urlpatterns = [
     path("onboarding/", views.onboarding_view, name="onboarding"),
     path("onboarding/genres/", views.onboarding_genre_view, name="onboarding_genres"),
     path("onboarding/movies/", views.onboarding_movie_view, name="onboarding_movies"),
-    path("onboarding/import/", views.onboarding_import_view, name="onboarding_import"),
+    path("onboarding/imports/", views.onboarding_import_view, name="onboarding_import"),
     path(
-        "onboarding/upload/imdb/",
+        "onboarding/upload/",
         views.onboarding_upload,
-        name="onboarding_upload_imdb",
-    ),
-    path(
-        "onboarding/upload/letterboxd/",
-        views.onboarding_upload,
-        name="onboarding_upload_letterboxd",
+        name="onboarding_upload",
     ),
     path("settings/", views.settings_view, name="settings"),
     path(

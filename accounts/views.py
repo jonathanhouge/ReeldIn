@@ -151,7 +151,7 @@ def onboarding_genre_view(request):
                 request.user.disliked_genres = disliked_genres
                 request.user.excluded_genres = blocked_genres
                 request.user.save()
-            return redirect("/accounts/onboarding/movies")
+            return redirect("/accounts/onboarding/imports/")
     else:
         initial_data = get_user_genre_preferences(request.user)
         form = GenreForm(initial_preferences=initial_data)
@@ -207,31 +207,30 @@ def onboarding_import_view(request):
 def onboarding_upload(request):
     if request.method != "POST":
         return HttpResponse(status=405)
+
     if "document" not in request.FILES:
         return HttpResponse("No file uploaded", status=400)
-    else:
-        uploaded_file = request.FILES["document"]
-        file_object = uploaded_file.file
-        decoded_file = file_object.read().decode("utf-8").splitlines()
 
-        reader = csv.reader(decoded_file)
-        columns = next(reader)
-        try:
-            if columns[0] == "Const" and columns[1] == "Your Rating":
-                add_IMDb_Data(reader, request.user)
-            elif (
-                columns[1] == "Name" and columns[2] == "Year" and columns[4] == "Rating"
-            ):
-                add_Letterboxd_Data(reader, request.user)
-            else:
-                return HttpResponse(
-                    "Invalid file format. Please make sure you're uploading the correct file.",
-                    status=400,
-                )
-        except IndexError:
-            return HttpResponse("Invalid file format", status=400)
-        print(uploaded_file.name)
-        return HttpResponse("File uploaded", status=200)
+    uploaded_file = request.FILES["document"]
+    file_object = uploaded_file.file
+    decoded_file = file_object.read().decode("utf-8").splitlines()
+
+    reader = csv.reader(decoded_file)
+    columns = next(reader)
+    try:
+        if columns[0] == "Const" and columns[1] == "Your Rating":
+            add_IMDb_Data(reader, request.user)
+        elif columns[1] == "Name" and columns[2] == "Year" and columns[4] == "Rating":
+            add_Letterboxd_Data(reader, request.user)
+        else:
+            return HttpResponse(
+                "Invalid file format. Please make sure you're uploading the correct file.",
+                status=400,
+            )
+    except IndexError:
+        return HttpResponse("Invalid file format", status=400)
+
+    return HttpResponse("File uploaded", status=200)
 
 
 # Adds IMDb data to the user's liked and disliked lists

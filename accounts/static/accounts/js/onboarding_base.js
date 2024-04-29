@@ -1,4 +1,5 @@
 const overlay = document.getElementById("exit_overlay");
+overlay.addEventListener("click", closeExitModal);
 
 /*Function from landing_page/js/index.js */
 async function getCSRFToken() {

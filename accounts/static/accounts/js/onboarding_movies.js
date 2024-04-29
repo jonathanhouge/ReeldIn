@@ -21,6 +21,7 @@ const rewatchOrange = getComputedStyle(
 const movieContainer = document.getElementById("movie_container");
 const searchbar = document.getElementById("searchbar");
 const tooltipBackgroundColor = "#9a8aff"; // Original tooltip button color
+overlay.addEventListener("click", closeExitModal);
 
 // Page variables
 var currentTooltiptext = null; // Holds the last tooltip that was clicked on
@@ -238,16 +239,6 @@ async function submitOnboardingMovieForm() {
     .catch((error) => {
       console.error("Error submitting movie preferences:", error);
     });
-}
-
-function openBackModal() {
-  document.getElementById("confirm_back_modal").classList.remove("hidden");
-  document.getElementById("exit_overlay").classList.remove("hidden");
-}
-
-function closeBackModal() {
-  document.getElementById("confirm_back_modal").classList.add("hidden");
-  document.getElementById("exit_overlay").classList.add("hidden");
 }
 
 /**
