@@ -1,6 +1,5 @@
 from django.urls import path, include
 from . import views
-from accounts.views import get_random_movies
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -15,7 +14,6 @@ urlpatterns = [
     path("search/movies", views.search_movies, name="search_movies"),
     path("movie/<int:movie_id>", views.movie, name="movie"),
     path("api/search/movies", views.search_movies_json, name="search_movies_json"),
-    path("api/random/movies/", get_random_movies, name="get_movies"),
 ]
 
 # TODO this allows for media to be served in development, change in production#

@@ -1,8 +1,15 @@
 {% extends 'accounts/onboarding_base.html' %} {% load static %}
 
-{% block head %} <link rel="stylesheet" href="{% static 'accounts/css/onboarding_genres.css' %}" /> {% endblock head %}
+{% block head %} 
+    <link rel="stylesheet" href="{% static 'accounts/css/onboarding_genres.css' %}" /> 
+    <title>ReeldIn: Genre Preferences</title>
+{% endblock head %}
+
 {% block header %}Genres{% endblock header %}
-{% block caption %}Select the genres that you like, dislike, and would prefer to block (meaning a movie with that genre will never be recommended){% endblock caption %}
+{% block caption %}
+    Select the genres that you like, dislike, and would prefer to block (meaning a movie with that genre will never be recommended).
+{% endblock caption %}
+
 {% block content %}
 <!--Form contents-->
   {% if form.non_field_errors %}
@@ -40,13 +47,11 @@
       </table>
   </form>
 
-
-
 {% endblock content %}
 
 {% block footer_buttons %}
-<button onclick="openExitModal()" id="back-button" class="button">Exit</button>
-<button onclick="submitOnboardingGenreForm()" id="next-button" class="button">Save & Continue</button>
+    <button onclick="openExitModal()" id="back-button" class="button">Exit</button>
+    <button onclick="submitOnboardingGenreForm()" id="next-button" class="button">Save & Continue</button>
 {% endblock footer_buttons %}
 
 {% block scripts %}

@@ -28,6 +28,7 @@
 #intro_no:hover{
     background-color: var(--exclude-red)
 }
+
 p{
     font-size: 20px;
     margin: 0;

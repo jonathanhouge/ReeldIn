@@ -74,10 +74,11 @@
           </a>
           {% endif %}
           <!-- Placeholder for User's Profile Picture when Logged In -->
-          <img
-            id="profile_pic"
-            src="{% static 'accounts/images/profile.png' %}"
-          />
+          {% if user.is_authenticated %}
+          <a href="/profile">
+            <img id="profile_pic" src="{{request.user.profile_picture.url}}" />
+          </a>
+          {% endif %}
         </div>
       </header>
 

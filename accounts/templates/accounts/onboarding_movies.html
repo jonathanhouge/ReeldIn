@@ -1,12 +1,16 @@
 {% extends 'accounts/onboarding_base.html' %} {% load static %}
+
 {% block head %}
- <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> 
+  <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> 
+  <title>ReeldIn: Movie Preferences</title>
 {% endblock head %}
+
 {% block header %}Movies{% endblock header %} 
-{% block caption %}Let's figure out your movie preferences, search for as many films as you'd like! {% endblock caption %}
+{% block caption %}
+  Let's figure out your movie preferences, search for as many films as you'd like! 
+{% endblock caption %}
+
 {% block content %}
-<button onclick="printState()" style="min-height: 100px;">Print State of movies</button>
-<button onclick="clearMovies()" style="min-height: 100px;">Clear State</button>
 
 <div id="onboarding_search">
     <input type="text" id="searchbar" name="searchbar" placeholder="Search for movies..." autocomplete="off"
@@ -25,8 +29,8 @@
     <p id="exit_warning">Any changes made will not be saved!</p>
   </div>
 
-  <button class="btn profile_button" id="yes_delete_friend_request_button" onclick="redirectToOnboardingGenreForm()">Yes</button>
-  <button class="btn profile_button" id="no_delete_friend_request_button" onclick="closeBackModal()">No</button>
+  <button class="btn" onclick="window.location.href = '/accounts/onboarding/genres'">Yes</button>
+  <button class="btn" onclick="closeBackModal()">No</button>
 </section>
 
 {% endblock content %}

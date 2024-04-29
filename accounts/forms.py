@@ -21,7 +21,11 @@ class GenreForm(forms.Form):
     def __init__(self, *args, **kwargs):
         initial_preferences = kwargs.pop("initial_preferences", {})
         super(GenreForm, self).__init__(*args, **kwargs)
-        for genre in GENRES:
+
+        filtered_genres = [  # skip no prefernce
+            genre for genre in GENRES if not genre[0] == ""
+        ]
+        for genre in filtered_genres:
             genre_value = genre[0]
             genre_label = genre[1]
             self.fields[genre_value] = forms.ChoiceField(
@@ -49,14 +53,9 @@ class GenreForm(forms.Form):
             if not all_block and not all_dislike:
                 return cleaned_data
 
-        if all_block:
+        if all_block or all_dislike:
             raise forms.ValidationError(
-                "Not all genres can be set to 'Block'. Please choose a different preference for at least one genre."
-            )
-
-        if all_dislike:
-            raise forms.ValidationError(
-                "Not all genres can be set to 'Dislike'. Please choose a different preference for at least one genre."
+                "Not all genres can be set to 'Block' or 'Dislike'. Please choose a different preference for at least one genre."
             )
 
 

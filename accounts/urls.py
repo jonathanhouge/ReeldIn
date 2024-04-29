@@ -7,7 +7,7 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("register/", views.signup, name="register"),
-    path("onboarding/", views.onboarding, name="onboarding"),
+    path("onboarding/", views.onboarding_view, name="onboarding"),
     path("onboarding/genres/", views.onboarding_genre_view, name="onboarding_genres"),
     path("onboarding/movies/", views.onboarding_movie_view, name="onboarding_movies"),
     path("onboarding/import/", views.onboarding_import_view, name="onboarding_import"),
@@ -38,5 +38,11 @@ urlpatterns = [
         views.delete_friend_request,
         name="delete_friend_request",
     ),
+    path(
+        "onboarding/movies/random/<int:amount>/",
+        views.get_random_movies,
+        name="get_movies",
+    ),
+    path("onboarding/movies/search", views.search_movie, name="search_movies"),
     path("clear/lists/", views.clear_lists, name="clear_lists"),
 ]

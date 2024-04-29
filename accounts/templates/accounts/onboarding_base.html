@@ -11,26 +11,50 @@
   <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
   <link rel="stylesheet" href="{% static 'accounts/css/onboarding_base.css' %}" />
   <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
-  <title>ReeldIn</title>
   {% block head %}{% endblock head %}
 </head>
 
 <header>
-  <div id="home_icon" >
-      <i class="fas fa-home" onclick="openExitModal()"></i>
-  </div>
+
   <div id="logo_div" onclick="openExitModal()">
-      <img src="{% static 'landing_page/images/REELDIN.png' %}" alt="ReeldIn Logo" onclick="openExitModal()"/>
+      <img
+        src="{% static 'landing_page/images/REELDIN.png' %}"
+        alt="ReeldIn Logo"
+      />
       <h1>ReeldIn</h1>
+  </div>
+  <div id="profile_div">
+    <a href="{% url 'recommendations:index' %}">
+      {% if user.is_authenticated %}
+      <button id="get-recommendations-btm">Get Recommendations</button>
+      {% else %}
+      <button id="get-recommendations-btm">Demo Recommendations</button>
+      {% endif %}
+    </a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'accounts:logout' %}">
+      <button id="login_button">Sign Out</button>
+    </a>
+    {% else %}
+    <a href="{% url 'accounts:login' %}">
+      <button id="login_button">Sign In</button>
+    </a>
+    {% endif %} {% if user.is_authenticated %}
+    <a href="/profile">
+      <img id="profile_pic" src="{{request.user.profile_picture.url}}" />
+    </a>
+    {% endif %}
   </div>
 </header>
 <nav></nav>
 
 <body>
+
   <div class="onboarding-header">
     <h1 id="onboarding-title" class="title_div">{% block header %}{% endblock header %}</h1>
     <p id="onboarding-caption">{% block caption %}{% endblock caption %}</p>    
   </div>
+
   <div class="onboarding-content content_div">
     {% block content %}{% endblock content %}
   </div>
@@ -42,6 +66,8 @@
     {% endblock footer_buttons %}
   </div>
 
+
+
   <!-- Exit modal-->
   <section class="modal hidden" id ="confirm_exit_modal">
     <div class="flex">
@@ -51,13 +77,14 @@
     <div>
       <p id="exit_warning">Any changes made will not be saved!</p>
     </div>
-  
-    <button class="btn profile_button" id="yes_delete_friend_request_button" onclick="redirectToLandingPage()">Yes</button>
-    <button class="btn profile_button" id="no_delete_friend_request_button" onclick="closeExitModal()">No</button>
+
+    <button class="btn"  onclick="window.location.href = '/'">Yes</button>
+    <button class="btn" onclick="closeExitModal()">No</button>
   </section>
-  <!-- Overlay for background blur -->
+
   <div class="overlay hidden" id ="exit_overlay" onclick="closeExitModal()"></div>
   <script src="{% static 'accounts/js/onboarding_base.js' %}"></script>
+  
   {% block scripts %}{% endblock scripts %}
 </body>
 
