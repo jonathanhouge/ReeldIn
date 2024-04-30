@@ -4,7 +4,9 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
+from ReeldIn.globals import ALL_MOVIES
 from accounts.models import User
+
 
 from .forms import *
 from .helpers import (
@@ -27,7 +29,7 @@ MOVIE_MODEL_COMPLEMENT = ["", "genres", "year", "runtime", "language", "triggers
 # user has requested to get a recommendation based on their inputs thus far OR has under ten options
 def recommend_view(request):
     if request.user.is_authenticated is False:
-        all_movies = Movie.objects.all()
+        all_movies = ALL_MOVIES
         random_movies = random.sample(all_movies, 3)
         return render(
             request,

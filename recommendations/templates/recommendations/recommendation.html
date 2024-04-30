@@ -16,7 +16,7 @@
   {% if user.is_authenticated %}
   <div id="reset-recommendations">
     <button id="gen-recommendations-btm" class="rec-btn-open">
-      Generate New Recommendation
+      Start New Recommendation
     </button>
   </div>
   {% endif %}
@@ -52,7 +52,7 @@
 
 <section class="rec-modal hidden">
   <div class="flex">
-    <h3>Generate New Recommendation</h3>
+    <h3>Start New Recommendation</h3>
     <button class="rec-btn-close">⨉</button>
   </div>
   <div>
@@ -64,7 +64,7 @@
     </p>
   </div>
   <button class="button btn rec-delete-btn">
-    <a href="{% url 'recommendations:delete' %}">Generate</a>
+    <a href="{% url 'recommendations:delete' %}">Start</a>
   </button>
 </section>
 

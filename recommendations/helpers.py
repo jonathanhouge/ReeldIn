@@ -2,11 +2,11 @@ from django.conf import settings
 from django.db.models import Count
 from django.shortcuts import render
 
+from ReeldIn.globals import ALL_MOVIES
 from .choices import LANGUAGES
 from .models import Movie, Recommendation
 
 REC_ATTRIBUTE = ["", "genres", "year_span", "runtime_span", "languages", "triggers"]
-ALL_MOVIES = Movie.objects.all()  # only need to ping once
 
 
 # creates a new recommendation model or sets one up for a new recommendation
