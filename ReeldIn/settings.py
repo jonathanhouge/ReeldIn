@@ -38,11 +38,14 @@ ALLOWED_HOSTS = [
     "www.reeld.in",
     "localhost",
     "reeldin.azurewebsites.net",
+    "reeldin.scm.azurewebsites.net",
     "169.254.129.3",  # Web App's IP address
     "127.0.0.1",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://reeld.in"]
+# CSRF_TRUSTED_ORIGINS = ["https://reeld.in"] // This setting might make it so that only this domain will be accepted
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True  # Enabled for production
 
 
 # Application definition
@@ -64,9 +67,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
