@@ -14,6 +14,7 @@ from .helpers import (
     narrow_view_error,
     recommendation_querying,
     relevant_options,
+    set_recommendation_attr,
 )
 from .models import Movie, Recommendation, RecentRecommendations
 
@@ -21,7 +22,6 @@ from .models import Movie, Recommendation, RecentRecommendations
 FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
 FIELD = ["", "Genres", "Years", "Runtimes", "Languages", "Triggers"]
 MOVIE_MODEL_COMPLEMENT = ["", "genres", "year", "runtime", "language", "triggers"]
-REC_ATTRIBUTE = ["", "genres", "year_span", "runtime_span", "languages", "triggers"]
 
 
 # user has requested to get a recommendation based on their inputs thus far OR has under ten options
@@ -134,12 +134,7 @@ def narrow_view(request):
 
         recommendation.possible_film_count = len(movies)
         recommendation.step += 1
-
-        # sometimes an array, sometimes a string
-        try:
-            setattr(recommendation, REC_ATTRIBUTE[step], selection)
-        except:
-            setattr(recommendation, REC_ATTRIBUTE[step], selection[0])
+        set_recommendation_attr(recommendation, selection, step=step)
 
         recommendation.save()
 
@@ -221,17 +216,16 @@ def index(request):
 
 def delete_view(request):
     form = GenreForm()
-    recommendation = {"possible_film_count": 27122, "step": 1}
+    new_recommendation = {"possible_film_count": 27122, "step": 1}
 
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user)
-        recommendation = Recommendation.objects.get(user_id=user)
-        recommendation.delete()
+        old_recommendation = Recommendation.objects.get(user_id=user)
 
-        recommendation = make_new_recommendation(user)
+        new_recommendation = make_new_recommendation(user, old_recommendation)
 
     return render(
         request,
         "recommendations/index.html",
-        {"form": form, "recommendation": recommendation},
+        {"form": form, "recommendation": new_recommendation},
     )
