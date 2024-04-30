@@ -52,7 +52,12 @@ function createMovieDiv(movie) {
   tooltiptext.innerHTML = `
   <h3>Name: ${movie.name}</h3>
   <p>Year: ${movie.year}</p>
-  <p>ID: ${movie.id}</p>
+  <p>Genres: ${movie.genres}</p>
+  <p>IMDb Info: ${movie.imdb_rating} / 10  |  ${movie.imdb_votes} votes</p>
+  <p>Runtime: ${movie.runtime} minutes</p>
+  <br>
+  <p>Overview: ${movie.overview}</p>
+  
   </div>`;
   movieDiv.appendChild(tooltiptext);
   var poster = document.createElement("img");

@@ -346,6 +346,12 @@ def get_random_movies(request, amount=25):
             "name": movie.name,
             "poster": movie.poster,
             "year": movie.year,
+            "genres": movie.genres,
+            "starring": movie.starring,
+            "overview": movie.overview,
+            "imdb_rating": movie.imdb_rating,
+            "imdb_votes": movie.imdb_votes,
+            "runtime": movie.runtime,
         }
         for movie in movies
     ]
