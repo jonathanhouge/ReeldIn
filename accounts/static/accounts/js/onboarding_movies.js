@@ -486,39 +486,17 @@ function addToExclude(id) {
 
 // Added movie removal code
 var movies_to_remove = new Set(); // Set of all movies to be removed (may pop in and out of this list)
-var movies_fetched = new Set(); // Set of all movies fetched due to db sending random ones
-async function removeMovie(movie_id) {
-  const csrfToken = await getCSRFToken();
-  const data = {
-    movie_id: movie_id,
-  };
-
-  fetch("/accounts/onboarding/movies/remove/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrfToken,
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error("Error removing movie:", error);
-    });
-}
+var movies_fetched = new Set(); // Set of all movies loaded via scrolling due to db sending random ones
 const remove_movies_container = document.getElementById(
   "remove_movies_container"
 );
 const movie_scroll_container = document.getElementById("movie_container");
+
+async function removeMovie() {
+  const csrfToken = await getCSRFToken();
+  //TODO
+}
+
 // Either adds movie to removedDiv or moves it back to pool (top)
 function setToRemove(movie_id) {
   movieDiv = document.getElementById(movie_id);
@@ -548,7 +526,6 @@ function printRemoved() {
   document.body.appendChild(a);
   a.click();
 
-  // Clean up by revoking the Object URL and removing the link
   URL.revokeObjectURL(a.href);
   document.body.removeChild(a);
 }
