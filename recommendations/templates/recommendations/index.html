@@ -10,7 +10,7 @@
     {% csrf_token %}
     {% if error %}
     <p class="error">{{ error }}</p>
-    {% endif %} {% csrf_token %} {{ form.as_p }}
+    {% endif %} {{ form.as_p }}
 
     <input id="form-submission" type="submit" value="Continue" />
   </form>
