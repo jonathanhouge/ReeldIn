@@ -44,6 +44,8 @@ ALLOWED_HOSTS = [
 ]
 
 # CSRF_TRUSTED_ORIGINS = ["https://reeld.in"] // This setting might make it so that only this domain will be accepted
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True  # Enabled for production
 
 
 # Application definition
