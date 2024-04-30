@@ -43,7 +43,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-# CSRF_TRUSTED_ORIGINS = ["https://reeld.in"] // This setting might make it so that only this domain will be accepted
+CSRF_TRUSTED_ORIGINS = ["https://reeld.in", "https://reeldin.azurewebsites.net"]
 if not DEBUG:
     SESSION_COOKIE_SECURE = True  # Enabled for production
 
