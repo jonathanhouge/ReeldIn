@@ -21,7 +21,6 @@ const rewatchOrange = getComputedStyle(
 const movieContainer = document.getElementById("movie_container");
 const searchbar = document.getElementById("searchbar");
 const tooltipBackgroundColor = "#9a8aff"; // Original tooltip button color
-overlay.addEventListener("click", closeExitModal);
 
 // Page variables
 var currentTooltiptext = null; // Holds the last tooltip that was clicked on

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
+from ReeldIn.globals import ALL_MOVIES
 from recommendations.models import Movie
 
 
@@ -22,7 +23,7 @@ def index(request):
 
 
 def get_all_movies(request):
-    all_movies = Movie.objects.all()
+    all_movies = ALL_MOVIES
 
     return render(request, "dashboard/movies_list.html", {"movies": all_movies})
 

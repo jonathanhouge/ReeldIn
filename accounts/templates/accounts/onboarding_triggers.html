@@ -11,8 +11,25 @@
 {% endblock caption %}
 
 {% block content %}
-  <h1>TODO PAGE/BUTTONS NOT FUNCTIONAL</h1>
-
+<form method="post" id="onboarding-form">
+  {% csrf_token %}
+  <table class="onboarding-table">
+    <thead>
+        <tr>
+            <th>Trigger</th>
+            <th>Block?</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for field in form %}
+            <tr>
+                <th>{{ field.label }}</th>
+                <td>{{ field }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</form>
 
 {% endblock content %}
 
@@ -27,7 +44,7 @@
 
 {% block footer_buttons %}
   <button onclick="openExitModal()" id="back-button" class="button">Back</button>
-  <button onclick="window.location.href='/'" id="next-button" class="button">Save & Continue</button>
+  <button onclick="submitTriggerForm()" id="next-button" class="button">Save & Continue</button>
 {% endblock footer_buttons %}
 
 {% block scripts %} <script src="{% static 'accounts/js/onboarding_triggers.js' %}"></script> {% endblock scripts %}
