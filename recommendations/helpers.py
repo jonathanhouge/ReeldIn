@@ -2,20 +2,41 @@ from django.conf import settings
 from django.db.models import Count
 from django.shortcuts import render
 
+from ReeldIn.globals import ALL_MOVIES
 from .choices import LANGUAGES
 from .models import Movie, Recommendation
 
+REC_ATTRIBUTE = ["", "genres", "year_span", "runtime_span", "languages", "triggers"]
 
-# creates a new recommendation model and sets it up
-def make_new_recommendation(user):
-    recommendation = Recommendation(user_id=user)
-    recommendation.save()  # needs id
 
-    all_movies = Movie.objects.all()
-    recommendation.possible_films.set(all_movies)
-    recommendation.possible_film_count = len(all_movies)
+# creates a new recommendation model or sets one up for a new recommendation
+def make_new_recommendation(user, recommendation=None):
+    if recommendation is None:
+        recommendation = Recommendation(user_id=user)
+        recommendation.save()  # needs id
+    else:
+        recommendation.recommended_films.clear()
+        recommendation.step = 1
+
+        for attribute in REC_ATTRIBUTE:
+            set_recommendation_attr(recommendation, [""], attribute)
+
+    recommendation.possible_films.set(ALL_MOVIES)
+    recommendation.possible_film_count = len(ALL_MOVIES)
+
     recommendation.save()
     return recommendation
+
+
+def set_recommendation_attr(recommendation, selection, attribute=None, step=None):
+    if step is not None:
+        attribute = REC_ATTRIBUTE[step]
+
+    # sometimes an array, sometimes a string
+    try:
+        setattr(recommendation, attribute, selection)
+    except:
+        setattr(recommendation, attribute, selection[0])
 
 
 # makes sure the user only sees relevant options (only for languages so far)

@@ -78,15 +78,20 @@ h2 {
 
 @media screen and (max-width: 550px) {
   p,
-  label,
-  #id_Question {
+  label {
     display: block;
     padding: 10px;
     font-size: 24px;
   }
+
+  #id_Question {
+    display: block;
+    padding: 10px;
+    font-size: 16px;
+  }
 }
 
-@media screen and (min-width: 1000px) and (max-width: 1500px) {
+@media screen and (min-width: 550px) and (max-width: 1500px) {
   p,
   label,
   #id_Question {
