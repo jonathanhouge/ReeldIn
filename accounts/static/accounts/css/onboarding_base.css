@@ -49,6 +49,10 @@ button:hover {
   cursor: pointer;
 }
 
+.exit_btn:hover{
+  background-color:rgb(237, 84, 84);
+}
+
 .onboarding-table {
   max-width:70%;
   border-collapse: collapse;
