@@ -5,10 +5,10 @@ from django.http import HttpResponse, JsonResponse
 from django.core.files.storage import FileSystemStorage
 from django.db import transaction
 from recommendations.models import Movie
+from recommendations.choices import STREAMING, TRIGGERS
 from fuzzywuzzy import fuzz
 
-import random
-from .forms import *
+from .forms import CustomUserCreationForm, GenreForm, CustomBooleanForm
 from .models import User, FriendRequest
 import json
 from .helpers import (
@@ -401,8 +401,50 @@ def onboarding_trigger_view(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
 
-    form = CustomTriggerForm()
+    user = request.user
+
+    if request.method == "POST":
+        form = CustomBooleanForm(request.POST, items=TRIGGERS)
+        if form.is_valid():
+
+            user.triggers = [
+                trigger_value
+                for trigger_value, checked in form.cleaned_data.items()
+                if checked
+            ]
+
+            user.save()
+
+            return redirect("/accounts/onboarding/streaming")
+    else:
+        initial_data = {trigger: True for trigger in user.triggers}
+        form = CustomBooleanForm(items=TRIGGERS, initial_preferences=initial_data)
     return render(request, "accounts/onboarding_triggers.html", {"form": form})
+
+
+def onboarding_streaming_view(request):
+
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    user = request.user
+    if request.method == "POST":
+        form = CustomBooleanForm(request.POST, items=STREAMING)
+        if form.is_valid():
+            user.subscriptions = [
+                subscription_value
+                for subscription_value, checked in form.cleaned_data.items()
+                if checked
+            ]
+            user.save()
+            if request.session.get("onboarding"):
+                request.session["onboarding"] = False
+                return redirect("recommendations:recommendations")
+            return redirect("accounts:settings")
+    else:
+        initial_data = {service: True for service in user.subscriptions}
+        form = CustomBooleanForm(items=STREAMING, initial_preferences=initial_data)
+    return render(request, "accounts/onboarding_streaming.html", {"form": form})
 
 
 def sort_by_closeness(query, movie):
