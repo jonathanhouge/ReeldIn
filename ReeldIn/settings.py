@@ -38,11 +38,12 @@ ALLOWED_HOSTS = [
     "www.reeld.in",
     "localhost",
     "reeldin.azurewebsites.net",
+    "reeldin.scm.azurewebsites.net",
     "169.254.129.3",  # Web App's IP address
     "127.0.0.1",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://reeld.in"]
+# CSRF_TRUSTED_ORIGINS = ["https://reeld.in"] // This setting might make it so that only this domain will be accepted
 
 
 # Application definition
