@@ -16,10 +16,23 @@
     <input type="text" id="searchbar" name="searchbar" placeholder="Search for movies..." autocomplete="off"
       autocapitalize="off" onkeyup="searchMovies(event)"/>
 </div>
+<button id="debug_remove_btn" onclick="printRemoved()">DOWNLOAD THE IDs OF MOVIES TO BE REMOVED</button>
 <div id="movie_container">
 </div>
 
+<div id="remove_movies_container">
+  <h2>These movies are set to be removed! If you do "Search and save" it will attempt to get rid of these movies!</h2>
+  <div id="remove_movies">
+    <!--Posters go here-->
+    
+  </div>
+</div>
+
+
 {% endblock content %}
+
+
+
 
 {% block exit_header %}
   Are you sure you want to go back to the previous section?

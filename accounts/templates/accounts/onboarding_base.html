@@ -16,7 +16,7 @@
 
 <header>
 
-  <div id="logo_div" onclick="openHomeModal()">
+  <div id="logo_div" onclick="openExitModal()">
       <img
         src="{% static 'landing_page/images/REELDIN.png' %}"
         alt="ReeldIn Logo"
@@ -53,7 +53,7 @@
   <div class="onboarding-header">
     <h1 id="onboarding-title" class="title_div">{% block header %}{% endblock header %}</h1>
     <p id="onboarding-caption">{% block caption %}{% endblock caption %}</p>    
-  </div>
+  </div>y
 
   <div class="onboarding-content content_div">
     {% block content %}{% endblock content %}
@@ -73,31 +73,17 @@
       <h3>
         {% block exit_header %}{% endblock exit_header %}
       </h3>
-      <button class="btn-close" onclick="closeModal()">⨉</button>
+      <button class="btn-close" onclick="closeExitModal()">⨉</button>
     </div>
     <div>
       <p id="exit_warning">Any changes made will not be saved!</p>
     </div>
     {% block exit_button %}{% endblock exit_button %}
-    <button class="btn" onclick="closeModal()">No</button>
+    <button class="btn" onclick="closeExitModal()">No</button>
   </section>
 
-  <!--Home modal-->
-  <section class="modal hidden" id ="home_modal">
-    <div class="flex">
-      <h3>
-        Are you sure you want to go back to the home page?
-      </h3>
-      <button class="btn-close" onclick="closeModal()">⨉</button>
-    </div>
-    <div>
-      <p id="exit_warning">Any changes made will not be saved!</p>
-    </div>
-    <button class="btn exit_btn" onclick="window.location.href='/'">Yes</button>
-    <button class="btn" onclick="closeModal()">No</button>
-  </section>
+  <div class="overlay hidden" id ="exit_overlay" onclick="closeExitModal()"></div>
 
-  <div class="overlay hidden" id ="exit_overlay" onclick="closeModal()"></div>
   <script src="{% static 'accounts/js/onboarding_base.js' %}"></script>
   
   {% block scripts %}{% endblock scripts %}

@@ -1,11 +1,3 @@
-// Movie data int ID sets
-var movies_liked = new Set();
-var movies_disliked = new Set();
-var movies_watched = new Set();
-var watchlist = new Set();
-var movies_rewatch = new Set();
-var movies_blocked = new Set();
-
 // Button colors
 const likeGreen = getComputedStyle(document.documentElement).getPropertyValue(
   "--like-green"
@@ -50,44 +42,24 @@ function printStatus() {
 function createMovieDiv(movie) {
   var movieDiv = document.createElement("div");
   movieDiv.classList.add("movie", "tooltip");
+  movieDiv.id = movie.id;
   movieDiv.onclick = function () {
-    revealDetails(movie.id);
+    setToRemove(movie.id);
   };
   // Add tooltip content
   var tooltiptext = document.createElement("div");
   tooltiptext.classList.add("tooltiptext");
-  tooltiptext.id = movie.id;
   tooltiptext.innerHTML = `
-  <h3>${movie.name}</h3>
-  <p>${movie.year}</p>
-  <div class="tooltip_message_container">
-    <p class ="tooltip_message hidden" id ="${movie.id}_tooltip_message"></p>
-  </div>
-  <div class="tooltip_buttons">
-    <div class="row1">
-      <i class="fa-regular fa-2x fa-thumbs-up tooltip_button" id="${movie.id}_upvote" onclick="addLiked('${movie.id}')"></i>
-      <i class="fa-regular fa-2x fa-thumbs-down tooltip_button" id="${movie.id}_dislike"onclick="addDisliked('${movie.id}')"></i>
-    </div>
-    <div class="row2">
-      <i class="fa-regular fa-2x fa-eye tooltip_button" id="${movie.id}_seen" onclick="addSeen('${movie.id}')"></i>
-      <i class="fa-solid fa-2x fa-plus tooltip_button" id = "${movie.id}_watchlist" onclick="addWatchlist('${movie.id}')"></i>
-    </div>
-    <div class="row3">
-      <i class="fa-solid fa-2x fa-repeat tooltip_button" id = "${movie.id}_rewatch" onclick ="addRewatch('${movie.id}')"></i>
-      <i class="fa-solid fa-2x fa-ban tooltip_button" id = "${movie.id}_exclude" onclick="addToExclude('${movie.id}')"></i>
-    </div>
+  <h3>Name: ${movie.name}</h3>
+  <p>Year: ${movie.year}</p>
+  <p>ID: ${movie.id}</p>
   </div>`;
   movieDiv.appendChild(tooltiptext);
-
   var poster = document.createElement("img");
   poster.src = "https://image.tmdb.org/t/p/w300" + movie.poster;
   poster.loading = "lazy";
   poster.alt = movie.name;
-  poster.onmouseenter = function () {
-    updateButtons(movie.id);
-  };
   movieDiv.appendChild(poster);
-
   return movieDiv;
 }
 
@@ -196,6 +168,7 @@ async function fetchMovies(numMovies = 35) {
     const data = await response.json();
     data.movies.forEach((movie) => {
       var movieDiv = createMovieDiv(movie);
+      console.log("Adding");
       movieContainer.appendChild(movieDiv);
     });
   } catch (error) {
@@ -505,3 +478,75 @@ function addToExclude(id) {
   exclude_button.style.backgroundColor = excludeRed;
   movies_blocked.add(intID);
 }
+
+// Added movie removal code
+var movies_to_remove = new Set(); // Set of all movies to be removed (may pop in and out of this list)
+var movies_fetched = new Set(); // Set of all movies fetched due to db sending random ones
+async function removeMovie(movie_id) {
+  const csrfToken = await getCSRFToken();
+  const data = {
+    movie_id: movie_id,
+  };
+
+  fetch("/accounts/onboarding/movies/remove/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken,
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error removing movie:", error);
+    });
+}
+const remove_movies_container = document.getElementById(
+  "remove_movies_container"
+);
+const movie_scroll_container = document.getElementById("movie_container");
+// Either adds movie to removedDiv or moves it back to pool (top)
+function setToRemove(movie_id) {
+  movieDiv = document.getElementById(movie_id);
+  if (movies_to_remove.has(movie_id)) {
+    movies_to_remove.delete(movie_id);
+    movie_scroll_container.prepend(movieDiv);
+  } else {
+    movies_to_remove.add(movie_id);
+    remove_movies_container.appendChild(movieDiv);
+  }
+}
+
+function printRemoved() {
+  text = "";
+  for (let movie_id of movies_to_remove) {
+    text += movie_id + "\n";
+  }
+  // Create a new Blob (file-like object of immutable, raw data) containing the text data
+  const blob = new Blob([text], { type: "text/plain" });
+
+  // Create a link element, use it to create a URL for our Blob, and set it as the link's href attribute
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "ids_to_remove.txt";
+
+  // Append the link to the body, click it, and then remove it
+  document.body.appendChild(a);
+  a.click();
+
+  // Clean up by revoking the Object URL and removing the link
+  URL.revokeObjectURL(a.href);
+  document.body.removeChild(a);
+}
+
+// Usage example
+downloadTextFile("This is the content of the file.", "debug-log.txt");
