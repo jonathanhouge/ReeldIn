@@ -1,5 +1,8 @@
 const overlay = document.getElementById("exit_overlay");
-overlay.addEventListener("click", closeExitModal);
+const home_modal = document.getElementById("home_modal");
+const exit_modal = document.getElementById("confirm_exit_modal");
+
+overlay.addEventListener("click", closeModal);
 
 /*Function from landing_page/js/index.js */
 async function getCSRFToken() {
@@ -16,14 +19,18 @@ async function getCSRFToken() {
   }
 }
 
-const exit_modal = document.getElementById("confirm_exit_modal");
-
-function closeExitModal() {
+function closeModal() {
   exit_modal.classList.add("hidden");
+  home_modal.classList.add("hidden");
   overlay.classList.add("hidden");
 }
 
 function openExitModal() {
   exit_modal.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+}
+
+function openHomeModal() {
+  home_modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
 }

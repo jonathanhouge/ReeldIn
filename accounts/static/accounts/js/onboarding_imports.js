@@ -23,14 +23,14 @@ function openBoxdModal() {
 function closeModal() {
   overlay.classList.add("hidden");
   upload_modal.classList.add("hidden");
+  home_modal.classList.add("hidden");
+  exit_modal.classList.add("hidden");
   title.innerHTML = "Select File here";
   title.style.color = "black";
   subtitle.innerHTML = "Files Supported: CSV";
   upload_btn.innerHTML = "Upload";
   document.getElementById("file").value = "";
 }
-
-overlay.addEventListener("click", closeModal);
 
 const title = document.getElementById("title");
 const subtitle = document.getElementById("subtitle");

@@ -48,3 +48,35 @@ button:hover {
 #logo_div:hover {
   cursor: pointer;
 }
+
+.exit_btn:hover{
+  background-color:rgb(237, 84, 84);
+}
+
+.onboarding-table {
+  max-width:70%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.onboarding-table th,
+.onboarding-table td {
+  border: 1px solid #8f8f8f;
+  text-align: left;
+  padding: 0.5rem;
+}
+
+.onboarding-content{
+  width: 75%;
+  margin: 0 auto;
+  margin-bottom:100px;
+}
+
+@media only screen and (max-width: 480px) { 
+  .onboarding-content { 
+    width: 90%; 
+  } 
+  .modal{
+    width: 300px !important;
+  }
+}
