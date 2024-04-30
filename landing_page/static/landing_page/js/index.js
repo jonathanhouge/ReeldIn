@@ -83,8 +83,14 @@ async function searchMovies(event) {
 
                 // Append the movieDiv to the moviesContainer
                 moviesContainer.appendChild(movieDiv);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
             });
         })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
     } else {
         moviesContainer = document.getElementById("searched_movies_container")
         moviesContainer.innerHTML = '';
