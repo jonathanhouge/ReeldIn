@@ -92,11 +92,11 @@ def recommend_view(request):
         recommendation.recommended_films.all()
     )
 
-    return render(
-        request,
-        "recommendations/recommendation.html",
-        {"recommendations": readable_recommendation},
-    )
+    package = {"recommendations": readable_recommendation}
+    if recommendation.triggers != [""]:
+        package["triggers"] = recommendation.triggers
+
+    return render(request, "recommendations/recommendation.html", package)
 
 
 # narrow the possible recommendations by querying based on submitted forms
@@ -187,11 +187,11 @@ def index(request):
                     recommendation.recommended_films.all()
                 )
 
-                return render(
-                    request,
-                    "recommendations/recommendation.html",
-                    {"recommendations": readable_recommendation},
-                )
+                package = {"recommendations": readable_recommendation}
+                if recommendation.triggers != [""]:
+                    package["triggers"] = recommendation.triggers
+
+                return render(request, "recommendations/recommendation.html", package)
             else:
                 step = recommendation.step
                 form = FORMS[step] if step < len(FORMS) else None

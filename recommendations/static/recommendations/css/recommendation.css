@@ -65,3 +65,23 @@
 .rec-delete-btn a:hover {
   color: black;
 }
+
+.content_div {
+  gap: 0px !important;
+}
+
+.title_div {
+  align-items: center;
+}
+
+#trigger-warning {
+  color: red !important;
+}
+
+#trigger-warning a {
+  color: red;
+}
+
+#trigger-warning a:hover {
+  color: #155dc2;
+}
