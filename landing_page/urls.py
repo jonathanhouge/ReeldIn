@@ -18,7 +18,7 @@ urlpatterns = [
     path("api/search/movies", views.search_movies_json, name="search_movies_json"),
     path("health-check/", views.health_check, name="health_check"),
     path(
-        "movie/update/<string:type>/<int:movie_id>/",
+        "movie/update/<str:type>/<int:movie_id>/",
         views.update_preference,
         name="update_preference",
     ),

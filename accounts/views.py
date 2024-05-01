@@ -397,6 +397,30 @@ def preferences_movies_view(request):
     )
 
 
+def preferences_single_movie_view(request, id):
+    """
+    This function handles the GET request for sending the user's movie preferences.
+    """
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    if request.method != "GET":
+        return HttpResponse(status=405)
+
+    movie = get_object_or_404(Movie, pk=id)
+
+    return JsonResponse(
+        {
+            "liked": request.user.liked_films.filter(pk=id).exists(),
+            "disliked": request.user.disliked_films.filter(pk=id).exists(),
+            "watched": request.user.watched_films.filter(pk=id).exists(),
+            "watchlist": request.user.watchlist_films.filter(pk=id).exists(),
+            "rewatch": request.user.rewatchable_films.filter(pk=id).exists(),
+            "blocked": request.user.excluded_films.filter(pk=id).exists(),
+        }
+    )
+
+
 def onboarding_trigger_view(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
