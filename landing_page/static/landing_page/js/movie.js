@@ -1,3 +1,14 @@
+var liked = false;
+var disliked = false;
+var watched = false;
+var watchlist = false;
+var rewatch = false;
+var exclude = false;
+movieOverview(movie_data);
+fetchPreferences(movie_data.id); //TODO fetch this when getting the movie
+
+const tooltip_message = document.getElementById("tooltip_message");
+const tooltiptext = document.getElementById("tooltiptext");
 // Buttons for the movie info page
 // context change depending on button clicked, testing visuals
 function movieOverview(movie_data) {
@@ -10,11 +21,7 @@ function movieOverview(movie_data) {
     streaming = streaming.join(", ");
   }
 
-  
-
-  document.getElementById(
-    "movie_summary"
-  ).innerHTML = `
+  document.getElementById("movie_summary").innerHTML = `
       <div id="streaming_info">
       <p><strong>Description:</strong> </p>
       <p> ${movie_data.overview} </p>
@@ -24,13 +31,33 @@ function movieOverview(movie_data) {
       </div>`;
 }
 
+async function updatePreference(type, id) {
+  const csrfToken = await getCSRFToken();
+
+  fetch(`/movie/update/${type}/${id}/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken,
+    },
+  })
+    .then((response) => {
+      return response.text();
+    })
+    .then((text) => {
+      console.log(text);
+    })
+    .catch((error) => {
+      console.error(
+        "There was a problem with updating your preference:",
+        error
+      );
+    });
+}
 
 function movieDetails(movie_data) {
   movie_genres = JSON.parse(movie_data.genres);
   movie_genres = movie_genres.join(", ");
-
-  
-
   document.getElementById("movie_summary").innerHTML = `
   <div style="margin-top: 10px;">
     <p><strong>Release Year:</strong> ${movie_data.year} </p> </div>
@@ -79,9 +106,17 @@ function moviePeople(movie_data) {
 }
 
 function openTooltip() {
-  console.log("openTooltip");
-  document.getElementById("tooltiptext").style.display = "block";
+  tooltiptext.classList.remove("hidden");
 }
+
+// Hides the tooltip when the user clicks outside of it
+document.addEventListener("click", function (event) {
+  if (!tooltiptext.contains(event.target)) {
+    tooltiptext.classList.add("hidden");
+  } else {
+    tooltiptext.classList.remove("hidden");
+  }
+});
 
 /**
  * This function updates the buttons with the state of the movie in the user's preferences.
@@ -89,7 +124,7 @@ function openTooltip() {
  */
 async function fetchPreferences(movie_id) {
   const csrfToken = await getCSRFToken();
-  fetch("/accounts/preferences/movies/${movie_id}", {
+  fetch(`/accounts/preferences/movies/${movie_id}/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -103,15 +138,30 @@ async function fetchPreferences(movie_id) {
       return response.json();
     })
     .then((data) => {
-      if (data.liked) updateButton(movie_id, "_upvote", "green");
-      else if (data.disliked) updateButton(movie_id, "_dislike", "red");
+      if (data.liked) {
+        updateButton(movie_id, "_upvote", "green");
+        liked = true;
+      } else if (data.disliked) {
+        updateButton(movie_id, "_dislike", "red");
+        disliked = true;
+      }
 
-      if (data.watched) updateButton(movie_id, "_seen", "blue");
-      else if (data.watchlist)
+      if (data.watched) {
+        updateButton(movie_id, "_seen", "blue");
+        watched = true;
+      } else if (data.watchlist) {
         updateButton(movie_id, "_watchlist", "cornflowerblue");
+        watchlist = true;
+      }
 
-      if (data.rewatch) updateButton(movie_id, "_rewatch", "orange");
-      if (movies_blocked.has(intID)) updateButton(movie_id, "_exclude", "red");
+      if (data.rewatch) {
+        updateButton(movie_id, "_rewatch", "orange");
+        rewatch = true;
+      }
+      if (data.blocked) {
+        updateButton(movie_id, "_exclude", "red");
+        exclude = true;
+      }
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
@@ -122,10 +172,126 @@ function updateButton(id, name, color) {
   document.getElementById(id + name).style.backgroundColor = color;
 }
 
-// Hides the tooltip when the user clicks outside of it
-document.addEventListener("click", function (event) {
-  var tooltiptext = document.getElementById("tooltiptext");
-  if (!tooltiptext.contains(event.target)) {
-    tooltiptext.style.display = "none";
+function addLiked(id) {
+  if (!watched) addWatched(id);
+  tooltip_message.classList.add("hidden");
+
+  if (liked) {
+    updateButton(id, "_upvote", "#9a8aff");
+  } else {
+    updateButton(id, "_upvote", "green");
   }
-});
+
+  if (disliked) {
+    updateButton(id, "_dislike", "#9a8aff");
+    disliked = false;
+    updatePreference("disliked", id);
+  }
+  liked = !liked;
+  updatePreference("liked", id);
+}
+
+function addDisliked(id) {
+  if (!watched) addWatched(id);
+  tooltip_message.classList.add("hidden");
+
+  if (disliked) {
+    updateButton(id, "_dislike", "#9a8aff");
+  } else {
+    updateButton(id, "_dislike", "red");
+  }
+
+  if (liked) {
+    updateButton(id, "_upvote", "#9a8aff");
+    liked = false;
+    updatePreference("liked", id);
+  }
+  disliked = !disliked;
+  updatePreference("disliked", id);
+}
+
+function addWatched(id) {
+  if (!watched) {
+    updateButton(id, "_seen", "blue");
+  } else if (liked || disliked) {
+    displayTooltip(
+      "You must remove your rating before marking a movie as unwatched!"
+    );
+    return;
+  } else {
+    updateButton(id, "_seen", "#9a8aff");
+  }
+  tooltip_message.classList.add("hidden");
+  if (watchlist) {
+    updateButton(id, "_watchlist", "#9a8aff");
+    watchlist = false;
+    updatePreference("watchlist", id);
+  }
+  if (rewatch) {
+    updateButton(id, "_rewatch", "#9a8aff");
+    rewatch = false;
+    updatePreference("rewatch", id);
+  }
+  watched = !watched;
+  updatePreference("watched", id);
+}
+
+function addWatchlist(id) {
+  if (watched) {
+    displayTooltip("You have already watched this movie!");
+    return;
+  } else if (exclude) {
+    displayTooltip("You cannot watchlist a movie you have excluded!");
+    return;
+  }
+  tooltip_message.classList.add("hidden");
+  if (watchlist) {
+    updateButton(id, "_watchlist", "#9a8aff");
+  } else {
+    updateButton(id, "_watchlist", "cornflowerblue");
+  }
+
+  watchlist = !watchlist;
+  updatePreference("watchlist", id);
+}
+
+function addRewatch(id) {
+  if (exclude) {
+    displayTooltip("You cannot rewatch a movie you have excluded!");
+    return;
+  }
+  if (!watched) {
+    addWatched(id);
+  }
+  tooltip_message.classList.add("hidden");
+
+  if (rewatch) {
+    updateButton(id, "_rewatch", "#9a8aff");
+  } else {
+    updateButton(id, "_rewatch", "orange");
+  }
+  rewatch = !rewatch;
+  updatePreference("rewatch", id);
+}
+
+function addToExclude(id) {
+  if (watchlist) {
+    addWatchlist(id);
+  }
+  if (rewatch) {
+    addRewatch(id);
+  }
+
+  if (exclude) {
+    updateButton(id, "_exclude", "#9a8aff");
+  } else {
+    updateButton(id, "_exclude", "red");
+  }
+  exclude = !exclude;
+  updatePreference("exclude", id);
+}
+
+function displayTooltip(message) {
+  tooltip_message.innerHTML = message;
+  tooltip_message.classList.remove("hidden");
+}

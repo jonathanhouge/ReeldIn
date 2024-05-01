@@ -67,7 +67,7 @@ caption %} {% block content %}
       </div>
       <div class="dropbox_content">
         <p id="subtitle">Files Supported: CSV</p>
-        <form id="onboarding-form">
+        <form id="onboarding-form" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <input type="file" name="document" id="file" accept=".csv" />
           <button type="button" id="upload_btn" onclick="uploadFile()">Upload File</button>

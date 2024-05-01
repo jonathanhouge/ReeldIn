@@ -1,22 +1,23 @@
+import csv
 import json
-from django.shortcuts import render, redirect, get_object_or_404
+
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, JsonResponse
 from django.core.files.storage import FileSystemStorage
 from django.db import transaction
-from recommendations.models import Movie
-from recommendations.choices import STREAMING, TRIGGERS
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
 
-from .forms import CustomUserCreationForm, GenreForm, CustomBooleanForm
-from .models import User, FriendRequest
-import json
+from recommendations.choices import STREAMING, TRIGGERS
+from recommendations.models import Movie
+
+from .forms import CustomBooleanForm, CustomUserCreationForm, GenreForm
 from .helpers import (
-    get_user_genre_preferences,
     add_movies_to_user_list,
     get_genre_form_data,
+    get_user_genre_preferences,
 )
-import csv
+from .models import FriendRequest, User
 
 MOVIES_POST_TO_MODEL = {  # maps the POST request names to the model names
     "movies_liked": "liked_films",
@@ -278,6 +279,8 @@ def add_IMDb_Data(reader, user):
     disliked_list.add(*Movie.objects.filter(imdb_id__in=new_disliked))
     watched_list.add(*Movie.objects.filter(imdb_id__in=new_watched))
 
+    return HttpResponse("Done", status=200)
+
 
 # For testing purposes
 # add this button to profile.html
@@ -336,6 +339,8 @@ def add_Letterboxd_Data(reader, user):
     liked_list.add(*Movie.objects.filter(imdb_id__in=liked_data))
     disliked_list.add(*Movie.objects.filter(imdb_id__in=disliked_data))
     watched_list.add(*Movie.objects.filter(imdb_id__in=new_watched))
+
+    return HttpResponse("Done", status=200)
 
 
 def get_random_movies(request, amount=25):
@@ -400,6 +405,30 @@ def preferences_movies_view(request):
             "watchlist": watchlist,
             "movies_rewatch": movies_rewatch,
             "movies_excluded": movies_excluded,
+        }
+    )
+
+
+def preferences_single_movie_view(request, id):
+    """
+    This function handles the GET request for sending the user's movie preferences.
+    """
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    if request.method != "GET":
+        return HttpResponse(status=405)
+
+    movie = get_object_or_404(Movie, pk=id)
+
+    return JsonResponse(
+        {
+            "liked": request.user.liked_films.filter(pk=id).exists(),
+            "disliked": request.user.disliked_films.filter(pk=id).exists(),
+            "watched": request.user.watched_films.filter(pk=id).exists(),
+            "watchlist": request.user.watchlist_films.filter(pk=id).exists(),
+            "rewatch": request.user.rewatchable_films.filter(pk=id).exists(),
+            "blocked": request.user.excluded_films.filter(pk=id).exists(),
         }
     )
 

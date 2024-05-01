@@ -279,11 +279,8 @@ document.addEventListener("DOMContentLoaded", function () {
   movieContainer.addEventListener("scroll", () => {
     searchString = searchbar.value.trim();
     threshold = (movieContainer.scrollHeight * 3) / 5;
-    console.log(
-      "Scroll top: " + movieContainer.scrollTop + " Threshold: " + threshold
-    );
+
     if (!searchString && movieContainer.scrollTop >= threshold) {
-      console.log("Fetching more movies...");
       fetchMovies();
     }
   });

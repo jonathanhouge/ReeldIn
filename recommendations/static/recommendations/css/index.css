@@ -78,6 +78,10 @@ h2 {
   transition: all 0.1s ease;
 }
 
+#demo-warning {
+  color: red;
+}
+
 @media screen and (max-width: 550px) {
   p,
   label {

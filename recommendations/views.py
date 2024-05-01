@@ -1,6 +1,7 @@
 import random
 
 from django.conf import settings
+from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
@@ -20,7 +21,7 @@ from .helpers import (
     all_recommend,
     foreign_recommend,
 )
-from .models import Movie, Recommendation, RecentRecommendations
+from .models import Recommendation, RecentRecommendations
 
 # starts at step 1 - for frontend to make sense
 FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
@@ -32,11 +33,13 @@ MOVIE_MODEL_COMPLEMENT = ["", "genres", "year", "runtime", "language", "triggers
 def recommend_view(request):
     if request.user.is_authenticated is False:
         all_movies = ALL_MOVIES
-        random_movies = random.sample(all_movies, 3)
+        random_movies = random.sample(list(all_movies.all()), 3)
+        readable_recommendation = make_readable_recommendation(random_movies)
+
         return render(
             request,
             "recommendations/recommendation.html",
-            {"recommendations": random_movies},
+            {"recommendations": readable_recommendation},
         )
 
     user = User.objects.get(username=request.user)
@@ -49,7 +52,7 @@ def recommend_view(request):
             possible_films = recommendation.possible_films
 
             check_triggers = False
-            if recommendation.triggers != [""]:
+            if recommendation.triggers and recommendation.triggers != [""]:
                 check_triggers = True
 
             foreign_films = possible_films.exclude(language="en")
@@ -85,24 +88,29 @@ def recommend_view(request):
             all_recommendations = RecentRecommendations()  # should exist, just in case
             all_recommendations.save()
 
-        recent_recs = list(all_recommendations.recent.all())[:27]
-        all_recommendations.recent.set(all_recommended[:3] + recent_recs)
+        # thanks for helping chatgpt
+        recent_recs = all_recommended[:3] + list(all_recommendations.recent.all())[:27]
+        with transaction.atomic():
+            recommendation.possible_films.clear()
+            all_recommendations.recent.clear()
+            for film in recent_recs:
+                all_recommendations.recent.add(film)
 
     readable_recommendation = make_readable_recommendation(
         recommendation.recommended_films.all()
     )
 
-    return render(
-        request,
-        "recommendations/recommendation.html",
-        {"recommendations": readable_recommendation},
-    )
+    package = {"recommendations": readable_recommendation}
+    if recommendation.triggers != [""]:
+        package["triggers"] = recommendation.triggers
+
+    return render(request, "recommendations/recommendation.html", package)
 
 
 # narrow the possible recommendations by querying based on submitted forms
 def narrow_view(request):
     if request.user.is_authenticated is False:
-        step = random.randint(0, len(FORMS) - 1)
+        step = random.randint(1, len(FORMS) - 1)
         form = FORMS[step]  # guests get to demo
 
         recommendation = {"possible_film_count": 27122, "step": step}
@@ -148,9 +156,18 @@ def narrow_view(request):
             return recommend_view(request)
 
         if "Languages" in form.declared_fields:
-            form.declared_fields["Languages"].choices = relevant_options(
+            relevant_languages = relevant_options(
                 form, recommendation.possible_films, recommendation.possible_film_count
             )
+
+            # three languages + "No Preference"
+            if len(relevant_languages) <= 4:
+                recommendation.step += 1
+                recommendation.save()
+
+                form = FORMS[recommendation.step]
+            else:
+                form.declared_fields["Languages"].choices = relevant_languages
 
         return render(
             request,
@@ -187,11 +204,11 @@ def index(request):
                     recommendation.recommended_films.all()
                 )
 
-                return render(
-                    request,
-                    "recommendations/recommendation.html",
-                    {"recommendations": readable_recommendation},
-                )
+                package = {"recommendations": readable_recommendation}
+                if recommendation.triggers != [""]:
+                    package["triggers"] = recommendation.triggers
+
+                return render(request, "recommendations/recommendation.html", package)
             else:
                 step = recommendation.step
                 form = FORMS[step] if step < len(FORMS) else None
@@ -200,6 +217,7 @@ def index(request):
                 if recommendation.possible_film_count < 10 or form is None:
                     return recommend_view(request)
 
+                # shouldn't be the languageForm() if three relevant languages
                 if "Languages" in form.declared_fields:
                     form.declared_fields["Languages"].choices = relevant_options(
                         form,
