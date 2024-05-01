@@ -4,6 +4,9 @@
 <script src="{% static 'recommendations/js/index.js' %}" defer></script>
 
 <div class="content_div">
+  {% if not user.is_authenticated %}
+  <h1>You're not logged in - your inputs will not be recorded.</h1>
+  {% endif %}
   <h1 id="question">Question #{{ recommendation.step }}</h1>
   {% block form %}
   <form action="{% url 'recommendations:narrow' %}" method="post">
