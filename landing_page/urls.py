@@ -15,7 +15,7 @@ urlpatterns = [
     path("conditions/", views.conditions, name="conditions"),
     path("search/movies", views.search_movies, name="search_movies"),
     path("movie/<int:movie_id>", views.movie, name="movie"),
-    path("api/search/movies", views.search_movies_json, name="search_movies_json"),
+    path("api/search/movies/", views.search_movies_json, name="search_movies_json"),
     path("health-check/", views.health_check, name="health_check"),
 ]
 

@@ -19,16 +19,16 @@ async function searchMovies(event) {
     // Enter key
     if ((event.key === "Enter" || event.type === "click") && searchString) {
         // Route to search movies
-        window.location.href = window.location.origin + "/search/movies?query=" + encodeURIComponent(searchString)
+        window.location.href = "/search/movies?query=" + encodeURIComponent(searchString) + "/"
     } else if (searchString) {
         const csrfToken = await getCSRFToken(); // Wait until getCSRFToken() resolves
-        fetch("/api/search/movies", {
+        fetch("/api/search/movies/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "X-CSRFToken": csrfToken
             },
-            body: JSON.stringify({ search: searchString, "csrfmiddlewaretoken": csrfToken})
+            body: JSON.stringify({ search: searchString})
         })
         .then((response) => {
             if (!response.ok) {
