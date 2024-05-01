@@ -72,7 +72,7 @@ body {
   border-radius: 20px;
 }
 
-#title_div {
+.title_div {
   margin-left: 1rem;
   display: flex;
   align-items: center;
@@ -344,7 +344,7 @@ footer {
     font-size: 20px;
   }
 
-  #title_div {
+  .title_div {
     font-size: 16px;
     margin-left: 5px;
   }

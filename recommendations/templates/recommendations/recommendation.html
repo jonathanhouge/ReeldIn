@@ -13,16 +13,27 @@
 <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
 
 <div class="content_div">
-  {% if user.is_authenticated %}
-  <div id="reset-recommendations">
-    <button id="gen-recommendations-btm" class="rec-btn-open">
-      Start New Recommendation
-    </button>
+  <div class="title_div">
+    <h2>Here are your recommendations!</h2>
+    {% if user.is_authenticated %}
+    <div id="reset-recommendations">
+      <button id="gen-recommendations-btm" class="rec-btn-open">
+        Start New Recommendation
+      </button>
+    </div>
+    {% endif %}
+  </div>
+  {% if triggers %}
+  <div class="title_div">
+    <h4 id="trigger-warning">
+      Be advised: Movies that don't have trigger info on
+      <a href="https://www.doesthedogdie.com" target="_blank">
+        doesthedogdie.com
+      </a>
+      were not exempt from this selection.
+    </h4>
   </div>
   {% endif %}
-  <div id="title_div">
-    <h2>Here are your recommendations!</h2>
-  </div>
   <div class="movies_div content_container">
     {% if recommendations %} {% for recommendation in recommendations %}
     <div class="movie tooltip">
