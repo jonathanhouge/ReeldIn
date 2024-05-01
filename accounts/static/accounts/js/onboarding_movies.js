@@ -545,8 +545,7 @@ async function deleteMovies() {
       "Content-Type": "application/json",
       "X-CSRFToken": csrfToken,
     },
-
-    body: JSON.stringify({ search: "test", send_all: true }),
+    body: JSON.stringify(data),
   })
     .then((response) => {
       if (!response.ok) {

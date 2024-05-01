@@ -686,17 +686,19 @@ def delete_friend_request(request):
 
 def delete_movie(request):
     print("delete called!")
-    # try:
-    #     print("loading movies sent...")
-    #     data = json.loads(request.body)
-    #     movie_ids = data.get("movies_to_remove", [])
-    #     if not movie_ids:
-    #         return JsonResponse({"error": "No movies specified to delete"}, status=400)
+    try:
+        print(request.body)
+        print("loading movies sent...")
+        data = json.loads(request.body)
+        movie_ids = data.get("movies_to_remove", [])
+        if not movie_ids:
+            print("No movies specified to delete")
+            return JsonResponse({"error": "No movies specified to delete"}, status=400)
 
-    #     # Perform the deletion
-    #     Movie.objects.filter(id__in=movie_ids).delete()
-    #     print("Movies deleted!")
+        # Perform the deletion
+        Movie.objects.filter(id__in=movie_ids).delete()
+        print("Movies deleted!")
 
-    #     return JsonResponse({"success": "Movies deleted successfully"}, status=200)
-    # except Exception as e:
-    #     return JsonResponse({"error": str(e)}, status=500)
+        return JsonResponse({"success": "Movies deleted successfully"}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
