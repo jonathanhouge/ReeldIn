@@ -187,3 +187,7 @@ def get_mpaa(requests, movie_id):
         if result["iso_3166_1"] == "US":
             return result["certification"]
     return None
+
+
+def health_check(request):
+    return JsonResponse({"status": "ok"}, status=200)

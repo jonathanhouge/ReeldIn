@@ -7,9 +7,10 @@
   <h1 id="question">Question #{{ recommendation.step }}</h1>
   {% block form %}
   <form action="{% url 'recommendations:narrow' %}" method="post">
+    {% csrf_token %}
     {% if error %}
     <p class="error">{{ error }}</p>
-    {% endif %} {% csrf_token %} {{ form.as_p }}
+    {% endif %} {{ form.as_p }}
 
     <input id="form-submission" type="submit" value="Continue" />
   </form>
