@@ -1,4 +1,5 @@
 import requests
+import random
 from django.conf import settings
 from django.db.models import Count
 from django.shortcuts import render
@@ -32,6 +33,13 @@ def make_new_recommendation(user, recommendation=None):
 def set_recommendation_attr(recommendation, selection, attribute=None, step=None):
     if step is not None:
         attribute = REC_ATTRIBUTE[step]
+
+        # set up triggers attribute for filtering during recommendation generation
+        if attribute == "triggers":
+            for trigger in selection:
+                if trigger in TRIGGER_DICT:
+                    selection.extend(TRIGGER_DICT[trigger])
+                    selection.remove(trigger)
 
     # sometimes an array, sometimes a string
     try:
@@ -93,42 +101,7 @@ def recommendation_querying(recommendation, field, selection, filter):
             return possible_movies
         return recommendation.possible_films.filter(**{f"{field}__contains": selection})
     elif field == "triggers":
-        ddd_ids = recommendation.possible_films.values("ddd_id").annotate(
-            num_films=Count("id")
-        )
-
-        no_ddd_id = ddd_ids.filter(ddd_id=0)
-        if no_ddd_id.count():
-            films_with_ddd_ids = recommendation.possible_films.exclude(ddd_id=0)
-            recommendation.possible_films.set(films_with_ddd_ids.all())
-
-        for trigger in selection:
-            if trigger in TRIGGER_DICT:
-                selection.extend(TRIGGER_DICT[trigger])
-                selection.remove(trigger)
-
-        trigger_movie_ids = []
-        for movie in recommendation.possible_films.all():
-            headers = {"Accept": "application/json", "X-API-KEY": settings.DDD_API_KEY}
-            ddd_url = f"https://www.doesthedogdie.com/media/{movie.ddd_id}"
-            ddd_response = requests.get(ddd_url, headers=headers)
-
-            if ddd_response.status_code != 200:
-                print("ERROR")
-                break
-
-            ddd_obj = ddd_response.json()
-            movie_triggers = [
-                obj["topic"]["name"]
-                for obj in ddd_obj["topicItemStats"]
-                if obj["yesSum"] > obj["noSum"]
-            ]
-
-            isTriggering = bool(set(selection) & set(movie_triggers))
-            if isTriggering:
-                trigger_movie_ids.append(movie.id)
-
-        return recommendation.possible_films.exclude(id__in=trigger_movie_ids)
+        return recommendation.possible_films.exclude(ddd_id=0)  # remove null ids
 
     if settings.DEBUG:
         print(
@@ -136,6 +109,65 @@ def recommendation_querying(recommendation, field, selection, filter):
         )
 
     return recommendation.possible_films.all()  # prevent rec from being broken
+
+
+# recommend foreign films - max is three (ensures some foreign representation)
+def foreign_recommend(
+    recommended_films, possible_films, foreign_films, check_triggers, triggers
+):
+    while foreign_films.count():
+        pks = foreign_films.values_list("pk", flat=True)
+        random_pk = random.choice(pks)
+        foreign_film = foreign_films.get(pk=random_pk)
+
+        foreign_films = foreign_films.exclude(id=foreign_film.id)
+        possible_films = possible_films.exclude(id=foreign_film.id)
+
+        if check_triggers == True:
+            trigger_check(foreign_film, triggers, recommended_films)
+        else:
+            recommended_films.append(foreign_film)
+
+        if len(recommended_films) == 3:
+            return
+
+
+# recommend any film
+def all_recommend(recommended_films, possible_films, check_triggers, triggers):
+    while len(recommended_films) < 10 and possible_films.count() != 0:
+        pks = possible_films.values_list("pk", flat=True)
+        random_pk = random.choice(pks)
+        film = possible_films.get(pk=random_pk)
+
+        possible_films = possible_films.exclude(id=film.id)
+
+        if check_triggers == True:
+            trigger_check(film, triggers, recommended_films)
+        else:
+            recommended_films.append(film)
+
+
+# if the user has triggers, make sure the movie isn't triggering before adding
+def trigger_check(film, triggers, recommended_films):
+    ddd_id = film.ddd_id
+    headers = {"Accept": "application/json", "X-API-KEY": settings.DDD_API_KEY}
+    ddd_url = f"https://www.doesthedogdie.com/media/{ddd_id}"
+    ddd_response = requests.get(ddd_url, headers=headers)
+
+    if ddd_response.status_code != 200:
+        print("ERROR")
+        return
+
+    ddd_obj = ddd_response.json()
+    movie_triggers = [
+        obj["topic"]["name"]
+        for obj in ddd_obj["topicItemStats"]
+        if obj["yesSum"] > obj["noSum"]
+    ]
+
+    triggering = bool(set(triggers) & set(movie_triggers))
+    if not triggering:
+        recommended_films.append(film)
 
 
 # make arrays strings, make choices human readable, etc.
