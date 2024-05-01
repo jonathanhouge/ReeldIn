@@ -28,7 +28,7 @@ async function searchMovies(event) {
                 "Content-Type": "application/json",
                 "X-CSRFToken": csrfToken
             },
-            body: JSON.stringify({ search: searchString })
+            body: JSON.stringify({ search: searchString, "csrfmiddlewaretoken": csrfToken})
         })
         .then((response) => {
             if (!response.ok) {
@@ -85,6 +85,9 @@ async function searchMovies(event) {
                 moviesContainer.appendChild(movieDiv);
             });
         })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
     } else {
         moviesContainer = document.getElementById("searched_movies_container")
         moviesContainer.innerHTML = '';

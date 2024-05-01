@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import logging
 import os
 from pathlib import Path
 
+from django.core.mail import mail_admins
 from dotenv import load_dotenv
 
 # Obtain the base directory of the project and use it to build the path to the .env file
@@ -31,19 +33,53 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DDD_API_KEY = os.environ.get("DDD_API_KEY")
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
 WATCHMODE_API_KEY = os.environ.get("WATCHMODE_API_KEY")
-# SECURITY WARNING: don't run with debug turned on in production!
+GMAIL_PASSWORD = os.environ.get("GMAIL_PASSWORD")
+
+# Email configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "your_email@gmail.com"
+EMAIL_HOST_PASSWORD = GMAIL_PASSWORD
+EMAIL_USE_TLS = True
+SERVER_EMAIL = "reeldin.staff@gmail.com"
+
 DEBUG = os.environ.get("DEBUG") == "True"
+ADMINS = [("ReeldIn", "reeldin.staff@gmail.com")]
+
 ALLOWED_HOSTS = [
     "reeld.in",
     "www.reeld.in",
     "localhost",
     "reeldin.azurewebsites.net",
+    "reeldin.scm.azurewebsites.net",
     "169.254.129.3",  # Web App's IP address
     "127.0.0.1",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://reeld.in"]
+CSRF_TRUSTED_ORIGINS = ["https://reeld.in", "https://reeldin.azurewebsites.net"]
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True  # Enabled for production
+    CSRF_COOKIE_HTTPONLY = False  # Maybe fixes our issue with CSRF tokens
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "include_html": True,
+        },
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
+}
 
 # Application definition
 
@@ -64,9 +100,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

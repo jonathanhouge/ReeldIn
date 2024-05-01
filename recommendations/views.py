@@ -17,6 +17,8 @@ from .helpers import (
     recommendation_querying,
     relevant_options,
     set_recommendation_attr,
+    all_recommend,
+    foreign_recommend,
 )
 from .models import Movie, Recommendation, RecentRecommendations
 
@@ -46,26 +48,25 @@ def recommend_view(request):
             recommended_films = []
             possible_films = recommendation.possible_films
 
+            check_triggers = False
+            if recommendation.triggers != [""]:
+                check_triggers = True
+
             foreign_films = possible_films.exclude(language="en")
-            while foreign_films.count():
-                pks = foreign_films.values_list("pk", flat=True)
-                random_pk = random.choice(pks)
-                foreign_film = foreign_films.get(pk=random_pk)
+            foreign_recommend(
+                recommended_films,
+                possible_films,
+                foreign_films,
+                check_triggers,
+                recommendation.triggers,
+            )
 
-                recommended_films.append(foreign_film)
-                foreign_films = foreign_films.exclude(id=foreign_film.id)
-                possible_films = possible_films.exclude(id=foreign_film.id)
-
-                if len(recommended_films) == 3:
-                    break  # ensure at least three non-english films
-
-            while len(recommended_films) < 10 or possible_films.count() == 0:
-                pks = possible_films.values_list("pk", flat=True)
-                random_pk = random.choice(pks)
-                film = possible_films.get(pk=random_pk)
-
-                recommended_films.append(film)
-                possible_films = possible_films.exclude(id=film.id)
+            all_recommend(
+                recommended_films,
+                possible_films,
+                check_triggers,
+                recommendation.triggers,
+            )
 
             recommendation.recommended_films.set(recommended_films)
         else:
