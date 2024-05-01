@@ -46,4 +46,9 @@ urlpatterns = [
     path(
         "preferences/movies/", views.preferences_movies_view, name="preferences_movies"
     ),
+    path(
+        "preferences/movies/<int:id>/",
+        views.preferences_single_movie_view,
+        name="preferences_movies",
+    ),
 ]

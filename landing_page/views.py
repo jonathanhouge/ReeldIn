@@ -5,7 +5,7 @@ import requests
 from django.conf import settings
 from django.core.serializers import serialize
 from django.db.models import CharField, Q, TextField
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect, render
 from fuzzywuzzy import fuzz
@@ -79,6 +79,7 @@ def movie(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     movie_json = serialize("json", [movie])
     movie_json = json.loads(movie_json)[0]["fields"]
+    movie_json["id"] = movie_id
 
     language_dict = dict(LANGUAGES)  # from rec/helpers
     movie_json["language"] = language_dict.get(movie.language)
@@ -191,3 +192,40 @@ def get_mpaa(requests, movie_id):
 
 def health_check(request):
     return JsonResponse({"status": "ok"}, status=200)
+
+
+def update_preference(request, type, movie_id):
+    print("HERE")
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User not authenticated"}, status=403)
+    elif request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    user = request.user
+
+    if type == "liked":
+        handle_preference_change(user.liked_films, movie_id)
+    elif type == "disliked":
+        handle_preference_change(user.disliked_films, movie_id)
+    elif type == "rewatch":
+        handle_preference_change(user.rewatchable_films, movie_id)
+    elif type == "exclude":
+        handle_preference_change(user.excluded_films, movie_id)
+    elif type == "watchlist":
+        handle_preference_change(user.watchlist_films, movie_id)
+    elif type == "watched":
+        handle_preference_change(user.watched_films, movie_id)
+    else:
+        return JsonResponse({"error": "Invalid preference type"}, status=400)
+    return HttpResponse(status=200)
+
+
+def handle_preference_change(user_list, id):
+    movie = get_object_or_404(Movie, pk=id)
+
+    if movie in user_list.all():
+        user_list.remove(movie)
+    else:
+        user_list.add(movie)
+
+    return

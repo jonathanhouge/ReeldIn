@@ -17,6 +17,11 @@ urlpatterns = [
     path("movie/<int:movie_id>", views.movie, name="movie"),
     path("api/search/movies", views.search_movies_json, name="search_movies_json"),
     path("health-check/", views.health_check, name="health_check"),
+    path(
+        "movie/update/<str:type>/<int:movie_id>/",
+        views.update_preference,
+        name="update_preference",
+    ),
 ]
 
 # TODO this allows for media to be served in development, change in production#
