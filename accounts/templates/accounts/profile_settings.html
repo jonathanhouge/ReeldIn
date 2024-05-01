@@ -89,9 +89,9 @@
       removed.
     </p>
   </div>
-  <form>
+  <form action="{% url 'accounts:delete_account' %}" method="post">
     {% csrf_token %}
-  <button class="btn delete_account_btn" onclick="deleteAccount()">Delete Account</button>
+  <input type="submit" value="Confirm" />
   </form>
 </section>
 

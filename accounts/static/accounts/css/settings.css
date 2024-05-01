@@ -27,6 +27,7 @@
   background-color: #f1f1f1;
 }
 
+input,
 button {
   font-family: Inter Tight, sans-serif;
   padding: 0.75rem;
@@ -40,7 +41,8 @@ button {
   transition: 0.3s;
 }
 
-button:hover {
+button:hover,
+input:hover {
   background-color: #a38fff;
 }
 

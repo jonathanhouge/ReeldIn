@@ -710,6 +710,9 @@ def change_password(request):
 
 
 def delete_account(request):
-    print("Delete account")
+    if not request.user.is_authenticated:
+        return redirect("landing_page:index")
+
     request.user.delete()
-    return HttpResponse("Delete account", status=200)
+
+    return redirect("landing_page:index")
