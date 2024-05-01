@@ -11,7 +11,7 @@
 {% endblock caption %}
 
 {% block content %}
-<form method="post" id="onboarding-form">
+<form method="post" id="onboarding-form" enctype="multipart/form-data">
     <!--Form layout inspired by https://stackoverflow.com/questions/8727436/display-a-grid-radio-form-with-django-forms-or-django-floppyforms-->
     {% csrf_token %}
     <table class="onboarding-table">
