@@ -32,6 +32,11 @@ urlpatterns = [
         views.onboarding_streaming_view,
         name="onboarding_streaming",
     ),
+    path(
+        "onboarding/delete/",
+        views.delete_movie,
+        name="onboarding_streaming",
+    ),
     # Friend management paths
     path("send/friend/", views.send_friend_request, name="add_friend"),
     path("accept/friend/", views.accept_friend_request, name="accept_friend"),

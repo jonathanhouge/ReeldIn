@@ -44,7 +44,7 @@ function createMovieDiv(movie) {
   movieDiv.classList.add("movie", "tooltip");
   movieDiv.id = movie.id;
   movieDiv.onclick = function () {
-    setToRemove(movie.id);
+    setToRemove(movie.id, movie.name);
   };
   // Add tooltip content
   var tooltiptext = document.createElement("div");
@@ -143,6 +143,7 @@ async function searchMovies(event) {
       .then((data) => {
         movieContainer.innerHTML = "";
         data.movies.forEach((movie) => {
+          movie_dict[movie.id] = movie.name;
           var movieDiv = createMovieDiv(movie);
           movieContainer.appendChild(movieDiv);
         });
@@ -172,8 +173,11 @@ async function fetchMovies(numMovies = 35) {
     }
     const data = await response.json();
     data.movies.forEach((movie) => {
+      if (movie.id in movie_dict) {
+        return;
+      }
+      movie_dict[movie.id] = movie.name;
       var movieDiv = createMovieDiv(movie);
-      console.log("Adding");
       movieContainer.appendChild(movieDiv);
     });
   } catch (error) {
@@ -257,9 +261,6 @@ document.addEventListener("DOMContentLoaded", function () {
   movieContainer.addEventListener("scroll", () => {
     searchString = searchbar.value.trim();
     threshold = (movieContainer.scrollHeight * 3) / 5;
-    console.log(
-      "Scroll top: " + movieContainer.scrollTop + " Threshold: " + threshold
-    );
     if (!searchString && movieContainer.scrollTop >= threshold) {
       console.log("Fetching more movies...");
       fetchMovies();
@@ -485,6 +486,8 @@ function addToExclude(id) {
 }
 
 // Added movie removal code
+var movie_dict = {}; // Dictionary of all movies loaded so far, key is movie_id and value is movie name
+
 var movies_to_remove = new Set(); // Set of all movies to be removed (may pop in and out of this list)
 var movies_fetched = new Set(); // Set of all movies loaded via scrolling due to db sending random ones
 const remove_movies_container = document.getElementById(
@@ -512,7 +515,7 @@ function setToRemove(movie_id) {
 function printRemoved() {
   text = "";
   for (let movie_id of movies_to_remove) {
-    text += movie_id + "\n";
+    text += movie_id + "," + movie_dict[movie_id] + "\n";
   }
   // Create a new Blob (file-like object of immutable, raw data) containing the text data
   const blob = new Blob([text], { type: "text/plain" });
@@ -536,13 +539,14 @@ async function deleteMovies() {
   var data = {
     movies_to_remove: Array.from(movies_to_remove),
   };
-  fetch("/movies/delete/", {
+  fetch("/accounts/onboarding/delete/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "X-CSRFToken": csrfToken,
-      body: JSON.stringify(data),
     },
+
+    body: JSON.stringify({ search: "test", send_all: true }),
   })
     .then((response) => {
       if (!response.ok) {

@@ -39,40 +39,29 @@ def get_movie(request, movie_id):
     return render(request, "dashboard/movie_details.html", {"movie": movie})
 
 
-if settings.DEBUG:
+@user_passes_test(is_admin)
+def create_movie(request, movie_id):
+    return render(request, "dashboard/404.html")
 
-    @user_passes_test(is_admin)
-    def create_movie(request, movie_id):
-        return render(request, "dashboard/404.html")
 
-    @user_passes_test(is_admin)
-    @user_passes_test(is_admin)
-    def delete_movie(request):
-        try:
-            data = json.loads(request.body)
-            movie_ids = data.get("movies_to_remove", [])
-            if not movie_ids:
-                return JsonResponse(
-                    {"error": "No movies specified to delete"}, status=400
-                )
+def delete_movie(request):
+    print("delete called!")
+    try:
+        print("loading movies sent...")
+        data = json.loads(request.body)
+        movie_ids = data.get("movies_to_remove", [])
+        if not movie_ids:
+            return JsonResponse({"error": "No movies specified to delete"}, status=400)
 
-            # Perform the deletion
-            Movie.objects.filter(id__in=movie_ids).delete()
-            return JsonResponse({"success": "Movies deleted successfully"}, status=200)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+        # Perform the deletion
+        Movie.objects.filter(id__in=movie_ids).delete()
+        print("Movies deleted!")
 
-    @user_passes_test(is_admin)
-    def update_movie(request, movie_id):
-        return render(request, "dashboard/404.html")
+        return JsonResponse({"success": "Movies deleted successfully"}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
-else:
-    # Define placeholder views or return 404 response if debug mode is disabled
-    def create_movie(request, movie_id):
-        return render(request, "404.html", status=404)
 
-    def delete_movie(request, movie_id):
-        return JsonResponse({"error": "Page not found"}, status=404)
-
-    def update_movie(request, movie_id):
-        return render(request, "404.html", status=404)
+@user_passes_test(is_admin)
+def update_movie(request, movie_id):
+    return render(request, "dashboard/404.html")
