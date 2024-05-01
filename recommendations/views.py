@@ -20,7 +20,7 @@ from .helpers import (
     all_recommend,
     foreign_recommend,
 )
-from .models import Movie, Recommendation, RecentRecommendations
+from .models import Recommendation, RecentRecommendations
 
 # starts at step 1 - for frontend to make sense
 FORMS = ["", GenreForm, YearForm, RuntimeForm, LanguageForm, TriggerForm]
@@ -32,11 +32,13 @@ MOVIE_MODEL_COMPLEMENT = ["", "genres", "year", "runtime", "language", "triggers
 def recommend_view(request):
     if request.user.is_authenticated is False:
         all_movies = ALL_MOVIES
-        random_movies = random.sample(all_movies, 3)
+        random_movies = random.sample(list(all_movies.all()), 3)
+        readable_recommendation = make_readable_recommendation(random_movies)
+
         return render(
             request,
             "recommendations/recommendation.html",
-            {"recommendations": random_movies},
+            {"recommendations": readable_recommendation},
         )
 
     user = User.objects.get(username=request.user)
@@ -102,7 +104,7 @@ def recommend_view(request):
 # narrow the possible recommendations by querying based on submitted forms
 def narrow_view(request):
     if request.user.is_authenticated is False:
-        step = random.randint(0, len(FORMS) - 1)
+        step = random.randint(1, len(FORMS) - 1)
         form = FORMS[step]  # guests get to demo
 
         recommendation = {"possible_film_count": 27122, "step": step}
@@ -148,9 +150,18 @@ def narrow_view(request):
             return recommend_view(request)
 
         if "Languages" in form.declared_fields:
-            form.declared_fields["Languages"].choices = relevant_options(
+            relevant_languages = relevant_options(
                 form, recommendation.possible_films, recommendation.possible_film_count
             )
+
+            # three languages + "No Preference"
+            if len(relevant_languages) <= 4:
+                recommendation.step += 1
+                recommendation.save()
+
+                form = FORMS[recommendation.step]
+            else:
+                form.declared_fields["Languages"].choices = relevant_languages
 
         return render(
             request,
@@ -200,6 +211,7 @@ def index(request):
                 if recommendation.possible_film_count < 10 or form is None:
                     return recommend_view(request)
 
+                # shouldn't be the languageForm() if three relevant languages
                 if "Languages" in form.declared_fields:
                     form.declared_fields["Languages"].choices = relevant_options(
                         form,
