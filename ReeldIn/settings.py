@@ -60,6 +60,7 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = ["https://reeld.in", "https://reeldin.azurewebsites.net"]
 if not DEBUG:
     SESSION_COOKIE_SECURE = True  # Enabled for production
+    CSRF_COOKIE_HTTPONLY = False  # Maybe fixes our issue with CSRF tokens
 
 LOGGING = {
     "version": 1,
