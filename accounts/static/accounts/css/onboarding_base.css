@@ -49,12 +49,12 @@ button:hover {
   cursor: pointer;
 }
 
-.exit_btn:hover{
-  background-color:rgb(237, 84, 84);
+.exit_btn:hover {
+  background-color: rgb(237, 84, 84);
 }
 
 .onboarding-table {
-  max-width:70%;
+  max-width: 70%;
   border-collapse: collapse;
   margin: 0 auto;
 }
@@ -66,17 +66,14 @@ button:hover {
   padding: 0.5rem;
 }
 
-.onboarding-content{
+.onboarding-content {
   width: 75%;
   margin: 0 auto;
-  margin-bottom:100px;
+  margin-bottom: 100px;
 }
 
-@media only screen and (max-width: 480px) { 
-  .onboarding-content { 
-    width: 90%; 
-  } 
-  .modal{
-    width: 300px !important;
+@media only screen and (max-width: 480px) {
+  .onboarding-content {
+    width: 90%;
   }
 }
