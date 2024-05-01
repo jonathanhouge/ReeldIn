@@ -51,7 +51,7 @@ def recommend_view(request):
             possible_films = recommendation.possible_films
 
             check_triggers = False
-            if recommendation.triggers != [""]:
+            if recommendation.triggers and recommendation.triggers != [""]:
                 check_triggers = True
 
             foreign_films = possible_films.exclude(language="en")
