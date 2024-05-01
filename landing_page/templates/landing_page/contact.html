@@ -19,10 +19,12 @@ Learn More: https://formbold.com
     <div class="formbold-form-wrapper">
       <!-- https://formsubmit.co/> -->
       <form
-        action="https://formsubmit.co/reeldin.staff@gmail.com"
+        action="https://formsubmit.co/e1cc7dd8ea6cf8438eec345258aa4745"
         method="POST"
+        enctype="multipart/form-data"
       >
-      {% csrf_token %}
+        <input type="hidden" name="_url" value="https://reeld.in/contact/" />
+        {% csrf_token %}
         <div class="formbold-mb-5">
           <label for="name" class="formbold-form-label"> Full Name </label>
           <input

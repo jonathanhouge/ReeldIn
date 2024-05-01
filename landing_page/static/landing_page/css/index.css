@@ -58,7 +58,7 @@
 /* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
 /* no padding for this section, and reduce margins */
 @media screen and (max-width: 550px) {
-  #title_div {
+  .title_div {
     margin-left: 10px;
     font-size: 14px;
   }

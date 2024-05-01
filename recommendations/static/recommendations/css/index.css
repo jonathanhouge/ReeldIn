@@ -59,14 +59,16 @@ h2 {
   font-size: 20px;
   font-weight: 600;
   border: none;
-  background-color: #f4f4f4;
+  background-color: #d2ccfc;
   cursor: pointer;
   margin: 0.5rem;
   border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 #form-submission:hover {
-  background-color: #e0e0e0;
+  background-color: #333;
+  color: #fafafa;
   transform: scale(1.1);
   transition: all 0.3s ease;
 }
@@ -74,6 +76,10 @@ h2 {
 #form-submission:active {
   transform: scale(0.95);
   transition: all 0.1s ease;
+}
+
+#demo-warning {
+  color: red;
 }
 
 @media screen and (max-width: 550px) {
