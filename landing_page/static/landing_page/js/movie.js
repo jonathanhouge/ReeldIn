@@ -25,12 +25,30 @@ function movieOverview(movie_data) {
 }
 
 
+async function updatePreference(type,id){
+  const csrfToken = await getCSRFToken();
+  
+  fetch(`/movie/update/${type}/${id}/}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken,
+    },
+  })
+    .then((response) => {
+      return response.text();
+    })
+    .then((text) => {
+      console.log(text);
+    })
+    .catch((error) => {
+      console.error("There was a problem with updating your preference:", error);
+    });
+}
+
 function movieDetails(movie_data) {
   movie_genres = JSON.parse(movie_data.genres);
   movie_genres = movie_genres.join(", ");
-
-  
-
   document.getElementById("movie_summary").innerHTML = `
   <div style="margin-top: 10px;">
     <p><strong>Release Year:</strong> ${movie_data.year} </p> </div>

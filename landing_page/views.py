@@ -191,3 +191,37 @@ def get_mpaa(requests, movie_id):
 
 def health_check(request):
     return JsonResponse({"status": "ok"}, status=200)
+
+
+def update_preference(request, type, id):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User not authenticated"}, status=403)
+    elif request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    user = request.user
+
+    if type == "liked":
+        handle_preference_change(user.liked_films, id)
+    elif type == "disliked":
+        handle_preference_change(user.disliked_films, id)
+    elif type == "rewatch":
+        handle_preference_change(user.rewatchable_films, id)
+    elif type == "exclude":
+        handle_preference_change(user.excluded_films, id)
+    elif type == "watchlist":
+        handle_preference_change(user.watchlist_films, id)
+    elif type == "watched":
+        handle_preference_change(user.watched_films, id)
+    else:
+        return JsonResponse({"error": "Invalid preference type"}, status=400)
+    return JsonResponse({"status": "ok"}, 200)
+
+
+def handle_preference_change(user_list, id):
+    movie = get_object_or_404(Movie, pk=id)
+    if movie in user_list.all():
+        user_list.remove(movie)
+    else:
+        user_list.add(movie)
+    return
