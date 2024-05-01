@@ -35,16 +35,15 @@
 
 
 {% block exit_header %}
-  Are you sure you want to go back to the previous section?
+  Are you sure you want to delete the movies in the delete section? This cannot be undone (maybe)
 {% endblock exit_header %}
 
 {% block exit_button %}
-  <button class="btn" onclick="window.location.href = '/accounts/onboarding/imports/'">Yes</button>
+  <button class="btn" onclick="deleteMovies()">Yes</button>
 {% endblock exit_button %}
 
 {% block footer_buttons %}
-  <button onclick="openExitModal()" id="back-button" class="button">Back</button>
-  <button onclick="submitOnboardingMovieForm()" id="next-button" class="button">Save & Continue</button>
+  <button onclick="openExitModal()" id="next-button" class="button">DELETE MOVIES IN THE DELETE SECTION</button>
 {% endblock footer_buttons %}
 
 

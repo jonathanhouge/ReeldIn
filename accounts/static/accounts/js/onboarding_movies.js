@@ -530,5 +530,27 @@ function printRemoved() {
   document.body.removeChild(a);
 }
 
-// Usage example
-downloadTextFile("This is the content of the file.", "debug-log.txt");
+async function deleteMovies() {
+  printRemoved();
+  const csrfToken = await getCSRFToken();
+  var data = {
+    movies_to_remove: Array.from(movies_to_remove),
+  };
+  fetch("/movies/delete/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken,
+      body: JSON.stringify(data),
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.text();
+    })
+    .then((text) => {
+      console.log(text);
+    });
+}

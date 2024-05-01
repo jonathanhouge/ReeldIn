@@ -482,12 +482,16 @@ def search_movie(request):
     result = {
         "movies": [
             {
-                "id": movie.pk,  # TODO id?
+                "id": movie.pk,
                 "name": movie.name,
-                "genres": movie.genres,
-                "starring": movie.starring,
                 "poster": movie.poster,
                 "year": movie.year,
+                "genres": movie.genres,
+                "starring": movie.starring,
+                "overview": movie.overview,
+                "imdb_rating": movie.imdb_rating,
+                "imdb_votes": movie.imdb_votes,
+                "runtime": movie.runtime,
             }
             for movie in sorted_movies
         ]

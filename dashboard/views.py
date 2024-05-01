@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 
 from ReeldIn.globals import ALL_MOVIES
 from recommendations.models import Movie
+import json
 
 
 # Create your views here.
@@ -45,13 +46,21 @@ if settings.DEBUG:
         return render(request, "dashboard/404.html")
 
     @user_passes_test(is_admin)
-    def delete_movie(request, movie_id):
+    @user_passes_test(is_admin)
+    def delete_movie(request):
         try:
-            movie = Movie.objects.get(pk=movie_id)
-            movie.delete()
-            return JsonResponse({"message": "Movie deleted successfully"})
-        except Movie.DoesNotExist:
-            return JsonResponse({"error": "Movie not found"}, status=404)
+            data = json.loads(request.body)
+            movie_ids = data.get("movies_to_remove", [])
+            if not movie_ids:
+                return JsonResponse(
+                    {"error": "No movies specified to delete"}, status=400
+                )
+
+            # Perform the deletion
+            Movie.objects.filter(id__in=movie_ids).delete()
+            return JsonResponse({"success": "Movies deleted successfully"}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
     @user_passes_test(is_admin)
     def update_movie(request, movie_id):
