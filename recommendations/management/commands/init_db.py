@@ -17,8 +17,6 @@ class Command(BaseCommand):
         parser.add_argument("json_file", type=str, help="Path to the JSON fixture file")
 
     def handle(self, *args, **kwargs):
-        print("The database has already been initialized!")
-        return
         file_path = kwargs["json_file"]
         try:
             with open(file_path, "r") as file:
@@ -45,8 +43,11 @@ class Command(BaseCommand):
                     watch_providers=fields.get("watch_providers"),
                     keywords=fields.get("keywords"),
                     tmdb_id=fields.get("tmdb_id"),
-                    imdb_rating=fields.get("imdb_rating"),
-                    imdb_votes=fields.get("imdb_votes"),
+                    imdb_rating=fields.get("imdb_rating") or 0,
+                    imdb_votes=fields.get("imdb_votes") or 0,
+                    imdb_id=fields.get("imdb_id") or "tt0000000",
+                    ddd_id=fields.get("ddd_id") or 0,
+                    group_lens_id=fields.get("group_lens_id") or 0,
                 )
                 movies_to_create.append(movie)
             with transaction.atomic():

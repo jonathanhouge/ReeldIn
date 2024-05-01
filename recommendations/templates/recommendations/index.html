@@ -10,7 +10,7 @@
   {% endif %}
   <h1 id="question">Question #{{ recommendation.step }}</h1>
   {% block form %}
-  <form action="{% url 'recommendations:narrow' %}" method="post">
+  <form action="{% url 'recommendations:narrow' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %} {% if error %}
     <p class="error">{{ error }}</p>
     {% endif %} {{ form.as_p }}
