@@ -91,6 +91,7 @@ def recommend_view(request):
         # thanks for helping chatgpt
         recent_recs = all_recommended[:3] + list(all_recommendations.recent.all())[:27]
         with transaction.atomic():
+            recommendation.possible_films.clear()
             all_recommendations.recent.clear()
             for film in recent_recs:
                 all_recommendations.recent.add(film)
