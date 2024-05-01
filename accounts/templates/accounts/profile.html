@@ -31,7 +31,7 @@
     <!-- Left Column of lists-->
     <div class="user_lists_div">
       <!--Recommended movies list-->
-      <div class="list_div">
+      <div class="list_div" id="recommended_div">
         <h3>Recommended</h3>
         <div class="list" id="recommended_movies">
           {% if recommended_movies %} {% for movie in recommended_movies %}
@@ -46,7 +46,7 @@
         </div>
       </div>
       <!-- Liked movies list -->
-      <div class="list_div">
+      <div class="list_div" id="liked_div">
         <h3>Liked Movies</h3>
         <div class="list" id="liked_movies">
           {% if liked_movies %} {% for movie in liked_movies %}
@@ -61,7 +61,7 @@
         </div>
       </div>
       <!-- Disliked movies list-->
-      <div class="list_div">
+      <div class="list_div" id="disliked_div">
         <h3>Disliked Movies</h3>
         <div class="list" id="disliked_movies">
           {% if disliked_movies %} {% for movie in disliked_movies %}
@@ -80,7 +80,7 @@
     <!-- Middle Column of Lists -->
     <div class="middle_col">
       <!-- Watch later list-->
-      <div class="list_div">
+      <div class="list_div" id="watchlist_div">
         <h3>Watch Later</h3>
         <div class="list" id="watchlist">
           {% if watchlist_movies %} {% for movie in watchlist_movies %}
@@ -97,7 +97,7 @@
       <!-- Movies watched list-->
       <div class="list_div">
         <h3>Watched</h3>
-        <div class="list" id="watched_movies">
+        <div class="list" id="watched_movies" id="watched_div">
           {% if watched_movies %} {% for movie in watched_movies %}
           <img
             src="https://image.tmdb.org/t/p/w200{{ movie.poster }}"

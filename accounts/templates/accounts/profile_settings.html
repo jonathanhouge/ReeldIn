@@ -2,7 +2,9 @@
 
 <link rel="stylesheet" href="{% static 'accounts/css/settings.css' %}" />
 <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
-<script src="{% static 'accounts/js/modal.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'accounts/css/onboarding_imports.css' %}" />
+<script src="{% static 'accounts/js/settings.js' %}" defer></script>
+
 
 <div id="message_div">
   <h1>Account Settings</h1>
@@ -19,9 +21,15 @@
     </div>
     <div class="right_col" id="info">
       <!-- Placeholder for User's Profile Pic -->
-      <button id="change_username">Change Username</button>
-      <button id="change_password">Change Password</button>
-      <button id="change_profile_picture">Change Profile Picture</button>
+      <button id="change_username" onclick="openChangeUsernameModal()">
+        Change Username
+      </button>
+      <button id="change_password" onclick="openChangePasswordModal()">
+        Change Password
+      </button>
+      <button id="change_profile_picture" onclick="openProfilePicModal()">
+        Change Profile Picture
+      </button>
     </div>
   </div>
   <!-- Imported Data -->
@@ -58,17 +66,22 @@
       </p>
     </div>
     <div class="right_col">
-      <button class="btn btn-open delete_account_btn">Delete Account</button>
+      <button
+        class="btn btn-open delete_account_btn"
+        onclick="openDeleteModal()"
+      >
+        Delete Account
+      </button>
     </div>
   </div>
 </div>
 
 <!-- Modal Box for "Delete Account" Button
-     Hidden until button is clicked -->
-<section class="modal hidden">
+      Hidden until button is clicked -->
+<section class="modal hidden" id="delete_account_modal">
   <div class="flex">
     <h3>Delete Your Account</h3>
-    <button class="btn-close">⨉</button>
+    <button class="btn-close" onclick="closeDeleteModal()">⨉</button>
   </div>
   <div>
     <p>
@@ -76,10 +89,49 @@
       removed.
     </p>
   </div>
-
-  <button class="btn delete_account_btn">Delete Account</button>
+  <form>
+    {% csrf_token %}
+  <button class="btn delete_account_btn" onclick="deleteAccount()">Delete Account</button>
+  </form>
 </section>
 
-<div class="overlay hidden"></div>
+<!-- Change username or password modal -->
+<section class="modal hidden" id="change_modal">
+  <div class="flex">
+    <h3 id="title">Change your</h3>
+    <button class="btn-close" onclick="closeChangeModal()">⨉</button>
+  </div>
+  <div>
+    <form>
+      {% csrf_token %}
+      <p id="subtitle">Enter your current...</p>
+      <input type="text" class="current_input" />
+      <button class="btn" id="change_btn">Submit</button>
+    </form>
+  </div>
+</section>
 
-{% endblock content %}
+<!-- Change Profile Pic modal -->
+<div class="modal hidden" id="upload_modal">
+  <div class="flex">
+    <h3 id="top_header">Upload a new Profile Picture</h3>
+    <button class="btn-close" onclick="closeProfilePicModal()">⨉</button>
+  </div>
+  <div class="dropbox">
+    <div class="header">
+      <h4 id="title">Select File here</h4">
+    </div>
+    <div class="dropbox_content">
+      <p id="subtitle">Files Supported: PNG, JPEG, SVG</p>
+      <form id="onboarding-form">
+        {% csrf_token %}
+        <input type="file" name="document" id="file" accept="image/*" />
+        <button type="button" id="upload_btn" onclick="uploadFile()">Upload File</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="overlay" class="overlay hidden"></div>
+
+{% endblock content %} 

@@ -124,7 +124,7 @@ button:hover {
   transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 750px) {
   #user_info_div,
   .user_content {
     display: block;
