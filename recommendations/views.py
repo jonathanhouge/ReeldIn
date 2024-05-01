@@ -88,9 +88,10 @@ def recommend_view(request):
             all_recommendations = RecentRecommendations()  # should exist, just in case
             all_recommendations.save()
 
+        # thanks for helping chatgpt
         recent_recs = all_recommended[:3] + list(all_recommendations.recent.all())[:27]
-        all_recommendations.recent.clear()
         with transaction.atomic():
+            all_recommendations.recent.clear()
             for film in recent_recs:
                 all_recommendations.recent.add(film)
 
