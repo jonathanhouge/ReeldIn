@@ -212,6 +212,13 @@ def onboarding_upload(request):
     if "document" not in request.FILES:
         return HttpResponse("No file uploaded", status=400)
 
+    try:
+        if request.FILES["document"].name.endswith(".csv") == False:
+            request.user.profile_picture = request.FILES["document"]
+            return HttpResponse("Profile picture uploaded", status=200)
+    except AttributeError:
+        return HttpResponse("Invalid file format", status=400)
+
     uploaded_file = request.FILES["document"]
     file_object = uploaded_file.file
     decoded_file = file_object.read().decode("utf-8").splitlines()
@@ -320,7 +327,7 @@ def add_Letterboxd_Data(reader, user):
 
         if movie is None:
             continue
-        if movie.imdb_id in all_movies:
+        if movie.imdb_id in all_movies and movie.imdb_id not in new_watched:
             continue
         new_watched.add(movie.imdb_id)
 
@@ -701,3 +708,40 @@ def delete_friend_request(request):
         friend_request.delete()
 
     return HttpResponse("Successfully deleted friend request.", status=200)
+
+
+def change_username(request):
+    data = json.loads(request.body)
+    print(data)
+    username = data.get("username")
+    if username:
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({"error": "Username already taken"}, status=400)
+        else:
+            request.user.username = username
+            request.user.save()
+            return JsonResponse(
+                {"success": "Username changed successfully"}, status=200
+            )
+    else:
+        return JsonResponse({"error": "Username cannot be blank"}, status=400)
+
+
+def change_password(request):
+    print("Change password")
+    data = json.loads(request.body)
+    password = data.get("password")
+    if password is not None:
+        request.user.set_password(password)
+        return HttpResponse("Change username", status=200)
+    else:
+        return HttpResponse("Cannot be blank", status=400)
+
+
+def delete_account(request):
+    if not request.user.is_authenticated:
+        return redirect("landing_page:index")
+
+    request.user.delete()
+
+    return redirect("landing_page:index")
