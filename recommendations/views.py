@@ -1,6 +1,7 @@
 import random
 
 from django.conf import settings
+from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
@@ -87,8 +88,11 @@ def recommend_view(request):
             all_recommendations = RecentRecommendations()  # should exist, just in case
             all_recommendations.save()
 
-        recent_recs = list(all_recommendations.recent.all())[:27]
-        all_recommendations.recent.set(all_recommended[:3] + recent_recs)
+        recent_recs = all_recommended[:3] + list(all_recommendations.recent.all())[:27]
+        all_recommendations.recent.clear()
+        with transaction.atomic():
+            for film in recent_recs:
+                all_recommendations.recent.add(film)
 
     readable_recommendation = make_readable_recommendation(
         recommendation.recommended_films.all()
