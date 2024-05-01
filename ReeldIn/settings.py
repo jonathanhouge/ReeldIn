@@ -31,18 +31,23 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DDD_API_KEY = os.environ.get("DDD_API_KEY")
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
 WATCHMODE_API_KEY = os.environ.get("WATCHMODE_API_KEY")
-# SECURITY WARNING: don't run with debug turned on in production!
+
+
 DEBUG = os.environ.get("DEBUG") == "True"
+ADMINS = [("ReeldIn", "reeldin.staff@gmail.com")]
 ALLOWED_HOSTS = [
     "reeld.in",
     "www.reeld.in",
     "localhost",
     "reeldin.azurewebsites.net",
+    "reeldin.scm.azurewebsites.net",
     "169.254.129.3",  # Web App's IP address
     "127.0.0.1",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://reeld.in"]
+CSRF_TRUSTED_ORIGINS = ["https://reeld.in", "https://reeldin.azurewebsites.net"]
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True  # Enabled for production
 
 
 # Application definition
@@ -64,9 +69,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

@@ -22,6 +22,7 @@ Learn More: https://formbold.com
         action="https://formsubmit.co/reeldin.staff@gmail.com"
         method="POST"
       >
+      {% csrf_token %}
         <div class="formbold-mb-5">
           <label for="name" class="formbold-form-label"> Full Name </label>
           <input
