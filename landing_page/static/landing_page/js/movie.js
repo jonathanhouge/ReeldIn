@@ -5,10 +5,10 @@ var watchlist = false;
 var rewatch = false;
 var exclude = false;
 movieOverview(movie_data);
-fetchPreferences(movie_data.id);
+fetchPreferences(movie_data.id); //TODO fetch this when getting the movie
 
 const tooltip_message = document.getElementById("tooltip_message");
-
+const tooltiptext = document.getElementById("tooltiptext");
 // Buttons for the movie info page
 // context change depending on button clicked, testing visuals
 function movieOverview(movie_data) {
@@ -106,9 +106,17 @@ function moviePeople(movie_data) {
 }
 
 function openTooltip() {
-  console.log("openTooltip");
-  document.getElementById("tooltiptext").style.display = "block";
+  tooltiptext.classList.remove("hidden");
 }
+
+// Hides the tooltip when the user clicks outside of it
+document.addEventListener("click", function (event) {
+  if (!tooltiptext.contains(event.target)) {
+    tooltiptext.classList.add("hidden");
+  } else {
+    tooltiptext.classList.remove("hidden");
+  }
+});
 
 /**
  * This function updates the buttons with the state of the movie in the user's preferences.
@@ -163,14 +171,6 @@ async function fetchPreferences(movie_id) {
 function updateButton(id, name, color) {
   document.getElementById(id + name).style.backgroundColor = color;
 }
-
-// Hides the tooltip when the user clicks outside of it
-document.addEventListener("click", function (event) {
-  var tooltiptext = document.getElementById("tooltiptext");
-  if (!tooltiptext.contains(event.target)) {
-    tooltiptext.style.display = "none";
-  }
-});
 
 function addLiked(id) {
   if (!watched) addWatched(id);

@@ -23,8 +23,14 @@
     </div>
     <div class="content_container">
       <div class="tooltip">
-        <div class="tooltiptext" id="tooltiptext" onclick="openTooltip()">
-          <p class="tooltip_message hidden" id="tooltip_message"></p>
+        <div
+          class="tooltiptext hidden"
+          id="tooltiptext"
+          onclick="openTooltip()"
+        >
+          <div id="message_container">
+            <p class="tooltip_message hidden" id="tooltip_message"></p>
+          </div>
           <div class="tooltip_buttons">
             <div class="row1">
               <i
