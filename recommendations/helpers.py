@@ -162,7 +162,7 @@ def trigger_check(film, triggers, recommended_films):
     movie_triggers = [
         obj["topic"]["name"]
         for obj in ddd_obj["topicItemStats"]
-        if obj["yesSum"] > obj["noSum"]
+        if obj["yesSum"] > obj["noSum"] or (obj["yesSum"] == 0 and obj["noSum"] == 0)
     ]
 
     triggering = bool(set(triggers) & set(movie_triggers))
