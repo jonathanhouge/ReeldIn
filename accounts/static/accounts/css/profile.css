@@ -32,8 +32,9 @@
 .middle_col {
   flex: 1;
   margin-right: 20px;
-  max-width: calc(25vw - 10px); /* TODO temp solution, replace with grid later */
-
+  max-width: calc(
+    25vw - 10px
+  ); /* TODO temp solution, replace with grid later */
 }
 
 .list_div {
@@ -47,6 +48,15 @@
 .list img {
   height: 200px;
   margin-right: 10px;
+  border-radius: 7px;
+  border: 1px solid var(--black);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.list img:hover {
+  transform: scale(0.9);
+  transition: all 0.3s ease;
 }
 
 .list {
@@ -99,8 +109,9 @@ button:hover {
   background-color: #a38fff;
 }
 
-
-#yes_delete_friend_request_button:hover, #reject_friend_button:hover, #remove_confirm_button:hover {
+#yes_delete_friend_request_button:hover,
+#reject_friend_button:hover,
+#remove_confirm_button:hover {
   background-color: #ff4d4d;
 }
 
@@ -113,11 +124,13 @@ button:hover {
   transition: all 0.3s ease;
 }
 
-@media screen and (max-width:550px) {
-  #user_info_div, .user_content {
+@media screen and (max-width: 550px) {
+  #user_info_div,
+  .user_content {
     display: block;
   }
-  .user_lists_div, .middle_col  {
+  .user_lists_div,
+  .middle_col {
     max-width: none;
   }
 }

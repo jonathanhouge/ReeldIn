@@ -48,8 +48,12 @@ button:hover {
   background-color: #ff4d4d;
 }
 
-@media screen and (max-width:550px) {
-  .settings_container, #info{
+@media screen and (max-width: 550px) {
+  .settings_container,
+  #info {
     display: block;
-  }  
+  }
+  #onboarding-form input {
+    width: 235px;
+  }
 }
