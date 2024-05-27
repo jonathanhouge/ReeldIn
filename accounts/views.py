@@ -692,8 +692,6 @@ def delete_friend_request(request):
 def delete_movie(request):
     print("delete called!")
     try:
-        print(request.body)
-        print("loading movies sent...")
         data = json.loads(request.body)
         movie_ids = data.get("movies_to_remove", [])
         if not movie_ids:

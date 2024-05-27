@@ -46,6 +46,7 @@ function createMovieDiv(movie) {
   movieDiv.onclick = function () {
     setToRemove(movie.id, movie.name);
   };
+
   // Add tooltip content
   var tooltiptext = document.createElement("div");
   tooltiptext.classList.add("tooltiptext");
@@ -57,13 +58,14 @@ function createMovieDiv(movie) {
   <p>Runtime: ${movie.runtime} minutes</p>
   <br>
   <p>Overview: ${movie.overview}</p>
-  
   </div>`;
-  movieDiv.appendChild(tooltiptext);
+
   var poster = document.createElement("img");
   poster.src = "https://image.tmdb.org/t/p/w300" + movie.poster;
   poster.loading = "lazy";
   poster.alt = movie.name;
+
+  movieDiv.appendChild(tooltiptext);
   movieDiv.appendChild(poster);
   return movieDiv;
 }
@@ -173,9 +175,8 @@ async function fetchMovies(numMovies = 35) {
     }
     const data = await response.json();
     data.movies.forEach((movie) => {
-      if (movie.id in movie_dict) {
-        return;
-      }
+      if (movie.id in movie_dict) return;
+
       movie_dict[movie.id] = movie.name;
       var movieDiv = createMovieDiv(movie);
       movieContainer.appendChild(movieDiv);
@@ -485,7 +486,7 @@ function addToExclude(id) {
   movies_blocked.add(intID);
 }
 
-// Added movie removal code
+// Movie removal code
 var movie_dict = {}; // Dictionary of all movies loaded so far, key is movie_id and value is movie name
 
 var movies_to_remove = new Set(); // Set of all movies to be removed (may pop in and out of this list)
@@ -517,6 +518,7 @@ function printRemoved() {
   for (let movie_id of movies_to_remove) {
     text += movie_id + "," + movie_dict[movie_id] + "\n";
   }
+
   // Create a new Blob (file-like object of immutable, raw data) containing the text data
   const blob = new Blob([text], { type: "text/plain" });
 
@@ -535,10 +537,12 @@ function printRemoved() {
 
 async function deleteMovies() {
   printRemoved();
+
   const csrfToken = await getCSRFToken();
   var data = {
     movies_to_remove: Array.from(movies_to_remove),
   };
+
   fetch("/accounts/onboarding/delete/", {
     method: "POST",
     headers: {

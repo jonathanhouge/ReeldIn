@@ -109,12 +109,11 @@
 @media only screen and (max-width: 480px) {
   .tooltip_button:hover {
     background-color: #9a8aff;
-    transform: scale(1.0) !important;
+    transform: scale(1) !important;
   }
 }
 
-
 /* Added styling for movie cleaning*/
-.content_div{
-  min-width:100%;
+.content_div {
+  min-width: 100%;
 }

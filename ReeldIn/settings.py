@@ -48,8 +48,16 @@ DEBUG = os.environ.get("DEBUG") == "True"
 ADMINS = [("ReeldIn", "reeldin.staff@gmail.com")]
 
 ALLOWED_HOSTS = [
+    "reeld.in",
+    "www.reeld.in",
+    "localhost",
+    "reeldin.azurewebsites.net",
+    "reeldin.scm.azurewebsites.net",
+    "169.254.129.3",  # Web App's IP address
     "127.0.0.1",
 ]
+
+CSRF_TRUSTED_ORIGINS = ["https://reeld.in", "https://reeldin.azurewebsites.net"]
 
 if not DEBUG:
     SESSION_COOKIE_SECURE = True  # Enabled for production

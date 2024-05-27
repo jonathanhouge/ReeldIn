@@ -1,12 +1,4 @@
-from django.conf import settings
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-
-from ReeldIn.globals import ALL_MOVIES
-from recommendations.models import Movie
-import json
 
 
 # Create your views here.
@@ -21,47 +13,3 @@ def index(request):
         return redirect("accounts:login")
 
     return render(request, "dashboard/index.html")
-
-
-def get_all_movies(request):
-    all_movies = ALL_MOVIES
-
-    return render(request, "dashboard/movies_list.html", {"movies": all_movies})
-
-
-def get_movie(request, movie_id):
-    try:
-        movie = Movie.objects.get(pk=movie_id)
-    except:
-        # Movie id doesn't exist
-        return render(request, "dashboard/404.html")
-
-    return render(request, "dashboard/movie_details.html", {"movie": movie})
-
-
-@user_passes_test(is_admin)
-def create_movie(request, movie_id):
-    return render(request, "dashboard/404.html")
-
-
-def delete_movie(request):
-    print("delete called!")
-    try:
-        print("loading movies sent...")
-        data = json.loads(request.body)
-        movie_ids = data.get("movies_to_remove", [])
-        if not movie_ids:
-            return JsonResponse({"error": "No movies specified to delete"}, status=400)
-
-        # Perform the deletion
-        Movie.objects.filter(id__in=movie_ids).delete()
-        print("Movies deleted!")
-
-        return JsonResponse({"success": "Movies deleted successfully"}, status=200)
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
-
-
-@user_passes_test(is_admin)
-def update_movie(request, movie_id):
-    return render(request, "dashboard/404.html")
