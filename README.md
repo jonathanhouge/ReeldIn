@@ -1,10 +1,11 @@
 # ReeldIn
 
-ISTA 498: Capstone Project [Group 8]
+A website dedicated to personally tailoring your movie selection experience, generating personalized recommendations in under thirty seconds!
+Allows one to curb choice overload and is purely focused on finding you something to watch, improving upon the lackluster recommendations by movie-oriented social media sites and streaming services.
 
-Mentor: Greg Chism
+Created with Django, PSQL, and HTML/CSS/Javascript.
 
-Professor: Michael McKisson
+Formerly a Capstone Project for the University of Arizona's School of Information.
 
 ## External Usage
 
@@ -13,7 +14,7 @@ Find licenses for externally used projects in 'documentation/external_licenses'.
 Uses <a href="https://github.com/michael-awe/django-template">django-template</a>, <a href="https://github.com/FormBold/html-form-examples-templates">html-form-examples-templates</a>, and <a href="https://github.com/capwan/Animated-LoginForm">Animated-LoginForm</a>.
 
 Watch the videos found in 'documentation/video_urls.txt' and read what's below. If there's
-conflicting information, follow what's written here instead.
+conflicting information, follow what's written here instead. (need to be updated)
 
 ## VSCode Extensions
 
@@ -39,7 +40,16 @@ Now install the dependencies from requirements.txt and run the set up script:
     pip install -r requirements.txt
     sh setup.sh
 
-## Usage
+Now, you need to make a local database! Here's how we do it. (I used this <a href="https://stackpython.medium.com/how-to-start-django-project-with-a-database-postgresql-aaa1d74659d8">guide</a>, step six and on)
+1. Download PSQL
+2. In PGAdmin, right-click 'Databases' -> 'Create' -> 'Database', then name it and save.
+3. Now, you need your '.env' file! Contact the devs on acquiring that and the associated information.
+4. Now, in the repo, apply migrations and utilize the fixture.
+
+        python manage.py migrate
+        python manage.py loaddata "recommendations/fixtures/movies_fixtures.json"
+
+## Running Locally
 
 In order to use Tailwind, you'll have to create two terminal tabs, one to start tailwind and the other to start your Django server
 

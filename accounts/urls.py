@@ -46,9 +46,18 @@ urlpatterns = [
         views.delete_friend_request,
         name="delete_friend_request",
     ),
+    # Settings paths
+    path("change/password/", views.change_password, name="change_password"),
+    path("change/username/", views.change_username, name="change_username"),
+    path("delete/account/", views.delete_account, name="delete_account"),
     # Miscellaneous
     path("clear/lists/", views.clear_lists, name="clear_lists"),
     path(
         "preferences/movies/", views.preferences_movies_view, name="preferences_movies"
+    ),
+    path(
+        "preferences/movies/<int:id>/",
+        views.preferences_single_movie_view,
+        name="preferences_movies",
     ),
 ]

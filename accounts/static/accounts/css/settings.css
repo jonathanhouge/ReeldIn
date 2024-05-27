@@ -27,6 +27,7 @@
   background-color: #f1f1f1;
 }
 
+input,
 button {
   font-family: Inter Tight, sans-serif;
   padding: 0.75rem;
@@ -40,15 +41,17 @@ button {
   transition: 0.3s;
 }
 
-button:hover {
+button:hover,
+input:hover {
   background-color: #a38fff;
 }
 
 .delete_account_btn:hover {
-  background-color: #ff4d4d;
+  background-color: #ff4d4d !important;
+  outline: 0px !important;
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 750px) {
   .settings_container,
   #info {
     display: block;

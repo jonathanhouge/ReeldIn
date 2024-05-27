@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 # Obtain the base directory of the project and use it to build the path to the .env file
 BASE_DIR = Path(__file__).resolve().parent.parent
 dotenv_path = os.path.join(BASE_DIR, ".env")
-load_dotenv(dotenv_path)
+load_dotenv(dotenv_path, override=True)
 
 NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 
