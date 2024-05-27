@@ -51,6 +51,7 @@ urlpatterns = [
     path("change/username/", views.change_username, name="change_username"),
     path("delete/account/", views.delete_account, name="delete_account"),
     # Miscellaneous
+    path("delete_movies", views.delete_movies_view, name="delete_movies"),
     path("clear/lists/", views.clear_lists, name="clear_lists"),
     path(
         "preferences/movies/", views.preferences_movies_view, name="preferences_movies"

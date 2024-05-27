@@ -2,6 +2,7 @@ import csv
 import json
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.files.storage import FileSystemStorage
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
@@ -178,6 +179,14 @@ def onboarding_movie_view(request):
             add_movies_to_user_list(request.user, movie_list, model_name)
 
         return HttpResponse(status=200)
+
+
+@staff_member_required
+def delete_movies_view(request):
+    return render(
+        request,
+        "accounts/delete_movies.html",
+    )
 
 
 def add_movies_to_user_list(user, movie_list, model_name):
