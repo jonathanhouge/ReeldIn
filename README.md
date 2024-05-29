@@ -9,18 +9,19 @@ Formerly a Capstone Project for the University of Arizona's School of Informatio
 
 ## External Usage
 
-Find licenses for externally used projects in 'documentation/external_licenses'.
+- <a href="https://github.com/michael-awe/django-template">django-template</a>
+- <a href="https://github.com/FormBold/html-form-examples-templates">html-form-examples-templates</a>
+- <a href="https://github.com/capwan/Animated-LoginForm">Animated-LoginForm</a>.
 
-Uses <a href="https://github.com/michael-awe/django-template">django-template</a>, <a href="https://github.com/FormBold/html-form-examples-templates">html-form-examples-templates</a>, and <a href="https://github.com/capwan/Animated-LoginForm">Animated-LoginForm</a>.
-
-Watch the videos found in 'documentation/video_urls.txt' and read what's below. If there's
-conflicting information, follow what's written here instead. (need to be updated)
+Find licenses for externally used projects in 'documentation/external_licenses'. Find libraries in 'requirements.txt'.
 
 ## VSCode Extensions
 
 - Black Formatter by Microsoft
 - Pylance by Microsoft
 - Prettier - Code formatter by Prettier
+- Auto Rename Tag by Jun Han
+- CSS Peek by Pranay Prakash
 
 ## Set-Up (Windows)
 
@@ -41,10 +42,11 @@ Now install the dependencies from requirements.txt and run the set up script:
     sh setup.sh
 
 Now, you need to make a local database! Here's how we do it. (I used this <a href="https://stackpython.medium.com/how-to-start-django-project-with-a-database-postgresql-aaa1d74659d8">guide</a>, step six and on)
-1. Download PSQL
-2. In PGAdmin, right-click 'Databases' -> 'Create' -> 'Database', then name it and save.
-3. Now, you need your '.env' file! Contact the devs on acquiring that and the associated information.
-4. Now, in the repo, apply migrations and utilize the fixture.
+
+1.  Download PSQL
+2.  In PGAdmin, right-click 'Databases' -> 'Create' -> 'Database', then name it and save.
+3.  Now, you need your '.env' file! Contact the devs on acquiring that and the associated information.
+4.  Now, in the repo, apply migrations and utilize the fixture.
 
         python manage.py migrate
         python manage.py loaddata "recommendations/fixtures/movies_fixtures.json"
