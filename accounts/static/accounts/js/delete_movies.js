@@ -1,14 +1,3 @@
-// Button colors
-const likeGreen = getComputedStyle(document.documentElement).getPropertyValue(
-  "--like-green"
-);
-const excludeRed = getComputedStyle(document.documentElement).getPropertyValue(
-  "--exclude-red"
-);
-const rewatchOrange = getComputedStyle(
-  document.documentElement
-).getPropertyValue("--rewatch-orange");
-
 // Page elements
 const movieContainer = document.getElementById("movie_container");
 const searchbar = document.getElementById("searchbar");
@@ -21,16 +10,6 @@ var isLoading = false; // Prevents multiple movie fetches at once
 // Page initialization
 loadUserMovies();
 fetchMovies(50);
-
-// Debugging functions
-function printStatus() {
-  console.log("Movies Liked: ", movies_liked);
-  console.log("Movies Disliked: ", movies_disliked);
-  console.log("Movies Watched: ", movies_watched);
-  console.log("Watchlist: ", watchlist);
-  console.log("Movies Rewatch: ", movies_rewatch);
-  console.log("Movies Blocked: ", movies_blocked);
-}
 
 /**
  * This class is used to create the div that holds a movie object.
@@ -54,7 +33,9 @@ function createMovieDiv(movie) {
   <h3>Name: ${movie.name}</h3>
   <p>Year: ${movie.year}</p>
   <p>Genres: ${movie.genres}</p>
-  <p>IMDb Info: ${movie.imdb_rating} / 10  |  ${movie.imdb_votes} votes</p>
+  <p>IMDb Info: ${Number(movie.imdb_rating).toFixed(1)}/10 |  ${
+    movie.imdb_votes
+  } votes</p>
   <p>Runtime: ${movie.runtime} minutes</p>
   <br>
   <p>Overview: ${movie.overview}</p>
@@ -84,36 +65,6 @@ function revealDetails(movie_id) {
 
   currentTooltiptext = tooltip;
   currentTooltiptext.style.display = "block";
-}
-
-/**
- * This function updates the buttons with the state of the movie in the user's preferences.
- * It is called in the revealDetails function (which is called when the user clicks on a movie)
- * and whenever the user hovers over a movie
- */
-function updateButtons(movie_id) {
-  intID = parseInt(movie_id);
-  if (movies_liked.has(intID)) {
-    document.getElementById(movie_id + "_upvote").style.backgroundColor =
-      likeGreen;
-  } else if (movies_disliked.has(intID)) {
-    document.getElementById(movie_id + "_dislike").style.backgroundColor =
-      "red";
-  }
-  if (movies_watched.has(intID)) {
-    document.getElementById(movie_id + "_seen").style.backgroundColor = "blue";
-  } else if (watchlist.has(intID)) {
-    document.getElementById(movie_id + "_watchlist").style.backgroundColor =
-      "cornflowerblue";
-  }
-  if (movies_rewatch.has(intID)) {
-    document.getElementById(movie_id + "_rewatch").style.backgroundColor =
-      rewatchOrange;
-  }
-  if (movies_blocked.has(intID)) {
-    document.getElementById(movie_id + "_exclude").style.backgroundColor =
-      excludeRed;
-  }
 }
 
 /* Repurposed code from landing_page/js/index.js */
@@ -189,41 +140,6 @@ async function fetchMovies(numMovies = 35) {
 }
 
 /**
- * This function is called when the user clicks the submit button on the onboarding page,
- * if the response is successful, the user is redirected to the triggers page.
- */
-async function submitOnboardingMovieForm() {
-  const csrfToken = await getCSRFToken();
-  const data = {
-    movies_liked: Array.from(movies_liked),
-    movies_disliked: Array.from(movies_disliked),
-    movies_watched: Array.from(movies_watched),
-    watchlist: Array.from(watchlist),
-    movies_rewatch: Array.from(movies_rewatch),
-    movies_blocked: Array.from(movies_blocked),
-  };
-
-  fetch("/accounts/onboarding/movies/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrfToken,
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      window.location.href = "/accounts/onboarding/triggers/";
-    })
-    .catch((error) => {
-      console.error("Error submitting movie preferences:", error);
-    });
-}
-
-/**
  * This function is called when the page loads, it populates the user data
  * sets so that the page may be styled accordingly based on current user preferences.
  */
@@ -275,216 +191,6 @@ document.addEventListener("click", function (event) {
     currentTooltiptext.style.display = "none";
   }
 });
-
-/**
- * This function attempts to update the liked status of a movie.
- * @param {String} id the id of the movie to be updated
- */
-function addLiked(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
-  tooltip_message.classList.add("hidden");
-
-  liked_button = document.getElementById(id + "_upvote");
-  intID = parseInt(id);
-
-  if (movies_liked.has(intID)) {
-    liked_button.style.backgroundColor = tooltipBackgroundColor;
-    movies_liked.delete(intID);
-    return;
-  }
-
-  if (movies_disliked.has(intID)) {
-    disliked_button = document.getElementById(id + "_dislike");
-    disliked_button.style.backgroundColor = tooltipBackgroundColor;
-    movies_disliked.delete(intID);
-  } else {
-    watched_button = document.getElementById(id + "_seen");
-    watched_button.style.backgroundColor = "blue";
-    movies_watched.add(intID);
-  }
-
-  movies_liked.add(intID);
-  liked_button.style.backgroundColor = likeGreen;
-}
-
-/**
- * This function attempts to update the dislike status of a movie.
- * @param {String} id the id of the movie to be updated
- */
-function addDisliked(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
-  tooltip_message.classList.add("hidden");
-
-  dislike_button = document.getElementById(id + "_dislike");
-  intID = parseInt(id);
-
-  if (movies_disliked.has(intID)) {
-    dislike_button.style.backgroundColor = tooltipBackgroundColor;
-    movies_disliked.delete(intID);
-    return;
-  }
-
-  if (movies_liked.has(intID)) {
-    liked_button = document.getElementById(id + "_upvote");
-    liked_button.style.backgroundColor = tooltipBackgroundColor;
-    movies_liked.delete(intID);
-  } else {
-    watched_button = document.getElementById(id + "_seen");
-    watched_button.style.backgroundColor = "blue";
-    movies_watched.add(intID);
-  }
-
-  movies_disliked.add(intID);
-  dislike_button.style.backgroundColor = "red";
-}
-
-/**
- * This function attempts to update the watched status of a movie.
- * @param {String} id the id of the movie to be updated
- */
-function addSeen(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
-  tooltip_message.classList.add("hidden");
-
-  seen_button = document.getElementById(id + "_seen");
-  intID = parseInt(id);
-
-  if (movies_watched.has(intID)) {
-    if (movies_liked.has(intID) || movies_disliked.has(intID)) {
-      tooltip_message.classList.remove("hidden");
-      tooltip_message.innerHTML =
-        "Please remove your rating before marking a movie as un-watched.";
-
-      return;
-    }
-
-    if (movies_rewatch.has(intID)) {
-      rewatch_button = document.getElementById(id + "_rewatch");
-      rewatch_button.style.backgroundColor = tooltipBackgroundColor;
-      movies_rewatch.delete(intID);
-    }
-
-    seen_button.style.backgroundColor = tooltipBackgroundColor;
-    movies_watched.delete(intID);
-    return;
-  }
-
-  if (watchlist.has(intID)) {
-    watchlist_button = document.getElementById(id + "_watchlist");
-    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
-    watchlist.delete(intID);
-  }
-
-  seen_button.style.backgroundColor = "blue";
-  movies_watched.add(intID);
-}
-
-/**
- * This function attempts to add a movie to the users watchlist.
- * @param {String} id the id of the movie to be updated
- */
-function addWatchlist(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
-  tooltip_message.classList.add("hidden");
-
-  watchlist_button = document.getElementById(id + "_watchlist");
-  intID = parseInt(id);
-
-  if (movies_watched.has(intID)) {
-    tooltip_message = document.getElementById(id + "_tooltip_message");
-    tooltip_message.classList.remove("hidden");
-    tooltip_message.innerHTML =
-      "You cannot add a movie you have seen to your watchlist, did you mean to select the rewatch button?";
-    return;
-  }
-
-  if (movies_blocked.has(intID)) {
-    tooltip_message = document.getElementById(id + "_tooltip_message");
-    tooltip_message.innerHTML =
-      "You cannot add a movie you have excluded from recommendations to your watchlist.";
-    tooltip_message.classList.remove("hidden");
-    return;
-  }
-
-  if (watchlist.has(intID)) {
-    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
-    watchlist.delete(intID);
-    return;
-  }
-
-  watchlist_button.style.backgroundColor = "cornflowerblue";
-  watchlist.add(intID);
-}
-
-/**
- * This function attempts to update the rewatch status of a movie.
- * @param {String} id the id of the movie to be updated
- */
-function addRewatch(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
-  tooltip_message.classList.add("hidden");
-
-  rewatch_button = document.getElementById(id + "_rewatch");
-  intID = parseInt(id);
-
-  if (movies_blocked.has(intID)) {
-    tooltip_message = document.getElementById(id + "_tooltip_message");
-    tooltip_message.innerHTML =
-      "You cannot rewatch a movie you have excluded from recommendations.";
-    tooltip_message.classList.remove("hidden");
-    return;
-  }
-
-  if (movies_rewatch.has(intID)) {
-    rewatch_button.style.backgroundColor = tooltipBackgroundColor;
-    movies_rewatch.delete(intID);
-    return;
-  }
-
-  if (!movies_watched.has(intID)) {
-    movies_watched.add(intID);
-    rewatch_button.style.backgroundColor = rewatchOrange;
-  }
-  if (watchlist.has(intID)) {
-    watchlist.delete(intID);
-    watchlist_button = document.getElementById(id + "_watchlist");
-    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
-  }
-
-  rewatch_button.style.backgroundColor = rewatchOrange;
-  movies_rewatch.add(intID);
-}
-
-/**
- * This function attempts to update the block status of a movie.
- * @param {String} id the id of the movie to be updated
- */
-function addToExclude(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
-  tooltip_message.classList.add("hidden");
-
-  exclude_button = document.getElementById(id + "_exclude");
-  intID = parseInt(id);
-
-  if (movies_blocked.has(intID)) {
-    exclude_button.style.backgroundColor = tooltipBackgroundColor;
-    movies_blocked.delete(intID);
-    return;
-  }
-
-  if (watchlist.has(intID)) {
-    watchlist_button = document.getElementById(id + "_watchlist");
-    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
-    watchlist.delete(intID);
-  } else if (movies_watched.has(intID)) {
-    rewatch_button = document.getElementById(id + "_rewatch");
-    rewatch_button.style.backgroundColor = tooltipBackgroundColor;
-    movies_rewatch.delete(intID);
-  }
-
-  exclude_button.style.backgroundColor = excludeRed;
-  movies_blocked.add(intID);
-}
 
 // Movie removal code
 var movie_dict = {}; // Dictionary of all movies loaded so far, key is movie_id and value is movie name
@@ -555,6 +261,8 @@ async function deleteMovies() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+      remove_movies_container.innerHTML = "";
+      closeExitModal();
       return response.text();
     })
     .then((text) => {

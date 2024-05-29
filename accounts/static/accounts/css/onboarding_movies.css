@@ -112,8 +112,3 @@
     transform: scale(1) !important;
   }
 }
-
-/* Added styling for movie cleaning*/
-.content_div {
-  min-width: 100%;
-}
