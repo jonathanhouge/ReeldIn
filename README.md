@@ -36,20 +36,16 @@ Next, create and activate a virtual environment:
     python3 -m venv env
     source env/Scripts/activate
 
-Now install the dependencies from requirements.txt and run the set up script:
-
-    pip install -r requirements.txt
-    sh setup.sh
-
 Now, you need to make a local database! Here's how we do it. (I used this <a href="https://stackpython.medium.com/how-to-start-django-project-with-a-database-postgresql-aaa1d74659d8">guide</a>, step six and on)
 
 1.  Download PSQL
 2.  In PGAdmin, right-click 'Databases' -> 'Create' -> 'Database', then name it and save.
 3.  Now, you need your '.env' file! Contact the devs on acquiring that and the associated information.
-4.  Now, in the repo, apply migrations and utilize the fixture.
 
-        python manage.py migrate
-        python manage.py loaddata "recommendations/fixtures/movies_fixtures.json"
+Now install the dependencies from requirements.txt and run the set up script:
+
+    pip install -r requirements.txt
+    sh setup.sh
 
 ## Running Locally
 
