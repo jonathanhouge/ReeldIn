@@ -2,11 +2,15 @@
 
 echo "Project setup begun."
 
-#Make database migrations
+# Make database migrations
 python manage.py makemigrations && python manage.py migrate
 echo "Migration successful."
 
-#Install tailwind dependencies
+# Load movies into database
+python manage.py loaddata "recommendations/fixtures/movies_fixture.json"
+echo "Database initialized."
+
+# Install tailwind dependencies
 python manage.py tailwind install
 echo "Tailwind install successful."
 
