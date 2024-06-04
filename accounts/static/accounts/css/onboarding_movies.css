@@ -112,3 +112,12 @@
     transform: scale(1.0) !important;
   }
 }
+
+#help-button {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  background-color: #816efa;
+  border-radius: 100%;
+  padding: 1.5rem;
+}
