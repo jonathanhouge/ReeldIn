@@ -32,6 +32,11 @@ urlpatterns = [
         views.onboarding_streaming_view,
         name="onboarding_streaming",
     ),
+    path(
+        "onboarding/delete/",
+        views.delete_movie,
+        name="delete_movie",
+    ),
     # Friend management paths
     path("send/friend/", views.send_friend_request, name="add_friend"),
     path("accept/friend/", views.accept_friend_request, name="accept_friend"),
@@ -46,6 +51,7 @@ urlpatterns = [
     path("change/username/", views.change_username, name="change_username"),
     path("delete/account/", views.delete_account, name="delete_account"),
     # Miscellaneous
+    path("delete_movies", views.delete_movies_view, name="delete_movies"),
     path("clear/lists/", views.clear_lists, name="clear_lists"),
     path(
         "preferences/movies/", views.preferences_movies_view, name="preferences_movies"

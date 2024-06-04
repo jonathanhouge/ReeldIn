@@ -2,6 +2,7 @@ import csv
 import json
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.files.storage import FileSystemStorage
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
@@ -178,6 +179,14 @@ def onboarding_movie_view(request):
             add_movies_to_user_list(request.user, movie_list, model_name)
 
         return HttpResponse(status=200)
+
+
+@staff_member_required
+def delete_movies_view(request):
+    return render(
+        request,
+        "accounts/delete_movies.html",
+    )
 
 
 def add_movies_to_user_list(user, movie_list, model_name):
@@ -358,6 +367,12 @@ def get_random_movies(request, amount=25):
             "name": movie.name,
             "poster": movie.poster,
             "year": movie.year,
+            "genres": movie.genres,
+            "starring": movie.starring,
+            "overview": movie.overview,
+            "imdb_rating": movie.imdb_rating,
+            "imdb_votes": movie.imdb_votes,
+            "runtime": movie.runtime,
         }
         for movie in movies
     ]
@@ -475,7 +490,7 @@ def onboarding_streaming_view(request):
             user.save()
             if request.session.get("onboarding"):
                 request.session["onboarding"] = False
-                return redirect("recommendations:recommendations")
+                return redirect("recommendations:index")
             return redirect("accounts:settings")
     else:
         initial_data = {service: True for service in user.subscriptions}
@@ -487,6 +502,8 @@ def sort_by_closeness(query, movie):
     return fuzz.ratio(query, movie.name)
 
 
+# TODO separate method/path as this method handles both movie deletion search/onboarding search
+# TODO once deletion search is isolated, data not used during onboarding can be removed
 def search_movie(request):
     if request.method != "POST":
         return JsonResponse({"error": "Method not allowed"}, status=405)
@@ -512,12 +529,16 @@ def search_movie(request):
     result = {
         "movies": [
             {
-                "id": movie.pk,  # TODO id?
+                "id": movie.pk,
                 "name": movie.name,
-                "genres": movie.genres,
-                "starring": movie.starring,
                 "poster": movie.poster,
                 "year": movie.year,
+                "genres": movie.genres,
+                "starring": movie.starring,
+                "overview": movie.overview,
+                "imdb_rating": movie.imdb_rating,
+                "imdb_votes": movie.imdb_votes,
+                "runtime": movie.runtime,
             }
             for movie in sorted_movies
         ]
@@ -708,6 +729,25 @@ def delete_friend_request(request):
         friend_request.delete()
 
     return HttpResponse("Successfully deleted friend request.", status=200)
+
+
+@staff_member_required
+def delete_movie(request):
+    print("Deleting movies sent in POST request...")
+    try:
+        data = json.loads(request.body)
+        movie_ids = data.get("movies_to_remove", [])
+        if not movie_ids:
+            print("No movies specified to delete")
+            return JsonResponse({"error": "No movies specified to delete"}, status=400)
+
+        # Perform the deletion
+        Movie.objects.filter(id__in=movie_ids).delete()
+        print("Movies deleted!")
+
+        return JsonResponse({"success": "Movies deleted successfully"}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
 
 def change_username(request):
