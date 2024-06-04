@@ -28,6 +28,10 @@
   padding-top: 20px;
 }
 
+#onboarding-title {
+  display: block;
+}
+
 button {
   font-family: var(--primary-font);
   padding: 0.75rem;

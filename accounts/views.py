@@ -490,7 +490,7 @@ def onboarding_streaming_view(request):
             user.save()
             if request.session.get("onboarding"):
                 request.session["onboarding"] = False
-                return redirect("recommendations:recommendations")
+                return redirect("recommendations:index")
             return redirect("accounts:settings")
     else:
         initial_data = {service: True for service in user.subscriptions}
@@ -502,6 +502,8 @@ def sort_by_closeness(query, movie):
     return fuzz.ratio(query, movie.name)
 
 
+# TODO separate method/path as this method handles both movie deletion search/onboarding search
+# TODO once deletion search is isolated, data not used during onboarding can be removed
 def search_movie(request):
     if request.method != "POST":
         return JsonResponse({"error": "Method not allowed"}, status=405)
@@ -729,8 +731,9 @@ def delete_friend_request(request):
     return HttpResponse("Successfully deleted friend request.", status=200)
 
 
+@staff_member_required
 def delete_movie(request):
-    print("delete called!")
+    print("Deleting movies sent in POST request...")
     try:
         data = json.loads(request.body)
         movie_ids = data.get("movies_to_remove", [])
