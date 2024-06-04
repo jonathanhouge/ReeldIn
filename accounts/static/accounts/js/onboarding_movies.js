@@ -164,6 +164,11 @@ async function searchMovies(event) {
         return response.json();
       })
       .then((data) => {
+        if (data.movies.length === 0) {
+          movieContainer.innerHTML = "No movies found!";
+          return;
+        }
+
         movieContainer.innerHTML = "";
         data.movies.forEach((movie) => {
           var movieDiv = createMovieDiv(movie);
@@ -501,4 +506,8 @@ function addToExclude(id) {
 
   exclude_button.style.backgroundColor = excludeRed;
   movies_blocked.add(intID);
+}
+
+function openHelpModal() {
+  document.getElementById("help_modal").style.display = "block";
 }
