@@ -1,106 +1,113 @@
-{% load static %} {% load static tailwind_tags %}
+{% load static %}
+{% load static tailwind_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/c60455fa26.js"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
+    <link rel="stylesheet"
+          href="{% static 'accounts/css/onboarding_base.css' %}" />
+    <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
+    {% block head %}
+    {% endblock head %}
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://kit.fontawesome.com/c60455fa26.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
-  <link rel="stylesheet" href="{% static 'accounts/css/onboarding_base.css' %}" />
-  <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
-  {% block head %}{% endblock head %}
-</head>
-
-<header>
-
-  <div id="logo_div" onclick="openHomeModal()">
-      <img
-        src="{% static 'landing_page/images/REELDIN.png' %}"
-        alt="ReeldIn Logo"
-      />
+  <header>
+    <div id="logo_div" onclick="openHomeModal()">
+      <img src="{% static 'landing_page/images/REELDIN.png' %}"
+           alt="ReeldIn Logo" />
       <h1>ReeldIn</h1>
-  </div>
-  <div id="profile_div">
-    <a href="{% url 'recommendations:index' %}">
+    </div>
+    <div id="profile_div">
+      <a href="{% url 'recommendations:index' %}">
+        {% if user.is_authenticated %}
+          <button id="get-recommendations-btm">Get Recommendations</button>
+        {% else %}
+          <button id="get-recommendations-btm">Demo Recommendations</button>
+        {% endif %}
+      </a>
       {% if user.is_authenticated %}
-      <button id="get-recommendations-btm">Get Recommendations</button>
+        <a href="{% url 'accounts:logout' %}">
+          <button id="login_button">Sign Out</button>
+        </a>
       {% else %}
-      <button id="get-recommendations-btm">Demo Recommendations</button>
+        <a href="{% url 'accounts:login' %}">
+          <button id="login_button">Sign In</button>
+        </a>
       {% endif %}
-    </a>
-    {% if user.is_authenticated %}
-    <a href="{% url 'accounts:logout' %}">
-      <button id="login_button">Sign Out</button>
-    </a>
-    {% else %}
-    <a href="{% url 'accounts:login' %}">
-      <button id="login_button">Sign In</button>
-    </a>
-    {% endif %} {% if user.is_authenticated %}
-    <a href="/profile">
-      <img id="profile_pic" src="{{request.user.profile_picture.url}}" />
-    </a>
-    {% endif %}
-  </div>
-</header>
-<nav></nav>
-
-<body>
-
-  <div class="onboarding-header">
-    <h1 id="onboarding-title" class="title_div">{% block header %}{% endblock header %}</h1>
-    <p id="onboarding-caption">{% block caption %}{% endblock caption %}</p>    
-  </div>
-
-  <div class="onboarding-content content_div">
-    {% block content %}{% endblock content %}
-  </div>
-
-  <!--Forward and backwards buttons-->
-  <div class="footer-buttons">
-    {% block footer_buttons %}
-    
-    {% endblock footer_buttons %}
-  </div>
-
-
-  <!-- Exit modal-->
-  <section class="modal hidden" id ="confirm_exit_modal">
-    <div class="flex">
-      <h3>
-        {% block exit_header %}{% endblock exit_header %}
-      </h3>
-      <button class="btn-close" onclick="closeModal()">⨉</button>
+      {% if user.is_authenticated %}
+        <a href="/profile">
+          <img id="profile_pic" src="{{ request.user.profile_picture.url }}" />
+        </a>
+      {% endif %}
     </div>
-    <div>
-      <p id="exit_warning">Any changes made will not be saved!</p>
+  </header>
+
+  <nav>
+  </nav>
+
+  <body>
+    <div class="onboarding-header">
+      <h1 id="onboarding-title" class="title_div">
+        {% block header %}
+        {% endblock header %}
+      </h1>
+      <p id="onboarding-caption">
+        {% block caption %}
+        {% endblock caption %}
+      </p>
     </div>
-    {% block exit_button %}{% endblock exit_button %}
-    <button class="btn" onclick="closeModal()">No</button>
-  </section>
 
-  <!--Home modal-->
-  <section class="modal hidden" id ="home_modal">
-    <div class="flex">
-      <h3>
-        Are you sure you want to go back to the home page?
-      </h3>
-      <button class="btn-close" onclick="closeModal()">⨉</button>
+    <div class="onboarding-content content_div">
+      {% block content %}
+      {% endblock content %}
     </div>
-    <div>
-      <p id="exit_warning">Any changes made will not be saved!</p>
+
+    <!--Forward and backwards buttons-->
+    <div class="footer-buttons">
+      {% block footer_buttons %}
+      {% endblock footer_buttons %}
     </div>
-    <button class="btn exit_btn" onclick="window.location.href='/'">Yes</button>
-    <button class="btn" onclick="closeModal()">No</button>
-  </section>
 
-  <div class="overlay hidden" id ="exit_overlay" onclick="closeModal()"></div>
-  <script src="{% static 'accounts/js/onboarding_base.js' %}"></script>
-  
-  {% block scripts %}{% endblock scripts %}
-</body>
+    <!-- Exit modal-->
+    <section class="modal hidden" id ="confirm_exit_modal">
+      <div class="flex">
+        <h3>
+          {% block exit_header %}
+          {% endblock exit_header %}
+        </h3>
+        <button class="btn-close" onclick="closeModal()">⨉</button>
+      </div>
+      <div>
+        <p id="exit_warning">Any changes made will not be saved!</p>
+      </div>
+      {% block exit_button %}
+      {% endblock exit_button %}
+      <button class="btn" onclick="closeModal()">No</button>
+    </section>
 
+    <!--Home modal-->
+    <section class="modal hidden" id ="home_modal">
+      <div class="flex">
+        <h3>Are you sure you want to go back to the home page?</h3>
+        <button class="btn-close" onclick="closeModal()">⨉</button>
+      </div>
+      <div>
+        <p id="exit_warning">Any changes made will not be saved!</p>
+      </div>
+      <button class="btn exit_btn" onclick="window.location.href='/'">Yes</button>
+      <button class="btn" onclick="closeModal()">No</button>
+    </section>
 
+    <div class="overlay hidden" id ="exit_overlay" onclick="closeModal()"></div>
+
+    <script src="{% static 'accounts/js/onboarding_base.js' %}"></script>
+    {% block scripts %}
+    {% endblock scripts %}
+  </body>
 </html>

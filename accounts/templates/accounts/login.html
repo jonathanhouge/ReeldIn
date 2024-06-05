@@ -1,49 +1,50 @@
-{% extends 'accounts/base.html' %} {% load static %} {% block form %}
+{% extends 'accounts/base.html' %}
+{% load static %}
 
-<div class="container" id="container">
-  <div class="form-container sign-up">
-    <form action="{% url 'accounts:register' %}" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <h1>Create Account</h1>
-      {% if signup_error %}
-      <p class="error">{{ signup_error }}</p>
-      {% endif %}
-      <input type="text" placeholder="Username" name="username" required />
-      <input type="email" placeholder="Email" name="email" required />
-      <input type="password" placeholder="Password" name="password1" required />
-      <input type="password" placeholder="Password" name="password2" required />
-      <button>Sign Up</button>
-    </form>
-  </div>
+{% block form %}
+  <div class="container" id="container">
+    <div class="form-container sign-up">
+      <form action="{% url 'accounts:register' %}"
+            method="post"
+            enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Create Account</h1>
+        {% if signup_error %}<p class="error">{{ signup_error }}</p>{% endif %}
+        <input type="text" placeholder="Username" name="username" required />
+        <input type="email" placeholder="Email" name="email" required />
+        <input type="password" placeholder="Password" name="password1" required />
+        <input type="password" placeholder="Password" name="password2" required />
+        <button>Sign Up</button>
+      </form>
+    </div>
 
-  <div class="form-container sign-in">
-    <form action="{% url 'accounts:login' %}" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <h1>Sign In</h1>
-      {% if signin_error %}
-      <p class="error">{{ signin_error }}</p>
-      {% endif %}
-      <input type="text" placeholder="Username" name="username" required />
-      <input type="password" placeholder="Password" name="password" required />
-      <a href="">Forgot your email or password?</a>
-      <button>Sign in</button>
-    </form>
-  </div>
+    <div class="form-container sign-in">
+      <form action="{% url 'accounts:login' %}"
+            method="post"
+            enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Sign In</h1>
+        {% if signin_error %}<p class="error">{{ signin_error }}</p>{% endif %}
+        <input type="text" placeholder="Username" name="username" required />
+        <input type="password" placeholder="Password" name="password" required />
+        <a href="">Forgot your email or password?</a>
+        <button>Sign in</button>
+      </form>
+    </div>
 
-  <div class="toggle-container">
-    <div class="toggle">
-      <div class="toggle-panel toggle-left">
-        <h1>Welcome Back!</h1>
-        <p>Enter your personal details to use all of site features</p>
-        <button id="login" class="hidden">Sign In</button>
-      </div>
-      <div class="toggle-panel toggle-right">
-        <h1>Hello, User!</h1>
-        <p>Register with your personal details to use all of site features</p>
-        <button id="register" class="hidden">Sign Up</button>
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <h1>Welcome Back!</h1>
+          <p>Enter your personal details to use all of site features</p>
+          <button id="login" class="hidden">Sign In</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <h1>Hello, User!</h1>
+          <p>Register with your personal details to use all of site features</p>
+          <button id="register" class="hidden">Sign Up</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
 {% endblock form %}
