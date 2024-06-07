@@ -1,0 +1,46 @@
+{% extends 'accounts/delete_base.html' %} {% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> 
+  <link rel="stylesheet" href="{% static 'accounts/css/delete_movies.css' %}" /> 
+  <title>ReeldIn: Delete Movies</title>
+{% endblock head %}
+
+{% block header %}Admin: Delete Movies{% endblock header %} 
+{% block caption %}
+  Delete any movies you think the database could do without such as pornos, unreleased films, etc.
+{% endblock caption %}
+
+{% block content %}
+
+<div id="onboarding_search">
+    <input type="text" id="searchbar" name="searchbar" placeholder="Search for movies..." autocomplete="off"
+      autocapitalize="off" onkeyup="searchMovies(event)"/>
+</div>
+<button id="debug_remove_btn" onclick="printRemoved()">DOWNLOAD THE IDs OF MOVIES TO BE REMOVED</button>
+<div id="movie_container">
+</div>
+
+<div id="remove_movies_container">
+  <h2>Movies to be removed: </h2>
+  <div id="remove_movies">
+    <!--Posters go here-->
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block exit_header %}
+  Are you sure you want to delete the movies in the delete section? This cannot be undone.
+{% endblock exit_header %}
+
+{% block exit_button %}
+  <button class="btn" onclick="deleteMovies()">Yes</button>
+{% endblock exit_button %}
+
+{% block footer_buttons %}
+  <button onclick="openExitModal()" id="next-button" class="button">DELETE MOVIES IN THE DELETE SECTION</button>
+{% endblock footer_buttons %}
+
+
+{% block scripts %} <script src="{% static 'accounts/js/delete_movies.js' %}"></script> {% endblock scripts %}
