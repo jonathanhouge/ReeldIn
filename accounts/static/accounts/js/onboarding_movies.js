@@ -315,6 +315,12 @@ function addLiked(id) {
     return;
   }
 
+  if (watchlist.has(intID)) {
+    watchlist_button = document.getElementById(id + "_watchlist");
+    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
+    watchlist.delete(intID);
+  }
+
   if (movies_disliked.has(intID)) {
     disliked_button = document.getElementById(id + "_dislike");
     disliked_button.style.backgroundColor = tooltipBackgroundColor;
@@ -344,6 +350,12 @@ function addDisliked(id) {
     dislike_button.style.backgroundColor = tooltipBackgroundColor;
     movies_disliked.delete(intID);
     return;
+  }
+
+  if (watchlist.has(intID)) {
+    watchlist_button = document.getElementById(id + "_watchlist");
+    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
+    watchlist.delete(intID);
   }
 
   if (movies_liked.has(intID)) {
