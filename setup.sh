@@ -1,17 +1,16 @@
-# modified from original implementation
-
 echo "Project setup begun."
+echo "Note: Make sure you have a valid '.env' file before running."
 
-# Make database migrations
+echo "Downloading dependencies."
+pip install -r requirements.txt
+
+echo "Applying migrations."
 python manage.py makemigrations && python manage.py migrate
-echo "Migration successful."
 
-# Load movies into database
+echo "Initializing database."
 python manage.py loaddata "recommendations/fixtures/movies_fixture.json"
-echo "Database initialized."
 
-# Install tailwind dependencies
+echo "Installing tailwind."
 python manage.py tailwind install
-echo "Tailwind install successful."
 
-echo "Project setup complete."
+echo "Project setup successful."
