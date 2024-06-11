@@ -21,7 +21,10 @@
 
 <!-- Modal box for help -->
 <div class="modal hidden" id="help_modal">
-  <img src="{% static 'accounts/images/help.png' %}" alt="help" />
+  <div class="flex">
+    <button class="btn-close" onclick="closeModal()">⨉</button>
+  </div>
+  <img src="{% static 'landing_page/images/movie_overlay_instructions.png' %}" alt="help" />
 </div>
 
 
@@ -38,7 +41,7 @@
 
 {% block footer_buttons %}
   <button onclick="openExitModal()" id="back-button" class="button">Back</button>
-  <button onclick="openHelpModal()" id="help-button" class="button">?</button>
+  <button id="help_button" class="fa-solid fa-question" onclick="showMovieHelpModal()"></button>
   <button onclick="submitOnboardingMovieForm()" id="next-button" class="button">Save & Continue</button>
 {% endblock footer_buttons %}
 

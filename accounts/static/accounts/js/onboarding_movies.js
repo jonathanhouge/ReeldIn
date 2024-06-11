@@ -520,6 +520,12 @@ function addToExclude(id) {
   movies_blocked.add(intID);
 }
 
-function openHelpModal() {
-  document.getElementById("help_modal").style.display = "block";
+function showMovieHelpModal() {
+  document.getElementById("help_modal").classList.remove("hidden");
+  document.getElementById("exit_overlay").classList.remove("hidden");
+}
+
+function closeModal() {
+  document.getElementById("help_modal").classList.add("hidden");
+  document.getElementById("exit_overlay").classList.add("hidden");
 }

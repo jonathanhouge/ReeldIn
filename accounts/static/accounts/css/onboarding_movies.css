@@ -113,11 +113,25 @@
   }
 }
 
-#help-button {
+#help_button {
   position: fixed;
   right: 20px;
   bottom: 100px;
   background-color: #816efa;
   border-radius: 100%;
-  padding: 1.5rem;
+  padding: 1.25rem;
+  color:white;
+  font-size: 1.5rem;
+}
+#top_header{
+  text-align: center;
+}
+.modal{
+  width:75%;
+  max-width: 1080px;
+}
+.btn-close{
+  position: absolute;
+  top: 0;
+  right: 0;
 }
