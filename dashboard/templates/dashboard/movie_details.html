@@ -1,8 +1,7 @@
 {% extends 'dashboard/base.html' %}
 {% load static %}
 
-{% block title%}Movie Details{% endblock %}
-
+{% block title %}Movie Details{% endblock %}
 <script>
     $(document).ready(function() {
         $("#delete-movie-btn").on("click", function() {
@@ -26,8 +25,7 @@
 </script>
 
 {% block content %}
-    <h1>{{ movie.name }}</h1>
-    <p>Year: {{ movie.year }}</p>
-
-    <button id="delete-movie-button" data-movie-id="123">Delete Movie</button>
+  <h1>{{ movie.name }}</h1>
+  <p>Year: {{ movie.year }}</p>
+  <button id="delete-movie-button" data-movie-id="123">Delete Movie</button>
 {% endblock content %}

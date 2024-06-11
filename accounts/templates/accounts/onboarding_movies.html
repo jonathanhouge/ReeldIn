@@ -1,32 +1,38 @@
-{% extends 'accounts/onboarding_base.html' %} {% load static %}
+{% extends 'accounts/onboarding_base.html' %}
+{% load static %}
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'accounts/css/onboarding_movies.css' %}" /> 
+  <link rel="stylesheet"
+        href="{% static 'accounts/css/onboarding_movies.css' %}" />
   <title>ReeldIn: Movie Preferences</title>
 {% endblock head %}
 
-{% block header %}Movies{% endblock header %} 
+{% block header %}
+  Movies
+{% endblock header %}
 {% block caption %}
-  Let's figure out your movie preferences, search for as many films as you'd like! 
+  Let's figure out your movie preferences, search for as many films as you'd like!
 {% endblock caption %}
 
 {% block content %}
-
-<div id="onboarding_search">
-    <input type="text" id="searchbar" name="searchbar" placeholder="Search for movies..." autocomplete="off"
-      autocapitalize="off" onkeyup="searchMovies(event)"/>
-</div>
-<div id="movie_container">
-</div>
-
+  <div id="onboarding_search">
+    <input type="text"
+           id="searchbar"
+           name="searchbar"
+           placeholder="Search for movies..."
+           autocomplete="off"
+           autocapitalize="off"
+           onkeyup="searchMovies(event)" />
+  </div>
+  <div id="movie_container"></div>
 {% endblock content %}
 
 {% block exit_header %}
   Are you sure you want to go back to the previous section?
 {% endblock exit_header %}
-
 {% block exit_button %}
-  <button class="btn" onclick="window.location.href = '/accounts/onboarding/imports/'">Yes</button>
+  <button class="btn"
+          onclick="window.location.href = '/accounts/onboarding/imports/'">Yes</button>
 {% endblock exit_button %}
 
 {% block footer_buttons %}
@@ -34,5 +40,6 @@
   <button onclick="submitOnboardingMovieForm()" id="next-button" class="button">Save & Continue</button>
 {% endblock footer_buttons %}
 
-
-{% block scripts %} <script src="{% static 'accounts/js/onboarding_movies.js' %}"></script> {% endblock scripts %}
+{% block scripts %}
+  <script src="{% static 'accounts/js/onboarding_movies.js' %}"></script>
+{% endblock scripts %}

@@ -1,27 +1,27 @@
-{% extends 'recommendations/base.html' %} {% load static %} {% block content %}
+{% extends 'recommendations/base.html' %}
+{% load static %}
 
-<div class="content_div">
-  {% if not user.is_authenticated %}
-  <h3 id="demo-warning">
-    DISCLAIMER: You are currently demoing the recommendation feature. Until you
-    sign in, this feature will show questions in a random order and not provide
-    personalized recommendations.
-  </h3>
-  {% endif %}
-  <h1 id="question">Question #{{ recommendation.step }}</h1>
-  {% block form %}
-  <form action="{% url 'recommendations:narrow' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %} {% if error %}
-    <p class="error">{{ error }}</p>
-    {% endif %} {{ form.as_p }}
+{% block content %}
+  <div class="content_div">
+    {% if not user.is_authenticated %}
+      <h3 id="demo-warning">
+        DISCLAIMER: You are currently demoing the recommendation feature. Until you
+        sign in, this feature will show questions in a random order and not provide
+        personalized recommendations.
+      </h3>
+    {% endif %}
 
-    <input id="form-submission" type="submit" value="Continue" />
-  </form>
-
-  <!-- Number will change later -->
-  <h1 id="remaining">
-    Remaining Films: {{ recommendation.possible_film_count }}
-  </h1>
-</div>
-
-{% endblock %} {% endblock content %}
+    <h1 id="question">Question #{{ recommendation.step }}</h1>
+    {% block form %}
+      <form action="{% url 'recommendations:narrow' %}"
+            method="post"
+            enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        {{ form.as_p }}
+        <input id="form-submission" type="submit" value="Continue" />
+      </form>
+      <h1 id="remaining">Remaining Films: {{ recommendation.possible_film_count }}</h1>
+    </div>
+  {% endblock %}
+{% endblock content %}
