@@ -1,5 +1,7 @@
 {% extends 'landing_page/base.html' %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
 <link rel="stylesheet" href="{% static 'landing_page/css/movie.css' %}" />
+
 <script src="{% static 'landing_page/js/movie.js' %}" defer></script>
 
 <div class="content_div">
@@ -68,6 +70,7 @@
                 onclick="addToExclude('{{movie.id}}')"
               ></i>
             </div>
+            <i id="help_button" class="fa-solid fa-question" onclick="showMovieHelpModal()"></i>
           </div>
         </div>
         <img
@@ -82,6 +85,16 @@
     </div>
   </div>
 </div>
+
+<div class="modal hidden" id="help_modal">
+  <div class="flex">
+    <h3 id="top_header"></h3>
+    <button class="btn-close" onclick="closeModal()">⨉</button>
+  </div>
+  <img src="{% static 'landing_page/images/movie_overlay_instructions.png' %}" alt="help" />
+</div>
+<div class="overlay hidden" id ="exit_overlay" onclick="closeModal()"></div>
+
 <script>
   // NOTE: ignore IDE error as it is a false positive
   // (fails to interpret Django syntax)

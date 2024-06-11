@@ -295,3 +295,13 @@ function displayTooltip(message) {
   tooltip_message.innerHTML = message;
   tooltip_message.classList.remove("hidden");
 }
+
+function showMovieHelpModal() {
+  document.getElementById("help_modal").classList.remove("hidden");
+  document.getElementById("exit_overlay").classList.remove("hidden");
+}
+
+function closeModal() {
+  document.getElementById("help_modal").classList.add("hidden");
+  document.getElementById("exit_overlay").classList.add("hidden");
+}
