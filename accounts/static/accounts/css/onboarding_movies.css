@@ -111,6 +111,14 @@
     background-color: #9a8aff;
     transform: scale(1) !important;
   }
+
+}
+
+@media screen and (max-width: 500px) {
+  #help_modal{
+    width:100% !important; /*TODO: overrides separate !important width in modal.css  */
+    padding: 20px 0px;
+  }
 }
 
 #help_button {
@@ -126,7 +134,7 @@
 #top_header{
   text-align: center;
 }
-.modal{
+#help_modal{
   width:75%;
   max-width: 1080px;
 }
