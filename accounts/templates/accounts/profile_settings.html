@@ -1,137 +1,128 @@
-{% extends 'landing_page/base.html' %} {% load static %} {% block content %}
+{% extends 'landing_page/base.html' %}
+{% load static %}
 
-<link rel="stylesheet" href="{% static 'accounts/css/settings.css' %}" />
-<link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
-<link rel="stylesheet" href="{% static 'accounts/css/onboarding_imports.css' %}" />
-<script src="{% static 'accounts/js/settings.js' %}" defer></script>
+{% block content %}
+  <link rel="stylesheet" href="{% static 'accounts/css/settings.css' %}" />
+  <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
+  <link rel="stylesheet"
+        href="{% static 'accounts/css/onboarding_imports.css' %}" />
+  <script src="{% static 'accounts/js/settings.js' %}" defer></script>
 
+  <div id="message_div">
+    <h1>Account Settings</h1>
+  </div>
+  <div class="content_div">
+    <a href="{% url 'landing_page:profile' %}">
+      <button id="settings_btn">Back</button>
+    </a>
 
-<div id="message_div">
-  <h1>Account Settings</h1>
-</div>
-<div class="content_div">
-  <a href="{% url 'landing_page:profile' %}">
-    <button id="settings_btn">Back</button>
-  </a>
-  <!-- Profile Information including Profile pic, username, and password -->
-  <div class="settings_container" id="profile_info">
-    <div class="left_col">
-      <h2>Profile</h2>
-      <p>Edit your Profile picture, Username, and Password.</p>
+    <div class="settings_container" id="profile_info">
+      <div class="left_col">
+        <h2>Profile</h2>
+        <p>Edit your Profile picture, Username, and Password.</p>
+      </div>
+      <div class="right_col" id="info">
+        <!-- Placeholder for User's Profile Pic -->
+        <button id="change_username" onclick="openChangeUsernameModal()">Change Username</button>
+        <button id="change_password" onclick="openChangePasswordModal()">Change Password</button>
+        <button id="change_profile_picture" onclick="openProfilePicModal()">Change Profile Picture</button>
+      </div>
     </div>
-    <div class="right_col" id="info">
-      <!-- Placeholder for User's Profile Pic -->
-      <button id="change_username" onclick="openChangeUsernameModal()">
-        Change Username
-      </button>
-      <button id="change_password" onclick="openChangePasswordModal()">
-        Change Password
-      </button>
-      <button id="change_profile_picture" onclick="openProfilePicModal()">
-        Change Profile Picture
-      </button>
+
+    <!-- Imported Data -->
+    <div class="settings_container" id="data_imports">
+      <div class="left_col">
+        <h2>Imported Data</h2>
+        <p>Import data from IMDB and Letterboxd.</p>
+      </div>
+      <div class="right_col">
+        <button onclick="window.location.href='/accounts/onboarding/imports/'">Import Data</button>
+      </div>
+    </div>
+
+    <!-- Movie Preferences -->
+    <div class="settings_container" id="movie_preferences">
+      <div class="left_col">
+        <h2>Preferences</h2>
+        <p>Edit your prefered genres, triggers, etc.</p>
+      </div>
+      <div class="right_col">
+        <button onclick="window.location.href='/accounts/onboarding/genres/'">Edit Preferences</button>
+      </div>
+    </div>
+
+    <!-- Delete Account -->
+    <div class="settings_container" id="delete_account">
+      <div class="left_col">
+        <h2>Delete Account</h2>
+        <p>
+          Your account and its information will be permanently deleted. This
+          action cannot be undone.
+        </p>
+      </div>
+
+      <div class="right_col">
+        <button class="btn btn-open delete_account_btn" onclick="openDeleteModal()">Delete Account</button>
+      </div>
     </div>
   </div>
-  <!-- Imported Data -->
-  <div class="settings_container" id="data_imports">
-    <div class="left_col">
-      <h2>Imported Data</h2>
-      <p>Import data from IMDB and Letterboxd.</p>
+
+  <!-- Modal Box for "Delete Account" Button -->
+  <section class="modal hidden" id="delete_account_modal">
+    <div class="flex">
+      <h3>Delete Your Account</h3>
+      <button class="btn-close" onclick="closeDeleteModal()">⨉</button>
     </div>
-    <div class="right_col">
-      <button onclick="window.location.href='/accounts/onboarding/imports/'">
-        Import Data
-      </button>
-    </div>
-  </div>
-  <!-- Movie Preferences -->
-  <div class="settings_container" id="movie_preferences">
-    <div class="left_col">
-      <h2>Preferences</h2>
-      <p>Edit your prefered genres, triggers, etc.</p>
-    </div>
-    <div class="right_col">
-      <button onclick="window.location.href='/accounts/onboarding/genres/'">
-        Edit Preferences
-      </button>
-    </div>
-  </div>
-  <!-- Delete Account -->
-  <div class="settings_container" id="delete_account">
-    <div class="left_col">
-      <h2>Delete Account</h2>
+    <div>
       <p>
-        Your account and its information will be permanently deleted. This
-        action cannot be undone.
+        This action cannot be undone. All of your information will be permanently
+        removed.
       </p>
     </div>
-    <div class="right_col">
-      <button
-        class="btn btn-open delete_account_btn"
-        onclick="openDeleteModal()"
-      >
-        Delete Account
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Box for "Delete Account" Button
-      Hidden until button is clicked -->
-<section class="modal hidden" id="delete_account_modal">
-  <div class="flex">
-    <h3>Delete Your Account</h3>
-    <button class="btn-close" onclick="closeDeleteModal()">⨉</button>
-  </div>
-  <div>
-    <p>
-      This action cannot be undone. All of your information will be permanently
-      removed.
-    </p>
-  </div>
-  <form action="{% url 'accounts:delete_account' %}" method="post">
-    {% csrf_token %}
-  <input type="submit" value="Confirm" />
-  </form>
-</section>
-
-<!-- Change username or password modal -->
-<section class="modal hidden" id="change_modal">
-  <div class="flex">
-    <h3 id="title">Change your</h3>
-    <button class="btn-close" onclick="closeChangeModal()">⨉</button>
-  </div>
-  <div>
-    <form>
+    <form action="{% url 'accounts:delete_account' %}" method="post">
       {% csrf_token %}
-      <p id="subtitle">Enter your current...</p>
-      <input type="text" class="current_input" />
-      <button class="btn" id="change_btn">Submit</button>
+      <input type="submit" value="Confirm" />
     </form>
-  </div>
-</section>
+  </section>
 
-<!-- Change Profile Pic modal -->
-<div class="modal hidden" id="upload_modal">
-  <div class="flex">
-    <h3 id="top_header">Upload a new Profile Picture</h3>
-    <button class="btn-close" onclick="closeProfilePicModal()">⨉</button>
-  </div>
-  <div class="dropbox">
-    <div class="header">
-      <h4 id="title">Select File here</h4">
+  <!-- Change username or password modal -->
+  <section class="modal hidden" id="change_modal">
+    <div class="flex">
+      <h3 id="title">Change your</h3>
+      <button class="btn-close" onclick="closeChangeModal()">⨉</button>
     </div>
-    <div class="dropbox_content">
-      <p id="subtitle">Files Supported: PNG, JPEG, SVG</p>
-      <form id="onboarding-form">
+    <div>
+      <form>
         {% csrf_token %}
-        <input type="file" name="document" id="file" accept="image/*" />
-        <button type="button" id="upload_btn" onclick="uploadFile()">Upload File</button>
+        <p id="subtitle">Enter your current...</p>
+        <input type="text" class="current_input" />
+        <button class="btn" id="change_btn">Submit</button>
       </form>
     </div>
+  </section>
+
+  <!-- Change Profile Pic modal -->
+  <div class="modal hidden" id="upload_modal">
+    <div class="flex">
+      <h3 id="top_header">Upload a new Profile Picture</h3>
+      <button class="btn-close" onclick="closeProfilePicModal()">⨉</button>
+    </div>
+    <div class="dropbox">
+      <div class="header">
+        <h4 id="title">
+          Select File here</h4">
+        </div>
+        <div class="dropbox_content">
+          <p id="subtitle">Files Supported: PNG, JPEG, SVG</p>
+          <form id="onboarding-form">
+            {% csrf_token %}
+            <input type="file" name="document" id="file" accept="image/*" />
+            <button type="button" id="upload_btn" onclick="uploadFile()">Upload File</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
-<div id="overlay" class="overlay hidden"></div>
-
-{% endblock content %} 
+  <div id="overlay" class="overlay hidden"></div>
+  {% endblock content %}

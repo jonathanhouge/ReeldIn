@@ -6,25 +6,28 @@ The following files have been adapted from "Animated-LoginForm" by Rahman Samadz
 
 Github Repo: https://github.com/capwan/Animated-LoginForm
 -->
+{% load static %}
+{% load static tailwind_tags %}
 
-{% load static %} {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
-  <link>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      href="{% static 'landing_page/images/favicon.png' %}"
-      type="image/x-icon"
-    />
+    <link rel="shortcut icon"
+          href="{% static 'landing_page/images/favicon.png' %}"
+          type="image/x-icon" />
     <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}" />
-    <title>ReeldIn {% block title%} {% endblock %}</title>
-  </link>
-  <body>
-    {% block form %} {% endblock form %}
-  </body>
-  <script src="{% static 'accounts/js/login.js' %}"></script>
+    <title>ReeldIn
+      {% block title %}{% endblock %}
+    </title>
+  </head>
 
+  <body>
+    {% block form %}
+    {% endblock form %}
+  </body>
+
+  <script src="{% static 'accounts/js/login.js' %}"></script>
 </html>
