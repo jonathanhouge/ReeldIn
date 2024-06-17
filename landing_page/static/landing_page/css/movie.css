@@ -301,6 +301,20 @@
   }
 }
 
+@media screen and (max-width: 500px) {
+  #help_modal{
+    width:100% !important; /*TODO: overrides separate !important width in modal.css  */
+    padding: 20px 0px;
+  }
+  #help_button{
+    right:20px;
+    bottom:20px;
+    margin-right:0px;
+    z-index:2;
+    position:fixed;
+  }
+}
+
 @media screen and (max-width: 3000px) and (min-width: 1441px) {
   .content_container img,.tooltip  {
     height: 700px;
