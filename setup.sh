@@ -1,5 +1,23 @@
+#!/bin/bash
+
+# Valid '.env' file required for initializing database.
+if ! test -f ".env"; then
+    echo "You don't have an .env file!"
+    exit
+fi
+
+read -rp "Do you have a valid '.env' file? [y/n] " answer
+case $answer in
+    [yY] ) ;;
+    [nN] ) echo "Go get one then!"
+    exit;;
+    
+    * ) echo "ERROR: Invalid response. Exiting..."
+    exit 1;;
+    
+esac
+
 echo "Project setup begun."
-echo "Note: Make sure you have a valid '.env' file before running."
 
 echo "Downloading dependencies."
 pip install -r requirements.txt
