@@ -1,72 +1,80 @@
-{% extends 'landing_page/base.html' %} {% load static %} {% block content %}
+{% extends 'landing_page/base.html' %}
+{% load static %}
 
-<link rel="stylesheet" href="{% static 'landing_page/css/about.css' %}" />
-
-<div id="message_div">
-  <h1>Learn More about ReeldIn</h1>
-</div>
-<div class="content_div">
-  <div class="title_div">
-    <h2>What is ReeldIn?</h2>
+{% block content %}
+  <link rel="stylesheet" href="{% static 'landing_page/css/about.css' %}" />
+  <div id="message_div">
+    <h1>Learn More about ReeldIn</h1>
   </div>
+  <div class="content_div">
+    <div class="title_div">
+      <h2>What is ReeldIn?</h2>
+    </div>
+    <div class="about_div">
+      <p>
+        Movies are a highly valued creative outlet and pastime, but frequently,
+        it's hard to choose one. With millions available and more releasing daily,
+        the hurdle of picking something to watch can be daunting. ReeldIn intends
+        to match users with movies they'll enjoy. Our product is sleek, quick. and
+        efficient. We use a combination of user input and an extensive movie database to
+        provide the best recommendations possible. We're here to make your
+        movie-watching experience as enjoyable as possible.
+      </p>
+      <br />
 
-  <div class="about_div">
-    <p>
-      Movies are a highly valued creative outlet and pastime, but frequently,
-      it's hard to choose one. With millions available and more releasing daily,
-      the hurdle of picking something to watch can be daunting. ReeldIn intends
-      to match users with movies they'll enjoy. Our product is sleek, quick. and
-      efficient. We use a combination of user input and an extensive movie database to
-      provide the best recommendations possible. We're here to make your
-      movie-watching experience as enjoyable as possible.
-    </p>
+      <h2>FAQ</h2>
+      <br />
+      <h3>
+        Q: How do I make an account?
+        <br />
+      </h3>
+      <br />
+      <p>
+        A: To make an account, click the "Login" button in the top right corner of
+        the page. You'll be prompted to input your email and password. Once you've
+        done that, you'll have access to all of ReeldIn's features.
+      </p>
+      <br />
+      <h3>
+        Q: How do I start getting recommendations?
+        <br />
+      </h3>
+      <br />
+      <p>A: To get recommendations click on the "Get Recommendations" button the top right of the page.</p>
+      <br />
+      <h3>
+        Q: How do recommendations work?
+        <br />
+      </h3>
+      <br />
+      <p>
+        After starting a recommendation, you'll answer a series of questions and we'll query our movie pool for what matches your inputs.
+        Note the bottom of the page's counter on how many possible movies remaining meet your criteria. If it ever drops below ten, we'll stop early.
+        Click the button in the top right labeled 'Generate Recommendation' whenever you're ready!
+        Happy querying!
+      </p>
+      <br />
+      <h3>
+        Q: How does ReeldIn work?
+        <br />
+      </h3>
+      <br />
+      <p>A: ReeldIn uses user input and an extensive movie database to generate recommendations.</p>
+      <br />
 
-    <br />
-    <h2>FAQ</h2>
-    <br />
-    <h3>Q: How do I make an account?<br /></h3>
-    <br />
-    <p>
-      A: To make an account, click the "Login" button in the top right corner of
-      the page. You'll be prompted to input your email and password. Once you've
-      done that, you'll have access to all of ReeldIn's features.
-    </p>
-    <br />
-    <h3>Q: How do I start getting recommendations? <br /></h3>
-    <br />
-    <p>A: To get recommendations click on the "Get Recommendations" button the top right of the page.</p>
-    <br />
-    <h3>Q: How do recommendations work?<br /></h3>
-    <br />
-    <p>
-      After starting a recommendation, you'll answer a series of questions and we'll query our movie pool for what matches your inputs.
-      Note the bottom of the page's counter on how many possible movies remaining meet your criteria. If it ever drops below ten, we'll stop early.
-      Click the button in the top right labeled 'Generate Recommendation' whenever you're ready!
-      Happy querying!
-    </p>
-    <br />
-    <h3>Q: How does ReeldIn work? <br /></h3>
-    <br />
-    <p>
-      A: ReeldIn uses user input and an extensive movie database to generate recommendations.
-    </p>
-
-    <br />
-    <div class="attribution_div">
-      <h2>Attributions</h2>
+      <div class="attribution_div">
+        <h2>Attributions</h2>
       </br>
       <p>ReeldIn is made possible thanks to data from the following site:</p>
       <div class="attribution">
-        <a href="https://www.themoviedb.org/" target="_blank"
-        rel="noopener noreferrer">
-          <img
-            src="{% static 'landing_page/images/TMDB_Logo_long.svg' %}"
-            alt="The Movie Database"
-          />
+        <a href="https://www.themoviedb.org/"
+           target="_blank"
+           rel="noopener noreferrer">
+          <img src="{% static 'landing_page/images/TMDB_Logo_long.svg' %}"
+               alt="The Movie Database" />
         </a>
       </div>
     </div>
   </div>
 </div>
-
 {% endblock content %}
