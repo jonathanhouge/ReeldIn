@@ -11,7 +11,7 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("landing_page.urls", namespace="landing_page")),
-    path("dashboard/", include("dashboard.urls", namespace="dashboard")),
+    path("base/", include("base.urls", namespace="base")),
     path("accounts/", include("accounts.urls", namespace="accounts")),
     path(
         "recommendations/", include("recommendations.urls", namespace="recommendations")
