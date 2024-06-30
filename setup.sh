@@ -1,17 +1,35 @@
-# modified from original implementation
+#!/bin/bash
+# check your shell scripts: https://www.shellcheck.net/
+
+# valid '.env' file required for initializing database
+if ! test -f ".env"; then
+    echo "You don't have a '.env' file!"
+    exit
+fi
+
+read -rp "Do you have a valid '.env' file? [y/n] " answer
+case $answer in
+    [yY] ) ;;
+    [nN] ) echo "Go get one then!"
+    exit;;
+    
+    * ) echo "ERROR: Invalid response. Exiting..."
+    exit 1;;
+    
+esac
 
 echo "Project setup begun."
 
-# Make database migrations
+echo "Downloading dependencies."
+pip install -r requirements.txt
+
+echo "Applying migrations."
 python manage.py makemigrations && python manage.py migrate
-echo "Migration successful."
 
-# Load movies into database
+echo "Initializing database."
 python manage.py loaddata "recommendations/fixtures/movies_fixture.json"
-echo "Database initialized."
 
-# Install tailwind dependencies
+echo "Installing tailwind."
 python manage.py tailwind install
-echo "Tailwind install successful."
 
-echo "Project setup complete."
+echo "Project setup successful."
