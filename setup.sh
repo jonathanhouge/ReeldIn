@@ -1,8 +1,9 @@
 #!/bin/bash
+# check your shell scripts: https://www.shellcheck.net/
 
-# Valid '.env' file required for initializing database.
+# valid '.env' file required for initializing database
 if ! test -f ".env"; then
-    echo "You don't have an .env file!"
+    echo "You don't have a '.env' file!"
     exit
 fi
 
