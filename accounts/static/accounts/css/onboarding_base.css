@@ -12,7 +12,7 @@
   position: fixed;
   left: 20px;
   width: 100px;
-  background-color: rgb(237, 84, 84);
+  background-color: rgb(237 84 84);
 }
 
 #next-button {
@@ -54,7 +54,7 @@ button:hover {
 }
 
 .exit_btn:hover {
-  background-color: rgb(237, 84, 84);
+  background-color: rgb(237 84 84);
 }
 
 .onboarding-table {
@@ -76,7 +76,7 @@ button:hover {
   margin-bottom: 100px;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (width <= 480px) {
   .onboarding-content {
     width: 90%;
   }

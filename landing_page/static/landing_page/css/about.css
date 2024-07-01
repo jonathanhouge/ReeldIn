@@ -20,15 +20,16 @@
 }
 
 /* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
+
 /* no padding for this section, and reduce margins */
-@media screen and (max-width: 550px) {
+@media screen and (width <= 550px) {
   .attribution img {
     height: 20px;
   }
 }
 
 /* For Tablet 768px */
-@media screen and (max-width: 849px) and (min-width: 550px) {
+@media screen and (width <= 849px) and (width >= 550px) {
   .attribution img {
     height: 30px;
   }

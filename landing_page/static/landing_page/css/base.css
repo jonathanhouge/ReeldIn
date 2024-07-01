@@ -62,12 +62,8 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--white);
-
   gap: 1rem;
-  margin-right: 4rem;
-  margin-left: 4rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin: 1rem 4rem 2rem;
   padding: 2rem;
   border-radius: 20px;
 }
@@ -162,7 +158,7 @@ header {
 }
 
 .searched_movie:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
   cursor: pointer;
   transform: scale(1.01);
   transition: all 0.3s ease;
@@ -196,7 +192,7 @@ header {
 }
 
 #profile_div button {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -248,7 +244,6 @@ footer {
   font-size: 2rem;
   color: var(--black);
   background-color: var(--white);
-
   padding: 0.5rem;
   margin-right: 0.5rem;
   border-radius: 50%;
@@ -256,7 +251,6 @@ footer {
 
 #links_div i:hover {
   color: var(--white);
-
   background-color: var(--black);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -289,12 +283,12 @@ footer {
 }
 
 /* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
+
 /* no padding for this section, and reduce margins */
-@media screen and (max-width: 550px) {
+@media screen and (width <= 550px) {
   header {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    flex-flow: column wrap;
     align-items: center;
   }
 
@@ -305,10 +299,7 @@ footer {
 
   .content_div {
     gap: 0.5rem;
-    margin-right: 2rem;
-    margin-left: 2rem;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
+    margin: 0.5rem 2rem 1rem;
     padding: 1rem;
     border-radius: 20px;
   }
@@ -374,11 +365,10 @@ footer {
 }
 
 /* For Tablet 768px */
-@media screen and (max-width: 849px) and (min-width: 550px) {
+@media screen and (width <= 849px) and (width >= 550px) {
   header {
     display: block;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     align-items: center;
   }
 
@@ -407,8 +397,9 @@ footer {
 }
 
 /* For Laptop 1024px / Laptop L 1440px / Laptop 4k 2560px */
+
 /* For Laptop 1024 and 1440 */
-@media screen and (max-width: 1200px) and (min-width: 850px) {
+@media screen and (width <= 1200px) and (width >= 850px) {
   header {
     font-size: 35px;
     font-family: var(--primary-font);
@@ -417,6 +408,7 @@ footer {
     display: block;
     flex-wrap: wrap;
   }
+
   #profile_div {
     display: block;
     margin-top: 10px;
@@ -429,12 +421,13 @@ footer {
 }
 
 /* For Laptop 2560 */
-@media screen and (max-width: 3000px) and (min-width: 1441px) {
+@media screen and (width <= 3000px) and (width >= 1441px) {
   header {
     font-family: var(--primary-font);
     width: 100%;
     height: 100%;
   }
+
   nav,
   footer {
     width: 100%;

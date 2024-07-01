@@ -12,7 +12,7 @@
 }
 
 #reset-recommendations button {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -29,7 +29,7 @@
 
 /* for modal button */
 .rec-delete-btn {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -53,7 +53,7 @@
 }
 
 .content_div {
-  gap: 0px !important;
+  gap: 0 !important;
 }
 
 .title_div {

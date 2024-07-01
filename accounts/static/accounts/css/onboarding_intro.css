@@ -1,35 +1,37 @@
 .onboarding_intro {
   background-color: #f9f9f9;
   padding: 50px 0;
-  text-align:center;
+  text-align: center;
 }
 
-.onboarding_buttons{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.onboarding_buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#intro_yes, #intro_no{
-    margin-right:20px;
-    margin-left:20px;
-    width: 25%;
-    font-size: 100px;
+#intro_yes,
+#intro_no {
+  margin-right: 20px;
+  margin-left: 20px;
+  width: 25%;
+  font-size: 100px;
 }
 
-#intro_yes:hover, #intro_no:hover{
-    cursor: pointer;
+#intro_yes:hover,
+#intro_no:hover {
+  cursor: pointer;
 }
 
-#intro_yes:hover{
-    background-color: var(--like-green);
+#intro_yes:hover {
+  background-color: var(--like-green);
 }
 
-#intro_no:hover{
-    background-color: var(--exclude-red)
+#intro_no:hover {
+  background-color: var(--exclude-red);
 }
 
-p{
-    font-size: 20px;
-    margin: 0;
+p {
+  font-size: 20px;
+  margin: 0;
 }
