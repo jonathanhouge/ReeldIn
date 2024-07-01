@@ -24,6 +24,7 @@ Find licenses for externally used projects in 'documentation/external_licenses'.
 - CSS Peek by Pranay Prakash
 
 ## Set-Up (Windows)
+
 Note: This set-up has only been tested / confirmed working using Windows.
 
 Make a 'ReeldIn' folder that'll hold our project and clone the repo:
@@ -58,9 +59,13 @@ To start your Django server:
 
     python manage.py runserver
 
-Whenever you're formatting '.html' files, use this command:
+Whenever you're messing with '.html' files, use this command before creating a PR:
 
     python -m djlint {html-file-path} --reformat --indent 2
+
+Whenever you're messing with '.css' files, use this command before creating a PR:
+
+    npx stylelint --fix "**/*.css"
 
 ## Debugging FAQ
 

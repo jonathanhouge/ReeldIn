@@ -94,7 +94,7 @@
 }
 
 button {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -124,11 +124,12 @@ button:hover {
   transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (width <= 750px) {
   #user_info_div,
   .user_content {
     display: block;
   }
+
   .user_lists_div,
   .middle_col {
     max-width: none;

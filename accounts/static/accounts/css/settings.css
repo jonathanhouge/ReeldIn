@@ -29,7 +29,7 @@
 
 input,
 button {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -48,14 +48,15 @@ input:hover {
 
 .delete_account_btn:hover {
   background-color: #ff4d4d !important;
-  outline: 0px !important;
+  outline: 0 !important;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (width <= 750px) {
   .settings_container,
   #info {
     display: block;
   }
+
   #onboarding-form input {
     width: 235px;
   }

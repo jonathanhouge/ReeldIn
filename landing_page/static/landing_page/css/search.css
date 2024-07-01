@@ -14,7 +14,7 @@ p {
   border-radius: 15px;
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (width <= 550px) {
   .search_result {
     display: block;
   }
