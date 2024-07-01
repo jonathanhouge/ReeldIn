@@ -14,4 +14,9 @@ echo "Database initialized."
 python manage.py tailwind install
 echo "Tailwind install successful."
 
+if ! test -f ".stylelintrc.json"; then
+    echo "Installing stylelint."
+    npm init stylelint
+fi
+
 echo "Project setup complete."

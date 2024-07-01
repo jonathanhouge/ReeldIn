@@ -652,3 +652,6 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/django,visualstudiocode,visualstudio,windows,macos,linux
 6movie_fixture.json
+
+# Stylelint
+.stylelintrc.json
