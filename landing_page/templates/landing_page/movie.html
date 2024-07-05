@@ -48,7 +48,7 @@
                    onclick="addToExclude('{{ movie.id }}')"></i>
               </div>
               <i id="help_button"
-                 class="fa-solid fa-question"
+                 class="fa-solid fa-question-circle"
                  onclick="showMovieHelpModal()"></i>
             </div>
           </div>
@@ -75,6 +75,5 @@
   // NOTE: ignore IDE error as it is a false positive
   // (fails to interpret Django syntax)
   var movie_data = {{ movie_json | safe}};
-  console.log(movie_data)
   </script>
 {% endblock content %}
