@@ -27,7 +27,7 @@ echo "Applying migrations."
 python manage.py makemigrations && python manage.py migrate
 
 echo "Initializing database."
-python manage.py loaddata "recommendations/fixtures/movies_fixture.json"
+python manage.py init_db "recommendations/fixtures/movies_fixture.json"
 
 echo "Installing tailwind."
 python manage.py tailwind install

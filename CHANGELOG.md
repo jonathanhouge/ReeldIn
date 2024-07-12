@@ -23,6 +23,6 @@ Currently, we're working on enhancing and fixing current functionality, as well 
 - Better documentation in 'ReeldIn' folder.
 - Licenses no longer text files in 'documentation/external-licenses'.
 
-## [1.0.0] - 2017-03-14
+## [1.0.0] - 06-04-2024
 
 The initial release!
