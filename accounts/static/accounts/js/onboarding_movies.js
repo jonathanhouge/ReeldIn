@@ -529,4 +529,5 @@ function closeModal() {
   document.getElementById("help_modal").classList.add("hidden");
   document.getElementById("exit_overlay").classList.add("hidden");
   document.getElementById("confirm_exit_modal").classList.add("hidden");
+  document.getElementById("home_modal").classList.add("hidden");
 }
