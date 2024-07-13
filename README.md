@@ -23,7 +23,7 @@ Find licenses for externally used projects in 'documentation/external_licenses'.
 - Auto Rename Tag by Jun Han
 - CSS Peek by Pranay Prakash
 
-## Set-Up (Windows)
+## Set-Up
 
 Note: This set-up has only been tested / confirmed working using Windows.
 
@@ -44,9 +44,8 @@ Now, you need to make a local database:
 2.  In PGAdmin, right-click 'Databases' -> 'Create' -> 'Database', then name it and save.
 3.  Now, you need your '.env' file! Contact the devs on acquiring that and the associated information.
 
-Now install the dependencies from requirements.txt and run the set up script:
+Now, run the set up script! It'll go ahead and run the necessary bash commands:
 
-    pip install -r requirements.txt
     sh setup.sh
 
 ## Commands for Running & Developing Locally

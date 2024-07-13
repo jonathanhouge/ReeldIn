@@ -45,6 +45,36 @@
   margin: 1rem;
 }
 
+#help_button {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  background-color: #9a8aff;
+  border-radius: 50%;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 2rem;
+}
+
+#help_button:hover {
+  transform: scale(1.2) !important;
+}
+
+.modal {
+  width: 75%;
+  max-width: 1080px;
+}
+
+.btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--primary-font);
+  font-size: 20px;
+  margin: 8px;
+}
 .content_container img,
 .tooltip {
   height: 600px;
@@ -73,7 +103,6 @@
 }
 
 .tooltip_button:hover {
-  background-color: #e0e0e0;
   transform: scale(1.2) !important;
   transition: all 0.3s ease;
 }
@@ -280,7 +309,21 @@
   }
 }
 
-@media screen and (width <= 3000px) and (width >= 1441px) {
+@media screen and (max-width: 500px) {
+  #help_modal {
+    width: 100% !important; /*TODO: overrides separate !important width in modal.css  */
+    padding: 20px 0px;
+  }
+  #help_button {
+    right: 20px;
+    bottom: 20px;
+    margin-right: 0px;
+    z-index: 2;
+    position: fixed;
+  }
+}
+
+@media screen and (max-width: 3000px) and (min-width: 1441px) {
   .content_container img,
   .tooltip {
     height: 700px;

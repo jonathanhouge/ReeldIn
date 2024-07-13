@@ -111,3 +111,33 @@
     transform: scale(1) !important;
   }
 }
+
+@media screen and (max-width: 500px) {
+  #help_modal {
+    width: 100% !important; /*TODO: overrides separate !important width in modal.css  */
+    padding: 20px 0px;
+  }
+}
+
+#help_button {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  background-color: #816efa;
+  border-radius: 100%;
+  padding: 0.5rem;
+  color: white;
+  font-size: 2.5rem;
+}
+#top_header {
+  text-align: center;
+}
+#help_modal {
+  width: 75%;
+  max-width: 1080px;
+}
+#close-help-modal-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
