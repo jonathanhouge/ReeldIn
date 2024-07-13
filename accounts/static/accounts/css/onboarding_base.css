@@ -70,13 +70,14 @@ button:hover {
   padding: 0.5rem;
 }
 
-tbody tr:nth-child(odd){
-  background-color: rgba(100,100,100,0.2)
+tbody tr:nth-child(odd) {
+  background-color: rgb(100 100 100 / 20%);
 }
 
 tbody tr:hover {
-  background-color: rgba(40, 40, 40, 0.4) !important;
+  background-color: rgb(40 40 40 / 40%) !important;
 }
+
 .onboarding-content {
   width: 75%;
   margin: 0 auto;
