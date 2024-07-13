@@ -1,7 +1,9 @@
 """
-This file holds the functionality for initializing the database with the data from a JSON fixture file.
-It was created in order to speed up the process of loading data into the database via the bulk_create
-call as the original JSON file's size made the loaddata command slow. It is kept for posterity/reference.
+This file holds the functionality for initializing the database with the JSON fixture file,
+located in recommendations/fixtures/movies_fixture.json.
+
+Created in order to speed up the process of loading data into the database
+via bulk_create as the file's size causes 'loaddata' to be inefficient.
 """
 
 import json
@@ -21,7 +23,12 @@ class Command(BaseCommand):
         try:
             with open(file_path, "r") as file:
                 data = json.load(file)
+
+            if not isinstance(data, list):
+                raise ValueError("JSON data should be a list of entries.")
+
             movies_to_create = []
+            batch_size = 1000
             for entry in data:
                 fields = entry["fields"]
                 movie = Movie(
@@ -50,8 +57,17 @@ class Command(BaseCommand):
                     group_lens_id=fields.get("group_lens_id") or 0,
                 )
                 movies_to_create.append(movie)
+
+                if len(movies_to_create) >= batch_size:
+                    with transaction.atomic():
+                        Movie.objects.bulk_create(movies_to_create)
+                    movies_to_create = []
+
+            # create any remaining instances
             with transaction.atomic():
                 Movie.objects.bulk_create(movies_to_create)
-            print("Data loaded successfully")
+
+            print("Data loaded successfully.")
+
         except Exception as e:
-            print(e)
+            print(f"An error occurred:\n{e}")
