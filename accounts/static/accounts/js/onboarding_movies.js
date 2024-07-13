@@ -164,6 +164,11 @@ async function searchMovies(event) {
         return response.json();
       })
       .then((data) => {
+        if (data.movies.length === 0) {
+          movieContainer.innerHTML = "No movies found!";
+          return;
+        }
+
         movieContainer.innerHTML = "";
         data.movies.forEach((movie) => {
           var movieDiv = createMovieDiv(movie);
@@ -310,6 +315,12 @@ function addLiked(id) {
     return;
   }
 
+  if (watchlist.has(intID)) {
+    watchlist_button = document.getElementById(id + "_watchlist");
+    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
+    watchlist.delete(intID);
+  }
+
   if (movies_disliked.has(intID)) {
     disliked_button = document.getElementById(id + "_dislike");
     disliked_button.style.backgroundColor = tooltipBackgroundColor;
@@ -339,6 +350,12 @@ function addDisliked(id) {
     dislike_button.style.backgroundColor = tooltipBackgroundColor;
     movies_disliked.delete(intID);
     return;
+  }
+
+  if (watchlist.has(intID)) {
+    watchlist_button = document.getElementById(id + "_watchlist");
+    watchlist_button.style.backgroundColor = tooltipBackgroundColor;
+    watchlist.delete(intID);
   }
 
   if (movies_liked.has(intID)) {
@@ -501,4 +518,16 @@ function addToExclude(id) {
 
   exclude_button.style.backgroundColor = excludeRed;
   movies_blocked.add(intID);
+}
+
+function showMovieHelpModal() {
+  document.getElementById("help_modal").classList.remove("hidden");
+  document.getElementById("exit_overlay").classList.remove("hidden");
+}
+
+function closeModal() {
+  document.getElementById("help_modal").classList.add("hidden");
+  document.getElementById("exit_overlay").classList.add("hidden");
+  document.getElementById("confirm_exit_modal").classList.add("hidden");
+  document.getElementById("home_modal").classList.add("hidden");
 }
