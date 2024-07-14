@@ -104,7 +104,7 @@ async function removeFriend(friend_username) {
         remove_reject_button.classList.add("hidden");
         remove_friend_response.style.color = "green";
         remove_friend_name.innerHTML = "";
-        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div = document.getElementById(friend_username + "-profile-div");
         user_div.remove();
       } else {
         remove_friend_response.style.color = "red";
@@ -193,7 +193,7 @@ async function sendFriendRequest(username) {
 function addUserToSentRequests(user) {
   const sent_requests = document.getElementById("sent_requests");
   const user_div = document.createElement("div");
-  user_div.id = user.username + "_profile_div";
+  user_div.id = user.username + "-profile-div";
   user_div.classList.add("friend");
   user_div.setAttribute(
     "onclick",
@@ -276,7 +276,7 @@ async function confirmFriend(friend_username) {
         friend_request_response.style.color = "green";
         friend_request_text.innerHTML = "";
 
-        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div = document.getElementById(friend_username + "-profile-div");
         console.log("Changing attribute to openRemoveFriendModal");
         user_div.setAttribute(
           "onclick",
@@ -339,7 +339,7 @@ async function rejectFriend(friend_username) {
         reject_friend_button.classList.add("hidden");
         friend_request_response.style.color = "green";
         friend_request_text.innerHTML = "";
-        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div = document.getElementById(friend_username + "-profile-div");
         user_div.remove();
         checkDivEmpty("received_requests");
       } else {
@@ -432,7 +432,7 @@ async function deleteFriendRequest(friend_username) {
         delete_reject_button.classList.add("hidden");
         delete_friend_request_response.style.color = "green";
         delete_friend_request_text.innerHTML = "";
-        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div = document.getElementById(friend_username + "-profile-div");
         user_div.remove();
         checkDivEmpty("sent_requests");
       } else {

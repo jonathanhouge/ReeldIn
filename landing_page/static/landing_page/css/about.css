@@ -1,4 +1,4 @@
-.about_div {
+.about-div {
   display: flex;
   flex-direction: column;
   background-color: var(--white);

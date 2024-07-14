@@ -26,7 +26,7 @@
   </div>
   <div id="movie_container"></div>
   <!-- Modal box for help -->
-  <div class="modal hidden" id="help_modal">
+  <div class="modal hidden" id="help-modal">
     <div class="flex">
       <button class="btn-close" id="close-help-modal-btn"onclick="closeModal()">⨉</button>
     </div>
@@ -45,7 +45,7 @@
 {% endblock exit_button %}
 {% block footer_buttons %}
   <button onclick="openExitModal()" id="back-button" class="button">Back</button>
-  <button id="help_button"
+  <button id="help-button"
           class="fa-solid fa-question-circle"
           onclick="showMovieHelpModal()"></button>
   <button onclick="submitOnboardingMovieForm()" id="next-button" class="button">Save & Continue</button>

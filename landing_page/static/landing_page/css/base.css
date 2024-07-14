@@ -45,20 +45,20 @@ body {
   visibility: hidden;
 }
 
-.content_container {
+.content-container {
   display: flex;
   background-color: var(--white);
   margin-right: 1rem;
   margin-left: 1rem;
 }
 
-#message_div {
+#message-div {
   text-align: center;
   margin: 1.5rem;
   font-family: var(--tertiary-font);
 }
 
-.content_div {
+.content-div {
   display: flex;
   flex-direction: column;
   background-color: var(--white);
@@ -68,7 +68,7 @@ body {
   border-radius: 20px;
 }
 
-.title_div {
+.title-div {
   margin-left: 1rem;
   display: flex;
   align-items: center;
@@ -99,32 +99,32 @@ header {
   justify-content: space-between;
 }
 
-#logo_div {
+#logo-div {
   display: flex;
   align-items: center;
   color: var(--black);
 }
 
-#logo_div img {
+#logo-div img {
   margin-left: 0.5rem;
   width: 85px;
   height: auto;
 }
 
-#logo_div h1 {
+#logo-div h1 {
   margin-left: 0.5rem;
   font-size: 50px;
 }
 
-#logo_div a:hover {
+#logo-div a {
   color: var(--black);
 }
 
-#logo_div a {
+#logo-div a:hover {
   color: var(--black);
 }
 
-#searchbar_div input {
+#searchbar-div input {
   padding: 0.75rem;
   width: 30rem;
   font-size: 32px;
@@ -134,7 +134,7 @@ header {
   background-color: #f4f4f4;
 }
 
-#searched_movies_container {
+#searched-movies-container {
   width: 30rem;
   display: flex;
   justify-content: center;
@@ -148,7 +148,7 @@ header {
   cursor: pointer;
 }
 
-.searched_movie {
+.searched-movie {
   width: auto;
   display: flex;
   align-items: center;
@@ -157,23 +157,23 @@ header {
   z-index: 2;
 }
 
-.searched_movie:hover {
+.searched-movie:hover {
   box-shadow: 0 0 10px rgb(0 0 0 / 10%);
   cursor: pointer;
   transform: scale(1.01);
   transition: all 0.3s ease;
 }
 
-.searched_movie:nth-child(odd) {
+.searched-movie:nth-child(odd) {
   background-color: lightgray;
 }
 
 /* CSS for even-numbered divs */
-.searched_movie:nth-child(even) {
+.searched-movie:nth-child(even) {
   background-color: white;
 }
 
-.searched_movie_details {
+.searched-movie-details {
   display: flex;
   flex-direction: column;
   margin-left: 1rem;
@@ -181,17 +181,17 @@ header {
   text-align: left;
 }
 
-.last_movie {
+.last-movie {
   border-radius: 0 0 12px 12px;
 }
 
-#profile_div {
+#profile-div {
   display: flex;
   align-items: center;
   margin-right: 0.5rem;
 }
 
-#profile_div button {
+#profile-div button {
   font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
@@ -203,7 +203,7 @@ header {
   border-radius: 10px;
 }
 
-#profile_pic {
+#profile-pic {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -211,12 +211,12 @@ header {
   cursor: pointer;
 }
 
-#profile_pic img:hover {
+#profile-pic img:hover {
   transform: scale(1.1);
   transition: all 0.3s ease;
 }
 
-#profile_pic img:active {
+#profile-pic img:active {
   transform: scale(0.95);
   transition: all 0.1s ease;
 }
@@ -240,22 +240,6 @@ footer {
   font-size: 25px;
 }
 
-#links_div i {
-  font-size: 2rem;
-  color: var(--black);
-  background-color: var(--white);
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-  border-radius: 50%;
-}
-
-#links_div i:hover {
-  color: var(--white);
-  background-color: var(--black);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
 footer {
   position: absolute;
   bottom: 0;
@@ -268,17 +252,17 @@ footer {
   align-items: center;
 }
 
-#footer_nav {
+#footer-nav {
   padding: 1rem;
 }
 
-#footer_nav a {
+#footer-nav a {
   color: #f4f4f4;
   text-decoration: none;
   margin: 0.5rem;
 }
 
-#footer_nav a:hover {
+#footer-nav a:hover {
   color: #a994b4;
 }
 
@@ -297,18 +281,18 @@ footer {
     padding: none;
   }
 
-  .content_div {
+  .content-div {
     gap: 0.5rem;
     margin: 0.5rem 2rem 1rem;
     padding: 1rem;
     border-radius: 20px;
   }
 
-  #logo_div {
+  #logo-div {
     justify-content: center;
   }
 
-  #profile_div {
+  #profile-div {
     display: block;
     margin-top: 5px;
   }
@@ -317,7 +301,7 @@ footer {
     padding: 5px;
   }
 
-  #searchbar_div input {
+  #searchbar-div input {
     width: 80%;
     align-content: center;
     padding: 8.5px;
@@ -335,22 +319,17 @@ footer {
     font-size: 20px;
   }
 
-  .title_div {
+  .title-div {
     font-size: 16px;
     margin-left: 5px;
   }
 
-  #get_recommendations_btm,
-  #login_button {
+  #login-button {
     font-size: 16px;
-    margin-left: 0;
+    margin-left: 4px;
     margin-right: 0;
     padding: 2.5px;
     flex-direction: column;
-  }
-
-  #login_button {
-    margin-left: 4px;
   }
 
   .content-wrap {
@@ -372,12 +351,12 @@ footer {
     align-items: center;
   }
 
-  #profile_div {
+  #profile-div {
     display: block;
     margin-top: 10px;
   }
 
-  #searchbar_div input {
+  #searchbar-div input {
     width: 80%;
   }
 
@@ -409,7 +388,7 @@ footer {
     flex-wrap: wrap;
   }
 
-  #profile_div {
+  #profile-div {
     display: block;
     margin-top: 10px;
   }

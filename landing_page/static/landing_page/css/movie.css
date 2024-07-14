@@ -12,7 +12,7 @@
   margin: 0.5rem;
 }
 
-#movie_summary {
+#movie-summary {
   font-family: var(--primary-font);
   font-size: 32px;
   text-align: left;
@@ -22,11 +22,11 @@
   width: 100%;
 }
 
-#streaming_info {
+#streaming-info {
   margin-top: 15px;
 }
 
-#movie_name {
+#movie-name {
   font-size: 40px;
   font-family: var(--primary-font);
   margin-left: 10px;
@@ -35,7 +35,7 @@
   text-align: center;
 }
 
-#movie_button_nav {
+#movie-button-nav {
   margin-left: 0;
   margin-bottom: 10px;
   margin-top: 5px;
@@ -45,7 +45,7 @@
   margin: 1rem;
 }
 
-#help_button {
+#help-button {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -58,7 +58,7 @@
   font-size: 2rem;
 }
 
-#help_button:hover {
+#help-button:hover {
   transform: scale(1.2) !important;
 }
 
@@ -76,7 +76,7 @@
   margin: 8px;
 }
 
-.content_container img,
+.content-container img,
 .tooltip {
   height: 600px;
   width: auto;
@@ -88,7 +88,7 @@
 
 /* tooltip modified & repurposed from landing_page/index.css */
 
-.tooltip_button {
+.tooltip-button {
   display: inline-block;
   margin-right: 10px;
   background-color: #9a8aff;
@@ -103,16 +103,16 @@
   margin-top: 20px;
 }
 
-.tooltip_button:hover {
+.tooltip-button:hover {
   transform: scale(1.2) !important;
   transition: all 0.3s ease;
 }
 
-.tooltip_button:active {
+.tooltip-button:active {
   transform: scale(1) !important;
 }
 
-.tooltip_message {
+.tooltip-message {
   min-height: 80px;
   color: red;
   background-color: white;
@@ -131,10 +131,6 @@
 .tooltip {
   position: relative;
   display: inline-block;
-}
-
-.tooltip_content {
-  overflow-y: auto;
 }
 
 .tooltiptext {
@@ -158,7 +154,7 @@
 
 /* The poster / buttons / font size for each screen size will slighly differ */
 @media screen and (width <= 300px) and (width >= 0) {
-  .content_container {
+  .content-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -168,12 +164,12 @@
     height: 100px;
   }
 
-  #movie_summary {
+  #movie-summary {
     font-size: 16px;
   }
 
-  #movie_name,
-  #movie_button_nav {
+  #movie-name,
+  #movie-button-nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -181,27 +177,27 @@
 }
 
 @media screen and (width <= 400px) and (width >= 300px) {
-  .content_container {
+  .content-container {
     display: flex;
     flex-direction: column;
   }
 
-  #movie_name,
-  #movie_button_nav {
+  #movie-name,
+  #movie-button-nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
-  #movie_name h2 {
+  #movie-name h2 {
     font-size: 3rem;
   }
 
-  #movie_summary {
+  #movie-summary {
     font-size: 16px;
   }
 
-  .tooltip_button {
+  .tooltip-button {
     width: 60px;
     font-size: 25px;
   }
@@ -211,19 +207,19 @@
     margin-top: 10px;
   }
 
-  .content_container {
+  .content-container {
     display: flex;
     flex-direction: column;
   }
 
-  .content_container img,
+  .content-container img,
   .tooltip {
     height: 300px;
     width: 100%;
     justify-content: center;
   }
 
-  .tooltip_message {
+  .tooltip-message {
     font-size: 15px;
   }
 
@@ -233,30 +229,30 @@
 }
 
 @media screen and (width <= 500px) and (width >= 400px) {
-  .content_container {
+  .content-container {
     display: flex;
     flex-direction: column;
   }
 
-  .content_container img,
+  .content-container img,
   .tooltip {
     height: 100%;
     width: 100%;
     align-items: center;
   }
 
-  #movie_name {
+  #movie-name {
     font-size: 29px;
   }
 
-  #movie_name,
-  #movie_button_nav {
+  #movie-name,
+  #movie-button-nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
-  #movie_button_nav {
+  #movie-button-nav {
     margin-left: 0;
     padding: 5px;
   }
@@ -266,13 +262,13 @@
     font-size: 20px;
   }
 
-  .tooltip_button {
+  .tooltip-button {
     width: 90px;
     height: 75px;
     font-size: 45px;
   }
 
-  .tooltip_message {
+  .tooltip-message {
     font-size: 15px;
   }
 
@@ -282,12 +278,12 @@
 }
 
 @media screen and (width <= 1000px) and (width >= 500px) {
-  .content_container {
+  .content-container {
     display: flex;
     flex-direction: column;
   }
 
-  .content_container img,
+  .content-container img,
   .tooltip {
     height: 500px;
     width: 350px;
@@ -299,11 +295,11 @@
     margin-left: 2rem;
   }
 
-  #movie_button_nav {
+  #movie-button-nav {
     margin-left: 0;
   }
 
-  .tooltip_button {
+  .tooltip-button {
     width: 135px;
     height: 75px;
     font-size: 45px;
@@ -311,12 +307,12 @@
 }
 
 @media screen and (width <= 500px) {
-  #help_modal {
+  #help-modal {
     width: 100% !important; /* TODO: overrides separate !important width in modal.css  */
     padding: 20px 0;
   }
 
-  #help_button {
+  #help-button {
     right: 20px;
     bottom: 20px;
     margin-right: 0;
@@ -326,7 +322,7 @@
 }
 
 @media screen and (width <= 3000px) and (width >= 1441px) {
-  .content_container img,
+  .content-container img,
   .tooltip {
     height: 700px;
     width: auto;

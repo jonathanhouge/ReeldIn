@@ -1,6 +1,6 @@
 const delete_modal = document.getElementById("delete_account_modal");
 const change_modal = document.getElementById("change_modal");
-const profile_modal = document.getElementById("profile_pic_modal");
+const profile_modal = document.getElementById("profile-pic-modal"); // TODO doesn't exist
 
 const title = document.getElementById("title");
 const subtitle = document.getElementById("subtitle");

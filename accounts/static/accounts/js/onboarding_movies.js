@@ -60,21 +60,21 @@ function createMovieDiv(movie) {
   tooltiptext.innerHTML = `
   <h3>${movie.name}</h3>
   <p>${movie.year}</p>
-  <div class="tooltip_message_container">
-    <p class ="tooltip_message hidden" id ="${movie.id}_tooltip_message"></p>
+  <div class="tooltip-message-container">
+    <p class ="tooltip-message hidden" id ="${movie.id}_tooltip-message"></p>
   </div>
-  <div class="tooltip_buttons">
+  <div class="tooltip-buttons">
     <div class="row1">
-      <i class="fa-regular fa-2x fa-thumbs-up tooltip_button" id="${movie.id}_upvote" onclick="addLiked('${movie.id}')"></i>
-      <i class="fa-regular fa-2x fa-thumbs-down tooltip_button" id="${movie.id}_dislike"onclick="addDisliked('${movie.id}')"></i>
+      <i class="fa-regular fa-2x fa-thumbs-up tooltip-button" id="${movie.id}_upvote" onclick="addLiked('${movie.id}')"></i>
+      <i class="fa-regular fa-2x fa-thumbs-down tooltip-button" id="${movie.id}_dislike"onclick="addDisliked('${movie.id}')"></i>
     </div>
     <div class="row2">
-      <i class="fa-regular fa-2x fa-eye tooltip_button" id="${movie.id}_seen" onclick="addSeen('${movie.id}')"></i>
-      <i class="fa-solid fa-2x fa-plus tooltip_button" id = "${movie.id}_watchlist" onclick="addWatchlist('${movie.id}')"></i>
+      <i class="fa-regular fa-2x fa-eye tooltip-button" id="${movie.id}_seen" onclick="addSeen('${movie.id}')"></i>
+      <i class="fa-solid fa-2x fa-plus tooltip-button" id = "${movie.id}_watchlist" onclick="addWatchlist('${movie.id}')"></i>
     </div>
     <div class="row3">
-      <i class="fa-solid fa-2x fa-repeat tooltip_button" id = "${movie.id}_rewatch" onclick ="addRewatch('${movie.id}')"></i>
-      <i class="fa-solid fa-2x fa-ban tooltip_button" id = "${movie.id}_exclude" onclick="addToExclude('${movie.id}')"></i>
+      <i class="fa-solid fa-2x fa-repeat tooltip-button" id = "${movie.id}_rewatch" onclick ="addRewatch('${movie.id}')"></i>
+      <i class="fa-solid fa-2x fa-ban tooltip-button" id = "${movie.id}_exclude" onclick="addToExclude('${movie.id}')"></i>
     </div>
   </div>`;
   movieDiv.appendChild(tooltiptext);
@@ -303,7 +303,7 @@ document.addEventListener("click", function (event) {
  * @param {String} id the id of the movie to be updated
  */
 function addLiked(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message = document.getElementById(id + "-tooltip-message");
   tooltip_message.classList.add("hidden");
 
   liked_button = document.getElementById(id + "_upvote");
@@ -340,7 +340,7 @@ function addLiked(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addDisliked(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message = document.getElementById(id + "-tooltip-message");
   tooltip_message.classList.add("hidden");
 
   dislike_button = document.getElementById(id + "_dislike");
@@ -377,7 +377,7 @@ function addDisliked(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addSeen(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message = document.getElementById(id + "-tooltip-message");
   tooltip_message.classList.add("hidden");
 
   seen_button = document.getElementById(id + "_seen");
@@ -418,14 +418,14 @@ function addSeen(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addWatchlist(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message = document.getElementById(id + "-tooltip-message");
   tooltip_message.classList.add("hidden");
 
   watchlist_button = document.getElementById(id + "_watchlist");
   intID = parseInt(id);
 
   if (movies_watched.has(intID)) {
-    tooltip_message = document.getElementById(id + "_tooltip_message");
+    tooltip_message = document.getElementById(id + "-tooltip-message");
     tooltip_message.classList.remove("hidden");
     tooltip_message.innerHTML =
       "You cannot add a movie you have seen to your watchlist, did you mean to select the rewatch button?";
@@ -433,7 +433,7 @@ function addWatchlist(id) {
   }
 
   if (movies_blocked.has(intID)) {
-    tooltip_message = document.getElementById(id + "_tooltip_message");
+    tooltip_message = document.getElementById(id + "-tooltip-message");
     tooltip_message.innerHTML =
       "You cannot add a movie you have excluded from recommendations to your watchlist.";
     tooltip_message.classList.remove("hidden");
@@ -455,14 +455,14 @@ function addWatchlist(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addRewatch(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message = document.getElementById(id + "-tooltip-message");
   tooltip_message.classList.add("hidden");
 
   rewatch_button = document.getElementById(id + "_rewatch");
   intID = parseInt(id);
 
   if (movies_blocked.has(intID)) {
-    tooltip_message = document.getElementById(id + "_tooltip_message");
+    tooltip_message = document.getElementById(id + "-tooltip-message");
     tooltip_message.innerHTML =
       "You cannot rewatch a movie you have excluded from recommendations.";
     tooltip_message.classList.remove("hidden");
@@ -494,7 +494,7 @@ function addRewatch(id) {
  * @param {String} id the id of the movie to be updated
  */
 function addToExclude(id) {
-  tooltip_message = document.getElementById(id + "_tooltip_message");
+  tooltip_message = document.getElementById(id + "-tooltip-message");
   tooltip_message.classList.add("hidden");
 
   exclude_button = document.getElementById(id + "_exclude");
@@ -521,12 +521,12 @@ function addToExclude(id) {
 }
 
 function showMovieHelpModal() {
-  document.getElementById("help_modal").classList.remove("hidden");
+  document.getElementById("help-modal").classList.remove("hidden");
   document.getElementById("exit_overlay").classList.remove("hidden");
 }
 
 function closeModal() {
-  document.getElementById("help_modal").classList.add("hidden");
+  document.getElementById("help-modal").classList.add("hidden");
   document.getElementById("exit_overlay").classList.add("hidden");
   document.getElementById("confirm_exit_modal").classList.add("hidden");
   document.getElementById("home_modal").classList.add("hidden");

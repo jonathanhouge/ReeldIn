@@ -1,4 +1,4 @@
-.content_container {
+.content-container {
   display: flex;
   background-color: var(--white);
   margin-right: 1rem;
@@ -52,11 +52,11 @@
   color: black;
 }
 
-.content_div {
+.content-div {
   gap: 0 !important;
 }
 
-.title_div {
+.title-div {
   align-items: center;
 }
 

@@ -6,13 +6,13 @@
   <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
   <script src="{% static 'accounts/js/profile.js' %}" defer></script>
 
-  <div id="message_div">
+  <div id="message-div">
     <h1>Hi {{ request.user }}!</h1>
   </div>
-  <div class="content_div">
+  <div class="content-div">
     <!-- User information and Settings Button -->
     <div id="user_info_div">
-      <div id="profile_pic_div">
+      <div id="profile-pic-div">
         <img src="{{ request.user.profile_picture.url }}"
              alt="Profile Picture"
              class="profile_img" />
@@ -127,7 +127,7 @@
             <p class="placeholder_text hidden" id="friends_list_text">No friends yet!</p>
             {% for friend in friends %}
               <div class="friend"
-                   id="{{ friend.username }}_profile_div"
+                   id="{{ friend.username }}-profile-div"
                    onclick="openRemoveFriendModal('{{ friend.username }}')">
                 <img src="{{ friend.profile_picture.url }}" class="profile_img" />
                 <h3>{{ friend.username }}</h3>
@@ -144,7 +144,7 @@
             <p class="placeholder_text hidden" id="received_requests_text">No friend requests received!</p>
             {% for request in received_requests %}
               <div class="friend"
-                   id="{{ request.sender.username }}_profile_div"
+                   id="{{ request.sender.username }}-profile-div"
                    onclick="openFriendRequestModal('{{ request.sender.username }}')">
                 <img src="{{ request.sender.profile_picture.url }}" class="profile_img" />
                 <h3>{{ request.sender.username }}</h3>
@@ -161,7 +161,7 @@
             <p class="placeholder_text hidden" id="sent_requests_text">No friend requests sent!</p>
             {% for request in sent_requests %}
               <div class="friend"
-                   id="{{ request.receiver.username }}_profile_div"
+                   id="{{ request.receiver.username }}-profile-div"
                    onclick="openDeleteFriendRequestModal('{{ request.receiver.username }}')">
                 <img src="{{ request.receiver.profile_picture.url }}" class="profile_img" />
                 <h3>{{ request.receiver.username }}</h3>

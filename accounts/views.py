@@ -327,12 +327,12 @@ def add_Letterboxd_Data(reader, user):
 
     for row in reader:
         movie_data = (row[1], row[2], row[4])
-        movie_name, movie_year, rating = movie_data
+        movie-name, movie_year, rating = movie_data
 
-        if movie_name == "" or movie_year == "" or rating == "":
+        if movie-name == "" or movie_year == "" or rating == "":
             continue
 
-        movie = Movie.objects.filter(name=movie_name, year=movie_year).first()
+        movie = Movie.objects.filter(name=movie-name, year=movie_year).first()
 
         if movie is None:
             continue

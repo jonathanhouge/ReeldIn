@@ -38,7 +38,7 @@
   max-height: 80vh;
 }
 
-.tooltip_button {
+.tooltip-button {
   display: inline-block;
   background-color: #9a8aff;
   padding: 1rem;
@@ -57,17 +57,17 @@
 
 /* tooltip modified & repurposed from landing_page/index.css */
 
-.tooltip_button:hover {
+.tooltip-button:hover {
   background-color: #e0e0e0;
   transform: scale(1.2) !important;
   transition: all 0.3s ease;
 }
 
-.tooltip_button:active {
+.tooltip-button:active {
   transform: scale(1) !important;
 }
 
-.tooltip_message {
+.tooltip-message {
   color: red;
   background-color: white;
   border-radius: 10px;
@@ -75,17 +75,13 @@
   padding: 10px;
 }
 
-.tooltip_message_container {
+.tooltip-message-container {
   min-height: 80px;
 }
 
 .tooltip {
   position: relative;
   display: inline-block;
-}
-
-.tooltip_content {
-  overflow-y: auto;
 }
 
 .tooltiptext {
@@ -106,20 +102,20 @@
 }
 
 @media only screen and (width <= 480px) {
-  .tooltip_button:hover {
+  .tooltip-button:hover {
     background-color: #9a8aff;
     transform: scale(1) !important;
   }
 }
 
 @media screen and (width <= 500px) {
-  #help_modal {
+  #help-modal {
     width: 100% !important; /* TODO: overrides separate !important width in modal.css  */
     padding: 20px 0;
   }
 }
 
-#help_button {
+#help-button {
   position: fixed;
   right: 20px;
   bottom: 100px;
@@ -134,7 +130,7 @@
   text-align: center;
 }
 
-#help_modal {
+#help-modal {
   width: 75%;
   max-width: 1080px;
 }
