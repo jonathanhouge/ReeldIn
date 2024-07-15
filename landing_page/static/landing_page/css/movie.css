@@ -148,7 +148,7 @@
   transition: all 0.3s ease;
 }
 
-#message_container {
+#message-container {
   min-height: 120px;
 }
 
@@ -207,11 +207,6 @@
     margin-top: 10px;
   }
 
-  .content-container {
-    display: flex;
-    flex-direction: column;
-  }
-
   .content-container img,
   .tooltip {
     height: 300px;
@@ -223,7 +218,7 @@
     font-size: 15px;
   }
 
-  #message_container {
+  #message-container {
     min-height: 40px;
   }
 }
@@ -272,7 +267,7 @@
     font-size: 15px;
   }
 
-  #message_container {
+  #message-container {
     min-height: 80px;
   }
 }

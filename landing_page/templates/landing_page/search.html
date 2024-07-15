@@ -5,11 +5,11 @@
   <script>var WATCHMODE_API_KEY = "{{ WATCHMODE_API_KEY }}";</script>
   <link rel="stylesheet" href="{% static 'landing_page/css/search.css' %}">
 
-  <div id="search_results_div">
-    <div id="search_results_container" loading="lazy">
+  <div id="search-results-div">
+    <div loading="lazy">
       {% if movies %}
         {% for movie in movies %}
-          <div class="search_result" id="movie_{{ movie.id }}">
+          <div class="search-result" id="movie_{{ movie.id }}">
             <img loading="lazy"
                  id="poster_{{ movie.id }}"
                  class="poster"
@@ -18,8 +18,8 @@
                  src="https://image.tmdb.org/t/p/w200{{ movie.poster }}">
 
             <div class="searched-movie-details">
-              <h1 class="movie_title">
-                <a class="movie_link" href="/movie/{{ movie.id }}">{{ movie.name }}</a>
+              <h1 class="movie-title">
+                <a class="movie-link" href="/movie/{{ movie.id }}">{{ movie.name }}</a>
               </h1>
               <p>{{ movie.overview }}</p>
               <p>
