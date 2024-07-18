@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("recommendations", "0005_alter_movie-name"),
+        ("recommendations", "0005_alter_movie_name"),
     ]
 
     operations = [
