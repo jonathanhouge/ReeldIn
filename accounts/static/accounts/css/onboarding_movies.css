@@ -1,4 +1,4 @@
-#onboarding_search input {
+#onboarding-search input {
   padding: 0.75rem;
   font-size: 20px;
   border: none;
@@ -7,7 +7,7 @@
   background-color: #f4f4f4;
 }
 
-#onboarding_search {
+#onboarding-search {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,7 @@
   border: 1px solid var(--black);
 }
 
-#movie_container {
+#movie-container {
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -126,7 +126,7 @@
   font-size: 2.5rem;
 }
 
-#top_header {
+#top-header {
   text-align: center;
 }
 

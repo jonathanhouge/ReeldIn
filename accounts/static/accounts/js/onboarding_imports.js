@@ -1,6 +1,6 @@
 const upload_modal = document.getElementById("upload_modal");
 const upload_btn = document.getElementById("upload_btn");
-const header = document.getElementById("top_header");
+const header = document.getElementById("top-header");
 
 function openImdbModal() {
   upload_modal.classList.remove("hidden");

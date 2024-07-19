@@ -17,6 +17,7 @@
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 15px;
+  z-index: 2;
 }
 
 .modal .flex,
@@ -47,6 +48,13 @@ button {
   font-weight: 600;
 }
 
+.btn-close,
+.rec-btn-close {
+  padding: 0.5rem 0.7rem;
+  background: #eee;
+  border-radius: 50%;
+}
+
 .btn-close:hover,
 .rec-btn-close:hover {
   background-color: #e0e0e0;
@@ -59,13 +67,6 @@ button {
   transform: scale(1) !important;
 }
 
-.btn-close,
-.rec-btn-close {
-  padding: 0.5rem 0.7rem;
-  background: #eee;
-  border-radius: 50%;
-}
-
 .overlay,
 .rec-overlay {
   position: fixed;
@@ -75,11 +76,6 @@ button {
   background: rgb(0 0 0 / 50%);
   backdrop-filter: blur(3px);
   z-index: 1;
-}
-
-.modal,
-.rec-modal {
-  z-index: 2;
 }
 
 .hidden {

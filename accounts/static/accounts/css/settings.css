@@ -1,4 +1,4 @@
-.settings_container {
+.settings-container {
   padding: 20px;
   border: 1px solid #e1e1e1;
   border-radius: 5px;
@@ -7,7 +7,7 @@
   justify-content: space-between;
 }
 
-#profile_info img {
+#profile-info img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -19,11 +19,11 @@
   align-items: center;
 }
 
-#change_username {
+#change-username {
   margin-left: 20px;
 }
 
-.settings_container:nth-child(even) {
+.settings-container:nth-child(even) {
   background-color: #f1f1f1;
 }
 
@@ -46,13 +46,13 @@ input:hover {
   background-color: #a38fff;
 }
 
-.delete_account_btn:hover {
+.delete-account-btn:hover {
   background-color: #ff4d4d !important;
   outline: 0 !important;
 }
 
 @media screen and (width <= 750px) {
-  .settings_container,
+  .settings-container,
   #info {
     display: block;
   }

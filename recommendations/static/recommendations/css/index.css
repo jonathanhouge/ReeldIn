@@ -25,6 +25,7 @@ li {
   bottom: 0;
 }
 
+/* hits the 'Question' HTML on the 'recommendations/forms.py' */
 #id_Question {
   width: 70vw;
   background-color: var(--white);

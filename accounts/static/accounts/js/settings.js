@@ -7,7 +7,7 @@ const subtitle = document.getElementById("subtitle");
 
 const change_btn = document.getElementById("change_btn");
 const input = document.querySelector(".current_input");
-const delete_account_btn = document.querySelector(".delete_account_btn");
+const deleteAccountBtn = document.querySelector(".delete-account-btn");
 
 const overlay = document.getElementById("overlay");
 
@@ -154,8 +154,8 @@ async function deleteAccount() {
         console.log("Success");
         title.innerHTML = "Account Deleted!";
         title.style.color = "green";
-        delete_account_btn.innerHTML = "Return";
-        delete_account_btn.onclick = function () {
+        deleteAccountBtn.innerHTML = "Return";
+        deleteAccountBtn.onclick = function () {
           window.location.href = "/";
         };
         overlay.onclick = function () {

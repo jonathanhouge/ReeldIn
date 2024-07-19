@@ -18,7 +18,7 @@ const rewatchOrange = getComputedStyle(
 ).getPropertyValue("--rewatch-orange");
 
 // Page elements
-const movieContainer = document.getElementById("movie_container");
+const movieContainer = document.getElementById("movie-container");
 const searchbar = document.getElementById("searchbar");
 const tooltipBackgroundColor = "#9a8aff"; // Original tooltip button color
 

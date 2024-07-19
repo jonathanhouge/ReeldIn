@@ -3,7 +3,7 @@
 
 {% block head %}
   <link rel="stylesheet"
-        href="{% static 'accounts/css/onboarding_intro.css' %}" />
+        href="{% static 'accounts/css/onboarding-intro.css' %}" />
   <title>ReeldIn: User Onboarding</title>
 {% endblock head %}
 
@@ -14,7 +14,7 @@
 {% endblock caption %}
 
 {% block content %}
-  <div class = "onboarding_intro">
+  <div class = "onboarding-intro">
     <h1>Let's get started {{ request.user.username }}!</h1>
     <p id = "caption_1">
       Before you begin getting recommended movies, would you like to go through your movie preferences?
@@ -24,9 +24,9 @@
     </p>
   </div>
 
-  <div class = "onboarding_buttons">
-    <button class="button" id="intro_no" onclick="redirectToRecommendations()">No</button>
-    <button class="button" id="intro_yes" onclick="redirectToOnboardingMovies()">Yes</button>
+  <div class = "onboarding-buttons">
+    <button class="button" id="intro-no" onclick="redirectToRecommendations()">No</button>
+    <button class="button" id="intro-yes" onclick="redirectToOnboardingMovies()">Yes</button>
   </div>
 
   <!-- Exit modal-->
@@ -44,5 +44,5 @@
 {% endblock content %}
 
 {% block scripts %}
-  <script src="{% static 'accounts/js/onboarding_intro.js' %}"></script>
+  <script src="{% static 'accounts/js/onboarding-intro.js' %}"></script>
 {% endblock scripts %}
