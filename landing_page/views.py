@@ -195,7 +195,6 @@ def health_check(request):
 
 
 def update_preference(request, type, movie_id):
-    print("HERE")
     if not request.user.is_authenticated:
         return JsonResponse({"error": "User not authenticated"}, status=403)
     elif request.method != "POST":

@@ -12,7 +12,6 @@ const tooltiptext = document.getElementById("tooltiptext");
 // Buttons for the movie info page
 // context change depending on button clicked, testing visuals
 function movieOverview(movie_data) {
-  console.log("movie_data: ", movie_data);
   streaming = JSON.parse(movie_data.watch_providers);
 
   if (streaming.length == 0) {
@@ -48,6 +47,7 @@ async function updatePreference(type, id) {
       console.log(text);
     })
     .catch((error) => {
+      // TODO if you're not logged in, currently, you get an error - we should tell the user "hey! if you want this feature, log in!"
       console.error(
         "There was a problem with updating your preference:",
         error
