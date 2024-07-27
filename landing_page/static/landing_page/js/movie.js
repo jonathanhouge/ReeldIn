@@ -5,8 +5,8 @@ var watchlist = false;
 var rewatch = false;
 var exclude = false;
 movieOverview(movie_data);
-if(isLoggedIn){
-  fetchPreferences(movie_data.id); //TODO fetch this when getting the movie 
+if (isLoggedIn) {
+  fetchPreferences(movie_data.id); //TODO fetch this when getting the movie
 }
 
 const tooltip_message = document.getElementById("tooltip_message");
@@ -70,7 +70,8 @@ function movieDetails(movie_data) {
     <p><strong>Language:</strong> ${movie_data.language} </p> </div>`;
 }
 
-function showLoginModal(){ //TODO: Style? Allow user to login?
+function showLoginModal() {
+  // TODO: Style? Allow user to login?
   alert("Please log in to access this feature!");
 }
 
@@ -178,7 +179,7 @@ function updateButton(id, name, color) {
 }
 
 function addLiked(id) {
-  if(!isLoggedIn){
+  if (!isLoggedIn) {
     showLoginModal();
     return;
   }
@@ -202,7 +203,7 @@ function addLiked(id) {
 }
 
 function addDisliked(id) {
-  if(!isLoggedIn){
+  if (!isLoggedIn) {
     showLoginModal();
     return;
   }
@@ -226,7 +227,7 @@ function addDisliked(id) {
 }
 
 function addWatched(id) {
-  if(!isLoggedIn){
+  if (!isLoggedIn) {
     showLoginModal();
     return;
   }
@@ -257,7 +258,7 @@ function addWatched(id) {
 }
 
 function addWatchlist(id) {
-  if(!isLoggedIn){
+  if (!isLoggedIn) {
     showLoginModal();
     return;
   }
@@ -281,7 +282,7 @@ function addWatchlist(id) {
 }
 
 function addRewatch(id) {
-  if(!isLoggedIn){
+  if (!isLoggedIn) {
     showLoginModal();
     return;
   }
@@ -305,7 +306,7 @@ function addRewatch(id) {
 }
 
 function addToExclude(id) {
-  if(!isLoggedIn){
+  if (!isLoggedIn) {
     showLoginModal();
     return;
   }

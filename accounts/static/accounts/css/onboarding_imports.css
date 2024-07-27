@@ -53,11 +53,8 @@ form {
   color: #a3a3a3;
 }
 
-.btn:hover {
-  text-decoration: none;
-  background-color: var(--white);
-  color: var(--black);
-  outline: 1px solid #010101;
+button:hover {
+  background-color: #a38fff;
 }
 
 .form input {
