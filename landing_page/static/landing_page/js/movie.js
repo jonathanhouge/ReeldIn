@@ -5,14 +5,15 @@ var watchlist = false;
 var rewatch = false;
 var exclude = false;
 movieOverview(movie_data);
-fetchPreferences(movie_data.id); //TODO fetch this when getting the movie
+if (isLoggedIn) {
+  fetchPreferences(movie_data.id); //TODO fetch this when getting the movie
+}
 
 const tooltip_message = document.getElementById("tooltip_message");
 const tooltiptext = document.getElementById("tooltiptext");
 // Buttons for the movie info page
 // context change depending on button clicked, testing visuals
 function movieOverview(movie_data) {
-  console.log("movie_data: ", movie_data);
   streaming = JSON.parse(movie_data.watch_providers);
 
   if (streaming.length == 0) {
@@ -67,6 +68,11 @@ function movieDetails(movie_data) {
     <p><strong>Genres:</strong> ${movie_genres} </p> </div>
     <div style="margin-top: 10px;">
     <p><strong>Language:</strong> ${movie_data.language} </p> </div>`;
+}
+
+function showLoginModal() {
+  // TODO: Style? Allow user to login?
+  alert("Please log in to access this feature!");
 }
 
 function moviePeople(movie_data) {
@@ -173,6 +179,11 @@ function updateButton(id, name, color) {
 }
 
 function addLiked(id) {
+  if (!isLoggedIn) {
+    showLoginModal();
+    return;
+  }
+
   if (!watched) addWatched(id);
   tooltip_message.classList.add("hidden");
 
@@ -192,6 +203,11 @@ function addLiked(id) {
 }
 
 function addDisliked(id) {
+  if (!isLoggedIn) {
+    showLoginModal();
+    return;
+  }
+
   if (!watched) addWatched(id);
   tooltip_message.classList.add("hidden");
 
@@ -211,6 +227,11 @@ function addDisliked(id) {
 }
 
 function addWatched(id) {
+  if (!isLoggedIn) {
+    showLoginModal();
+    return;
+  }
+
   if (!watched) {
     updateButton(id, "_seen", "blue");
   } else if (liked || disliked) {
@@ -237,6 +258,11 @@ function addWatched(id) {
 }
 
 function addWatchlist(id) {
+  if (!isLoggedIn) {
+    showLoginModal();
+    return;
+  }
+
   if (watched) {
     displayTooltip("You have already watched this movie!");
     return;
@@ -256,6 +282,11 @@ function addWatchlist(id) {
 }
 
 function addRewatch(id) {
+  if (!isLoggedIn) {
+    showLoginModal();
+    return;
+  }
+
   if (exclude) {
     displayTooltip("You cannot rewatch a movie you have excluded!");
     return;
@@ -275,6 +306,11 @@ function addRewatch(id) {
 }
 
 function addToExclude(id) {
+  if (!isLoggedIn) {
+    showLoginModal();
+    return;
+  }
+
   if (watchlist) {
     addWatchlist(id);
   }

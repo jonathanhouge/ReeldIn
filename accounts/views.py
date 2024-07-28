@@ -429,7 +429,7 @@ def preferences_single_movie_view(request, id):
     This function handles the GET request for sending the user's movie preferences.
     """
     if not request.user.is_authenticated:
-        return redirect("accounts:login")
+        return JsonResponse({})
 
     if request.method != "GET":
         return HttpResponse(status=405)
