@@ -1,11 +1,11 @@
-.profile_img {
+.profile-img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   margin: 0 auto;
 }
 
-#user_info_div {
+#user-info-div {
   padding: 20px;
   border: 1px solid #e1e1e1;
   border-radius: 5px;
@@ -14,22 +14,16 @@
   justify-content: space-between;
 }
 
-#profile_pic_div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 #info {
   margin-left: 20px;
 }
 
-.user_content {
+.user-content {
   display: flex;
 }
 
-.user_lists_div,
-.middle_col {
+.user-lists-div,
+.middle-col {
   flex: 1;
   margin-right: 20px;
   max-width: calc(
@@ -37,7 +31,7 @@
   ); /* TODO temp solution, replace with grid later */
 }
 
-.list_div {
+.list-div {
   border: 1px solid #e1e1e1;
   border-radius: 5px;
   padding: 20px;
@@ -65,25 +59,25 @@
   display: flex;
 }
 
-.placeholder_text {
+.placeholder-text {
   color: #a1a1a1;
   opacity: 0.75;
 }
 
-.friends_div {
+.friends-div {
   border: 1px solid #e1e1e1;
   border-radius: 5px;
   padding: 20px;
   margin-top: 20px;
 }
 
-.friends_title {
+.friends-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.friends_list {
+.friends-list {
   display: flex;
 }
 
@@ -94,7 +88,7 @@
 }
 
 button {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -109,13 +103,13 @@ button:hover {
   background-color: #a38fff;
 }
 
-#yes_delete_friend_request_button:hover,
-#reject_friend_button:hover,
-#remove_confirm_button:hover {
+#yes-delete-friend-request-button:hover,
+#reject-friend-button:hover,
+#remove-confirm-button:hover {
   background-color: #ff4d4d;
 }
 
-#accept_friend_button:hover {
+#accept-friend-button:hover {
   background-color: #15d615;
 }
 
@@ -124,13 +118,14 @@ button:hover {
   transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 750px) {
-  #user_info_div,
-  .user_content {
+@media screen and (width <= 750px) {
+  #user-info-div,
+  .user-content {
     display: block;
   }
-  .user_lists_div,
-  .middle_col {
+
+  .user-lists-div,
+  .middle-col {
     max-width: none;
   }
 }

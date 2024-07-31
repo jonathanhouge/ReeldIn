@@ -1,4 +1,4 @@
-.settings_container {
+.settings-container {
   padding: 20px;
   border: 1px solid #e1e1e1;
   border-radius: 5px;
@@ -7,7 +7,7 @@
   justify-content: space-between;
 }
 
-#profile_info img {
+#profile-info img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -19,17 +19,17 @@
   align-items: center;
 }
 
-#change_username {
+#change-username {
   margin-left: 20px;
 }
 
-.settings_container:nth-child(even) {
+.settings-container:nth-child(even) {
   background-color: #f1f1f1;
 }
 
 input,
 button {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -46,16 +46,17 @@ input:hover {
   background-color: #a38fff;
 }
 
-.delete_account_btn:hover {
+.delete-account-btn:hover {
   background-color: #ff4d4d !important;
-  outline: 0px !important;
+  outline: 0 !important;
 }
 
-@media screen and (max-width: 750px) {
-  .settings_container,
+@media screen and (width <= 750px) {
+  .settings-container,
   #info {
     display: block;
   }
+
   #onboarding-form input {
     width: 235px;
   }

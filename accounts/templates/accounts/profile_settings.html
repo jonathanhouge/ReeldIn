@@ -8,29 +8,29 @@
         href="{% static 'accounts/css/onboarding_imports.css' %}" />
   <script src="{% static 'accounts/js/settings.js' %}" defer></script>
 
-  <div id="message_div">
+  <div id="message-div">
     <h1>Account Settings</h1>
   </div>
-  <div class="content_div">
+  <div class="content-div">
     <a href="{% url 'landing_page:profile' %}">
       <button id="settings_btn">Back</button>
     </a>
 
-    <div class="settings_container" id="profile_info">
+    <div class="settings-container" id="profile-info">
       <div class="left_col">
         <h2>Profile</h2>
         <p>Edit your Profile picture, Username, and Password.</p>
       </div>
       <div class="right_col" id="info">
         <!-- Placeholder for User's Profile Pic -->
-        <button id="change_username" onclick="openChangeUsernameModal()">Change Username</button>
+        <button id="change-username" onclick="openChangeUsernameModal()">Change Username</button>
         <button id="change_password" onclick="openChangePasswordModal()">Change Password</button>
         <button id="change_profile_picture" onclick="openProfilePicModal()">Change Profile Picture</button>
       </div>
     </div>
 
     <!-- Imported Data -->
-    <div class="settings_container" id="data_imports">
+    <div class="settings-container" id="data_imports">
       <div class="left_col">
         <h2>Imported Data</h2>
         <p>Import data from IMDB and Letterboxd.</p>
@@ -41,7 +41,7 @@
     </div>
 
     <!-- Movie Preferences -->
-    <div class="settings_container" id="movie_preferences">
+    <div class="settings-container" id="movie_preferences">
       <div class="left_col">
         <h2>Preferences</h2>
         <p>Edit your prefered genres, triggers, etc.</p>
@@ -52,7 +52,7 @@
     </div>
 
     <!-- Delete Account -->
-    <div class="settings_container" id="delete_account">
+    <div class="settings-container" id="delete_account">
       <div class="left_col">
         <h2>Delete Account</h2>
         <p>
@@ -62,7 +62,7 @@
       </div>
 
       <div class="right_col">
-        <button class="btn btn-open delete_account_btn" onclick="openDeleteModal()">Delete Account</button>
+        <button class="btn btn-open delete-account-btn" onclick="openDeleteModal()">Delete Account</button>
       </div>
     </div>
   </div>
@@ -104,7 +104,7 @@
   <!-- Change Profile Pic modal -->
   <div class="modal hidden" id="upload_modal">
     <div class="flex">
-      <h3 id="top_header">Upload a new Profile Picture</h3>
+      <h3 id="top-header">Upload a new Profile Picture</h3>
       <button class="btn-close" onclick="closeProfilePicModal()">⨉</button>
     </div>
     <div class="dropbox">
@@ -112,7 +112,7 @@
         <h4 id="title">
           Select File here</h4">
         </div>
-        <div class="dropbox_content">
+        <div class="dropbox-content">
           <p id="subtitle">Files Supported: PNG, JPEG, SVG</p>
           <form id="onboarding-form">
             {% csrf_token %}

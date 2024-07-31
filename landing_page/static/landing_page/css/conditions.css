@@ -1,4 +1,4 @@
-.terms_div {
+.terms-div {
   display: flex;
   flex-direction: column;
   background-color: var(--white);

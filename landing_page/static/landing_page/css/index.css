@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Lexend+Deca:wght@100..900&display=swap");
 
-.movies_div {
+.movies-div {
   overflow-x: auto;
 }
 
@@ -29,7 +29,7 @@
   display: none;
   width: 234px;
   height: 350px;
-  background-color: #000000cc;
+  background-color: #000c;
   color: #fff;
   text-align: center;
   padding: 15px;
@@ -56,9 +56,10 @@
 }
 
 /* For Mobile S 320px / Mobile M 375px / Mobile L 425 */
+
 /* no padding for this section, and reduce margins */
-@media screen and (max-width: 550px) {
-  .title_div {
+@media screen and (width <= 550px) {
+  .title-div {
     margin-left: 10px;
     font-size: 14px;
   }

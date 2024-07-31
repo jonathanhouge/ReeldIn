@@ -32,4 +32,9 @@ python manage.py init_db "recommendations/fixtures/movies_fixture.json"
 echo "Installing tailwind."
 python manage.py tailwind install
 
-echo "Project setup successful."
+if ! test -f ".stylelintrc.json"; then
+    echo "Installing stylelint."
+    npm init stylelint
+fi
+
+echo "Project setup complete."
