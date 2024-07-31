@@ -22,13 +22,10 @@ function movieOverview(movie_data) {
   }
 
   document.getElementById("movie-summary").innerHTML = `
-      <div id="streaming-info">
       <p><strong>Description:</strong> </p>
       <p> ${movie_data.overview} </p>
-      </div>
-      <div id="streaming-info">
-        <strong>Streaming:</strong> <p>${streaming}</p>
-      </div>`;
+      <p><strong>Streaming:</strong><p>
+      <p>${streaming}</p>`;
 }
 
 async function updatePreference(type, id) {

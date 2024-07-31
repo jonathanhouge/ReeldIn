@@ -22,10 +22,6 @@
   width: 100%;
 }
 
-#streaming-info {
-  margin-top: 15px;
-}
-
 #movie-name {
   font-size: 40px;
   font-family: var(--primary-font);
@@ -272,7 +268,7 @@
   }
 }
 
-@media screen and (width <= 1000px) and (width >= 500px) {
+@media screen and (width <= 1200px) and (width >= 500px) {
   .content-container {
     display: flex;
     flex-direction: column;
@@ -316,7 +312,7 @@
   }
 }
 
-@media screen and (width <= 3000px) and (width >= 1441px) {
+@media screen and (width <= 3000px) and (width >= 2000px) {
   .content-container img,
   .tooltip {
     height: 700px;
@@ -325,7 +321,20 @@
 
   #movie-summary p {
     font-size: 35px;
-    padding: 10px;
+    margin: 1rem;
+  }
+}
+
+@media screen and (width <= 2000px) and (width >= 1500px) {
+  #movie-summary p {
+    font-size: 30px;
+    margin: 1rem;
+  }
+}
+
+@media screen and (width <= 1500px) and (width >= 1200px) {
+  #movie-summary p {
+    font-size: 25px;
     margin: 1rem;
   }
 }
