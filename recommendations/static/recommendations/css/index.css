@@ -1,11 +1,12 @@
 :root {
   --heading-color: black;
   --footer-color: green;
+
   font-family: var(--primary-font);
 }
 
 li {
-  margin: 5px 0px;
+  margin: 5px 0;
 }
 
 #question {
@@ -24,10 +25,11 @@ li {
   bottom: 0;
 }
 
+/* hits the 'Question' HTML on the 'recommendations/forms.py' */
 #id_Question {
   width: 70vw;
   background-color: var(--white);
-  border-width: 0px;
+  border-width: 0;
   color: black;
   font-family: var(--primary-font);
 }
@@ -54,7 +56,7 @@ h2 {
 }
 
 #form-submission {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -82,7 +84,7 @@ h2 {
   color: red;
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (width <= 550px) {
   p,
   label {
     display: block;
@@ -97,7 +99,7 @@ h2 {
   }
 }
 
-@media screen and (min-width: 550px) and (max-width: 1500px) {
+@media screen and (width >= 550px) and (width <= 1500px) {
   p,
   label,
   #id_Question {

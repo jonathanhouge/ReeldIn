@@ -12,7 +12,7 @@
   margin: 0.5rem;
 }
 
-#movie_summary {
+#movie-summary {
   font-family: var(--primary-font);
   font-size: 32px;
   text-align: left;
@@ -22,11 +22,7 @@
   width: 100%;
 }
 
-#streaming_info {
-  margin-top: 15px;
-}
-
-#movie_name {
+#movie-name {
   font-size: 40px;
   font-family: var(--primary-font);
   margin-left: 10px;
@@ -35,61 +31,60 @@
   text-align: center;
 }
 
-#movie_button_nav {
-  margin-left: 0px;
+#movie-button-nav {
+  margin-left: 0;
   margin-bottom: 10px;
   margin-top: 5px;
 }
 
 #movie-summary p {
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem;
 }
 
-#help_button{
-  position:absolute;
-  bottom:0px;
-  right:0px;
-  margin-bottom:15px;
-  margin-right:15px;
+#help-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 15px;
+  margin-right: 15px;
   background-color: #9a8aff;
-  border-radius:50%;
+  border-radius: 50%;
   padding: 0.5rem;
   transition: all 0.3s ease;
   font-size: 2rem;
-
 }
 
-#help_button:hover{
+#help-button:hover {
   transform: scale(1.2) !important;
 }
 
-.modal{
-  width:75%;
+.modal {
+  width: 75%;
   max-width: 1080px;
 }
 
-.btn-close{
+.btn-close {
   position: absolute;
   top: 0;
   right: 0;
   font-family: var(--primary-font);
   font-size: 20px;
-  margin:8px;
+  margin: 8px;
 }
-.content_container img, .tooltip {
+
+.content-container img,
+.tooltip {
   height: 600px;
   width: auto;
   border-radius: 7px;
   border: 1px solid #e1e1e1;
 }
 
-/*TODO mobile styling for tooltip*/
+/* TODO mobile styling for tooltip */
+
 /* tooltip modified & repurposed from landing_page/index.css */
 
-.tooltip_button {
+.tooltip-button {
   display: inline-block;
   margin-right: 10px;
   background-color: #9a8aff;
@@ -102,49 +97,46 @@
 .row2,
 .row3 {
   margin-top: 20px;
-
 }
 
-.tooltip_button:hover {
+.tooltip-button:hover {
   transform: scale(1.2) !important;
   transition: all 0.3s ease;
 }
 
-.tooltip_button:active {
+.tooltip-button:active {
   transform: scale(1) !important;
 }
 
-.tooltip_message {
+.tooltip-message {
   min-height: 80px;
   color: red;
   background-color: white;
   border-radius: 10px;
   text-align: center;
   padding: 10px;
-  font-size:30px;
-  margin-bottom:10px;
+  font-size: 30px;
+  margin-bottom: 10px;
 }
+
 .hidden {
   visibility: visible;
   display: none;
-
 }
+
 .tooltip {
   position: relative;
   display: inline-block;
 }
-.tooltip_content {
-  overflow-y: auto;
-}
+
 .tooltiptext {
   width: 100%;
   height: 100%;
   background-color: #00000095;
   color: #fff;
-  text-align: left;
   padding: 15px;
   text-align: center;
-  margin: 0px;
+  margin: 0;
 }
 
 .tooltip:hover .tooltiptext:hover {
@@ -152,105 +144,107 @@
   transition: all 0.3s ease;
 }
 
-#message_container{
-  min-height:120px;
+#message-container {
+  min-height: 120px;
 }
 
 /* The poster / buttons / font size for each screen size will slighly differ */
-@media screen and (max-width: 300px) and (min-width: 0px) {
-  .content_container {
+@media screen and (width <= 300px) and (width >= 0) {
+  .content-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
   }
+
   .tooltip {
     height: 100px;
   }
-  #movie_summary {
+
+  #movie-summary {
     font-size: 16px;
   }
-  #movie_name,
-  #movie_button_nav {
+
+  #movie-name,
+  #movie-button-nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 }
-@media screen and (max-width: 400px) and (min-width: 300px) {
-  .content_container {
+
+@media screen and (width <= 400px) and (width >= 300px) {
+  .content-container {
     display: flex;
     flex-direction: column;
   }
 
-  #movie_name,
-  #movie_button_nav {
+  #movie-name,
+  #movie-button-nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
-  #movie_name h2 {
+  #movie-name h2 {
     font-size: 3rem;
   }
 
-  #movie_summary {
+  #movie-summary {
     font-size: 16px;
   }
 
-  .tooltip_button {
+  .tooltip-button {
     width: 60px;
-    font-size:25px;
+    font-size: 25px;
   }
 
-  .row2,.row3 {
+  .row2,
+  .row3 {
     margin-top: 10px;
   }
 
-  .content_container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .content_container img,.tooltip  {
+  .content-container img,
+  .tooltip {
     height: 300px;
     width: 100%;
     justify-content: center;
   }
- 
-  .tooltip_message {
+
+  .tooltip-message {
     font-size: 15px;
   }
-  #message_container{
-    min-height:40px;
 
+  #message-container {
+    min-height: 40px;
   }
 }
 
-@media screen and (max-width: 500px) and (min-width: 400px) {
-  .content_container {
+@media screen and (width <= 500px) and (width >= 400px) {
+  .content-container {
     display: flex;
     flex-direction: column;
   }
 
-  .content_container img,.tooltip  {
+  .content-container img,
+  .tooltip {
     height: 100%;
     width: 100%;
     align-items: center;
   }
 
-  #movie_name {
+  #movie-name {
     font-size: 29px;
   }
 
-  #movie_name,
-  #movie_button_nav {
+  #movie-name,
+  #movie-button-nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
-  #movie_button_nav {
-    margin-left: 0px;
+  #movie-button-nav {
+    margin-left: 0;
     padding: 5px;
   }
 
@@ -258,75 +252,89 @@
     display: block;
     font-size: 20px;
   }
-  .tooltip_button {
+
+  .tooltip-button {
     width: 90px;
-    height:75px;
+    height: 75px;
     font-size: 45px;
-    
   }
-  .tooltip_message {
+
+  .tooltip-message {
     font-size: 15px;
   }
-  #message_container{
-    min-height:80px;
 
+  #message-container {
+    min-height: 80px;
   }
 }
 
-@media screen and (max-width: 1000px) and (min-width: 500px) {
-  .content_container {
+@media screen and (width <= 1200px) and (width >= 500px) {
+  .content-container {
     display: flex;
     flex-direction: column;
   }
 
-  .content_container img,.tooltip {
+  .content-container img,
+  .tooltip {
     height: 500px;
     width: 350px;
     margin: 0 auto;
   }
+
   #movie-summary p {
     font-size: 28px;
     margin-left: 2rem;
   }
 
-  #movie_button_nav {
-    margin-left: 0px;
+  #movie-button-nav {
+    margin-left: 0;
   }
-  
-  .tooltip_button {
+
+  .tooltip-button {
     width: 135px;
-    height:75px;
+    height: 75px;
     font-size: 45px;
-    
   }
 }
 
-@media screen and (max-width: 500px) {
-  #help_modal{
-    width:100% !important; /*TODO: overrides separate !important width in modal.css  */
-    padding: 20px 0px;
+@media screen and (width <= 500px) {
+  #help-modal {
+    width: 100% !important; /* TODO: overrides separate !important width in modal.css  */
+    padding: 20px 0;
   }
-  #help_button{
-    right:20px;
-    bottom:20px;
-    margin-right:0px;
-    z-index:2;
-    position:fixed;
+
+  #help-button {
+    right: 20px;
+    bottom: 20px;
+    margin-right: 0;
+    z-index: 2;
+    position: fixed;
   }
 }
 
-@media screen and (max-width: 3000px) and (min-width: 1441px) {
-  .content_container img,.tooltip  {
+@media screen and (width <= 3000px) and (width >= 2000px) {
+  .content-container img,
+  .tooltip {
     height: 700px;
     width: auto;
   }
 
   #movie-summary p {
     font-size: 35px;
-    padding: 10px;
-    margin-left: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-right: 1rem;
+    margin: 1rem;
+  }
+}
+
+@media screen and (width <= 2000px) and (width >= 1500px) {
+  #movie-summary p {
+    font-size: 30px;
+    margin: 1rem;
+  }
+}
+
+@media screen and (width <= 1500px) and (width >= 1200px) {
+  #movie-summary p {
+    font-size: 25px;
+    margin: 1rem;
   }
 }

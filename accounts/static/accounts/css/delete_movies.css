@@ -1,13 +1,13 @@
-#remove_movies_container {
+#remove-movies-container {
   border: 0.5vh solid black;
   border-radius: 2vh;
   padding: 1vh;
 }
 
-.content_div {
+.content-div {
   min-width: 100%;
 }
 
-.tooltiptext{
+.tooltiptext {
   background-color: #000000d3;
 }

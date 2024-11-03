@@ -1,4 +1,4 @@
-#onboarding_search input {
+#onboarding-search input {
   padding: 0.75rem;
   font-size: 20px;
   border: none;
@@ -7,7 +7,7 @@
   background-color: #f4f4f4;
 }
 
-#onboarding_search {
+#onboarding-search {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,7 @@
   border: 1px solid var(--black);
 }
 
-#movie_container {
+#movie-container {
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -38,9 +38,8 @@
   max-height: 80vh;
 }
 
-.tooltip_button {
+.tooltip-button {
   display: inline-block;
-  margin-right: 10px;
   background-color: #9a8aff;
   padding: 1rem;
   width: 100px;
@@ -58,24 +57,25 @@
 
 /* tooltip modified & repurposed from landing_page/index.css */
 
-.tooltip_button:hover {
+.tooltip-button:hover {
   background-color: #e0e0e0;
   transform: scale(1.2) !important;
   transition: all 0.3s ease;
 }
 
-.tooltip_button:active {
+.tooltip-button:active {
   transform: scale(1) !important;
 }
 
-.tooltip_message {
+.tooltip-message {
   color: red;
   background-color: white;
   border-radius: 10px;
   text-align: center;
   padding: 10px;
 }
-.tooltip_message_container {
+
+.tooltip-message-container {
   min-height: 80px;
 }
 
@@ -84,16 +84,11 @@
   display: inline-block;
 }
 
-.tooltip_content {
-  overflow-y: auto;
-}
-
 .tooltiptext {
   width: 100%;
   height: 100%;
   background-color: #00000095;
   color: #fff;
-  text-align: left;
   padding: 15px;
   border-radius: 6px;
   position: absolute;
@@ -106,39 +101,41 @@
   transition: all 0.3s ease;
 }
 
-@media only screen and (max-width: 480px) {
-  .tooltip_button:hover {
+@media only screen and (width <= 480px) {
+  .tooltip-button:hover {
     background-color: #9a8aff;
     transform: scale(1) !important;
   }
-
 }
 
-@media screen and (max-width: 500px) {
-  #help_modal{
-    width:100% !important; /*TODO: overrides separate !important width in modal.css  */
-    padding: 20px 0px;
+@media screen and (width <= 500px) {
+  #help-modal {
+    width: 100% !important; /* TODO: overrides separate !important width in modal.css  */
+    padding: 20px 0;
   }
 }
 
-#help_button {
+#help-button {
   position: fixed;
   right: 20px;
   bottom: 100px;
   background-color: #816efa;
   border-radius: 100%;
   padding: 0.5rem;
-  color:white;
+  color: white;
   font-size: 2.5rem;
 }
-#top_header{
+
+#top-header {
   text-align: center;
 }
-#help_modal{
-  width:75%;
+
+#help-modal {
+  width: 75%;
   max-width: 1080px;
 }
-#close-help-modal-btn{
+
+#close-help-modal-btn {
   position: absolute;
   top: 0;
   right: 0;

@@ -12,7 +12,7 @@
   position: fixed;
   left: 20px;
   width: 100px;
-  background-color: rgb(237, 84, 84);
+  background-color: rgb(237 84 84);
 }
 
 #next-button {
@@ -49,12 +49,12 @@ button:hover {
   background-color: #a38fff;
 }
 
-#logo_div:hover {
+#logo-div:hover {
   cursor: pointer;
 }
 
-.exit_btn:hover {
-  background-color: rgb(237, 84, 84);
+.exit-btn:hover {
+  background-color: rgb(237 84 84);
 }
 
 .onboarding-table {
@@ -70,20 +70,21 @@ button:hover {
   padding: 0.5rem;
 }
 
-tbody tr:nth-child(odd){
-  background-color: rgba(100,100,100,0.2)
+tbody tr:nth-child(odd) {
+  background-color: rgb(100 100 100 / 20%);
 }
 
 tbody tr:hover {
-  background-color: rgba(40, 40, 40, 0.4) !important;
+  background-color: rgb(40 40 40 / 40%) !important;
 }
+
 .onboarding-content {
   width: 75%;
   margin: 0 auto;
   margin-bottom: 100px;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (width <= 480px) {
   .onboarding-content {
     width: 90%;
   }
