@@ -1,5 +1,5 @@
 // Page elements
-const movieContainer = document.getElementById("movie_container");
+const movieContainer = document.getElementById("movie-container");
 const searchbar = document.getElementById("searchbar");
 const tooltipBackgroundColor = "#9a8aff"; // Original tooltip button color
 
@@ -197,10 +197,10 @@ var movie_dict = {}; // Dictionary of all movies loaded so far, key is movie_id 
 
 var movies_to_remove = new Set(); // Set of all movies to be removed (may pop in and out of this list)
 var movies_fetched = new Set(); // Set of all movies loaded via scrolling due to db sending random ones
-const remove_movies_container = document.getElementById(
-  "remove_movies_container"
+const removeMoviesContainer = document.getElementById(
+  "remove-movies-container"
 );
-const movie_scroll_container = document.getElementById("movie_container");
+const movie_scroll_container = document.getElementById("movie-container");
 
 async function removeMovie() {
   const csrfToken = await getCSRFToken();
@@ -215,7 +215,7 @@ function setToRemove(movie_id) {
     movie_scroll_container.prepend(movieDiv);
   } else {
     movies_to_remove.add(movie_id);
-    remove_movies_container.appendChild(movieDiv);
+    removeMoviesContainer.appendChild(movieDiv);
   }
 }
 
@@ -261,7 +261,7 @@ async function deleteMovies() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      remove_movies_container.innerHTML = "";
+      removeMoviesContainer.innerHTML = "";
       closeExitModal();
       return response.text();
     })

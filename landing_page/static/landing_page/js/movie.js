@@ -9,7 +9,7 @@ if (isLoggedIn) {
   fetchPreferences(movie_data.id); //TODO fetch this when getting the movie
 }
 
-const tooltip_message = document.getElementById("tooltip_message");
+const tooltip_message = document.getElementById("tooltip-message");
 const tooltiptext = document.getElementById("tooltiptext");
 // Buttons for the movie info page
 // context change depending on button clicked, testing visuals
@@ -22,14 +22,11 @@ function movieOverview(movie_data) {
     streaming = streaming.join(", ");
   }
 
-  document.getElementById("movie_summary").innerHTML = `
-      <div id="streaming_info">
+  document.getElementById("movie-summary").innerHTML = `
       <p><strong>Description:</strong> </p>
       <p> ${movie_data.overview} </p>
-      </div>
-      <div id="streaming_info">
-        <strong>Streaming:</strong> <p>${streaming}</p>
-      </div>`;
+      <p><strong>Streaming:</strong><p>
+      <p>${streaming}</p>`;
 }
 
 async function updatePreference(type, id) {
@@ -59,7 +56,7 @@ async function updatePreference(type, id) {
 function movieDetails(movie_data) {
   movie_genres = JSON.parse(movie_data.genres);
   movie_genres = movie_genres.join(", ");
-  document.getElementById("movie_summary").innerHTML = `
+  document.getElementById("movie-summary").innerHTML = `
   <div style="margin-top: 10px;">
     <p><strong>Release Year:</strong> ${movie_data.year} </p> </div>
   <div style="margin-top: 10px;">
@@ -98,7 +95,7 @@ function moviePeople(movie_data) {
     movie_cinematographer = "No cinematographer found.";
 
   document.getElementById(
-    "movie_summary"
+    "movie-summary"
   ).innerHTML = `<p><strong>Director(s):</strong> ${movie_director}</p>
   <div style="margin-top: 10px;">
     <p><strong>Starring: </strong> ${movie_starring} </p> </div>
@@ -333,11 +330,11 @@ function displayTooltip(message) {
 }
 
 function showMovieHelpModal() {
-  document.getElementById("help_modal").classList.remove("hidden");
+  document.getElementById("help-modal").classList.remove("hidden");
   document.getElementById("exit_overlay").classList.remove("hidden");
 }
 
 function closeModal() {
-  document.getElementById("help_modal").classList.add("hidden");
+  document.getElementById("help-modal").classList.add("hidden");
   document.getElementById("exit_overlay").classList.add("hidden");
 }

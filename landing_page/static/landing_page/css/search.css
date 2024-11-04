@@ -2,11 +2,11 @@ p {
   margin-bottom: 1rem;
 }
 
-#search_results_div {
+#search-results-div {
   padding: 1rem 2rem;
 }
 
-.search_result {
+.search-result {
   display: flex;
   padding: 25px;
   background-color: var(--white);
@@ -14,13 +14,13 @@ p {
   border-radius: 15px;
 }
 
-@media screen and (max-width: 550px) {
-  .search_result {
+@media screen and (width <= 550px) {
+  .search-result {
     display: block;
   }
 }
 
-.search_result:nth-child(even) {
+.search-result:nth-child(even) {
   background-color: #e7e7e7;
 }
 
@@ -36,22 +36,14 @@ p {
   transition: all 0.3s ease;
 }
 
-.movie_title {
+.movie-title {
   display: block;
   float: left;
   color: black;
   margin-bottom: 1rem;
 }
 
-.movie_link {
+.movie-link {
   color: black;
   margin-bottom: 1rem;
-}
-
-.movie_details {
-  display: flex;
-  flex-direction: column;
-  margin-left: 1rem;
-  justify-content: left;
-  text-align: left;
 }

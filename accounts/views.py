@@ -574,7 +574,7 @@ def send_friend_request(request):
     try:
         receiver_user = User.objects.get(username=request_username)
     except User.DoesNotExist:
-        return JsonResponse({"message": "User not found.", "status": 404})
+        return JsonResponse({"message": "User not found."}, status=404)
 
     receiver_id = receiver_user.pk
 

@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recommendations', '0002_alter_movie_name'),
+        ("recommendations", "0002_alter_movie_name"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='movie',
-            name='budget',
+            model_name="movie",
+            name="budget",
             field=models.BigIntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='movie',
-            name='revenue',
+            model_name="movie",
+            name="revenue",
             field=models.BigIntegerField(default=0),
         ),
     ]

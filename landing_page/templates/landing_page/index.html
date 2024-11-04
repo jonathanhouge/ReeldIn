@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block content %}
-  <div id="message_div">
+  <div id="message-div">
     <h1>Welcome to ReeldIn</h1>
   </div>
-  <div class="content_div">
-    <div class="title_div">
+  <div class="content-div">
+    <div class="title-div">
       <h2>Latest Recommendations...</h2>
     </div>
-    <div class="movies_div content_container">
+    <div class="movies-div content-container">
       {% if recommendations %}
         {% for recommendation in recommendations %}
           <div class="movie tooltip">
