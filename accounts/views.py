@@ -434,7 +434,7 @@ def preferences_single_movie_view(request, id):
     if request.method != "GET":
         return HttpResponse(status=405)
 
-    movie = get_object_or_404(Movie, pk=id)
+    get_object_or_404(Movie, pk=id)  # Ensure movie exists
 
     return JsonResponse(
         {
