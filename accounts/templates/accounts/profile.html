@@ -21,7 +21,7 @@
           <p>Member since: {{ request.user.date_joined|date:"F d, Y" }}</p>
         </div>
       </div>
-      <div id="button_div">
+      <div id="button-div">
         <a href="{% url 'accounts:settings' %}">
           <button id="settings_btn">Settings</button>
         </a>
@@ -32,9 +32,9 @@
       <!-- Left Column of lists-->
       <div class="user-lists-div">
         <!--Recommended movies list-->
-        <div class="list-div" id="recommended_div">
+        <div class="list-div" id="recommended-div">
           <h3>Recommended</h3>
-          <div class="list" id="recommended_movies">
+          <div class="list" id="recommended-movies">
             {% if recommended_movies %}
               {% for movie in recommended_movies %}
                 <img src="https://image.tmdb.org/t/p/w200{{ movie.poster }}"
@@ -48,9 +48,9 @@
         </div>
 
         <!-- Liked movies list -->
-        <div class="list-div" id="liked_div">
+        <div class="list-div" id="liked-div">
           <h3>Liked Movies</h3>
-          <div class="list" id="liked_movies">
+          <div class="list" id="liked-movies">
             {% if liked_movies %}
               {% for movie in liked_movies %}
                 <img src="https://image.tmdb.org/t/p/w200{{ movie.poster }}"
@@ -64,9 +64,9 @@
         </div>
 
         <!-- Disliked movies list-->
-        <div class="list-div" id="disliked_div">
+        <div class="list-div" id="disliked-div">
           <h3>Disliked Movies</h3>
-          <div class="list" id="disliked_movies">
+          <div class="list" id="disliked-movies">
             {% if disliked_movies %}
               {% for movie in disliked_movies %}
                 <img src="https://image.tmdb.org/t/p/w200{{ movie.poster }}"
@@ -101,7 +101,7 @@
         <!-- Movies watched list-->
         <div class="list-div">
           <h3>Watched</h3>
-          <div class="list" id="watched_movies" id="watched_div">
+          <div class="list" id="watched-movies" id="watched-div">
             {% if watched_movies %}
               {% for movie in watched_movies %}
                 <img src="https://image.tmdb.org/t/p/w200{{ movie.poster }}"
@@ -122,7 +122,7 @@
           <button class="btn btn-open" onclick="openAddFriendModal()">Add Friend</button>
         </div>
         <!--Friends List-->
-        <div class="friends_list" id="friends_list">
+        <div class="friends-list" id="friends-list">
           {% if friends %}
             <p class="placeholder-text hidden" id="friends-list-text">No friends yet!</p>
             {% for friend in friends %}
@@ -139,9 +139,9 @@
         </div>
         <!--Received Friend Requests-->
         <h2>Received Requests</h2>
-        <div class="friends_list" id="received_requests">
+        <div class="friends-list" id="received-requests">
           {% if received_requests %}
-            <p class="placeholder-text hidden" id="received_requests_text">No friend requests received!</p>
+            <p class="placeholder-text hidden" id="received-requests-text">No friend requests received!</p>
             {% for request in received_requests %}
               <div class="friend"
                    id="{{ request.sender.username }}-profile-div"
@@ -151,14 +151,14 @@
               </div>
             {% endfor %}
           {% else %}
-            <p class="placeholder-text" id="received_requests_text">No friend requests received!</p>
+            <p class="placeholder-text" id="received-requests-text">No friend requests received!</p>
           {% endif %}
         </div>
         <!--Sent Friend Requests-->
         <h2>Sent Requests</h2>
-        <div class="friends_list" id="sent_requests">
+        <div class="friends-list" id="sent-requests">
           {% if sent_requests %}
-            <p class="placeholder-text hidden" id="sent_requests_text">No friend requests sent!</p>
+            <p class="placeholder-text hidden" id="sent-requests-text">No friend requests sent!</p>
             {% for request in sent_requests %}
               <div class="friend"
                    id="{{ request.receiver.username }}-profile-div"
@@ -168,7 +168,7 @@
               </div>
             {% endfor %}
           {% else %}
-            <p class="placeholder-text" id="sent_requests_text">No friend requests sent!</p>
+            <p class="placeholder-text" id="sent-requests-text">No friend requests sent!</p>
           {% endif %}
         </div>
       </div>
@@ -176,73 +176,73 @@
   </div>
 
   <!-- Modal box for adding/searching for friend -->
-  <section class="modal hidden" id="add_friend_modal">
+  <section class="modal hidden" id="add-friend-modal">
     <div class="flex">
       <h3>Enter your friend's Username!</h3>
       <button class="btn-close" onclick="closeAddFriendModal()">⨉</button>
     </div>
     <div>
-      <p id="add_friend_response"></p>
+      <p id="add-friend-response"></p>
       <p>We will send a friend request to the user with the username you provide.</p>
     </div>
     <input type="text"
-           id="send_friend_username"
+           id="send-friend-username"
            placeholder="Username"
-           name="send_friend_username" />
+           name="send-friend-username" />
     <button class="btn" onclick="sendFriendRequest()">Submit</button>
   </section>
 
   <!-- Modal box for deleting friend from friends list -->
-  <section class="modal hidden" id="remove_friend_modal">
+  <section class="modal hidden" id="remove-friend-modal">
     <div class="flex">
       <h3>Delete Friend</h3>
       <button class="btn-close" onclick="closeRemoveFriendModal()">⨉</button>
     </div>
     <div>
-      <p id="remove_friend_response"></p>
-      <p id="remove_friend_name"></p>
+      <p id="remove-friend-response"></p>
+      <p id="remove-friend-name"></p>
     </div>
-    <button class="btn profile_button"
+    <button class="btn profile-button"
             id="remove-confirm-button"
             onclick="removeFriend()">Yes</button>
-    <button class="btn profile_button"
-            id="remove_reject_button"
+    <button class="btn profile-button"
+            id="remove-reject-button"
             onclick="closeRemoveFriendModal()">No</button>
   </section>
 
   <!-- Modal box for received friend request -->
-  <section class="modal hidden" id="friend_request_modal">
+  <section class="modal hidden" id="friend-request-modal">
     <div class="flex">
       <h3>Friend Request</h3>
       <button class="btn-close" onclick="closeFriendRequestModal()">⨉</button>
     </div>
     <div>
-      <p id="friend_request_response"></p>
-      <p id="friend_request_text"></p>
+      <p id="friend-request-response"></p>
+      <p id="friend-request-text"></p>
     </div>
-    <button class="btn profile_button"
+    <button class="btn profile-button"
             id="accept-friend-button"
             onclick="acceptFriendRequest()">Accept</button>
-    <button class="btn profile_button"
+    <button class="btn profile-button"
             id="reject-friend-button"
             onclick="rejectFriendRequest()">Reject</button>
   </section>
 
   <!-- Modal box for sent friend request -->
-  <section class="modal hidden" id="delete_friend_request_modal">
+  <section class="modal hidden" id="delete-friend-request-modal">
     <div class="flex">
       <h3>Friend Request</h3>
       <button class="btn-close" onclick="closeDeleteFriendRequestModal()">⨉</button>
     </div>
     <div>
-      <p id="delete_friend_request_response"></p>
-      <p id="delete_friend_request_text"></p>
+      <p id="delete-friend-request-response"></p>
+      <p id="delete-friend-request-text"></p>
     </div>
-    <button class="btn profile_button"
+    <button class="btn profile-button"
             id="yes-delete-friend-request-button"
             onclick="rejectFriendRequest()">Yes</button>
-    <button class="btn profile_button"
-            id="no_delete_friend_request_button"
+    <button class="btn profile-button"
+            id="no-delete-friend-request-button"
             onclick="closeDeleteFriendRequestModal()">No</button>
   </section>
 
