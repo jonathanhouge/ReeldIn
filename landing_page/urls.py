@@ -12,6 +12,7 @@ urlpatterns = [
     path("about/", views.about, name="about"),
     path("profile/", views.profile, name="profile"),
     path("contact/", views.contact, name="contact"),
+    path("error/", views.error, name="error"),
     path("conditions/", views.conditions, name="conditions"),
     path("search/movies", views.search_movies, name="search_movies"),
     path("movie/<int:movie_id>", views.movie, name="movie"),

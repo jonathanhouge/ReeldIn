@@ -46,6 +46,10 @@ def conditions(request):
     return render(request, "landing_page/conditions.html")
 
 
+def error(request):
+    return render(request, "landing_page/404.html")
+
+
 def profile(request):
     if not request.user.is_authenticated:
         return render(request, "accounts/login.html")
