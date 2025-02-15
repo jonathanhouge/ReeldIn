@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     "base",
     "landing_page",
     "recommendations",
+    "dev_tools",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
