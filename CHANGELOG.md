@@ -25,6 +25,7 @@ Currently, we're working on enhancing and fixing current functionality, as well 
 - Better documentation in 'ReeldIn' folder.
 - Licenses no longer text files in 'documentation/external-licenses'.
 - Server recognizes when a guest is visiting a page with preferences, no longer redirects or causes an error.
+- Re-evaluation of film pool - removal of a bunch of smut.
 
 ## [1.0.0] - 06-04-2024
 
