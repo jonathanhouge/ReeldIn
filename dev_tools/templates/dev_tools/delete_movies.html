@@ -1,20 +1,22 @@
-{% extends 'accounts/delete_base.html' %}
+{% extends 'dev_tools/delete_base.html' %}
 {% load static %}
-
 {% block head %}
   <link rel="stylesheet"
         href="{% static 'accounts/css/onboarding_movies.css' %}" />
-  <link rel="stylesheet" href="{% static 'accounts/css/delete_movies.css' %}" />
+  <link rel="stylesheet"
+        href="{% static 'dev_tools/css/delete_movies.css' %}" />
   <title>ReeldIn: Delete Movies</title>
 {% endblock head %}
-
-{% block header %}
-  Admin: Delete Movies
-{% endblock header %}
+<!-- comment to stop styler from formatting -->
+{% block headerTitle %}
+  Delete Movies
+{% endblock headerTitle %}
+<!-- TODO: fix this issue -->
 {% block caption %}
-  Delete any movies you think the database could do without such as pornos, unreleased films, etc.
+  Delete any movies you think the database could do without
+  such as pornos, unreleased films, etc.
 {% endblock caption %}
-
+<!-- Content Section -->
 {% block content %}
   <div id="onboarding-search">
     <input type="text"
@@ -33,19 +35,17 @@
       <!--Posters go here-->
     </div>
   </div>
-{% endblock content %}
-
+{% endblock %}
 {% block exit_header %}
-  Are you sure you want to delete the movies in the delete section? This cannot be undone.
+  Are you sure you want to delete the
+  movies in the delete section? This cannot be undone.
 {% endblock exit_header %}
 {% block exit_button %}
   <button class="btn" onclick="deleteMovies()">Yes</button>
 {% endblock exit_button %}
-
 {% block footer_buttons %}
   <button onclick="openExitModal()" id="next-button" class="button">DELETE MOVIES IN THE DELETE SECTION</button>
 {% endblock footer_buttons %}
-
 {% block scripts %}
-  <script src="{% static 'accounts/js/delete_movies.js' %}"></script>
+  <script src="{% static 'dev_tools/js/delete_movies.js' %}"></script>
 {% endblock scripts %}

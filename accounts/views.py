@@ -181,14 +181,6 @@ def onboarding_movie_view(request):
         return HttpResponse(status=200)
 
 
-@staff_member_required
-def delete_movies_view(request):
-    return render(
-        request,
-        "accounts/delete_movies.html",
-    )
-
-
 def add_movies_to_user_list(user, movie_list, model_name):
     """
     This helper function adds the movies in movie_list
@@ -729,25 +721,6 @@ def delete_friend_request(request):
         friend_request.delete()
 
     return HttpResponse("Successfully deleted friend request.", status=200)
-
-
-@staff_member_required
-def delete_movie(request):
-    print("Deleting movies sent in POST request...")
-    try:
-        data = json.loads(request.body)
-        movie_ids = data.get("movies_to_remove", [])
-        if not movie_ids:
-            print("No movies specified to delete")
-            return JsonResponse({"error": "No movies specified to delete"}, status=400)
-
-        # Perform the deletion
-        Movie.objects.filter(id__in=movie_ids).delete()
-        print("Movies deleted!")
-
-        return JsonResponse({"success": "Movies deleted successfully"}, status=200)
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
 
 
 def change_username(request):
