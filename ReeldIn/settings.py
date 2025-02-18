@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     "landing_page",
     "recommendations",
     "dev_tools",
+    "movies",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
