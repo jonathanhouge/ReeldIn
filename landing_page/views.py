@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 import requests
 from django.conf import settings
@@ -74,7 +75,6 @@ def profile(request):
     return render(request, "accounts/profile.html", context)
 
 
-# testing purposes
 def movie(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     movie_json = serialize("json", [movie])
@@ -83,6 +83,10 @@ def movie(request, movie_id):
 
     language_dict = dict(LANGUAGES)  # from rec/helpers
     movie_json["language"] = language_dict.get(movie.language)
+
+    # remove duplicate writers (string to list, remove duplicates, json readable)
+    writers_list = re.sub(r"[\[\]\"]", "", movie_json["writer"]).split(", ")
+    movie_json["writer"] = json.dumps(list(set(writers_list)))
 
     return render(
         request, "landing_page/movie.html", {"movie": movie, "movie_json": movie_json}

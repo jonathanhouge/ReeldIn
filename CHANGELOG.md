@@ -9,6 +9,11 @@ Currently, we're working on enhancing and fixing current functionality, as well 
 ### Added
 
 - Error handling / checking in 'setup.sh'.
+- Only show unique writers on 'movie.html'.
+  - This happened due to 'story' and 'screenplay' credits from TMDb both being 'writer' in our database.
+- Show current plurality on 'movie.html' across all roles.
+  - Previously, 'Writer(s)' and 'Director(s)' was displayed statically.
+  - Composer and Cinematographer roles have been given the same treatment, previously they were statically singular.
 
 ### Changed
 
@@ -16,7 +21,7 @@ Currently, we're working on enhancing and fixing current functionality, as well 
   - Linted all template files with djlint!
   - Linted all css files!
 - Updated Django version: 4.2.10 -> 4.2.17
-- Passwords now have a minimum limit of eight characters.
+- Passwords now have a minimum length of eight characters.
 - '.env_sample' has local development in mind.
 - 'dashboard' app has been deprecated and reborn as 'base' - a place where global / similar attributes will live.
 

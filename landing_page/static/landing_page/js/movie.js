@@ -74,6 +74,7 @@ function showLoginModal() {
 
 function moviePeople(movie_data) {
   movie_director = JSON.parse(movie_data.director);
+  directorPlurality = movie_director.length <= 1 ? "Director" : "Directors";
   movie_director = movie_director.join(", ");
   if (!movie_director) movie_director = "No director found.";
 
@@ -82,29 +83,33 @@ function moviePeople(movie_data) {
   if (!movie_starring) movie_starring = "No actors found.";
 
   movie_writer = JSON.parse(movie_data.writer);
+  writerPlurality = movie_writer.length <= 1 ? "Writer" : "Writers";
   movie_writer = movie_writer.join(", ");
   if (!movie_writer) movie_writer = "No writer found.";
 
   movie_composer = JSON.parse(movie_data.composer);
+  composerPlurality = movie_composer.length <= 1 ? "Composer" : "Composers";
   movie_composer = movie_composer.join(", ");
   if (!movie_composer) movie_composer = "No composer found.";
 
   movie_cinematographer = JSON.parse(movie_data.cinematographer);
+  cinematographerPlurality =
+    movie_cinematographer.length <= 1 ? "Cinematographer" : "Cinematographers";
   movie_cinematographer = movie_cinematographer.join(", ");
   if (!movie_cinematographer)
     movie_cinematographer = "No cinematographer found.";
 
   document.getElementById(
     "movie-summary"
-  ).innerHTML = `<p><strong>Director(s):</strong> ${movie_director}</p>
+  ).innerHTML = `<p><strong>${directorPlurality}:</strong> ${movie_director}</p>
   <div style="margin-top: 10px;">
     <p><strong>Starring: </strong> ${movie_starring} </p> </div>
     <div style="margin-top: 10px;">
-    <p><strong>Writer(s): </strong> ${movie_writer} </p> </div>
+    <p><strong>${writerPlurality}: </strong> ${movie_writer} </p> </div>
     <div style="margin-top: 10px;">
-    <p><strong>Composer: </strong> ${movie_composer} </p> </div>
+    <p><strong>${composerPlurality}: </strong> ${movie_composer} </p> </div>
     <div style="margin-top: 10px;">
-    <p><strong>Cinematographer: </strong> ${movie_cinematographer} </p> </div>
+    <p><strong>${cinematographerPlurality}: </strong> ${movie_cinematographer} </p> </div>
     `;
 }
 
