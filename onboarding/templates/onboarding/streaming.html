@@ -1,4 +1,4 @@
-{% extends 'accounts/onboarding_base.html' %}
+{% extends 'onboarding/base.html' %}
 {% load static %}
 
 {% block head %}
@@ -40,7 +40,7 @@
 {% endblock exit_header %}
 {% block exit_button %}
   <button class="btn"
-          onclick="window.location.href = '/accounts/onboarding/triggers/'">Yes</button>
+          onclick="window.location.href = '/onboarding/triggers/'">Yes</button>
 {% endblock exit_button %}
 
 {% block footer_buttons %}
@@ -49,5 +49,5 @@
 {% endblock footer_buttons %}
 
 {% block scripts %}
-  <script src="{% static 'accounts/js/onboarding_streaming.js' %}"></script>
+  <script src="{% static 'onboarding/js/streaming.js' %}"></script>
 {% endblock scripts %}

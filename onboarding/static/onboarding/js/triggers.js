@@ -1,5 +1,5 @@
 function redirectToOnboardingMovieForm() {
-  window.location.href = "/accounts/onboarding/movies/";
+  window.location.href = "/onboarding/movies/";
 }
 
 function submitTriggerForm() {

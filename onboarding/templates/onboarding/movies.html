@@ -1,9 +1,9 @@
-{% extends 'accounts/onboarding_base.html' %}
+{% extends 'onboarding/base.html' %}
 {% load static %}
 
 {% block head %}
   <link rel="stylesheet"
-        href="{% static 'accounts/css/onboarding_movies.css' %}" />
+        href="{% static 'onboarding/css/movies.css' %}" />
   <title>ReeldIn: Movie Preferences</title>
 {% endblock head %}
 {% block header %}
@@ -41,7 +41,7 @@
 
 {% block exit_button %}
   <button class="btn"
-          onclick="window.location.href = '/accounts/onboarding/imports/'">Yes</button>
+          onclick="window.location.href = '/onboarding/imports/'">Yes</button>
 {% endblock exit_button %}
 {% block footer_buttons %}
   <button onclick="openExitModal()" id="back-button" class="button">Back</button>
@@ -52,5 +52,5 @@
 {% endblock footer_buttons %}
 
 {% block scripts %}
-  <script src="{% static 'accounts/js/onboarding_movies.js' %}"></script>
+  <script src="{% static 'onboarding/js/movies.js' %}"></script>
 {% endblock scripts %}

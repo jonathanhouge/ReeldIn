@@ -1,9 +1,9 @@
-{% extends 'accounts/onboarding_base.html' %}
+{% extends 'onboarding/base.html' %}
 {% load static %}
 
 {% block head %}
   <link rel="stylesheet"
-        href="{% static 'accounts/css/onboarding_intro.css' %}" />
+        href="{% static 'onboarding/css/intro.css' %}" />
   <title>ReeldIn: User Onboarding</title>
 {% endblock head %}
 
@@ -44,5 +44,5 @@
 {% endblock content %}
 
 {% block scripts %}
-  <script src="{% static 'accounts/js/onboarding_intro.js' %}"></script>
+  <script src="{% static 'onboarding/js/intro.js' %}"></script>
 {% endblock scripts %}

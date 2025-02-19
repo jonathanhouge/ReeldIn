@@ -1,9 +1,9 @@
-{% extends 'accounts/onboarding_base.html' %}
+{% extends 'onboarding/base.html' %}
 {% load static %}
 
 {% block head %}
   <link rel="stylesheet"
-        href="{% static 'accounts/css/onboarding_imports.css' %}" />
+        href="{% static 'onboarding/css/imports.css' %}" />
   <link rel="stylesheet" href="{% static 'accounts/css/settings.css' %}" />
   <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
 {% endblock head %}
@@ -92,16 +92,16 @@
 {% endblock exit_header %}
 {% block exit_button %}
   <button class="btn"
-          onclick="window.location.href = '/accounts/onboarding/genres/'">Yes</button>
+          onclick="window.location.href = '/onboarding/genres/'">Yes</button>
 {% endblock exit_button %}
 
 {% block footer_buttons %}
   <button onclick="openExitModal()" id="back-button" class="button">Back</button>
-  <button onclick="window.location.href='/accounts/onboarding/movies/'"
+  <button onclick="window.location.href='/onboarding/movies/'"
           id="next-button"
           class="button">Continue</button>
 {% endblock footer_buttons %}
 
 {% block scripts %}
-  <script src="{% static 'accounts/js/onboarding_imports.js' %}"></script>
+  <script src="{% static 'onboarding/js/imports.js' %}"></script>
 {% endblock scripts %}

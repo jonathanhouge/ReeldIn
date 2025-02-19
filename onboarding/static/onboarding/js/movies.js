@@ -1,3 +1,5 @@
+//TODO could probably move all add functions to a separate file since also used in movie details page?
+
 // Movie data int ID sets
 var movies_liked = new Set();
 var movies_disliked = new Set();
@@ -147,7 +149,7 @@ async function searchMovies(event) {
 
   if (searchString) {
     const csrfToken = await getCSRFToken();
-    fetch("/accounts/onboarding/movies/search", {
+    fetch("/onboarding/movies/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -192,9 +194,7 @@ async function fetchMovies(numMovies = 35) {
   isLoading = true;
 
   try {
-    const response = await fetch(
-      `/accounts/onboarding/movies/random/${numMovies}/`
-    );
+    const response = await fetch(`/onboarding/movies/random/${numMovies}/`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -225,7 +225,7 @@ async function submitOnboardingMovieForm() {
     movies_blocked: Array.from(movies_blocked),
   };
 
-  fetch("/accounts/onboarding/movies/", {
+  fetch("/onboarding/movies/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -238,7 +238,7 @@ async function submitOnboardingMovieForm() {
         throw new Error("Network response was not ok");
       }
 
-      window.location.href = "/accounts/onboarding/triggers/";
+      window.location.href = "/onboarding/triggers/";
     })
     .catch((error) => {
       console.error("Error submitting movie preferences:", error);

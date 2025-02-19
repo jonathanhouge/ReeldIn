@@ -1,5 +1,5 @@
 function redirectToOnboardingMovies() {
-  window.location.href = "/accounts/onboarding/genres/";
+  window.location.href = "/onboarding/genres/";
 }
 
 function redirectToRecommendations() {

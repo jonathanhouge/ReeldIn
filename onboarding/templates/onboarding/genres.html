@@ -1,9 +1,9 @@
-{% extends 'accounts/onboarding_base.html' %}
+{% extends 'onboarding/base.html' %}
 {% load static %}
 
 {% block head %}
   <link rel="stylesheet"
-        href="{% static 'accounts/css/onboarding_genres.css' %}" />
+        href="{% static 'onboarding/css/genres.css' %}" />
   <title>ReeldIn: Genre Preferences</title>
 {% endblock head %}
 
@@ -58,5 +58,5 @@
 {% endblock footer_buttons %}
 
 {% block scripts %}
-  <script src="{% static 'accounts/js/onboarding_genres.js' %}"></script>
+  <script src="{% static 'onboarding/js/genres.js' %}"></script>
 {% endblock scripts %}

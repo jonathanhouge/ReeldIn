@@ -19,5 +19,6 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path("error/", include("base.urls", namespace="error")),
     path("dev_tools/", include("dev_tools.urls", namespace="dev_tools")),
+    path("onboarding/", include("onboarding.urls", namespace="onboarding")),
     path("", include("movies.urls", namespace="movies")),
 ]

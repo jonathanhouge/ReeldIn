@@ -77,7 +77,7 @@ async function searchMovies(event) {
 
   if (searchString) {
     const csrfToken = await getCSRFToken();
-    fetch("/accounts/onboarding/movies/search", {
+    fetch("/onboarding/movies/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -118,9 +118,7 @@ async function fetchMovies(numMovies = 35) {
   isLoading = true;
 
   try {
-    const response = await fetch(
-      `/accounts/onboarding/movies/random/${numMovies}/`
-    );
+    const response = await fetch(`/onboarding/movies/random/${numMovies}/`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -137,36 +135,6 @@ async function fetchMovies(numMovies = 35) {
   } finally {
     isLoading = false;
   }
-}
-
-/**
- * This function is called when the page loads, it populates the user data
- * sets so that the page may be styled accordingly based on current user preferences.
- */
-async function loadUserMovies() {
-  const csrfToken = await getCSRFToken();
-  fetch("/accounts/preferences/movies/", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrfToken,
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      return response.json();
-    })
-    .then((data) => {
-      movies_liked = extractIds(data.movies_liked);
-      movies_disliked = extractIds(data.movies_disliked);
-      movies_watched = extractIds(data.movies_watched);
-      watchlist = extractIds(data.watchlist);
-      movies_rewatch = extractIds(data.movies_rewatch);
-      movies_blocked = extractIds(data.movies_excluded);
-    });
 }
 
 function extractIds(movieList) {
@@ -249,7 +217,7 @@ async function deleteMovies() {
     movies_to_remove: Array.from(movies_to_remove),
   };
 
-  fetch("/accounts/onboarding/delete/", {
+  fetch("/dev_tools/delete/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

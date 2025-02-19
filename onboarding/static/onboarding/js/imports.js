@@ -42,7 +42,7 @@ async function uploadFile(source) {
   formData.append("document", file);
   upload_btn.innerHTML = "Adding Ratings...";
 
-  fetch("/accounts/onboarding/upload/", {
+  fetch("/onboarding/upload/", {
     method: "POST",
     enctype: "multipart/form-data",
     headers: {
