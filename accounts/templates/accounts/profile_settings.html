@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="{% static 'accounts/css/settings.css' %}" />
   <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
   <link rel="stylesheet"
-        href="{% static 'accounts/css/onboarding_imports.css' %}" />
+        href="{% static 'onboarding/css/imports.css' %}" />
   <script src="{% static 'accounts/js/settings.js' %}" defer></script>
 
   <div id="message-div">
@@ -36,7 +36,8 @@
         <p>Import data from IMDB and Letterboxd.</p>
       </div>
       <div class="right_col">
-        <button onclick="window.location.href='/accounts/onboarding/imports/'">Import Data</button>
+        <!-- TODO currently drops user in onboarding process, ideally make it so uploading brings user back to settings -->
+        <button onclick="window.location.href='/onboarding/imports/'">Import Data</button> 
       </div>
     </div>
 
@@ -47,7 +48,8 @@
         <p>Edit your prefered genres, triggers, etc.</p>
       </div>
       <div class="right_col">
-        <button onclick="window.location.href='/accounts/onboarding/genres/'">Edit Preferences</button>
+        <!-- TODO currently drops user in onboarding process, ideally make it so updating brings user back to settings -->
+        <button onclick="window.location.href='/onboarding/genres/'">Edit Preferences</button>
       </div>
     </div>
 

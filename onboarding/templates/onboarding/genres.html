@@ -1,0 +1,62 @@
+{% extends 'onboarding/base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet"
+        href="{% static 'onboarding/css/genres.css' %}" />
+  <title>ReeldIn: Genre Preferences</title>
+{% endblock head %}
+
+{% block header %}
+  Genres
+{% endblock header %}
+{% block caption %}
+  Select the genres that you like, dislike, and would prefer to block (meaning a movie with that genre will never be recommended).
+{% endblock caption %}
+
+{% block content %}
+  {% if form.non_field_errors %}
+    <div class="genre-error">
+      {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+    </div>
+  {% endif %}
+  <form method="post" id="onboarding-form" enctype="multipart/form-data">
+    <!--Form layout inspired by https://stackoverflow.com/questions/8727436/display-a-grid-radio-form-with-django-forms-or-django-floppyforms-->
+    {% csrf_token %}
+    <table class="genre-table">
+      <thead>
+        <tr>
+          <th>Genre</th>
+          <th>Like</th>
+          <th>Dislike</th>
+          <th>Block</th>
+          <th>No Preference</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for field in form %}
+          <tr>
+            <th>{{ field.label }}</th>
+            {% for radio in field %}<td>{{ radio.tag }}</td>{% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </form>
+{% endblock content %}
+
+{% block exit_header %}
+  Are you sure you want to exit the onboarding process?
+{% endblock exit_header %}
+{% block exit_button %}
+  <button class="btn"  onclick="window.location.href = '/'">Yes</button>
+{% endblock exit_button %}
+
+{% block footer_buttons %}
+  <button onclick="openExitModal()" id="back-button" class="button">Exit</button>
+  <button onclick="submitOnboardingGenreForm()" id="next-button" class="button">Save & Continue</button>
+{% endblock footer_buttons %}
+
+{% block scripts %}
+  <script src="{% static 'onboarding/js/genres.js' %}"></script>
+{% endblock scripts %}
