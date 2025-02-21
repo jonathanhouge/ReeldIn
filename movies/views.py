@@ -26,6 +26,10 @@ def movie(request, movie_id):
     language_dict = dict(LANGUAGES)  # from rec/helpers
     movie_json["language"] = language_dict.get(movie.language)
 
+    # remove duplicate writers (string to list, remove duplicates, json readable)
+    writers_list = re.sub(r"[\[\]\"]", "", movie_json["writer"]).split(", ")
+    movie_json["writer"] = json.dumps(list(set(writers_list)))
+
     return render(
         request, "movies/movie.html", {"movie": movie, "movie_json": movie_json}
     )
