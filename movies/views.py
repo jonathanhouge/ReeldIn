@@ -36,10 +36,15 @@ def get_csrf_token(request):
     return JsonResponse({"csrf_token": csrf_token})
 
 
+# TODO this is also in the accounts/onboarding apps
+# TODO should go in the movies app
 def sort_by_closeness(query, movie):
     return fuzz.ratio(query, movie.name)
 
 
+# TODO separate method/path as this method handles both movie deletion search/onboarding search
+# TODO once deletion search is isolated, data not used during onboarding can be removed
+# TODO this should go in the movies app, currently in both the accounts and onboarding apps
 def search_movies(request):
     query = request.GET.get("query")
 
