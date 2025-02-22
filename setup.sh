@@ -12,7 +12,6 @@ esac
 
 echo
 
-# valid '.env' file required for initializing database
 if test -f "setup-successful.txt"; then
     read -rp "It looks like you've successfully ran this script before - do you still wish to continue? [y/n] " answer
     case $answer in
@@ -85,4 +84,5 @@ fi
 
 echo "Project setup complete."
 
-date > successful-setup.txt
+echo "ReeldIn 'setup.sh' was ran successfully!" > successful-setup.txt
+date >> successful-setup.txt
