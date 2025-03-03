@@ -16,8 +16,8 @@ function addListeners() {
 
   // close modal when the Esc key is pressed
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-      closeModal();
+    if (e.key === "Escape" && !recModal.classList.contains("hidden")) {
+      recCloseModal();
     }
   });
 
