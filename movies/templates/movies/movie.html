@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
 <link rel="stylesheet" href="{% static 'movies/css/movie.css' %}" />
 {% endblock %} {% block scripts %}
+<script src="{% static 'landing_page/js/index.js' %}" defer></script>
 <script src="{% static 'movies/js/movie.js' %}" defer></script>
 {% endblock %} {% block content %}
 <div class="content-div">
@@ -26,9 +27,8 @@
     <div class="content-container">
       <div class="tooltip">
         <div
-          class="tooltiptext hidden"
+          class="tooltiptext"
           id="tooltiptext"
-          onclick="openTooltip()"
         >
           <div id="message-container">
             <p class="tooltip-message hidden" id="tooltip-message"></p>
@@ -104,6 +104,6 @@
   // NOTE: ignore IDE error as it is a false positive
   // (fails to interpret Django syntax)
   var movie_data = {{ movie_json | safe}};
-  var isLoggedIn = {{ user.is_authenticated }};
+  var isLoggedIn = {{ user.is_authenticated | yesno:"true,false" }};
 </script>
 {% endblock %}

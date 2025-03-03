@@ -113,19 +113,6 @@ function moviePeople(movie_data) {
     `;
 }
 
-function openTooltip() {
-  tooltiptext.classList.remove("hidden");
-}
-
-// Hides the tooltip when the user clicks outside of it
-document.addEventListener("click", function (event) {
-  if (!tooltiptext.contains(event.target)) {
-    tooltiptext.classList.add("hidden");
-  } else {
-    tooltiptext.classList.remove("hidden");
-  }
-});
-
 /**
  * This function updates the buttons with the state of the movie in the user's preferences.
  * It is called when the page is loaded.
