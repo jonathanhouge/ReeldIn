@@ -39,11 +39,13 @@
                 class="fa-regular fa-2x fa-thumbs-up tooltip-button"
                 id="{{ movie.id }}_upvote"
                 onclick="addLiked('{{ movie.id }}')"
+                title = "Like"
               ></i>
               <i
                 class="fa-regular fa-2x fa-thumbs-down tooltip-button"
                 id="{{ movie.id }}_dislike"
                 onclick="addDisliked('{{ movie.id }}')"
+                title = "Dislike"
               ></i>
             </div>
             <div class="row2">
@@ -51,11 +53,13 @@
                 class="fa-regular fa-2x fa-eye tooltip-button"
                 id="{{ movie.id }}_seen"
                 onclick="addWatched('{{ movie.id }}')"
+                title = "Watched"
               ></i>
               <i
                 class="fa-solid fa-2x fa-plus tooltip-button"
                 id="{{ movie.id }}_watchlist"
                 onclick="addWatchlist('{{ movie.id }}')"
+                title = "Watch Later"
               ></i>
             </div>
             <div class="row3">
@@ -63,17 +67,20 @@
                 class="fa-solid fa-2x fa-repeat tooltip-button"
                 id="{{ movie.id }}_rewatch"
                 onclick="addRewatch('{{ movie.id }}')"
+                title = "Rewatch"
               ></i>
               <i
                 class="fa-solid fa-2x fa-ban tooltip-button"
                 id="{{ movie.id }}_exclude"
                 onclick="addToExclude('{{ movie.id }}')"
+                title = "Exclude"
               ></i>
             </div>
             <i
               id="help-button"
               class="fa-solid fa-question-circle"
               onclick="showMovieHelpModal()"
+              title = "Help"
             ></i>
           </div>
         </div>

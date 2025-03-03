@@ -67,16 +67,16 @@ function createMovieDiv(movie) {
   </div>
   <div class="tooltip-buttons">
     <div class="row1">
-      <i class="fa-regular fa-2x fa-thumbs-up tooltip-button" id="${movie.id}-upvote" onclick="addLiked('${movie.id}')"></i>
-      <i class="fa-regular fa-2x fa-thumbs-down tooltip-button" id="${movie.id}-dislike"onclick="addDisliked('${movie.id}')"></i>
+      <i class="fa-regular fa-2x fa-thumbs-up tooltip-button" id="${movie.id}-upvote" onclick="addLiked('${movie.id}')" title = "Like" ></i>
+      <i class="fa-regular fa-2x fa-thumbs-down tooltip-button" id="${movie.id}-dislike" onclick="addDisliked('${movie.id}')" title = "Dislike"></i>
     </div>
     <div class="row2">
-      <i class="fa-regular fa-2x fa-eye tooltip-button" id="${movie.id}-seen" onclick="addSeen('${movie.id}')"></i>
-      <i class="fa-solid fa-2x fa-plus tooltip-button" id = "${movie.id}-watchlist" onclick="addWatchlist('${movie.id}')"></i>
+      <i class="fa-regular fa-2x fa-eye tooltip-button" id="${movie.id}-seen" onclick=" addSeen('${movie.id}')" title = "Watched"></i>
+      <i class="fa-solid fa-2x fa-plus tooltip-button" id = "${movie.id}-watchlist" onclick="addWatchlist('${movie.id}')" title = "Watch Later"></i>
     </div>
     <div class="row3">
-      <i class="fa-solid fa-2x fa-repeat tooltip-button" id = "${movie.id}-rewatch" onclick ="addRewatch('${movie.id}')"></i>
-      <i class="fa-solid fa-2x fa-ban tooltip-button" id = "${movie.id}-exclude" onclick="addToExclude('${movie.id}')"></i>
+      <i class="fa-solid fa-2x fa-repeat tooltip-button" id = "${movie.id}-rewatch" onclick ="addRewatch('${movie.id}')" title = "Rewatch"></i>
+      <i class="fa-solid fa-2x fa-ban tooltip-button" id = "${movie.id}-exclude" onclick="addToExclude('${movie.id}')" title = "Exclude"></i>
     </div>
   </div>`;
   movieDiv.appendChild(tooltiptext);
