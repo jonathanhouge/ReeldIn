@@ -42,13 +42,22 @@ case $answer in
     
 esac
 
-echo "Project setup begun."
-
-echo "Downloading requirements."
-pip install -r requirements.txt
+echo "Validation complete. Project setup begun."
 
 echo
-read -rp "Requirements installed. Press any key to continue. " answer
+
+echo "Installing requirements."
+pip install -r requirements.txt
+
+python manage.py tailwind install
+
+if ! test -f ".stylelintrc.json"; then
+    echo "Installing stylelint."
+    npm init stylelint
+fi
+
+echo
+read -rp "Requirements installed. Press any key to initialize the database. " answer
 case $answer in
     * ) ;;
     
@@ -58,31 +67,18 @@ echo "Applying migrations."
 python manage.py makemigrations && python manage.py migrate
 
 echo
-read -rp "Migrations made. Press any key to continue. " answer
-case $answer in
-    * ) ;;
-    
-esac
 
 echo "Initializing database."
 python manage.py init_db "recommendations/fixtures/movies_fixture.json"
 
 echo
-read -rp "Database initialized. Press any key to continue. " answer
+
+echo "Database successfully initialized."
+read -rp "Project setup complete. Press any key to exit. " answer
 case $answer in
     * ) ;;
     
 esac
-
-echo "Installing tailwind."
-python manage.py tailwind install
-
-if ! test -f ".stylelintrc.json"; then
-    echo "Installing stylelint."
-    npm init stylelint
-fi
-
-echo "Project setup complete."
 
 echo "ReeldIn 'setup.sh' was ran successfully!" > successful-setup.txt
 date >> successful-setup.txt
