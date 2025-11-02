@@ -75,6 +75,6 @@
   // NOTE: ignore IDE error as it is a false positive
   // (fails to interpret Django syntax)
   var movie_data = {{ movie_json | safe}};
-  var isLoggedIn = {{ user.is_authenticated }};
+  var isLoggedIn = {{ user.is_authenticated|yesno:"true,false" }};
   </script>
 {% endblock content %}
