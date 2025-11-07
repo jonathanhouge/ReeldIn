@@ -12,7 +12,7 @@ esac
 
 echo
 
-if test -f "setup-successful.txt"; then
+if test -f "successful-setup.txt"; then
     read -rp "It looks like you've successfully ran this script before - do you still wish to continue? [y/n] " answer
     case $answer in
         [yY] ) ;;
@@ -47,14 +47,10 @@ echo "Validation complete. Project setup begun."
 echo
 
 echo "Installing requirements."
+npm ci
 pip install -r requirements.txt
 
 python manage.py tailwind install
-
-if ! test -f ".stylelintrc.json"; then
-    echo "Installing stylelint."
-    npm init stylelint
-fi
 
 echo
 read -rp "Requirements installed. Press any key to initialize the database. " answer
