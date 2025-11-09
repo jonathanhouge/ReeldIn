@@ -12,9 +12,6 @@ from fuzzywuzzy import fuzz
 from recommendations.choices import STREAMING, TRIGGERS
 from recommendations.models import Movie
 
-# Create your views here.
-
-
 @staff_member_required
 def delete_movies_view(request):
     return render(

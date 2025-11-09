@@ -26,10 +26,6 @@ MOVIES_POST_TO_MODEL = {  # maps the POST request names to the model names
 }
 MIN_LIKED_RATING_LETTERBOXD = 3.0
 MIN_LIKED_RATING_IMDB = 6.5
-
-# Create your views here.
-
-
 def onboarding_view(request):
     """
     The intro page is only visible to users who have just signed up.
