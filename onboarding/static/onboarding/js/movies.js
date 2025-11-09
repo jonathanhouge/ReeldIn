@@ -1,5 +1,4 @@
-//TODO could probably move all add functions to a separate file since also used in movie details page?
-
+//TODO Issue PPW-36 (Tech Debt) - move "add" functions to separate file as they are used for movie details page
 // Movie data int ID sets
 var movies_liked = new Set();
 var movies_disliked = new Set();

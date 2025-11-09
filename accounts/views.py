@@ -398,7 +398,7 @@ def delete_account(request):
     return redirect("landing_page:index")
 
 
-# TODO Issue PPW-34 (Tech Debt)
+# TODO Issue PPW-34 (Tech Debt) - move to movies app
 def sort_by_closeness(query, movie):
     return fuzz.ratio(query, movie.name)
 

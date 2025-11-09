@@ -41,7 +41,7 @@ def get_csrf_token(request):
     return JsonResponse({"csrf_token": csrf_token})
 
 
-# TODO Issue PPW-34 (Tech Debt)
+# TODO Issue PPW-34 (Tech Debt) - move to movies app
 def sort_by_closeness(query, movie):
     return fuzz.ratio(query, movie.name)
 
