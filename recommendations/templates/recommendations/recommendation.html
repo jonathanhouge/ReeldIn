@@ -79,4 +79,9 @@
     </button>
   </section>
   <div class="rec-overlay hidden"></div>
+  <script>
+    // NOTE: ignore IDE error as it is a false positive
+    // (fails to interpret Django syntax)
+    var isLoggedIn = {{ user.is_authenticated | yesno:"true,false"}};
+  </script>
 {% endblock %}
