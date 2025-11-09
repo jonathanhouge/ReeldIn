@@ -14,7 +14,7 @@ class GenreForm(forms.Form):
         initial_preferences = kwargs.pop("initial_preferences", {})
         super(GenreForm, self).__init__(*args, **kwargs)
 
-        filtered_genres = [  # skip no prefernce
+        filtered_genres = [  # skip no preference
             genre for genre in GENRES if not genre[0] == ""
         ]
         for genre in filtered_genres:
