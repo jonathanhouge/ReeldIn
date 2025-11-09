@@ -28,7 +28,7 @@ async function searchMovies(event) {
         "Content-Type": "application/json",
         "X-CSRFToken": csrfToken,
       },
-      body: JSON.stringify({ search: searchString }),
+      body: JSON.stringify({ search: searchString, limit: 5 }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -41,7 +41,6 @@ async function searchMovies(event) {
         moviesContainer.innerHTML = "";
         searchbar = document.getElementById("searchbar");
         searchbar.style.borderRadius = "12px 12px 0 0";
-
         data.movies.forEach((movie, index) => {
           // Create a new <div> element to display the movie details
           const movieDiv = document.createElement("div");

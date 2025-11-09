@@ -148,14 +148,14 @@ async function searchMovies(event) {
 
   if (searchString) {
     const csrfToken = await getCSRFToken();
-    fetch("/onboarding/movies/search", {
+    fetch("/api/search/movies/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "X-CSRFToken": csrfToken,
       },
 
-      body: JSON.stringify({ search: searchString, send_all: true }),
+      body: JSON.stringify({ search: searchString }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -193,7 +193,7 @@ async function fetchMovies(numMovies = 35) {
   isLoading = true;
 
   try {
-    const response = await fetch(`/onboarding/movies/random/${numMovies}/`);
+    const response = await fetch(`/api/random/movies/${numMovies}/`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

@@ -10,6 +10,11 @@ urlpatterns = [
     path("search/movies", views.search_movies, name="search_movies"),
     path("movie/<int:movie_id>", views.movie, name="movie"),
     path("api/search/movies/", views.search_movies_json, name="search_movies_json"),
+    path(
+        "api/random/movies/<int:amount>/",
+        views.random_movies_json,
+        name="random_movies_json",
+    ),
     path("health-check/", views.health_check, name="health_check"),
     path(
         "movie/update/<str:type>/<int:movie_id>/",

@@ -41,14 +41,10 @@ def get_csrf_token(request):
     return JsonResponse({"csrf_token": csrf_token})
 
 
-# TODO Issue PPW-34 (Tech Debt) - move to movies app
 def sort_by_closeness(query, movie):
     return fuzz.ratio(query, movie.name)
 
 
-# TODO separate method/path as this method handles both movie deletion search/onboarding search
-# TODO once deletion search is isolated, data not used during onboarding can be removed
-# TODO this should go in the movies app, currently in both the accounts and onboarding apps
 def search_movies(request):
     query = request.GET.get("query")
 
@@ -72,7 +68,6 @@ def search_movies(request):
             "movies/search.html",
             context={
                 "movies": sorted_movies,
-                "WATCHMODE_API_KEY": os.environ.get("WATCHMODE_API_KEY"),
             },
         )
 
@@ -80,45 +75,79 @@ def search_movies(request):
 
 
 def search_movies_json(request):
-    if request.method == "POST":
-        # Decode the request body
-        body_unicode = request.body.decode("utf-8")
+    if request.method != "POST":
+        # Return an error response for non-POST requests
+        return JsonResponse({"error": "Method not allowed"}, status=405)
 
-        # Parse the JSON data
-        body_data = json.loads(body_unicode)
+    # Decode the request body
+    body_unicode = request.body.decode("utf-8")
 
-        # Access specific fields from the JSON data
-        search_string = body_data.get("search")
+    # Parse the JSON data
+    body_data = json.loads(body_unicode)
 
-        if search_string:
-            movies = Movie.objects.filter(name__icontains=search_string)
-            sorted_movies = sorted(
-                movies,
-                key=lambda movie: sort_by_closeness(search_string, movie),
-                reverse=True,
-            )[:5]
-        else:
-            sorted_movies = Movie.objects.none()
+    # Access specific fields from the JSON data
+    search_string = body_data.get("search")
+    limit = body_data.get("limit")
 
-        result = {
-            "movies": [
-                {
-                    "id": movie.id,
-                    "name": movie.name,
-                    "genres": movie.genres,
-                    "starring": movie.starring,
-                    "poster": movie.poster,
-                    "year": movie.year,
-                }
-                for movie in sorted_movies
-            ]
+    if search_string:
+        movies = Movie.objects.filter(name__icontains=search_string)
+        sorted_movies = sorted(
+            movies,
+            key=lambda movie: sort_by_closeness(search_string, movie),
+            reverse=True,
+        )
+        if limit:
+            sorted_movies = sorted_movies[:limit]
+    else:
+        sorted_movies = Movie.objects.none()
+
+    result = {
+        "movies": [
+            {
+                "id": movie.pk,
+                "name": movie.name,
+                "poster": movie.poster,
+                "year": movie.year,
+                "genres": movie.genres,
+                "starring": movie.starring,
+                "overview": movie.overview,
+                "imdb_rating": movie.imdb_rating,
+                "imdb_votes": movie.imdb_votes,
+                "runtime": movie.runtime,
+            }
+            for movie in sorted_movies
+        ]
+    }
+
+    # Return the result as JSON response
+    return JsonResponse(result, safe=False)
+
+
+def random_movies_json(request, amount=25):
+    """
+    This function returns a JSON response containing a list of random movies
+    specified by the amount parameter in the GET request. It is used in
+    the movie onboarding process.
+    """
+
+    movies = Movie.objects.order_by("?")[:amount]
+
+    data = [
+        {
+            "id": movie.pk,
+            "name": movie.name,
+            "poster": movie.poster,
+            "year": movie.year,
+            "genres": movie.genres,
+            "starring": movie.starring,
+            "overview": movie.overview,
+            "imdb_rating": movie.imdb_rating,
+            "imdb_votes": movie.imdb_votes,
+            "runtime": movie.runtime,
         }
-
-        # Return the result as JSON response
-        return JsonResponse(result, safe=False)
-
-    # Return an error response for non-POST requests
-    return JsonResponse({"error": "Method not allowed"}, status=405)
+        for movie in movies
+    ]
+    return JsonResponse({"movies": data})
 
 
 # TODO in-progress
