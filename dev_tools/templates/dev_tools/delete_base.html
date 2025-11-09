@@ -1,0 +1,63 @@
+{% load static %}
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/c60455fa26.js"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'dev_tools/css/delete_base.css' %}" />
+    <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
+    {% block head %}
+    {% endblock head %}
+  </head>
+  <header>
+    {% include 'base/header_base.html' %}
+  </header>
+  <nav>
+  </nav>
+  <body>
+    <div class="onboarding-header">
+      <h1 id="onboarding-title" class="title-div">
+        {% block headerTitle %}
+        {% endblock headerTitle %}
+      </h1>
+      <p id="onboarding-caption">
+        {% block caption %}
+        {% endblock caption %}
+      </p>
+    </div>
+    <div class="onboarding-content content-div">
+      {% block content %}
+      {% endblock content %}
+    </div>
+    <!--Forward and backwards buttons-->
+    <div class="footer-buttons">
+      {% block footer_buttons %}
+      {% endblock footer_buttons %}
+    </div>
+    <!-- Exit modal-->
+    <section class="modal hidden" id="confirm_exit_modal">
+      <div class="flex">
+        <h3>
+          {% block exit_header %}
+          {% endblock exit_header %}
+        </h3>
+        <button class="btn-close" onclick="closeExitModal()">⨉</button>
+      </div>
+      <div>
+        <p id="exit_warning">Any changes made will not be saved!</p>
+      </div>
+      {% block exit_button %}
+      {% endblock exit_button %}
+      <button class="btn" onclick="closeExitModal()">No</button>
+    </section>
+    <div class="overlay hidden" id="exit_overlay" onclick="closeExitModal()"></div>
+    <script src="{% static 'dev_tools/js/delete_base.js' %}"></script>
+    {% block scripts %}
+    {% endblock scripts %}
+  </body>
+</html>

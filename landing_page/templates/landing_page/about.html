@@ -1,8 +1,11 @@
 {% extends 'landing_page/base.html' %}
 {% load static %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'landing_page/css/about.css' %}" />
+{% endblock %} 
+
 {% block content %}
-  <link rel="stylesheet" href="{% static 'landing_page/css/about.css' %}" />
   <div id="message-div">
     <h1>Learn More about ReeldIn</h1>
   </div>
@@ -77,4 +80,4 @@
     </div>
   </div>
 </div>
-{% endblock content %}
+{% endblock %}

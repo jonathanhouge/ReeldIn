@@ -1,0 +1,52 @@
+{% extends 'onboarding/base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>ReeldIn: Trigger Preferences</title>
+{% endblock head %}
+
+{% block header %}
+  Triggers
+{% endblock header %}
+{% block caption %}
+  Select any triggers that you would like to avoid being recommended (these will be auto-selected).
+{% endblock caption %}
+
+{% block content %}
+  <form method="post" id="onboarding-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table class="onboarding-table">
+      <thead>
+        <tr>
+            <th>Trigger</th>
+            <th>Auto-Block</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for field in form %}
+          <tr>
+            <th>{{ field.label }}</th>
+            <td>{{ field }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </form>
+{% endblock content %}
+
+{% block exit_header %}
+  Are you sure you want to go back to the previous section?
+{% endblock exit_header %}
+{% block exit_button %}
+  <button class="btn"
+          onclick="window.location.href = '/onboarding/movies/'">Yes</button>
+{% endblock exit_button %}
+
+{% block footer_buttons %}
+  <button onclick="openExitModal()" id="back-button" class="button">Back</button>
+  <button onclick="submitTriggerForm()" id="next-button" class="button">Save & Continue</button>
+{% endblock footer_buttons %}
+
+{% block scripts %}
+  <script src="{% static 'onboarding/js/triggers.js' %}"></script>
+{% endblock scripts %}

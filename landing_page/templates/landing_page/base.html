@@ -1,5 +1,4 @@
-{% load static %}
-{% load static tailwind_tags %}
+{% load static %} {% load static tailwind_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,69 +6,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://kit.fontawesome.com/c60455fa26.js"
-            crossorigin="anonymous"></script>
-    <script src="{% static 'landing_page/js/index.js' %}" defer></script>
-    <script src="{% static 'landing_page/js/search.js' %}" defer></script>
+    <script
+      src="https://kit.fontawesome.com/c60455fa26.js"
+      crossorigin="anonymous"
+    ></script>
+    {% block stylesheets %} {% endblock %} {% block scripts %} {% endblock %}
     <link rel="stylesheet" href="{% static 'landing_page/css/base.css' %}" />
-    <link rel="stylesheet" href="{% static 'landing_page/css/index.css' %}" />
-    <link rel="stylesheet" href="{% static 'landing_page/css/about.css' %}" />
+    <script src="{% static 'movies/js/search.js' %}" defer></script>
+    <script src="{% static 'landing_page/js/index.js' %}" defer></script>
+
     <title>ReeldIn</title>
   </head>
 
   <div class="page-container">
     <div class="content-wrap">
-      <header>
-        <div id="logo-div">
-          <a href="{% url 'landing_page:index' %}">
-            <img src="{% static 'landing_page/images/REELDIN.png' %}"
-                 alt="ReeldIn Logo" />
-          </a>
-          <a href="{% url 'landing_page:index' %}">
-            <h1>ReeldIn</h1>
-          </a>
-        </div>
-
-        <div id="searchbar-div">
-          <input type="text"
-                 id="searchbar"
-                 name="searchbar"
-                 placeholder="Search for movies..."
-                 autocomplete="off"
-                 autocapitalize="off"
-                 onkeyup="searchMovies(event)"
-                 onblur="hideSearchResults()"
-                 onfocus="showSearchResults()" />
-          <i id="magnifying-glass"
-             class="fa-solid fa-2x fa-magnifying-glass"
-             onclick="searchMovies(event)"></i>
-          <div id="searched-movies-container"></div>
-        </div>
-
-        <div id="profile-div">
-          <a href="{% url 'recommendations:index' %}">
-            {% if user.is_authenticated %}
-              <button id="get-recommendations-btm">Get Recommendations</button>
-            {% else %}
-              <button id="get-recommendations-btm">Demo Recommendations</button>
-            {% endif %}
-          </a>
-          {% if user.is_authenticated %}
-            <a href="{% url 'accounts:logout' %}">
-              <button id="login-button">Sign Out</button>
-            </a>
-          {% else %}
-            <a href="{% url 'accounts:login' %}">
-              <button id="login-button">Sign In</button>
-            </a>
-          {% endif %}
-          {% if user.is_authenticated %}
-            <a href="/profile">
-              <img id="profile-pic" src="{{ request.user.profile_picture.url }}" />
-            </a>
-          {% endif %}
-        </div>
-      </header>
+      <header>{% include 'base/header_base.html' %}</header>
 
       <nav>
         <a href="{% url 'landing_page:index' %}">Home</a>
@@ -77,22 +28,10 @@
       </nav>
 
       <body>
-        {% block content %}
-        {% endblock content %}
+        {% block content %} {% endblock %}
       </body>
     </div>
 
-    <footer>
-      <div id="footer-nav">
-        <a href="{% url 'landing_page:index' %}">Home</a>
-        <a href="{% url 'landing_page:profile' %}">Profile</a>
-        <a href="{% url 'landing_page:about' %}">About</a>
-        <a href="{% url 'landing_page:contact' %}">Contact Us</a>
-        <a href="{% url 'landing_page:conditions' %}">Terms & Conditions</a>
-      </div>
-      <div id="copyright">
-        <p>ReeldIn 2024 &copy;</p>
-      </div>
-    </footer>
+    <footer>{% include 'base/footer_base.html' %}</footer>
   </div>
 </html>
