@@ -41,8 +41,7 @@ def get_csrf_token(request):
     return JsonResponse({"csrf_token": csrf_token})
 
 
-# TODO this is also in the accounts/onboarding apps
-# TODO should go in the movies app
+# TODO Issue PPW-34 (Tech Debt)
 def sort_by_closeness(query, movie):
     return fuzz.ratio(query, movie.name)
 

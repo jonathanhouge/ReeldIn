@@ -26,6 +26,8 @@ MOVIES_POST_TO_MODEL = {  # maps the POST request names to the model names
 }
 MIN_LIKED_RATING_LETTERBOXD = 3.0
 MIN_LIKED_RATING_IMDB = 6.5
+
+
 def onboarding_view(request):
     """
     The intro page is only visible to users who have just signed up.
@@ -306,8 +308,7 @@ def get_random_movies(request, amount=25):
     return JsonResponse({"movies": data})
 
 
-# TODO this is also in the langing_page/accounts apps
-# TODO should go in the movies app
+# TODO Issue PPW-34 (Tech Debt) - move to movies app
 def sort_by_closeness(query, movie):
     return fuzz.ratio(query, movie.name)
 

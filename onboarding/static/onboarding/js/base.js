@@ -5,7 +5,7 @@ const exit_modal = document.getElementById("confirm_exit_modal");
 overlay.addEventListener("click", closeModal);
 
 /*Function from landing_page/js/index.js */
-//TODO perhaps this should go elsewhere to avoid duplication?
+//TODO Issue PPW-35 (Tech Debt) - deduplicate with index.js, delete_base.js, and base.js
 async function getCSRFToken() {
   try {
     const response = await fetch("/get-csrf-token/");
