@@ -50,8 +50,6 @@ echo "Installing requirements."
 npm ci
 pip install -r requirements.txt
 
-python manage.py tailwind install
-
 echo
 read -rp "Requirements installed. Press any key to initialize the database. " answer
 case $answer in
