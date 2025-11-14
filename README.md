@@ -50,10 +50,6 @@ Now, run the set up script! It'll go ahead and run the necessary bash commands:
 
 ## Commands for Running & Developing Locally
 
-To start tailwind:
-
-    python manage.py tailwind start
-
 To start your Django server:
 
     python manage.py runserver

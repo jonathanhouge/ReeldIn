@@ -123,8 +123,7 @@
     "django",
     "movie",
     "recommendation",
-    "html5",
-    "tailwind"
+    "html5"
   ],
   "author": "jonathanhouge + co.",
   "license": "MIT",
