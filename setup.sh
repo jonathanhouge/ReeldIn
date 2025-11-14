@@ -42,6 +42,13 @@ case $answer in
     
 esac
 
+if ! test -d "env"; then
+    echo "You don't have a virtual environment!? Let's fix that."
+    python3 -m venv env
+fi
+
+source env/Scripts/activate
+
 echo "Validation complete. Project setup begun."
 
 echo
@@ -51,7 +58,7 @@ npm ci
 pip install -r requirements.txt
 
 echo
-read -rp "Requirements installed. Press any key to initialize the database. " answer
+read -rp "Requirements installed. Press enter to initialize the database. " answer
 case $answer in
     * ) ;;
     
@@ -68,7 +75,7 @@ python manage.py init_db "recommendations/fixtures/movies_fixture.json"
 echo
 
 echo "Database successfully initialized."
-read -rp "Project setup complete. Press any key to exit. " answer
+read -rp "Project setup complete. Press enter to exit. " answer
 case $answer in
     * ) ;;
     
