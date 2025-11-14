@@ -1,13 +1,48 @@
 #!/bin/bash
 # check your shell scripts: https://www.shellcheck.net/
 
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    echo "This file needs to be ran using the source command. Exiting..."
+    echo
+    
+    exit 1
+fi
+
+time=$(date '+%H')
+
+if [ "$time" -lt 6 ]; then
+    greeting="zzzzzzzZZZZZZZzZZzzZzZ"
+    elif [ "$time" -lt 12 ]; then
+    greeting="Good morning!"
+    elif [ "$time" -lt 17 ]; then
+    greeting="Good afternoon!"
+    elif [ "$time" -lt 22 ]; then
+    greeting="Good evening!"
+    elif [ "$time" -lt 24 ]; then
+    greeting="I'm a little tired, are you tired?"
+fi
+
+echo "$greeting"
+echo "Let's get you up and running!"
+echo
+
+echo "Activating virtual environment..."
+echo
+
 source env/Scripts/activate
 
-echo "Checking for any updates..."
+echo "Ensuring upgrader packages are installed..."
+echo
+
+pip install pur
+npm i -g npm-check-updates
+
+echo
+echo "Checking for updates and installing any found..."
 echo
 
 pur --minor django
-npm i -g npm-check-updates
+pip install -r requirements.txt
 ncu -u
 npm install
 
@@ -16,4 +51,3 @@ echo "Starting server..."
 echo
 
 python manage.py runserver
-
