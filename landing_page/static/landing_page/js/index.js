@@ -28,7 +28,7 @@ async function searchMovies(event) {
         "Content-Type": "application/json",
         "X-CSRFToken": csrfToken,
       },
-      body: JSON.stringify({ search: searchString }),
+      body: JSON.stringify({ search: searchString, limit: 5 }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -37,15 +37,14 @@ async function searchMovies(event) {
         return response.json();
       })
       .then((data) => {
-        moviesContainer = document.getElementById("searched_movies_container");
+        moviesContainer = document.getElementById("searched-movies-container");
         moviesContainer.innerHTML = "";
         searchbar = document.getElementById("searchbar");
         searchbar.style.borderRadius = "12px 12px 0 0";
-
         data.movies.forEach((movie, index) => {
           // Create a new <div> element to display the movie details
           const movieDiv = document.createElement("div");
-          movieDiv.classList.add("searched_movie");
+          movieDiv.classList.add("searched-movie");
           movieDiv.onclick = () => {
             window.location.href =
               window.location.origin + `/movie/${movie.id}`;
@@ -59,7 +58,7 @@ async function searchMovies(event) {
           img.src = `https://image.tmdb.org/t/p/h100${movie.poster}`;
 
           var textDiv = document.createElement("div");
-          textDiv.classList.add("searched_movie_details");
+          textDiv.classList.add("searched-movie-details");
 
           var title = document.createElement("h3");
           title.innerHTML = `${movie.name}`;
@@ -79,7 +78,7 @@ async function searchMovies(event) {
 
           // Check if it's the last iteration
           if (index === data.movies.length - 1) {
-            movieDiv.classList.add("last_movie");
+            movieDiv.classList.add("last-movie");
           }
 
           // Append the movieDiv to the moviesContainer
@@ -90,7 +89,7 @@ async function searchMovies(event) {
         console.error("Error:", error);
       });
   } else {
-    moviesContainer = document.getElementById("searched_movies_container");
+    moviesContainer = document.getElementById("searched-movies-container");
     moviesContainer.innerHTML = "";
 
     searchbar = document.getElementById("searchbar");
@@ -99,7 +98,7 @@ async function searchMovies(event) {
 }
 
 function hideSearchResults() {
-  moviesContainer = document.getElementById("searched_movies_container");
+  moviesContainer = document.getElementById("searched-movies-container");
   moviesContainer.classList.add("hidden");
 
   searchbar = document.getElementById("searchbar");
@@ -107,7 +106,7 @@ function hideSearchResults() {
 }
 
 function showSearchResults() {
-  moviesContainer = document.getElementById("searched_movies_container");
+  moviesContainer = document.getElementById("searched-movies-container");
   moviesContainer.classList.remove("hidden");
 
   searchbar = document.getElementById("searchbar");

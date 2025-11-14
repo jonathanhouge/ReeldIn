@@ -1,4 +1,4 @@
-.content_container {
+.content-container {
   display: flex;
   background-color: var(--white);
   margin-right: 1rem;
@@ -12,7 +12,7 @@
 }
 
 #reset-recommendations button {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -29,7 +29,7 @@
 
 /* for modal button */
 .rec-delete-btn {
-  font-family: Inter Tight, sans-serif;
+  font-family: "Inter Tight", sans-serif;
   padding: 0.75rem;
   font-size: 20px;
   font-weight: 600;
@@ -52,11 +52,11 @@
   color: black;
 }
 
-.content_div {
-  gap: 0px !important;
+.content-div {
+  gap: 0 !important;
 }
 
-.title_div {
+.title-div {
   align-items: center;
 }
 

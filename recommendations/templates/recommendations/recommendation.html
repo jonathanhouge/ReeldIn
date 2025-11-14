@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block content %}
-  <script src="{% static 'landing_page/js/search.js' %}"></script>
+  <script src="{% static 'movies/js/search.js' %}"></script>
   <script src="{% static 'recommendations/js/recommendation.js' %}" defer></script>
   <link rel="stylesheet"
         href="{% static 'recommendations/css/recommendation.css' %}" />
   <link rel="stylesheet" href="{% static 'landing_page/css/index.css' %}" />
   <link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
 
-  <div class="content_div">
-    <div class="title_div">
+  <div class="content-div">
+    <div class="title-div">
       <h2>Here are your recommendations!</h2>
       {% if user.is_authenticated %}
         <div id="reset-recommendations">
@@ -20,7 +20,7 @@
     </div>
 
     {% if triggers %}
-      <div class="title_div">
+      <div class="title-div">
         <h4 id="trigger-warning">
           Be advised: Movies that don't have trigger info on
           <a href="https://www.doesthedogdie.com" target="_blank">doesthedogdie.com</a>
@@ -29,7 +29,7 @@
       </div>
     {% endif %}
 
-    <div class="movies_div content_container">
+    <div class="movies-div content-container">
       {% if recommendations %}
         {% for recommendation in recommendations %}
           <div class="movie tooltip">
@@ -79,4 +79,9 @@
     </button>
   </section>
   <div class="rec-overlay hidden"></div>
+  <script>
+    // NOTE: ignore IDE error as it is a false positive
+    // (fails to interpret Django syntax)
+    var isLoggedIn = {{ user.is_authenticated | yesno:"true,false"}};
+  </script>
 {% endblock %}

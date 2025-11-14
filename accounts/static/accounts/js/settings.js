@@ -1,13 +1,13 @@
 const delete_modal = document.getElementById("delete_account_modal");
 const change_modal = document.getElementById("change_modal");
-const profile_modal = document.getElementById("profile_pic_modal");
+const profile_modal = document.getElementById("profile-pic-modal"); // TODO doesn't exist
 
 const title = document.getElementById("title");
 const subtitle = document.getElementById("subtitle");
 
 const change_btn = document.getElementById("change_btn");
 const input = document.querySelector(".current_input");
-const delete_account_btn = document.querySelector(".delete_account_btn");
+const deleteAccountBtn = document.querySelector(".delete-account-btn");
 
 const overlay = document.getElementById("overlay");
 
@@ -112,7 +112,7 @@ async function uploadFile(source) {
   formData.append("document", file);
   upload_btn.innerHTML = "Uploading Picture...";
 
-  fetch("/accounts/onboarding/upload/", {
+  fetch("/onboarding/upload/", {
     method: "POST",
     enctype: "multipart/form-data",
     headers: {
@@ -154,8 +154,8 @@ async function deleteAccount() {
         console.log("Success");
         title.innerHTML = "Account Deleted!";
         title.style.color = "green";
-        delete_account_btn.innerHTML = "Return";
-        delete_account_btn.onclick = function () {
+        deleteAccountBtn.innerHTML = "Return";
+        deleteAccountBtn.onclick = function () {
           window.location.href = "/";
         };
         overlay.onclick = function () {

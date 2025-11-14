@@ -1,0 +1,116 @@
+{% extends 'landing_page/base.html' %} {% load static %} {% block stylesheets %}
+<link rel="stylesheet" href="{% static 'accounts/css/modal.css' %}" />
+<link rel="stylesheet" href="{% static 'movies/css/movie.css' %}" />
+{% endblock %} {% block scripts %}
+<script src="{% static 'landing_page/js/index.js' %}" defer></script>
+<script src="{% static 'movies/js/movie.js' %}" defer></script>
+{% endblock %} {% block content %}
+<div class="content-div">
+  <div id="movie-name">
+    <h2>{{ movie.name }}</h2>
+    {% if movie.tagline %}
+    <div id="movie_tagline" style="font-size: 30px; font-style: italic">
+      "{{ movie.tagline }}"
+    </div>
+    {% endif %}
+    <div id="movie-button-nav">
+      <button id="movie-button" onclick="movieOverview(movie_data)">
+        Overview
+      </button>
+      <button id="movie-button" onclick="movieDetails(movie_data)">
+        Details
+      </button>
+      <button id="movie-button" onclick="moviePeople(movie_data)">
+        Cast & Crew
+      </button>
+    </div>
+    <div class="content-container">
+      <div class="tooltip">
+        <div
+          class="tooltiptext"
+          id="tooltiptext"
+        >
+          <div id="message-container">
+            <p class="tooltip-message hidden" id="tooltip-message"></p>
+          </div>
+          <div class="tooltip-buttons">
+            <div class="row1">
+              <i
+                class="fa-regular fa-2x fa-thumbs-up tooltip-button"
+                id="{{ movie.id }}_upvote"
+                onclick="addLiked('{{ movie.id }}')"
+                title = "Like"
+              ></i>
+              <i
+                class="fa-regular fa-2x fa-thumbs-down tooltip-button"
+                id="{{ movie.id }}_dislike"
+                onclick="addDisliked('{{ movie.id }}')"
+                title = "Dislike"
+              ></i>
+            </div>
+            <div class="row2">
+              <i
+                class="fa-regular fa-2x fa-eye tooltip-button"
+                id="{{ movie.id }}_seen"
+                onclick="addWatched('{{ movie.id }}')"
+                title = "Watched"
+              ></i>
+              <i
+                class="fa-solid fa-2x fa-plus tooltip-button"
+                id="{{ movie.id }}_watchlist"
+                onclick="addWatchlist('{{ movie.id }}')"
+                title = "Watch Later"
+              ></i>
+            </div>
+            <div class="row3">
+              <i
+                class="fa-solid fa-2x fa-repeat tooltip-button"
+                id="{{ movie.id }}_rewatch"
+                onclick="addRewatch('{{ movie.id }}')"
+                title = "Rewatch"
+              ></i>
+              <i
+                class="fa-solid fa-2x fa-ban tooltip-button"
+                id="{{ movie.id }}_exclude"
+                onclick="addToExclude('{{ movie.id }}')"
+                title = "Exclude"
+              ></i>
+            </div>
+            <i
+              id="help-button"
+              class="fa-solid fa-question-circle"
+              onclick="showMovieHelpModal()"
+              title = "Help"
+            ></i>
+          </div>
+        </div>
+        <img
+          loading="lazy"
+          id="poster_{{ movie.id }}"
+          class="poster"
+          alt="{{ movie.name }}"
+          src="https://image.tmdb.org/t/p/original{{ movie.poster }}"
+        />
+      </div>
+      <p id="movie-summary">Click Buttons to see Movie Information</p>
+    </div>
+  </div>
+</div>
+<div class="modal hidden" id="help-modal">
+  <div class="flex">
+    <h3 id="top-header"></h3>
+    <button class="btn-close" onclick="closeModal()">⨉</button>
+  </div>
+  <img
+    src="{% static 'movies/images/movie_overlay_instructions.png' %}"
+    alt="help"
+  />
+</div>
+<div class="overlay hidden" id="exit_overlay" onclick="closeModal()"></div>
+<script>
+  // NOTE: ignore IDE error as it is a false positive
+  // (fails to interpret Django syntax)
+  var movie_data = {{ movie_json | safe}};
+  var isLoggedIn = {{ user.is_authenticated | yesno:"true,false" }};
+</script>
+{% endblock %}

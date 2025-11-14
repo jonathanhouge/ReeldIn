@@ -39,12 +39,12 @@ var current_modal = null;
  *
  ***************************************************/
 
-const remove_friend_modal = document.getElementById("remove_friend_modal");
-const remove_friend_name = document.getElementById("remove_friend_name");
-const remove_friend_button = document.getElementById("remove_confirm_button");
-const remove_reject_button = document.getElementById("remove_reject_button");
+const remove_friend_modal = document.getElementById("remove-friend-modal");
+const remove_friend_name = document.getElementById("remove-friend-name");
+const remove_friend_button = document.getElementById("remove-confirm-button");
+const remove_reject_button = document.getElementById("remove-reject-button");
 const remove_friend_response = document.getElementById(
-  "remove_friend_response"
+  "remove-friend-response"
 );
 
 function closeCurrentModal() {
@@ -104,12 +104,12 @@ async function removeFriend(friend_username) {
         remove_reject_button.classList.add("hidden");
         remove_friend_response.style.color = "green";
         remove_friend_name.innerHTML = "";
-        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div = document.getElementById(friend_username + "-profile-div");
         user_div.remove();
       } else {
         remove_friend_response.style.color = "red";
       }
-      checkDivEmpty("friends_list");
+      checkDivEmpty("friends-list");
       return response.text();
     })
     .then((data) => {
@@ -128,9 +128,9 @@ async function removeFriend(friend_username) {
  *
  ***************************************************/
 
-const add_friend_modal = document.getElementById("add_friend_modal");
-const add_friend_response = document.getElementById("add_friend_response");
-const send_friend_username = document.getElementById("send_friend_username");
+const add_friend_modal = document.getElementById("add-friend-modal");
+const add_friend_response = document.getElementById("add-friend-response");
+const send_friend_username = document.getElementById("send-friend-username");
 
 /**
  * This function opens/resets the modal for sending a friend request
@@ -182,7 +182,7 @@ async function sendFriendRequest(username) {
       add_friend_response.innerHTML = data.message;
       if (data.receiver) {
         addUserToSentRequests(data.receiver);
-        checkDivEmpty("sent_requests");
+        checkDivEmpty("sent-requests");
       }
     })
     .catch((error) => {
@@ -191,9 +191,9 @@ async function sendFriendRequest(username) {
 }
 
 function addUserToSentRequests(user) {
-  const sent_requests = document.getElementById("sent_requests");
+  const sent_requests = document.getElementById("sent-requests");
   const user_div = document.createElement("div");
-  user_div.id = user.username + "_profile_div";
+  user_div.id = user.username + "-profile-div";
   user_div.classList.add("friend");
   user_div.setAttribute(
     "onclick",
@@ -202,7 +202,7 @@ function addUserToSentRequests(user) {
   user_div.innerHTML = `
     <img
     src='${user.profile_picture}'
-    class="profile_img" 
+    class="profile-img" 
     />
     <h3>${user.username}</h3>
   `;
@@ -215,13 +215,13 @@ function addUserToSentRequests(user) {
  *
  ***************************************************/
 
-const friend_request_modal = document.getElementById("friend_request_modal");
+const friend_request_modal = document.getElementById("friend-request-modal");
 const friend_request_response = document.getElementById(
-  "friend_request_response"
+  "friend-request-response"
 );
-const friend_request_text = document.getElementById("friend_request_text");
-const accept_friend_button = document.getElementById("accept_friend_button");
-const reject_friend_button = document.getElementById("reject_friend_button");
+const friend_request_text = document.getElementById("friend-request-text");
+const acceptFriendButton = document.getElementById("accept-friend-button");
+const rejectFriendButton = document.getElementById("reject-friend-button");
 
 /**
  * This function opens/resets the modal for accepting or rejecting a friend request
@@ -233,16 +233,16 @@ function openFriendRequestModal(username) {
   friend_request_text.innerHTML =
     username + " has sent you a friend request! Would you like to accept?";
 
-  accept_friend_button.onclick = function () {
+  acceptFriendButton.onclick = function () {
     confirmFriend(username);
   };
-  reject_friend_button.onclick = function () {
+  rejectFriendButton.onclick = function () {
     rejectFriend(username);
   };
 
   friend_request_modal.classList.remove("hidden");
-  accept_friend_button.classList.remove("hidden");
-  reject_friend_button.classList.remove("hidden");
+  acceptFriendButton.classList.remove("hidden");
+  rejectFriendButton.classList.remove("hidden");
   overlay.classList.remove("hidden");
   current_modal = friend_request_modal;
 }
@@ -271,12 +271,12 @@ async function confirmFriend(friend_username) {
   })
     .then((response) => {
       if (response.status == 200) {
-        accept_friend_button.classList.add("hidden");
-        reject_friend_button.classList.add("hidden");
+        acceptFriendButton.classList.add("hidden");
+        rejectFriendButton.classList.add("hidden");
         friend_request_response.style.color = "green";
         friend_request_text.innerHTML = "";
 
-        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div = document.getElementById(friend_username + "-profile-div");
         console.log("Changing attribute to openRemoveFriendModal");
         user_div.setAttribute(
           "onclick",
@@ -284,10 +284,10 @@ async function confirmFriend(friend_username) {
         );
         user_div.remove();
 
-        friends_list = document.getElementById("friends_list");
-        friends_list.appendChild(user_div);
-        checkDivEmpty("friends_list");
-        checkDivEmpty("received_requests");
+        friendsList = document.getElementById("friends-list");
+        friendsList.appendChild(user_div);
+        checkDivEmpty("friends-list");
+        checkDivEmpty("received-requests");
       } else {
         friend_request_response.style.color = "red";
       }
@@ -308,10 +308,10 @@ function checkDivEmpty(div_name) {
   div = document.getElementById(div_name);
   console.log(div.childElementCount);
   if (div.childElementCount == 1) {
-    div_text = document.getElementById(div_name + "_text");
+    div_text = document.getElementById(div_name + "-text");
     div_text.classList.remove("hidden");
   } else {
-    div_text = document.getElementById(div_name + "_text");
+    div_text = document.getElementById(div_name + "-text");
     div_text.classList.add("hidden");
   }
 }
@@ -335,13 +335,13 @@ async function rejectFriend(friend_username) {
   })
     .then((response) => {
       if (response.status == 200) {
-        accept_friend_button.classList.add("hidden");
-        reject_friend_button.classList.add("hidden");
+        acceptFriendButton.classList.add("hidden");
+        rejectFriendButton.classList.add("hidden");
         friend_request_response.style.color = "green";
         friend_request_text.innerHTML = "";
-        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div = document.getElementById(friend_username + "-profile-div");
         user_div.remove();
-        checkDivEmpty("received_requests");
+        checkDivEmpty("received-requests");
       } else {
         friend_request_response.style.color = "red";
       }
@@ -366,19 +366,19 @@ async function rejectFriend(friend_username) {
 
 // elements
 const delete_friend_modal = document.getElementById(
-  "delete_friend_request_modal"
+  "delete-friend-request-modal"
 );
 const delete_friend_request_response = document.getElementById(
-  "delete_friend_request_response"
+  "delete-friend-request-response"
 );
 const delete_friend_request_text = document.getElementById(
-  "delete_friend_request_text"
+  "delete-friend-request-text"
 );
 const delete_friend_button = document.getElementById(
-  "yes_delete_friend_request_button"
+  "yes-delete-friend-request-button"
 );
 const delete_reject_button = document.getElementById(
-  "no_delete_friend_request_button"
+  "no-delete-friend-request-button"
 );
 
 /**
@@ -432,9 +432,9 @@ async function deleteFriendRequest(friend_username) {
         delete_reject_button.classList.add("hidden");
         delete_friend_request_response.style.color = "green";
         delete_friend_request_text.innerHTML = "";
-        user_div = document.getElementById(friend_username + "_profile_div");
+        user_div = document.getElementById(friend_username + "-profile-div");
         user_div.remove();
-        checkDivEmpty("sent_requests");
+        checkDivEmpty("sent-requests");
       } else {
         delete_friend_request_response.style.color = "red";
       }

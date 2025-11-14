@@ -50,17 +50,17 @@ Now, run the set up script! It'll go ahead and run the necessary bash commands:
 
 ## Commands for Running & Developing Locally
 
-To start tailwind:
-
-    python manage.py tailwind start
-
 To start your Django server:
 
     python manage.py runserver
 
-Whenever you're formatting '.html' files, use this command:
+Whenever you're messing with '.html' files, use this command before creating a PR:
 
     python -m djlint {html-file-path} --reformat --indent 2
+
+Whenever you're messing with '.css' files, use this command before creating a PR:
+
+    npx stylelint --fix "**/*.css"
 
 ## Debugging FAQ
 

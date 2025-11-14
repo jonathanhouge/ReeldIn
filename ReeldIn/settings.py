@@ -83,12 +83,13 @@ LOGGING = {
 
 INSTALLED_APPS = [
     "django_browser_reload",
-    "theme",
-    "tailwind",
     "accounts",
     "base",
     "landing_page",
     "recommendations",
+    "dev_tools",
+    "onboarding",
+    "movies",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -190,9 +191,3 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
 LOGIN_URL = "/accounts/login/"
-
-# Tailwind configuration
-TAILWIND_APP_NAME = "theme"
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
