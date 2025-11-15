@@ -42,7 +42,7 @@
     "glob-parent": "^6.0.2",
     "global-modules": "^2.0.0",
     "global-prefix": "^4.0.0",
-    "globby": "^15.0.0",
+    "globby": "^16.0.0",
     "globjoin": "^0.1.4",
     "has-flag": "^5.0.1",
     "html-tags": "^5.1.0",
