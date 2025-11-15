@@ -9,6 +9,10 @@ Currently, we're working on enhancing and fixing current functionality, as well 
 ### Added
 
 - Error handling / checking in 'setup.sh'.
+- New file: 'startup.sh'.
+  - To be ran at the beginning of every development session
+  - Automates starting up server
+  - Ensures frequent and consistent updates of requirements.txt & package.json
 - Only show unique writers on 'movie.html'.
   - This happened due to 'story' and 'screenplay' credits from TMDb both being 'writer' in our database.
 - Show current plurality on 'movie.html' across all roles.
@@ -18,7 +22,7 @@ Currently, we're working on enhancing and fixing current functionality, as well 
 
 ### Changed
 
-- New and improved linters: djlint, stylelint
+- New and improved linters: djlint, stylelint.
   - Linted all template files with djlint!
   - Linted all css files!
 - Updated a lot of dependencies!
@@ -35,8 +39,8 @@ Currently, we're working on enhancing and fixing current functionality, as well 
 - Re-evaluation of film pool - removal of a bunch of smut.
 - Removal of Tailwind - it wasn't being used.
 - Bug fixes:
-  - “Uncaught ReferenceError: False is not defined” in movie.html
-  - “Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')” in recommendations.html
+  - “Uncaught ReferenceError: False is not defined” in movie.html.
+  - “Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')” in recommendations.html.
 
 ## [1.0.0] - 06-04-2024
 

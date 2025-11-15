@@ -4,7 +4,7 @@
 echo "Welcome to the ReeldIn set-up!"
 echo "We'll do some validation and then get everything started."
 echo "CTRL + C if you need to stop this script at any point."
-read -rp "Press any key to continue. " answer
+read -rp "Press enter to continue. " answer
 case $answer in
     * ) ;;
     
@@ -22,6 +22,20 @@ if test -f "successful-setup.txt"; then
         exit 1;;
         
     esac
+fi
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    echo "This file needs to be ran using the source command."
+    echo "The source command is only available on Linux terminals."
+    read -rp "Press enter to exit. " answer
+    case $answer in
+        * ) ;;
+        
+    esac
+    
+    echo
+    
+    exit 1
 fi
 
 # valid '.env' file required for initializing database
@@ -42,6 +56,13 @@ case $answer in
     
 esac
 
+if ! test -d "env"; then
+    echo "You don't have a virtual environment!? Let's fix that."
+    python -m venv env
+fi
+
+source env/Scripts/activate
+
 echo "Validation complete. Project setup begun."
 
 echo
@@ -51,7 +72,7 @@ npm ci
 pip install -r requirements.txt
 
 echo
-read -rp "Requirements installed. Press any key to initialize the database. " answer
+read -rp "Requirements installed. Press enter to initialize the database. " answer
 case $answer in
     * ) ;;
     
@@ -68,7 +89,7 @@ python manage.py init_db "recommendations/fixtures/movies_fixture.json"
 echo
 
 echo "Database successfully initialized."
-read -rp "Project setup complete. Press any key to exit. " answer
+read -rp "Project setup complete. Press enter to exit. " answer
 case $answer in
     * ) ;;
     
