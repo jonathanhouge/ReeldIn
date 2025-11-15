@@ -1,8 +1,28 @@
 #!/bin/bash
 # check your shell scripts: https://www.shellcheck.net/
 
+if ! test -f "successful-setup.txt"; then
+    echo "It looks you haven't ran setup.sh before - you should run that first!"
+    read -rp "Press enter to exit." answer
+    case $answer in
+        * ) ;;
+        
+    esac
+    
+    echo
+    
+    exit 1
+fi
+
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    echo "This file needs to be ran using the source command. Exiting..."
+    echo "This file needs to be ran using the source command."
+    echo "The source command is only available on Linux terminals."
+    read -rp "Press enter to exit. " answer
+    case $answer in
+        * ) ;;
+        
+    esac
+    
     echo
     
     exit 1
@@ -24,6 +44,7 @@ fi
 
 echo "$greeting"
 echo "Let's get you up and running!"
+echo "CTRL + C if you need to stop this script at any point."
 echo
 
 echo "Activating virtual environment..."

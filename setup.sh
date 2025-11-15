@@ -4,7 +4,7 @@
 echo "Welcome to the ReeldIn set-up!"
 echo "We'll do some validation and then get everything started."
 echo "CTRL + C if you need to stop this script at any point."
-read -rp "Press any key to continue. " answer
+read -rp "Press enter to continue. " answer
 case $answer in
     * ) ;;
     
@@ -41,13 +41,6 @@ case $answer in
     exit 1;;
     
 esac
-
-if ! test -d "env"; then
-    echo "You don't have a virtual environment!? Let's fix that."
-    python3 -m venv env
-fi
-
-source env/Scripts/activate
 
 echo "Validation complete. Project setup begun."
 
