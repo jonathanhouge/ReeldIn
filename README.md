@@ -15,7 +15,11 @@ Formerly a Capstone Project for the University of Arizona's School of Informatio
 
 Find licenses for externally used projects in 'documentation/external_licenses'. Find libraries in 'requirements.txt'.
 
-## VSCode Extensions
+## Prerequisites
+
+- Linux terminal (i.e. Git Bash) for running bash scripts.
+
+### VSCode Extensions
 
 - Black Formatter by Microsoft
 - Pylance by Microsoft
@@ -44,15 +48,15 @@ Now, you need to make a local database:
 2.  In PGAdmin, right-click 'Databases' -> 'Create' -> 'Database', then name it and save.
 3.  Now, you need your '.env' file! Contact the devs on acquiring that and the associated information.
 
-Now, run the set up script! It'll go ahead and run the necessary bash commands:
+Now, run the set up script! It'll run the necessary bash commands:
 
     sh setup.sh
 
 ## Commands for Running & Developing Locally
 
-To start your Django server:
+For local development, run the start up script:
 
-    python manage.py runserver
+    source startup.sh
 
 Whenever you're messing with '.html' files, use this command before creating a PR:
 
