@@ -24,6 +24,20 @@ if test -f "successful-setup.txt"; then
     esac
 fi
 
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    echo "This file needs to be ran using the source command."
+    echo "The source command is only available on Linux terminals."
+    read -rp "Press enter to exit. " answer
+    case $answer in
+        * ) ;;
+        
+    esac
+    
+    echo
+    
+    exit 1
+fi
+
 # valid '.env' file required for initializing database
 if ! test -f ".env"; then
     echo "You need a '.env' file to run ReeldIn, '.env_sample' should be used as a template."
@@ -41,6 +55,13 @@ case $answer in
     exit 1;;
     
 esac
+
+if ! test -d "env"; then
+    echo "You don't have a virtual environment!? Let's fix that."
+    python3 -m venv env
+fi
+
+source env/Scripts/activate
 
 echo "Validation complete. Project setup begun."
 
