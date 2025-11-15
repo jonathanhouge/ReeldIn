@@ -58,7 +58,7 @@ esac
 
 if ! test -d "env"; then
     echo "You don't have a virtual environment!? Let's fix that."
-    python3 -m venv env
+    python -m venv env
 fi
 
 source env/Scripts/activate
